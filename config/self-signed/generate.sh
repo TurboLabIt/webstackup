@@ -21,20 +21,13 @@ SSL_CONF_DIR=${INSTALL_DIR}config/self-signed/
 
 
 ## https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=898470
-touch "$HOME/.rnd"
+#touch "$HOME/.rnd"
 
-openssl genrsa -out ${SSL_DIR}server_rootCA.key 2048
 
-openssl req -x509 -new -nodes -key ${SSL_DIR}server_rootCA.key -sha256 -days 3650 -out ${SSL_DIR}ssl_certificate_trust_me_into_your_browser.pem -subj "/C=IT/ST=Ferrara/L=FE/O=TurboLab.it/OU=DevOps/CN=*.localhost/emailAddress=bogus@bogus.com"
-
-openssl req -new -sha256 -nodes -out ${SSL_DIR}server.csr -newkey rsa:2048 -keyout ${SSL_DIR}ssl_certificate_key.key -config <( cat ${SSL_CONF_DIR}csr.conf )
-
-openssl x509 -req -in ${SSL_DIR}server.csr -CA ${SSL_DIR}ssl_certificate_trust_me_into_your_browser.pem -CAkey ${SSL_DIR}server_rootCA.key -CAcreateserial -out ${SSL_DIR}ssl_certificate.crt -days 3650 -sha256 -extfile ${SSL_CONF_DIR}v3.ext
-
-## Remove temporary files
-rm -f ${SSL_DIR}server.csr
-rm -f ${SSL_DIR}server_rootCA.key
-rm -f ${SSL_DIR}ssl_certificate_trust_me_into_your_browser.srl
+openssl req -x509 -out ${SSL_DIR}ssl_certificate.crt -keyout ${SSL_DIR}ssl_certificate_key.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=localhost' -extensions EXT -config <( \
+   printf "[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth")
 
 
 ##
