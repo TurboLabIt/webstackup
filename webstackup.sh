@@ -379,7 +379,7 @@ if [ $INSTALL_XDEBUG = 1 ]; then
 		ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-zzwebsebserversetup.ini
 		ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini
 		
-		echo printMessage "$(cat "/etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini")"
+		printMessage "$(cat "/etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini")"
 	fi
 	
 	systemctl restart php${PHP_VER}-fpm
@@ -396,17 +396,18 @@ printTitle "Installing Let's Encrypt"
 
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
 
-	add-apt-repository ppa:certbot/certbot
+	add-apt-repository ppa:certbot/certbot -y
 	apt-get update
-	sudo apt-get install --upgrade certbot -y
-	certbot --version
+	apt install certbot -y
 	
-	LETSENCRYPT_CRON_FILE_FULLPATH="${INSTALL_DIR}config/letsencrypt/cron_autorenew"
+	printMessage "$(certbot --version)"
+	
+	LETSENCRYPT_CRON_FILE_FULLPATH="${INSTALL_DIR}config/letsencrypt/cron_renew"
 	
 	if [ -f "${LETSENCRYPT_CRON_FILE_FULLPATH}" ]; then
 	
 		cp "${LETSENCRYPT_CRON_FILE_FULLPATH}" /etc/cron.d/letsencrypt_renew
-		echo printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
+		printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
 	fi
 	
 	sleep 5
