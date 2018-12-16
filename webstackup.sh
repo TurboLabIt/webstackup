@@ -189,10 +189,6 @@ cd $WORKING_DIR_ORIGINAL
 sleep 5
 
 
-source "${INSTALL_DIR}config/self-signed/generate.sh"
-exit
-
-
 ## =========== NGINX ===========
 printTitle "Installing Nginx"
 
@@ -262,6 +258,9 @@ if [ $INSTALL_PHP = 1 ]; then
 	## Remove version name from listening socket file
 	sed -i -e "s|listen = /run/php/php${PHP_VER}-fpm.sock|listen = /run/php/php-fpm.sock|g" /etc/php/${PHP_VER}/fpm/pool.d/www.conf
 	printMessage "$(cat /etc/php/${PHP_VER}/fpm/pool.d/www.conf | grep 'listen = ')"
+	
+	## Use the default WEBSTACK.UP index.php as test from the default Nginx root
+	ln -s "${INSTALL_DIR}config/php/index.php" "/usr/share/nginx/"
 	
 	systemctl restart php${PHP_VER}-fpm
 	systemctl  --no-pager status php${PHP_VER}-fpm
@@ -386,14 +385,11 @@ if [ $INSTALL_XDEBUG = 1 ]; then
 
 	apt install php-xdebug -y
 	XDEBUG_CONFIG_FILE_FULLPATH="${INSTALL_DIR}config/php/xdebug.ini"
-	
-	if [ -f "${XDEBUG_CONFIG_FILE_FULLPATH}" ]; then
-	
-		ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-zzwebsebserversetup.ini
-		ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini
 		
-		printMessage "$(cat "/etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini")"
-	fi
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-zzwebsebserversetup.ini
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini
+	
+	printMessage "$(cat "/etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini")"
 	
 	systemctl restart php${PHP_VER}-fpm
 	sleep 5
@@ -415,13 +411,8 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 	
 	printMessage "$(certbot --version)"
 	
-	LETSENCRYPT_CRON_FILE_FULLPATH="${INSTALL_DIR}config/letsencrypt/cron_renew"
-	
-	if [ -f "${LETSENCRYPT_CRON_FILE_FULLPATH}" ]; then
-	
-		cp "${LETSENCRYPT_CRON_FILE_FULLPATH}" /etc/cron.d/letsencrypt_renew
-		printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
-	fi
+	cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
+	printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
 	
 	sleep 5
 	
