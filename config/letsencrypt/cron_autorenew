@@ -1,0 +1,1 @@
+0 8 * * sat /usr/local/turbolab.it/webstackup/config/letsencrypt/autorenew.sh >> /var/log/letsencrypt_autorenew_webstackup.log 2>&1
