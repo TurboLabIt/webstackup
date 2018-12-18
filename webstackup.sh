@@ -140,6 +140,10 @@ if [ ! -z "$CONFIGFILE_FULLPATH" ]; then
 	echo $(readlink -f "$CONFIGFILE_FULLPATH")
 fi
 
+## =========== WEBSTACK.UP ===========
+printTitle "Updating package list"
+apt update
+
 
 ## =========== WEBSTACK.UP ===========
 printTitle "Installing WEBSTACK.UP (ready-to-use configs and tools)"
@@ -202,7 +206,7 @@ printTitle "Installing Nginx"
 if [ $INSTALL_NGINX = 1 ]; then
 
 
-	apt-get purge --auto-remove nginx* -y
+	apt purge --auto-remove nginx* -y
 
 	curl -L -o nginx_signing.key http://nginx.org/keys/nginx_signing.key
 	apt-key add nginx_signing.key
@@ -218,7 +222,7 @@ if [ $INSTALL_NGINX = 1 ]; then
 	echo ""
 	printMessage "$(cat "$NGINX_SOURCE_FULLPATH")"
 
-	apt-get update
+	apt update
 	apt install nginx -y	
 
 	## Create self-signed, bogus certificates (so that we can disable plain-HTTP completely)
@@ -252,12 +256,12 @@ printTitle "Installing PHP-CLI and PHP-FPM"
 
 if [ $INSTALL_PHP = 1 ]; then
 	
-	apt-get purge --auto-remove php* -y
+	apt purge --auto-remove php* -y
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
-	apt-get update
+	apt update
 
 	## mcrypt is discontinued since PHP 7.2
-	apt-get install php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl -y
+	apt install php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl -y
 	
 	## Service hardening
 	sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/${PHP_VER}/fpm/php.ini
@@ -292,7 +296,7 @@ printTitle "Installing MySQL"
 
 if [ $INSTALL_MYSQL = 1 ]; then
 	
-	apt-get purge --auto-remove mysql* -y
+	apt purge --auto-remove mysql* -y
 
 	apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
 
@@ -312,8 +316,8 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	
 	printMessage "MySQL root password is now: ##$MYSQL_ROOT_PASSWORD##"
 
-	apt-get update
-	apt-get install mysql-server mysql-client -y
+	apt update
+	apt install mysql-server mysql-client -y
 
 	systemctl restart mysql
 	systemctl  --no-pager status mysql
@@ -421,13 +425,44 @@ printTitle "Installing Let's Encrypt"
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
 
 	add-apt-repository ppa:certbot/certbot -y
-	apt-get update
+	apt update
 	apt install certbot -y
 	
 	printMessage "$(certbot --version)"
 	
 	cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
 	printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
+	
+	sleep 5
+	
+else
+	
+	echo "Skipped (disabled in config)"
+fi
+
+
+## =========== Postfix ===========
+printTitle "Installing Postfix"
+
+if [ $INSTALL_POSTFIX = 1 ]; then
+
+	#DEBIAN_PRIORITY=low 
+	apt install postfix -y
+	apt install opendkim -y
+	
+	echo "" >>  /etc/opendkim.conf
+	cat "${INSTALL_DIR}config/opendkim/opendkim_to_be_appended.conf" >> /etc/opendkim.conf
+	
+	echo "" >>  /etc/postfix/main.cf
+	cat "${INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
+	
+	mkdir -p /etc/opendkim/keys
+	
+	cp "${INSTALL_DIR}config/opendkim/TrustedHosts" /etc/opendkim/TrustedHosts
+	cp "${INSTALL_DIR}config/opendkim/KeyTable" /etc/opendkim/KeyTable
+	cp "${INSTALL_DIR}config/opendkim/SigningTable" /etc/opendkim/SigningTable
+	
+	printMessage "$(cat "${INSTALL_DIR}config/opendkim/README.txt")"
 	
 	sleep 5
 	
