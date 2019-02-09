@@ -14,3 +14,5 @@ An unattended bash script for Ubuntu to setup a  PHP-based web server stack for 
 `sudo sed -i -e 's/PasswordAuthentication yes/PasswordAuthentication no/g' /etc/ssh/sshd_config`
 
 [Rif: SSH: impedire il login tramite password](https://turbolab.it/654)
+
+`curl -s https://raw.githubusercontent.com/TurboLabIt/webstackcentral/master/webstackcentral.sh | sudo bash`
