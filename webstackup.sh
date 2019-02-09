@@ -447,14 +447,31 @@ printTitle "Installing Postfix"
 if [ $INSTALL_POSTFIX = 1 ]; then
 
 	#DEBIAN_PRIORITY=low 
-	apt install postfix -y
-	apt install opendkim -y
+	apt install postfix mailutils opendkim opendkim-tools -y
 	
+	adduser postfix opendkim
+	
+	mkdir /var/spool/postfix/opendkim
+	chown opendkim:postfix /var/spool/postfix/opendkim
+	
+	sed -i -e 's|^UMask|#UMask|g' /etc/opendkim.conf
+	sed -i -e 's|^Socket|#Socket|g' /etc/opendkim.conf
+	echo "" >>  /etc/opendkim.conf
+	echo "" >>  /etc/opendkim.conf
 	echo "" >>  /etc/opendkim.conf
 	cat "${INSTALL_DIR}config/opendkim/opendkim_to_be_appended.conf" >> /etc/opendkim.conf
 	
 	echo "" >>  /etc/postfix/main.cf
+	echo "" >>  /etc/postfix/main.cf
+	echo "" >>  /etc/postfix/main.cf
 	cat "${INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
+	
+	
+	sed -i -e 's|^SOCKET=|#SOCKET=|g' /etc/default/opendkim
+	echo "" >> /etc/default/opendkim
+	echo "" >> /etc/default/opendkim
+	echo "" >> /etc/default/opendkim
+	cat "${INSTALL_DIR}config/opendkim/opendkim-default_to_be_appended.conf" >> /etc/default/opendkim
 	
 	mkdir -p /etc/opendkim/keys
 	
@@ -462,7 +479,15 @@ if [ $INSTALL_POSTFIX = 1 ]; then
 	cp "${INSTALL_DIR}config/opendkim/KeyTable" /etc/opendkim/KeyTable
 	cp "${INSTALL_DIR}config/opendkim/SigningTable" /etc/opendkim/SigningTable
 	
+	chown opendkim:opendkim /etc/opendkim/ -R
+	chmod ug=rwX,o=rX /etc/opendkim/ -R
+	chmod u=rwX,og=X /etc/opendkim/keys -R
+	
+	echo ""
 	printMessage "$(cat "${INSTALL_DIR}config/opendkim/README.txt")"
+	
+	systemctl restart postfix
+	systemctl restart opendkim
 	
 	sleep 5
 	
