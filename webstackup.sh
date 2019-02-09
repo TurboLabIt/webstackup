@@ -135,7 +135,7 @@ fi
 
 ## =========== WEBSTACK.UP ===========
 printTitle "Updating package list"
-apt update
+apt update -qq
 
 
 ## =========== WEBSTACK.UP ===========
@@ -143,7 +143,7 @@ printTitle "Installing WEBSTACK.UP (ready-to-use configs and tools)"
 
 if [ $INSTALL_WEBSTACKUP = 1 ]; then
 
-	apt install git openssl -y
+	apt install git openssl -y -qq
 
 	if [ ! -d "$INSTALL_DIR" ]; then
 		echo "Installing..."
@@ -198,7 +198,7 @@ printTitle "Installing Nginx"
 
 if [ $INSTALL_NGINX = 1 ]; then
 
-	apt purge --auto-remove nginx* -y
+	apt purge --auto-remove nginx* -y -qq
 
 	curl -L -o nginx_signing.key http://nginx.org/keys/nginx_signing.key
 	apt-key add nginx_signing.key
@@ -214,8 +214,8 @@ if [ $INSTALL_NGINX = 1 ]; then
 	echo ""
 	printMessage "$(cat "$NGINX_SOURCE_FULLPATH")"
 
-	apt update
-	apt install nginx -y	
+	apt update -qq
+	apt install nginx -y -qq
 
 	## Create self-signed, bogus certificates (so that we can disable plain-HTTP completely)
 	source "${INSTALL_DIR}config/self-signed/generate.sh"
@@ -248,12 +248,12 @@ printTitle "Installing PHP-CLI and PHP-FPM"
 
 if [ $INSTALL_PHP = 1 ]; then
 	
-	apt purge --auto-remove php* -y
+	apt purge --auto-remove php* -y -qq
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
-	apt update
+	apt update -qq
 
 	## mcrypt is discontinued since PHP 7.2
-	apt install php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl -y
+	apt install php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl -y -qq
 	
 	## Service hardening
 	sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/${PHP_VER}/fpm/php.ini
@@ -288,7 +288,7 @@ printTitle "Installing MySQL"
 
 if [ $INSTALL_MYSQL = 1 ]; then
 	
-	apt purge --auto-remove mysql* -y
+	apt purge --auto-remove mysql* -y -qq
 
 	apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
 
@@ -308,8 +308,8 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	
 	printMessage "MySQL root password is now: ##$MYSQL_ROOT_PASSWORD##"
 
-	apt update
-	apt install mysql-server mysql-client -y
+	apt update -qq
+	apt install mysql-server mysql-client -y -qq
 
 	systemctl restart mysql
 	systemctl  --no-pager status mysql
@@ -394,7 +394,7 @@ printTitle "Installing xdebug"
 
 if [ $INSTALL_XDEBUG = 1 ]; then
 
-	apt install php-xdebug -y
+	apt install php-xdebug -y -qq
 	XDEBUG_CONFIG_FILE_FULLPATH="${INSTALL_DIR}config/php/xdebug.ini"
 		
 	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-zzwebsebserversetup.ini
@@ -417,8 +417,8 @@ printTitle "Installing Let's Encrypt"
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
 
 	add-apt-repository ppa:certbot/certbot -y
-	apt update
-	apt install certbot -y
+	apt update -qq
+	apt install certbot -y -qq
 	
 	printMessage "$(certbot --version)"
 	
@@ -439,7 +439,7 @@ printTitle "Installing Postfix"
 if [ $INSTALL_POSTFIX = 1 ]; then
 
 	#DEBIAN_PRIORITY=low 
-	apt install postfix mailutils opendkim opendkim-tools -y
+	apt install postfix mailutils opendkim opendkim-tools -y -qq
 	
 	adduser postfix opendkim
 	
