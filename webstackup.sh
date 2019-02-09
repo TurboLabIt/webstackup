@@ -42,7 +42,7 @@ function printTitle
 
 function printMessage
 {
-	STYLE='\033[43m'
+	STYLE='\033[45m'
 	RESET='\033[0m'
 
 	echo -n -e $STYLE
