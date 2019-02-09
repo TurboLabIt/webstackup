@@ -86,7 +86,7 @@ if [[ $WEBSTACKUP_ENABLED != 1 ]]; then
 	echo "Default config file not available or script disabled"
 
 	printTitle "How to fix it?"
-	echo "Please check that the following file exists and is accessible:"
+	echo "Please check if the following file exists and is accessible:"
 	echo "$DEFAULT_CONFIG_URL"
 	
 	echo ""
@@ -110,7 +110,7 @@ if [ ! -z "$CONFIGFILE_FULLPATH" ] && [ ! -f "$CONFIGFILE_FULLPATH" ]; then
 	echo "Config file not found!"
 
 	printTitle "How to fix it?"
-	echo "Please check that the following file exists and is accessible:"
+	echo "Please check if the following file exists and is accessible:"
 	echo "$CONFIGFILE_FULLPATH"
 	
 	echo ""
@@ -122,6 +122,7 @@ if [ ! -z "$CONFIGFILE_FULLPATH" ] && [ ! -f "$CONFIGFILE_FULLPATH" ]; then
 	echo "$FRAME"
 	exit
 fi
+
 
 ## Config file from CLI OK
 if [ ! -z "$CONFIGFILE_FULLPATH" ]; then
@@ -136,6 +137,11 @@ fi
 ## =========== WEBSTACK.UP ===========
 printTitle "Updating package list"
 apt update -qq
+
+
+## =========== Prerequisites ===========
+printTitle "Installing prerequisites"
+apt install software-properties-common -y -qq
 
 
 ## =========== WEBSTACK.UP ===========
