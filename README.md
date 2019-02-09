@@ -3,7 +3,8 @@ An unattended bash script for Ubuntu to setup a  PHP-based web server stack for 
 
 # How to
 
-`sudo -H apt update -qq && sudo apt install curl -y -qq && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.sh | sudo -H bash`
+`sudo -H -s`
+`apt update -qq && apt install curl -y -qq && cd "$HOME" && curl -o webstackup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.sh?cachebuster=1 && bash webstackup.sh`
 
 # Post-setup ideas (optional)
 
