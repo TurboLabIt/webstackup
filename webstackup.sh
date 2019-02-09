@@ -496,7 +496,6 @@ echo "$((($(date +%s)-$TIME_START)/60)) min."
 printTitle "Rebooting"
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
 
-	printTitle "zzupdate and reboot"
 	while [ $REBOOT_TIMEOUT -gt 0 ]; do
 	   echo -ne "$REBOOT_TIMEOUT\033[0K\r"
 	   sleep 1
