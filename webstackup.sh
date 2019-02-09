@@ -21,12 +21,6 @@ TIME_START="$(date +%s)"
 DOWEEK="$(date +'%u')"
 HOSTNAME="$(hostname)"
 
-## Absolute path to this script, e.g. /home/user/bin/foo.sh
-SCRIPT_FULLPATH=$(readlink -f "$0")
-
-## Absolute path this script is in, thus /home/user/bin
-SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
-
 ## Config file path from CLI (if any)
 CONFIGFILE_FULLPATH=$1
 
@@ -203,7 +197,6 @@ fi
 printTitle "Installing Nginx"
 
 if [ $INSTALL_NGINX = 1 ]; then
-
 
 	apt purge --auto-remove nginx* -y
 
@@ -501,8 +494,18 @@ printTitle "THE END"
 echo "$((($(date +%s)-$TIME_START)/60)) min."
 
 printTitle "Rebooting"
-if [ "$REBOOT" = "1" ]; then
-	
+if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
+
+	printTitle "zzupdate and reboot"
+	while [ $REBOOT_TIMEOUT -gt 0 ]; do
+	   echo -ne "$REBOOT_TIMEOUT\033[0K\r"
+	   sleep 1
+	   : $((REBOOT_TIMEOUT--))
+	done
+	zzupdate
+
+elif [ "$REBOOT" = "1" ]; then
+
 	while [ $REBOOT_TIMEOUT -gt 0 ]; do
 	   echo -ne "$REBOOT_TIMEOUT\033[0K\r"
 	   sleep 1
@@ -514,6 +517,7 @@ else
 	
 	echo "Skipped (disabled in config)"
 fi
+
 
 printTitle "The End"
 echo $(date)
