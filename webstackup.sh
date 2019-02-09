@@ -439,7 +439,7 @@ printTitle "Installing Postfix"
 if [ $INSTALL_POSTFIX = 1 ]; then
 
 	#DEBIAN_PRIORITY=low 
-	apt install postfix mailutils opendkim opendkim-tools -y
+	apt install postfix mailutils opendkim opendkim-tools -y -qq
 	
 	adduser postfix opendkim
 	
