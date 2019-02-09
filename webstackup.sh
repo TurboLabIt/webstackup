@@ -23,7 +23,6 @@ HOSTNAME="$(hostname)"
 
 ## Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT_FULLPATH=$(readlink -f "$0")
-SCRIPT_HASH=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
 
 ## Absolute path this script is in, thus /home/user/bin
 SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
