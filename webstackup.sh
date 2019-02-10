@@ -312,6 +312,8 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password ${MYSQL_ROOT_PASSWORD}"
 	debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select"
 	
+	ln -s "${INSTALL_DIR}config/mysql/legacy_auth_plugin.cnf" /etc/mysql/mysql.conf.d/legacy_auth_plugin.cnf
+	
 	printMessage "MySQL root password is now: ##$MYSQL_ROOT_PASSWORD##"
 
 	apt update -qq
