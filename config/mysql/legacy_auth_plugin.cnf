@@ -1,0 +1,5 @@
+## MySQL legacy auth plugin
+# The caching_sha2_password plugin will be supported in a future PHP release.
+# http://php.net/manual/en/mysqli.requirements.php
+
+default_authentication_plugin=mysql_native_password
