@@ -141,7 +141,7 @@ apt update -qq
 
 ## =========== Prerequisites ===========
 printTitle "Installing prerequisites"
-apt install software-properties-common -y -qq
+apt install software-properties-common gnupg2 -y -qq
 
 
 ## =========== WEBSTACK.UP ===========
