@@ -327,6 +327,7 @@ else
 fi
 
 
+
 ## =========== Composer ===========
 printTitle "Installing composer"
 
