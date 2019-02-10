@@ -12,7 +12,7 @@ INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 ## Title and graphics
 FRAME="O===========================================================O"
 echo "$FRAME"
-echo "      $(SCRIPT_NAME) - $(date)"
+echo "      $SCRIPT_NAME - $(date)"
 echo "$FRAME"
 
 ## Enviroment variables
@@ -82,7 +82,7 @@ printMessage "$FOLDER_FULLPATH"
 
 
 ## =========== Change owner and permission ===========
-printTitle "Changing ownership ad permissions"
+printTitle "Changing ownership and permissions"
 chown www-data:www-data "$FOLDER_FULLPATH" -R
 chmod ug=rw,o= "$FOLDER_FULLPATH" -R
 
@@ -90,6 +90,11 @@ find "$FOLDER_FULLPATH" -type f -exec chmod 660 {} +
 find "$FOLDER_FULLPATH" -type d -exec chmod 770 {} +
 
 find "$FOLDER_FULLPATH" -type f -name 'wp-config.php' -exec chmod 440 {} +
+
+
+## =========== Show results ===========
+printTitle "Web permissions applied!"
+ls -la "$FOLDER_FULLPATH"
 
 
 ## =========== THE END ===========
