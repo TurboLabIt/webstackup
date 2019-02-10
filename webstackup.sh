@@ -296,7 +296,7 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	
 	apt purge --auto-remove mysql* -y -qq
 
-	apt-key adv --keyserver keys.gnupg.net --recv-keys 5072E1F5
+	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5
 
 	touch /etc/apt/sources.list.d/webstackup.mysql.list
 	echo "### webstackup" >> /etc/apt/sources.list.d/webstackup.mysql.list
