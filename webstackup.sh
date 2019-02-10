@@ -495,6 +495,26 @@ else
 fi
 
 
+## =========== NTP ===========
+printTitle "Installing NTP client"
+
+if [ $INSTALL_NTP = 1 ]; then
+
+	apt install ntp -y -qq
+	
+	systemctl restart ntp
+	systemctl  --no-pager status ntp
+	
+	sleep 5
+	
+else
+	
+	echo "Skipped (disabled in config)"
+fi
+
+
+
+
 ## =========== The End ===========
 printTitle "THE END"
 echo "$((($(date +%s)-$TIME_START)/60)) min."
