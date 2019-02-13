@@ -317,7 +317,7 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	apt update -qq
 	apt install mysql-server mysql-client -y -qq
 	
-	ln -s "${INSTALL_DIR}config/mysql/legacy_auth_plugin.cnf" /etc/mysql/mysql.conf.d/legacy_auth_plugin.cnf
+	ln -s "${INSTALL_DIR}config/mysql/legacy_auth_plugin.cnf" /etc/mysql/conf.d/legacy_auth_plugin.cnf
 
 	systemctl restart mysql
 	systemctl  --no-pager status mysql
