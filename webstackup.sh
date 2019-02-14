@@ -307,18 +307,32 @@ if [ $INSTALL_MYSQL = 1 ]; then
 	echo ""
 	printMessage "$(cat /etc/apt/sources.list.d/webstackup.mysql.list)"
 	
-	MYSQL_ROOT_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9!"#$%&'\''()*+,-./:;<=>?@[\]^_`{|}~' | head -c 18)"
+	MYSQL_ROOT_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
 	debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password ${MYSQL_ROOT_PASSWORD}"
 	debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password ${MYSQL_ROOT_PASSWORD}"
 	debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select"
-	
-	printMessage "MySQL root password is now: ##$MYSQL_ROOT_PASSWORD##"
 
 	apt update -qq
 	apt install mysql-server mysql-client -y -qq
 	
 	ln -s "${INSTALL_DIR}config/mysql/legacy_auth_plugin.cnf" /etc/mysql/conf.d/legacy_auth_plugin.cnf
-
+	
+	MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
+	MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
+	
+	if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
+	
+		printTitle "Writing MySQL credentials to ${MYSQL_CREDENTIALS_FULLPATH}"
+		mkdir -p "$MYSQL_CREDENTIALS_DIR"
+		echo "MYSQL_USER='root'" > "${MYSQL_CREDENTIALS_FULLPATH}"
+		echo "MYSQL_PASSWORD='$MYSQL_ROOT_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
+		
+		chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
+		chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
+	fi
+	
+	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")" 
+	
 	systemctl restart mysql
 	systemctl  --no-pager status mysql
 	sleep 5
