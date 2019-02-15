@@ -165,10 +165,15 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 	$MYSQL_EXE -e "GRANT ALL PRIVILEGES ON $NEWSITE_NAME.* TO '$NEWSITE_NAME'@'localhost';"
 	$MYSQL_EXE -e "FLUSH PRIVILEGES;"
 	
-	printTitle "Database ready"
-	printMessage "DB  : $NEWSITE_NAME"
-	printMessage "User: $NEWSITE_NAME"
-	printMessage "Pass: $NEWSITE_DB_PASSWORD"
+	MYSQL_CREDENTIALS_DIR="${NEWSITE_DIR}conf/mysql/"
+	MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
+	printTitle "Writing MySQL credentials to ${MYSQL_CREDENTIALS_FULLPATH}"
+	mkdir -p "${MYSQL_CREDENTIALS_DIR}"
+	echo "MYSQL_USER='$NEWSITE_NAME'" > "${MYSQL_CREDENTIALS_FULLPATH}"
+	echo "MYSQL_PASSWORD='$NEWSITE_DB_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
+	chown www-data:www-data "${MYSQL_CREDENTIALS_FULLPATH}"
+	chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
+	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 fi
 
 
