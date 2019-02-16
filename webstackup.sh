@@ -471,6 +471,7 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 	
 	cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
 	printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
+	service cron restart
 	
 	sleep 5
 	
