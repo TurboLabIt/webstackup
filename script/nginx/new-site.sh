@@ -2,7 +2,7 @@
 clear
 
 ## Script name
-SCRIPT_NAME=newsite
+SCRIPT_NAME=new-site
 
 ## Install directory
 WORKING_DIR_ORIGINAL="$(pwd)"
@@ -171,7 +171,7 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 	mkdir -p "${MYSQL_CREDENTIALS_DIR}"
 	echo "MYSQL_USER='$NEWSITE_NAME'" > "${MYSQL_CREDENTIALS_FULLPATH}"
 	echo "MYSQL_PASSWORD='$NEWSITE_DB_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
-	chown www-data:www-data "${MYSQL_CREDENTIALS_FULLPATH}"
+	chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
 	chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
 	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 fi
