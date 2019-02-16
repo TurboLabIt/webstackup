@@ -522,9 +522,6 @@ if [ $INSTALL_POSTFIX = 1 ]; then
 	chmod ug=rwX,o=rX /etc/opendkim/ -R
 	chmod u=rwX,og=X /etc/opendkim/keys -R
 	
-	echo ""
-	printMessage "$(cat "${INSTALL_DIR}config/opendkim/README.txt")"
-	
 	systemctl restart postfix
 	systemctl restart opendkim
 	

@@ -16,15 +16,17 @@ fi
 
 HEIGHT=15
 WIDTH=40
-CHOICE_HEIGHT=4
+CHOICE_HEIGHT=10
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
 MENU="Choose one of the following options:"
 
 OPTIONS=(1 "New site (generic)"
          2 "New WordPress site"
-         3 "Web service restart"
-		 4 "WEBSTACK.UP reinstall.")
+		 3 "DKIM a domain"
+		 4 "Let's Encrypt a domain"
+         5 "Web service restart"
+		 6 "WEBSTACK.UP reinstall.")
 
 CHOICE=$(dialog --clear \
                 --backtitle "$BACKTITLE" \
@@ -43,6 +45,12 @@ case $CHOICE in
             sudo bash "${INSTALL_DIR}script/nginx/new-wordpress.sh"
             ;;
         3)
+			sudo bash "${INSTALL_DIR}script/mail/dkim.sh"
+			;;
+		4)
+			sudo bash "${INSTALL_DIR}script/letsencrypt/new.sh"
+			;;
+		5)
             sudo service nginx stop
 			sudo service php7.3 stop
 			sudo service mysql stop
@@ -51,7 +59,7 @@ case $CHOICE in
 			sudo service php7.3 start
 			sudo service nginx start
             ;;
-		4)
+		6)
 			read -p "Are you sure? " -n 1 -r
 			echo
 			

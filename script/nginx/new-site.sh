@@ -136,11 +136,11 @@ rm -f "${NEWSITE_HTDOCS}file_esempio.zip"
 mkdir -p "${NEWSITE_DIR}script/"
 
 
-## =========== Nginx ===========
+## =========== nginx ===========
 ln -s "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf" "/etc/nginx/conf.d/${NEWSITE_NAME}.conf"
 service nginx restart
 systemctl  --no-pager status nginx
-#sleep 5
+sleep 5
 
 
 ## =========== Database ===========
@@ -175,6 +175,10 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 	chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
 	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 fi
+
+
+## =========== DKIM ===========
+source "${INSTALL_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
 
 
 ## =========== Change owner and permission ===========

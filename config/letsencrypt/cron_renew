@@ -1,1 +1,1 @@
-37 7 * * sat /usr/local/turbolab.it/webstackup/config/letsencrypt/renew.sh >> /var/log/letsencrypt_renew_webstackup.log 2>&1
+37 7 * * sat /usr/local/turbolab.it/webstackup/script/letsencrypt/renew.sh >> /var/log/webstackup_letsencrypt_renew.log 2>&1

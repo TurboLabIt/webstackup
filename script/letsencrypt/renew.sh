@@ -16,7 +16,7 @@ DOWEEK="$(date +'%u')"
 HOSTNAME="$(hostname)"
 
 ##
-certbot renew && systemctl restart nginx
+certbot renew && service nginx reload
 
 ## =========== The End ===========
 printTitle "Time took"
