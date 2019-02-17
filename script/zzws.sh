@@ -9,6 +9,10 @@ WORKING_DIR_ORIGINAL="$(pwd)"
 INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
 INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 
+## Absolute path to this script, e.g. /home/user/bin/foo.sh
+SCRIPT_FULLPATH=$(readlink -f "$0")
+ZZWS_SCRIPT_HASH=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
+
 if [ -z "$(command -v dialog)" ]; then
 
 	apt install dialog -y -qq
@@ -16,6 +20,20 @@ fi
 
 echo "Updating..."
 git -C "${INSTALL_DIR}" pull
+
+ZZWS_SCRIPT_HASH_AFTER_UPDATE=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
+if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
+
+	echo ""
+	echo "vvvvvvvvvvvvvvvvvvvvvv"
+	echo "Self-update installed!"
+	echo "^^^^^^^^^^^^^^^^^^^^^^"
+	echo "This script itself has been updated!"
+	echo "Please run zzws again."
+
+	echo $(date)
+	exit
+fi
 
 HEIGHT=15
 WIDTH=40
