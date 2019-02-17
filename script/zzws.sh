@@ -54,13 +54,7 @@ case $CHOICE in
 			sudo bash "${INSTALL_DIR}script/letsencrypt/new.sh"
 			;;
 		5)
-            sudo service nginx stop
-			sudo service php7.3 stop
-			sudo service mysql stop
-			sleep 2
-			sudo service mysql start
-			sudo service php7.3 start
-			sudo service nginx start
+			sudo bash "${INSTALL_DIR}script/zzws-reload.sh"
             ;;
 		6)
 			read -p "Are you sure? " -n 1 -r

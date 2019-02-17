@@ -211,7 +211,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	## Symlink (globally-available zzws GUI)
 	if [ ! -e "/usr/bin/zzws" ]; then
 	
-		ln -s ${INSTALL_DIR}zzws.sh /usr/bin/zzws
+		ln -s ${INSTALL_DIR}script/zzws.sh /usr/bin/zzws
 	fi
 
 	cd $WORKING_DIR_ORIGINAL
