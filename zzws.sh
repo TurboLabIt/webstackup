@@ -11,7 +11,7 @@ INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 
 if [ -z "$(command -v dialog)" ]; then
 
-	sudo apt install dialog -y -qq
+	apt install dialog -y -qq
 fi
 
 HEIGHT=15

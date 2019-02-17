@@ -469,8 +469,9 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 	
 	printMessage "$(certbot --version)"
 	
-	cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
-	printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
+	# Cron renewal is part of the package now
+	#cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
+	#printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
 	service cron restart
 	
 	sleep 5
