@@ -14,6 +14,9 @@ if [ -z "$(command -v dialog)" ]; then
 	apt install dialog -y -qq
 fi
 
+echo "Updating..."
+git -C "${INSTALL_DIR}" pull
+
 HEIGHT=15
 WIDTH=40
 CHOICE_HEIGHT=10
