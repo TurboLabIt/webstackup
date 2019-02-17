@@ -34,7 +34,6 @@ if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
 	echo $(date)
 	exit
 fi
-exit
 
 HEIGHT=15
 WIDTH=40
