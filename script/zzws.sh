@@ -22,7 +22,6 @@ echo "Updating..."
 git -C "${INSTALL_DIR}" pull
 
 ZZWS_SCRIPT_HASH_AFTER_UPDATE=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
-echo $ZZWS_SCRIPT_HASH_AFTER_UPDATE
 if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
 
 	echo ""
