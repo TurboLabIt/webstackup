@@ -12,6 +12,7 @@ INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 ## Absolute path to this script, e.g. /home/user/bin/foo.sh
 SCRIPT_FULLPATH=$(readlink -f "$0")
 ZZWS_SCRIPT_HASH=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
+echo $ZZWS_SCRIPT_HASH
 
 if [ -z "$(command -v dialog)" ]; then
 
@@ -22,6 +23,7 @@ echo "Updating..."
 git -C "${INSTALL_DIR}" pull
 
 ZZWS_SCRIPT_HASH_AFTER_UPDATE=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
+echo $ZZWS_SCRIPT_HASH_AFTER_UPDATE
 if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
 
 	echo ""
@@ -34,6 +36,7 @@ if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
 	echo $(date)
 	exit
 fi
+exit
 
 HEIGHT=15
 WIDTH=40
