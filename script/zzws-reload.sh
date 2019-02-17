@@ -18,3 +18,7 @@ do
 	echo "${SERVICE_NAME} is starting..."
 	sudo service ${SERVICE_NAME} start
 done
+
+echo ""
+echo "Reload completed!"
+echo ""
