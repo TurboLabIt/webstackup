@@ -444,10 +444,8 @@ if [ $INSTALL_XDEBUG = 1 ]; then
 	apt install php-xdebug -y -qq
 	XDEBUG_CONFIG_FILE_FULLPATH="${INSTALL_DIR}config/php/xdebug.ini"
 		
-	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-zzwebsebserversetup.ini
-	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini
-	
-	printMessage "$(cat "/etc/php/${PHP_VER}/cli/conf.d/20-xdebug-zzwebsebserversetup.ini")"
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-${SCRIPT_NAME}.ini
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-${SCRIPT_NAME}.ini
 	
 	systemctl restart php${PHP_VER}-fpm
 	sleep 5
