@@ -50,8 +50,9 @@ do
 	fi
 	
 	echo "OK, this domain looks valid!"
+	LETSENCRYPT_NEWSITE_NAME=${LETSENCRYPT_DOMAIN_2ND}_${LETSENCRYPT_DOMAIN_TLD}
 	
-	if [ -d "/etc/letsencrypt/live/${LETSENCRYPT_DOMAIN}" ]; then
+	if [ -d "/etc/letsencrypt/live/${LETSENCRYPT_NEWSITE_NAME}" ]; then
 	
 		LETSENCRYPT_DOMAIN=
 		
@@ -80,7 +81,7 @@ done
 
 
 ## Generate request
-certbot --email $LETSENCRYPT_EMAIL --agree-tos certonly --webroot -w "/home/${LETSENCRYPT_DOMAIN}/website/www/htdocs/" -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
+certbot --non-interactive --email $LETSENCRYPT_EMAIL --agree-tos certonly --webroot -w "/home/${LETSENCRYPT_NEWSITE_NAME}/website/www/htdocs/" -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
 
 
 ## Load certificates
