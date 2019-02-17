@@ -161,8 +161,8 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 	MYSQL_EXE="mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}"
 	NEWSITE_DB_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
 	$MYSQL_EXE -e "CREATE USER '$NEWSITE_NAME'@'localhost' IDENTIFIED BY '$NEWSITE_DB_PASSWORD';"
-	$MYSQL_EXE -e "CREATE DATABASE $NEWSITE_NAME;"
-	$MYSQL_EXE -e "GRANT ALL PRIVILEGES ON $NEWSITE_NAME.* TO '$NEWSITE_NAME'@'localhost';"
+	$MYSQL_EXE -e "CREATE DATABASE \`$NEWSITE_NAME\`;"
+	$MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`$NEWSITE_NAME\`.* TO '$NEWSITE_NAME'@'localhost';"
 	$MYSQL_EXE -e "FLUSH PRIVILEGES;"
 	
 	MYSQL_CREDENTIALS_DIR="${NEWSITE_DIR}conf/mysql/"
@@ -175,7 +175,6 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 	chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
 	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 fi
-
 
 ## =========== DKIM ===========
 source "${INSTALL_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
