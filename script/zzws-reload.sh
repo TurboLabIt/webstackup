@@ -6,7 +6,12 @@ do
 	sudo service ${SERVICE_NAME} stop
 done
 
+
+echo ""
+echo "All done, cooling down before restart.."
+echo ""
 sleep 2
+
 
 for SERVICE_NAME in "mysql" "opendkim" "postfix" "php7.3-fpm" "nginx"
 do
