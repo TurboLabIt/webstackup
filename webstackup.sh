@@ -229,23 +229,15 @@ printTitle "Installing Nginx"
 if [ $INSTALL_NGINX = 1 ]; then
 
 	apt purge --auto-remove nginx* -y -qq
-
-	curl -L -o nginx_signing.key http://nginx.org/keys/nginx_signing.key
-	apt-key add nginx_signing.key
-	rm -f nginx_signing.key
-
-	NGINX_SOURCE_FULLPATH=/etc/apt/sources.list.d/${SCRIPT_NAME}.nginx.list
 	
-	touch "$NGINX_SOURCE_FULLPATH"
-	echo "### webstackup" >> "$NGINX_SOURCE_FULLPATH"
-	echo "deb http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx"  >> "$NGINX_SOURCE_FULLPATH"
-	echo "deb-src http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx"  >> "$NGINX_SOURCE_FULLPATH"
+	## Add Nginx key and repo
+	apt install curl gnupg2 ca-certificates lsb-release unzip nano -y
+	curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add -
+	echo "deb http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" > /etc/apt/sources.list.d/nginx.list
+	echo "deb-src http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list.d/nginx.list
 	
-	echo ""
-	printMessage "$(cat "$NGINX_SOURCE_FULLPATH")"
-
-	apt update -qq
-	apt install nginx -y -qq
+	## Install Nginx
+	apt update -qq && apt install nginx -y -qq
 
 	## Create self-signed, bogus certificates (so that we can disable plain-HTTP completely)
 	source "${INSTALL_DIR}config/self-signed/generate.sh"
