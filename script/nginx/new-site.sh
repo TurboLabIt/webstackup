@@ -123,10 +123,6 @@ printMessage "Full path: $NEWSITE_HTDOCS"
 
 ## =========== Directory tree ===========
 printTitle "Creating directory tree"
-mkdir -p "${NEWSITE_DIR}conf/nginx/"
-cp "${INSTALL_DIR}config/nginx/website_template.conf" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
-sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
-sed -i -e "s|/usr/share/nginx/html|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 
 mkdir -p "${NEWSITE_HTDOCS}"
 curl -o "${NEWSITE_HTDOCS}file_esempio.zip" https://turbolab.it/scarica/145
@@ -137,9 +133,24 @@ mkdir -p "${NEWSITE_DIR}script/"
 
 
 ## =========== nginx ===========
+mkdir -p "${NEWSITE_DIR}conf/nginx/"
+cp "${INSTALL_DIR}config/nginx/website_template.conf" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
+sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
+sed -i -e "s|/usr/share/nginx/html|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 ln -s "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf" "/etc/nginx/conf.d/${NEWSITE_NAME}.conf"
 service nginx restart
 systemctl  --no-pager status nginx
+sleep 5
+
+
+## =========== php ===========
+mkdir -p "${NEWSITE_DIR}conf/php/"
+cp "${INSTALL_DIR}config/php/website_template.ini" "${NEWSITE_DIR}conf/php/${NEWSITE_NAME}.ini"
+sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/php/${NEWSITE_NAME}.ini"
+sed -i -e "s|/usr/share/nginx/|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/php/${NEWSITE_NAME}.ini"
+ln -s "${NEWSITE_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/7.3/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
+service php7.3-fpm restart
+systemctl  --no-pager status php7.3-fpm
 sleep 5
 
 
