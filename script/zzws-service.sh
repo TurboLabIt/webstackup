@@ -15,7 +15,11 @@ fi
 ## Define mass-action on web services
 function zzwsservicemassaction {
 
-	if [ $1 == "stop" ]; then
+	if [ $1 == "reload" ]; then
+
+		declare -a SERVICES=("nginx" "php7.3-fpm")
+		
+	else if [ $1 == "stop" ]; then
 
 		declare -a SERVICES=("nginx" "php7.3-fpm" "postfix" "opendkim" "mysql")
 		
