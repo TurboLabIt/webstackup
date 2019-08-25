@@ -13,7 +13,7 @@ INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
 SCRIPT_FULLPATH=$(readlink -f "$0")
 ZZWS_SCRIPT_HASH=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
 
-echo "Fino a qui"
+
 ## If no argument is proveded, display the GUI
 if [ -z "$1" ]; then
 
