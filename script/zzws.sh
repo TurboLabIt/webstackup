@@ -52,7 +52,8 @@ if [ -z "$1" ]; then
 			 4 "Let's Encrypt a domain"
 			 5 "Web service reload"
 			 6 "Web service restart"
-			 7 "WEBSTACK.UP reinstall.")
+			 7 "WEBSTACK.UP reinstall."
+			 8 "Self-update")
 
 	CHOICE=$(dialog --clear \
 					--backtitle "$BACKTITLE" \
@@ -105,5 +106,8 @@ case $CHOICE in
 			
 				sudo bash "${INSTALL_DIR}webstackup.sh"
 			fi
+			;;
+		8)
+			git -C "${INSTALL_DIR}" pull
 			;;
 esac
