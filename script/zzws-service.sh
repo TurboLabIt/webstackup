@@ -1,7 +1,6 @@
 #!/bin/bash
 clear
 
-
 ## Input handling
 if [ -z "$1" ]; then
 
