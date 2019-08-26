@@ -138,6 +138,11 @@ cp "${INSTALL_DIR}config/nginx/website_template.conf" "${NEWSITE_DIR}conf/nginx/
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 ln -s "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf" "/etc/nginx/conf.d/${NEWSITE_NAME}.conf"
+
+cp "${INSTALL_DIR}config/nginx/website_template_https.conf" "${NEWSITE_DIR}conf/nginx/https.conf"
+sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/nginx/https.conf"
+sed -i -e "s|/usr/share/nginx/html|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/nginx/https.conf"
+
 service nginx restart
 systemctl  --no-pager status nginx
 sleep 5
