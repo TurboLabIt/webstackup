@@ -1,6 +1,7 @@
 #!/bin/bash
 clear
 
+
 ## Input handling
 if [ -z "$1" ]; then
 
@@ -18,7 +19,7 @@ function zzwsservicemassaction {
 
 		declare -a SERVICES=("nginx" "php7.3-fpm")
 		
-	else if [ $1 == "stop" ]; then
+	elif [ $1 == "stop" ]; then
 
 		declare -a SERVICES=("nginx" "php7.3-fpm" "postfix" "opendkim" "mysql")
 		
