@@ -82,7 +82,7 @@ if [ "$1" == "push" ]; then
 	printTitle "Git push"
 	zzgitcmd push
 	
-elif [ "$1" == "pull" ]
+elif [ "$1" == "pull" ]; then
 
 	zzgitcmd pull
 fi
