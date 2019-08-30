@@ -215,10 +215,11 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	fi
 	
 	
-	if [ ! -e "/usr/bin/zzgitpush" ]; then
+	if [ ! -e "/usr/bin/zzgit" ]; then
 	
-		ln -s ${INSTALL_DIR}script/git/zzgitpush.sh /usr/bin/zzgitpush
+		ln -s ${INSTALL_DIR}script/git/zzgit.sh /usr/bin/zzgit
 	fi
+	
 
 	cd $WORKING_DIR_ORIGINAL
 	sleep 5

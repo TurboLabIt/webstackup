@@ -9,7 +9,7 @@ function printTitle {
     echo ""
 }
 
-printTitle "zzgitpushing"
+printTitle "zzgit"
 echo $(pwd)
 
 
@@ -55,30 +55,37 @@ else
 fi
 
 
-printTitle "Display current status"
-zzgitcmd status
-read -p "Proceed with add,commit,push? " -n 1 -r
-echo
-echo
-if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+if [ "$1" == "push" ]; then
 
-	printTitle "KO, aborting."
+	printTitle "Display current status"
+	zzgitcmd status
+	read -p "Proceed with add,commit,push? " -n 1 -r
 	echo
-	exit
+	echo
+	if [[ ! $REPLY =~ ^[Yy]$ ]]; then
+
+		printTitle "KO, aborting."
+		echo
+		exit
+	fi
+
+
+	printTitle "Git add"
+	zzgitcmd add .
+
+	printTitle "Git commit"
+	zzgitcmd commit --allow-empty-message -m "${2}"
+
+	printTitle "Git pull"
+	zzgitcmd pull
+
+	printTitle "Git push"
+	zzgitcmd push
+	
+elif [ "$1" == "pull" ]
+
+	zzgitcmd pull
 fi
-
-
-printTitle "Git add"
-zzgitcmd add .
-
-printTitle "Git commit"
-zzgitcmd commit --allow-empty-message -m "${1}"
-
-printTitle "Git pull"
-zzgitcmd pull
-
-printTitle "Git push"
-zzgitcmd push
 
 
 printTitle "Operation completed"
