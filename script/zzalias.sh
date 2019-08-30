@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-alias zzcd="cd /home/ && ls -lah"
+alias zzcd="cd /home/ && pwd && ls -lah"
 alias zzsudoweb="sudo -u www-data -H bash"
 alias zzsshconfig="sudo nano $HOME/.ssh/config"
 alias zzhosts="sudo nano /etc/hosts"

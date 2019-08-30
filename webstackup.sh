@@ -221,8 +221,12 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	fi
 	
 	
-	echo "" >> "$HOME/.bash_aliases"
-	echo "source /usr/local/turbolab.it/webstackup/script/zzalias.sh" >> "$HOME/.bash_aliases"
+	if [ ! -f "$HOME/.bash_aliases" ]; then
+	
+		echo "#!/usr/bin/env bash" >> "$HOME/.bash_aliases"
+	fi
+	
+	echo "source '/usr/local/turbolab.it/webstackup/script/zzalias.sh'" >> "$HOME/.bash_aliases"
 	chmod ug=rwx "$HOME/.bash_aliases"
 	source "$HOME/.bash_aliases"
 
