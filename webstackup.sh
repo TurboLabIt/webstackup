@@ -220,6 +220,11 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 		ln -s ${INSTALL_DIR}script/git/zzgit.sh /usr/bin/zzgit
 	fi
 	
+	
+	echo "" >> "$HOME/.bash_aliases"
+	echo "source /usr/local/turbolab.it/webstackup/script/zzalias.sh" >> "$HOME/.bash_aliases"
+	chmod ug=rwx "$HOME/.bash_aliases"
+	source "$HOME/.bash_aliases"
 
 	cd $WORKING_DIR_ORIGINAL
 	sleep 5
