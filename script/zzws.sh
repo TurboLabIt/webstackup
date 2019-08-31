@@ -19,7 +19,7 @@ if [ -z "$1" ]; then
 
 	if [ -z "$(command -v dialog)" ]; then
 
-		apt install dialog -y -qq
+		sudo apt install dialog -y -qq
 	fi
 
 	echo "Updating..."
