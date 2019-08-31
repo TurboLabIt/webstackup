@@ -208,10 +208,10 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	printMessage "User: wel | Pass: come"
 	printMessage "User: ben | Pass: venuto"
 
-	## Symlink (globally-available zzws GUI)
-	if [ ! -e "/usr/bin/zzws" ]; then
+	## Symlink (globally-available webstackup GUI)
+	if [ ! -e "/usr/bin/zzwebstackup" ]; then
 	
-		ln -s ${INSTALL_DIR}script/zzws.sh /usr/bin/zzws
+		ln -s ${INSTALL_DIR}script/zzwebstackup.sh /usr/bin/zzwebstackup
 	fi
 
 	cd $WORKING_DIR_ORIGINAL
