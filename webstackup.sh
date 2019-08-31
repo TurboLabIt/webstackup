@@ -213,22 +213,6 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	
 		ln -s ${INSTALL_DIR}script/zzws.sh /usr/bin/zzws
 	fi
-	
-	
-	if [ ! -e "/usr/bin/zzgit" ]; then
-	
-		ln -s ${INSTALL_DIR}script/git/zzgit.sh /usr/bin/zzgit
-	fi
-	
-	
-	if [ ! -f "$HOME/.bash_aliases" ]; then
-	
-		echo "#!/usr/bin/env bash" >> "$HOME/.bash_aliases"
-	fi
-	
-	echo "source '/usr/local/turbolab.it/webstackup/script/zzalias.sh'" >> "$HOME/.bash_aliases"
-	chmod ug=rwx "$HOME/.bash_aliases"
-	source "$HOME/.bash_aliases"
 
 	cd $WORKING_DIR_ORIGINAL
 	sleep 5
@@ -422,7 +406,7 @@ printTitle "Installing zzupdate"
 
 if [ $INSTALL_ZZUPDATE = 1 ]; then
 
-	curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | sudo sh
+	curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | sudo bash
 	sleep 5
 	
 else
@@ -436,7 +420,7 @@ printTitle "Installing zzmysqldump"
 
 if [ $INSTALL_ZZMYSQLDUMP = 1 ]; then
 
-	curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo sh
+	curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo bash
 	sleep 5
 	
 else
@@ -551,6 +535,20 @@ if [ $INSTALL_NTP = 1 ]; then
 	systemctl restart ntp
 	systemctl  --no-pager status ntp
 	
+	sleep 5
+	
+else
+	
+	echo "Skipped (disabled in config)"
+fi
+
+
+## =========== zzalias ===========
+printTitle "Installing zzalias"
+
+if [ $INSTALL_ZZALIAS = 1 ]; then
+
+	curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | sudo bash
 	sleep 5
 	
 else
