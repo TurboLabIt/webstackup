@@ -208,7 +208,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	printMessage "User: wel | Pass: come"
 	printMessage "User: ben | Pass: venuto"
 
-	## Symlink (globally-available webstackup GUI)
+	## Command: ZZWEBSTACKUP
 	if [ ! -e "/usr/bin/zzwebstackup" ]; then
 	
 		ln -s ${INSTALL_DIR}script/zzwebstackup.sh /usr/bin/zzwebstackup
