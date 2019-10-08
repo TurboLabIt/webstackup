@@ -459,6 +459,8 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 	
 	printMessage "$(certbot --version)"
 	
+	ln -s ${INSTALL_DIR}/script/letsencrypt/renewal-hook.sh /etc/letsencrypt/renewal-hooks/post/webstackup_renewal_hook.sh
+	
 	# Cron renewal is part of the package now
 	#cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
 	#printMessage "$(cat "/etc/cron.d/letsencrypt_renew")"
