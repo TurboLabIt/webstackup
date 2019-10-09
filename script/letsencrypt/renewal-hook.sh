@@ -7,7 +7,7 @@ SCRIPT_NAME=renewal-hook
 ## Title and graphics
 FRAME="O===========================================================O"
 echo "$FRAME"
-echo "  Let's Encrypt  renewal-hook by WEBSTACK.UP - $(date)"
+echo "  Let's Encrypt ${SCRIPT_NAME} by WEBSTACK.UP - $(date)"
 echo "$FRAME"
 
 ## Enviroment variables
@@ -19,9 +19,9 @@ HOSTNAME="$(hostname)"
 service nginx reload
 
 ## =========== The End ===========
-printTitle "Time took"
+echo "Time took"
 echo "$((($(date +%s)-$TIME_START)/60)) min."
 
-printTitle "The End"
+echo "The End"
 echo $(date)
 echo "$FRAME"
