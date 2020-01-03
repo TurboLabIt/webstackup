@@ -176,7 +176,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 		echo "-------------"
 		mkdir -p "$INSTALL_DIR_PARENT"
 		cd "$INSTALL_DIR_PARENT"
-		git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
+		git clone git@github.com:TurboLabIt/${SCRIPT_NAME}.git
 	else
 		echo "Updating..."
 		echo "-----------"
