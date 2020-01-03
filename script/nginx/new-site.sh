@@ -135,6 +135,7 @@ mkdir -p "${NEWSITE_DIR}script/"
 ## =========== nginx ===========
 mkdir -p "${NEWSITE_DIR}conf/nginx/"
 cp "${INSTALL_DIR}config/nginx/website_template.conf" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
+sed -i -e "s/localhost_tld/${NEWSITE_NAME}/g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEWSITE_HTDOCS}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 ln -s "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf" "/etc/nginx/conf.d/${NEWSITE_NAME}.conf"
