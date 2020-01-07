@@ -49,7 +49,8 @@ OPTIONS=(1 "New site (generic)"
 		 4 "Let's Encrypt a domain"
 		 5 "Web service reload"
 		 6 "Web service restart"
-		 7 "WEBSTACK.UP reinstall.")
+		 7 "Webpermissions a directory"
+		 8 "WEBSTACK.UP reinstall.")
 
 CHOICE=$(dialog --clear \
 				--backtitle "$BACKTITLE" \
@@ -81,7 +82,10 @@ case $CHOICE in
 		6)
 			sudo zzws restart
             ;;
-		7)
+	    7)
+	    sudo bash "${INSTALL_DIR}script/filesystem/webpermission.sh"
+	    ;;
+		8)
 			read -p "Are you sure? " -n 1 -r
 			echo
 			
