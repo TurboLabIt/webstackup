@@ -228,6 +228,7 @@ printTitle "Installing Nginx"
 
 if [ $INSTALL_NGINX = 1 ]; then
 
+	echo "Remove previous version (if any)"
 	apt purge --auto-remove nginx* -y -qq
 	
 	## Add Nginx key and repo
@@ -237,7 +238,7 @@ if [ $INSTALL_NGINX = 1 ]; then
 	echo "deb-src http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list.d/nginx.list
 	
 	## Pinning the repo 
-	NGINX_PINNING_FILE=/etc/apt/preferences.d/99-nginx-webstackup.conf
+	NGINX_PINNING_FILE=/etc/apt/preferences.d/99-nginx-webstackup
 	echo "Package: nginx" > $NGINX_PINNING_FILE
 	echo -n "Pin: release a=" >> $NGINX_PINNING_FILE
 	echo "$(lsb_release -sc)" >> $NGINX_PINNING_FILE
@@ -258,9 +259,6 @@ if [ $INSTALL_NGINX = 1 ]; then
 	## Disable the default website
 	ln -s "${INSTALL_DIR}config/nginx/05_global_default_vhost_disable.conf" /etc/nginx/conf.d/
 	
-	## Copy the template
-	cp "${INSTALL_DIR}config/nginx/website_template.conf" /etc/nginx/conf.d/webstackup_mywebsite.conf
-	
 
 	systemctl restart nginx
 	systemctl  --no-pager status nginx
@@ -277,7 +275,9 @@ printTitle "Installing PHP-CLI and PHP-FPM"
 
 if [ $INSTALL_PHP = 1 ]; then
 	
+	echo "Remove previous version (if any)"
 	apt purge --auto-remove php* -y -qq
+	
 	LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 	apt update -qq
 
@@ -313,6 +313,7 @@ printTitle "Installing MySQL"
 
 if [ $INSTALL_MYSQL = 1 ]; then
 	
+	echo "Remove previous version (if any)"
 	apt purge --auto-remove mysql* -y -qq
 
 	apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5

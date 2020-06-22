@@ -8,7 +8,7 @@ SCRIPT_NAME=new-site
 WORKING_DIR_ORIGINAL="$(pwd)"
 INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
 INSTALL_DIR=${INSTALL_DIR_PARENT}webstackup/
-WEB_DIR_ALL="/home/"
+WEB_DIR_ALL="/var/www/"
 
 ## Title and graphics
 FRAME="O===========================================================O"

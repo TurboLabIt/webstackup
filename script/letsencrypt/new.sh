@@ -81,7 +81,7 @@ done
 
 
 ## Generate request
-certbot --non-interactive --email $LETSENCRYPT_EMAIL --agree-tos certonly --webroot -w "/home/${LETSENCRYPT_NEWSITE_NAME}/website/www/htdocs/" -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
+certbot --non-interactive --email $LETSENCRYPT_EMAIL --agree-tos certonly --webroot -w "/var/www/${LETSENCRYPT_NEWSITE_NAME}/website/www/htdocs/" -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
 
 
 ## Load certificates
