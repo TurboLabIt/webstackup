@@ -169,7 +169,7 @@ printTitle "Installing WEBSTACK.UP (ready-to-use configs and tools)"
 
 if [ $INSTALL_WEBSTACKUP = 1 ]; then
 
-	apt install git openssl -y -qq
+	apt install git openssl htop screen -y -qq
 
 	if [ ! -d "$INSTALL_DIR" ]; then
 		echo "Installing..."
@@ -409,6 +409,27 @@ else
 fi
 
 
+
+
+## =========== Symfony ===========
+printTitle "Installing Symfony"
+
+if [ $INSTALL_SYMFONY = 1 ]; then
+	
+	wget https://get.symfony.com/cli/installer -O - | bash
+	mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+	
+	echo ""
+	printMessage "$(symfony -V)"
+	
+	sleep 5
+	
+else
+	
+	echo "Skipped (disabled in config)"
+fi
+
+
 ## =========== zzupdate ===========
 printTitle "Installing zzupdate"
 
@@ -467,7 +488,7 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 	
 	printMessage "$(certbot --version)"
 	
-	ln -s ${INSTALL_DIR}/script/letsencrypt/renewal-hook.sh /etc/letsencrypt/renewal-hooks/post/webstackup_renewal_hook.sh
+	#ln -s ${INSTALL_DIR}/script/letsencrypt/renewal-hook.sh /etc/letsencrypt/renewal-hooks/post/webstackup_renewal_hook.sh
 	
 	# Cron renewal is part of the package now
 	#cp "${INSTALL_DIR}config/letsencrypt/cron_renew" /etc/cron.d/letsencrypt_renew
