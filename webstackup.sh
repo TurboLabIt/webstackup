@@ -176,7 +176,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 		echo "-------------"
 		mkdir -p "$INSTALL_DIR_PARENT"
 		cd "$INSTALL_DIR_PARENT"
-		git clone git@github.com:TurboLabIt/${SCRIPT_NAME}.git
+		git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
 	else
 		echo "Updating..."
 		echo "-----------"
@@ -236,6 +236,13 @@ if [ $INSTALL_NGINX = 1 ]; then
 	echo "deb http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" > /etc/apt/sources.list.d/nginx.list
 	echo "deb-src http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list.d/nginx.list
 	
+	## Pinning the repo 
+	NGINX_PINNING_FILE=/etc/apt/preferences.d/99-nginx-webstackup.conf
+	echo "Package: nginx" > $NGINX_PINNING_FILE
+	echo -n "Pin: release a=" >> $NGINX_PINNING_FILE
+	echo "$(lsb_release -sc)" >> $NGINX_PINNING_FILE
+	echo "Pin-Priority: -900" >> $NGINX_PINNING_FILE
+	
 	## Install Nginx
 	apt update -qq && apt install nginx -y -qq
 
@@ -277,13 +284,9 @@ if [ $INSTALL_PHP = 1 ]; then
 	## mcrypt is discontinued since PHP 7.2
 	apt install php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl -y -qq
 	
-	## Service hardening
-	sed -i -e 's/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g' /etc/php/${PHP_VER}/fpm/php.ini
-	printMessage "$(cat /etc/php/${PHP_VER}/fpm/php.ini | grep 'cgi.fix_pathinfo=')"
-	
-	## Remove version name from listening socket file
-	sed -i -e "s|listen = /run/php/php${PHP_VER}-fpm.sock|listen = /run/php/php-fpm.sock|g" /etc/php/${PHP_VER}/fpm/pool.d/www.conf
-	printMessage "$(cat /etc/php/${PHP_VER}/fpm/pool.d/www.conf | grep 'listen = ')"
+	## Enable custom config
+	ln -s  "${INSTALL_DIR}config/php/php-custom.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-custom-${SCRIPT_NAME}.ini
+	ln -s  "${INSTALL_DIR}config/php/php-custom.ini" /etc/php/${PHP_VER}/cli/conf.d/30-custom-${SCRIPT_NAME}.ini
 	
 	## Use the default WEBSTACK.UP index.php as test from the default Nginx root
 	ln -s "${INSTALL_DIR}config/php/index.php" "/usr/share/nginx/html"
@@ -436,8 +439,8 @@ if [ $INSTALL_XDEBUG = 1 ]; then
 	apt install php-xdebug -y -qq
 	XDEBUG_CONFIG_FILE_FULLPATH="${INSTALL_DIR}config/php/xdebug.ini"
 		
-	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/20-xdebug-${SCRIPT_NAME}.ini
-	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/20-xdebug-${SCRIPT_NAME}.ini
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/30-xdebug-${SCRIPT_NAME}.ini
+	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/30-xdebug-${SCRIPT_NAME}.ini
 	
 	systemctl restart php${PHP_VER}-fpm
 	sleep 5
