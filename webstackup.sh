@@ -288,6 +288,10 @@ if [ $INSTALL_PHP = 1 ]; then
 	ln -s  "${INSTALL_DIR}config/php/php-custom.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-custom-${SCRIPT_NAME}.ini
 	ln -s  "${INSTALL_DIR}config/php/php-custom.ini" /etc/php/${PHP_VER}/cli/conf.d/30-custom-${SCRIPT_NAME}.ini
 	
+	## Set timezone to Italy
+	ln -s  "${INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-timezone-italy-${SCRIPT_NAME}.ini
+	ln -s  "${INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/cli/conf.d/30-timezone-italy-${SCRIPT_NAME}.ini
+	
 	## Use the default WEBSTACK.UP index.php as test from the default Nginx root
 	ln -s "${INSTALL_DIR}config/php/index.php" "/usr/share/nginx/html"
 	
