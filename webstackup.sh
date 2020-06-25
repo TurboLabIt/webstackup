@@ -269,7 +269,7 @@ if [ $INSTALL_NGINX = 1 ]; then
 	
 		mkdir -p "${WWW_DATA_HOME}"
 		chown www-data:www-data "${WWW_DATA_HOME}" -R
-		chmod ug=rwX,o= "${WWW_DATA_HOME}" -R
+		chmod ugo=rwX "${WWW_DATA_HOME}" -R
 	fi
 	
 	## Create SSH key (if missing)
@@ -278,14 +278,15 @@ if [ $INSTALL_NGINX = 1 ]; then
 	
 		mkdir -p "${WWW_DATA_SSH}"
 		chown www-data:www-data "${WWW_DATA_SSH}" -R
-		chmod u=rwX,go= "${WWW_DATA_SSH}" -R
 	fi
 	
 	if [ ! -f "${WWW_DATA_SSH}id_rsa" ]; then
 	
+		chmod u=rwX,go= "${WWW_DATA_SSH}" -R
 		sudo -u www-data -H ssh-keygen -t rsa -f "${WWW_DATA_SSH}id_rsa" -N ''
-		chmod u=r,go= "${WWW_DATA_SSH}id_rsa"
 	fi
+	
+	chmod u=rwX,go= "${WWW_DATA_SSH}" -R
 	
 	sleep 5
 	

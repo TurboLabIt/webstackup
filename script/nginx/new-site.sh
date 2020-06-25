@@ -134,6 +134,9 @@ rm -f "${NEWSITE_HTDOCS}file_esempio.zip"
 
 mkdir -p "${NEWSITE_DIR}script/"
 
+mkdir -p "${NEWSITE_DIR}backup/"
+curl -o "${NEWSITE_DIR}backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
+
 
 ## =========== nginx ===========
 mkdir -p "${NEWSITE_DIR}conf/nginx/"
