@@ -278,12 +278,13 @@ if [ $INSTALL_NGINX = 1 ]; then
 	
 		mkdir -p "${WWW_DATA_SSH}"
 		chown www-data:www-data "${WWW_DATA_SSH}" -R
-		chmod ug=rwX,o= "${WWW_DATA_SSH}" -R
+		chmod u=rwX,go= "${WWW_DATA_SSH}" -R
 	fi
 	
 	if [ ! -f "${WWW_DATA_SSH}id_rsa" ]; then
 	
 		sudo -u www-data -H ssh-keygen -t rsa -f "${WWW_DATA_SSH}id_rsa" -N ''
+		chmod u=r,go= "${WWW_DATA_SSH}id_rsa"
 	fi
 	
 	sleep 5
