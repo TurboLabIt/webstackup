@@ -260,6 +260,9 @@ if [ $INSTALL_NGINX = 1 ]; then
 	## Disable the default website
 	ln -s "${INSTALL_DIR}config/nginx/05_global_default_vhost_disable.conf" /etc/nginx/conf.d/
 	
+	## Activate some additional functionality
+	ln -s "${INSTALL_DIR}config/nginx/02_global_extra.conf" /etc/nginx/conf.d/
+	
 	systemctl restart nginx
 	systemctl  --no-pager status nginx
 	
