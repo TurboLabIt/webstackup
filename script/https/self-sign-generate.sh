@@ -70,7 +70,7 @@ fi
 
 
 echo "Generating the certificate..."
-openssl req -x509 -out ${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt -key ${SELFSIGN_KEY} \
+openssl req -x509 -out "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -key ${SELFSIGN_KEY} \
 	-days 3650 \
 	-nodes -sha256 \
 	-subj "/CN=${SELFSIGN_DOMAIN}" \
