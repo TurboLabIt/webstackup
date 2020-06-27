@@ -31,7 +31,8 @@ openssl req -x509 -out ${SSL_DIR}ssl_certificate.crt -keyout ${SSL_DIR}ssl_certi
 		
 		
 echo "Trusting my own CA (Firfox only)..."
-sudo apt install libnss3-tools -y
+apt install libnss3-tools -y
+killall firefox
 for FIREFOX_DIR in /home/$(logname)/.mozilla/firefox/*; do
 
 	if ls ${FIREFOX_DIR}/places.sqlite &>/dev/null; then
