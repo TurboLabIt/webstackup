@@ -87,7 +87,7 @@ killall firefox
 for USER_HOME in /home/*; do
 
 	for FIREFOX_DIR in ${USER_HOME}/.mozilla/firefox/*; do
-echo $FIREFOX_DIR
+
 		if ls ${FIREFOX_DIR}/places.sqlite &>/dev/null; then
 		
 			echo "Found! $FIREFOX_DIR"
@@ -101,4 +101,4 @@ done
 
 
 ##
-printMessage "Bogus HTTPS certificate ready"
+echo "Bogus HTTPS certificate ready"
