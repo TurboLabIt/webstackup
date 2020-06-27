@@ -1,5 +1,4 @@
 #!/bin/bash
-clear
 
 ## Script name
 SCRIPT_NAME=self-sign-generate

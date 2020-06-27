@@ -83,15 +83,6 @@ case $CHOICE in
 			sudo zzws restart
             ;;
 	    7)
-	    sudo bash "${INSTALL_DIR}script/filesystem/webpermission.sh"
-	    ;;
-		8)
-			read -p "Are you sure? " -n 1 -r
-			echo
-			
-			if [[ $REPLY =~ ^[Yy]$ ]]; then
-			
-				sudo bash "${INSTALL_DIR}webstackup.sh"
-			fi
+			sudo bash "${INSTALL_DIR}script/filesystem/webpermission.sh"
 			;;
 esac
