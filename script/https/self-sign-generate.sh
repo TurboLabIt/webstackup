@@ -76,7 +76,6 @@ openssl req -x509 -out "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -key ${SELFSIGN_
 	-subj "/CN=${SELFSIGN_DOMAIN}" \
 	-extensions EXT -config "$SELFSIGN_CONFIG"
 
-
 rm -f "$SELFSIGN_CONFIG"
 		
 
@@ -89,7 +88,7 @@ for FIREFOX_DIR in /home/$(logname)/.mozilla/firefox/*; do
 	
 		echo "Found! $FIREFOX_DIR"
 		certutil -D -n "${SELFSIGN_DOMAIN}" -d sql:"${FIREFOX_DIR}" >/dev/null 2>&1
-		echo certutil -A -n "${SELFSIGN_DOMAIN}" -t "TC,," -i "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -d sql:"${FIREFOX_DIR}"
+		certutil -A -n "${SELFSIGN_DOMAIN}" -t "TC,," -i "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -d sql:"${FIREFOX_DIR}"
 		certutil -d sql:"${FIREFOX_DIR}" -L
 	fi
 done
