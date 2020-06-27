@@ -2,8 +2,8 @@
 echo ""
 
 ## BASE
-if [ -f script/base.sh ]; then
-	source script/base.sh
+if [ -f ../base.sh ]; then
+	source ../base.sh
 else
 	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
 	source base.sh
