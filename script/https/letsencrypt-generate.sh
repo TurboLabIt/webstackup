@@ -1,4 +1,5 @@
 #!/bin/bash
+echo ""
 
 ## Script name
 SCRIPT_NAME=letsencrypt-generate
