@@ -198,7 +198,7 @@ else
 	
 	printLightWarning "Skipped (disabled in config)"
 fi
-exit
+
 
 printTitle "Installing PHP-CLI and PHP-FPM..."
 if [ $INSTALL_PHP = 1 ]; then
@@ -240,7 +240,6 @@ else
 	printLightWarning "Skipped (disabled in config)"
 fi
 exit
-
 
 printTitle "Installing MYSQL..."
 if [ $INSTALL_MYSQL = 1 ]; then
