@@ -14,7 +14,7 @@ SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
 source ${SCRIPT_DIR}new-site.sh
 
 ##
-if [ -z "${NEWSITE_DIR}" ] || [ -z "${NEWSITE_HTDOCS}" ] || [ ! -d "${NEWSITE_HTDOCS}" ]; then
+if [ -z "${NEWSITE_DIR}" ] || [ -z "${NEW_WWW_PUBLIC_DIR}" ] || [ ! -d "${NEW_WWW_PUBLIC_DIR}" ]; then
 
 	printTitle "Error setting up newsite"
 	printMessage "WordPress not installed"
@@ -34,21 +34,21 @@ done
 curl -o "${NEWSITE_DIR}wordpress.zip" https://wordpress.org/latest.zip
 unzip -o "${NEWSITE_DIR}wordpress.zip" -d "${NEWSITE_DIR}"
 rm -f "${NEWSITE_DIR}wordpress.zip"
-rm -rf "${NEWSITE_HTDOCS}"
-mv "${NEWSITE_DIR}wordpress" "${NEWSITE_HTDOCS}"
+rm -rf "${NEW_WWW_PUBLIC_DIR}"
+mv "${NEWSITE_DIR}wordpress" "${NEW_WWW_PUBLIC_DIR}"
 
 
 ## =========== Set up config.php ===========
-cp "${NEWSITE_HTDOCS}wp-config-sample.php" "${NEWSITE_HTDOCS}wp-config.php"
-sed -i -e "s|database_name_here|$NEWSITE_NAME|g" "${NEWSITE_HTDOCS}wp-config.php"
-sed -i -e "s|username_here|$NEWSITE_NAME|g" "${NEWSITE_HTDOCS}wp-config.php"
-sed -i -e "s|password_here|$NEWSITE_DB_PASSWORD|g" "${NEWSITE_HTDOCS}wp-config.php"
-sed -i -e 's|utf8|utf8mb4|g' "${NEWSITE_HTDOCS}wp-config.php"
-php "${SCRIPT_DIR}new-wordpress_helper.php" "${NEWSITE_HTDOCS}wp-config.php"
+cp "${NEW_WWW_PUBLIC_DIR}wp-config-sample.php" "${NEW_WWW_PUBLIC_DIR}wp-config.php"
+sed -i -e "s|database_name_here|$NEWSITE_NAME|g" "${NEW_WWW_PUBLIC_DIR}wp-config.php"
+sed -i -e "s|username_here|$NEWSITE_NAME|g" "${NEW_WWW_PUBLIC_DIR}wp-config.php"
+sed -i -e "s|password_here|$NEWSITE_DB_PASSWORD|g" "${NEW_WWW_PUBLIC_DIR}wp-config.php"
+sed -i -e 's|utf8|utf8mb4|g' "${NEW_WWW_PUBLIC_DIR}wp-config.php"
+php "${SCRIPT_DIR}new-wordpress_helper.php" "${NEW_WWW_PUBLIC_DIR}wp-config.php"
 
 
 ## =========== Change owner and permission ===========
-source "${SCRIPT_DIR}../filesystem/webpermission.sh" "${NEWSITE_HTDOCS}"
+source "${SCRIPT_DIR}../filesystem/webpermission.sh" "${NEW_WWW_PUBLIC_DIR}"
 
 
 ## =========== THE END ===========

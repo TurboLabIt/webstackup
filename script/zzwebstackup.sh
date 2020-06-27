@@ -74,7 +74,7 @@ case $CHOICE in
 			sudo bash "${INSTALL_DIR}script/mail/dkim.sh"
 			;;
 		4)
-			sudo bash "${INSTALL_DIR}script/letsencrypt/new.sh"
+			sudo bash "${INSTALL_DIR}script/https/letsencrypt-generate.sh"
 			;;
 		5)
 			sudo zzws reload

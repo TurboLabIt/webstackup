@@ -72,24 +72,29 @@ fi
 
 
 ## =========== Get directory ===========
-while [ -z "$FOLDER_FULLPATH" ] || [ ! -d "$FOLDER_FULLPATH" ]
+while [ -z "$PROJECT_DIR" ] || [ ! -d "$PROJECT_DIR" ]
 do
-	read -p "Please provide the directory to work on: " FOLDER_FULLPATH  < /dev/tty
+	read -p "Please provide the directory to work on: " PROJECT_DIR  < /dev/tty
 done
 
 printTitle "OK, will work on:"
-printMessage "$FOLDER_FULLPATH"
+printMessage "$PROJECT_DIR"
 
 
 ## =========== Change owner and permission ===========
 printTitle "Changing ownership and permissions"
-chown www-data:www-data "$FOLDER_FULLPATH" -R
-chmod ug=rw,o= "$FOLDER_FULLPATH" -R
 
-find "$FOLDER_FULLPATH" -type f -exec chmod 660 {} +
-find "$FOLDER_FULLPATH" -type d -exec chmod 770 {} +
+chown webstackup:www-data "${PROJECT_DIR}" -R
+chmod g+s "${PROJECT_DIR}" -R
+find "$PROJECT_DIR" -type f -exec chmod 660 {} +
+find "$PROJECT_DIR" -type d -exec chmod 770 {} +
 
 find "$FOLDER_FULLPATH" -type f -name 'wp-config.php' -exec chmod 440 {} +
+
+if [[ -e "${PROJECT_DIR}website/www/script" ]]; then
+
+    chmod u=rwx,go=rx "${PROJECT_DIR}www/script" -R
+fi
 
 
 ## =========== Show results ===========
