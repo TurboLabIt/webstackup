@@ -88,7 +88,7 @@ for FIREFOX_DIR in /home/$(logname)/.mozilla/firefox/*; do
 	if ls ${FIREFOX_DIR}/places.sqlite &>/dev/null; then
 	
 		echo "Found! $FIREFOX_DIR"
-		certutil -D -n "${SELFSIGN_DOMAIN}"  -d sql:"${FIREFOX_DIR}" 
+		certutil -D -n "${SELFSIGN_DOMAIN}" -d sql:"${FIREFOX_DIR}" 2&1> /dev/null
 		certutil -A -n "${SELFSIGN_DOMAIN}" -t "TC,," -i ${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt -d sql:"${FIREFOX_DIR}"
 		certutil -d sql:"${FIREFOX_DIR}" -L
 	fi
