@@ -63,8 +63,10 @@ SELFSIGN_KEY=${SSL_DIR}openssl-private-key.pem
 if [ ! -f "${SELFSIGN_KEY}" ]; then
 
 	echo "Generating the private key..."
-	openssl genrsa -out "${SELFSIGN_KEY}" 1024
+	openssl genrsa -out "${SELFSIGN_KEY}"
+	
 else
+
 	echo "Private key found"
 fi
 
@@ -72,7 +74,7 @@ fi
 echo "Generating the certificate..."
 openssl req -x509 -out "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -key ${SELFSIGN_KEY} \
 	-days 3650 \
-	-nodes -sha256 \
+	-new -nodes -sha256 \
 	-subj "/CN=${SELFSIGN_DOMAIN}" \
 	-extensions EXT -config "$SELFSIGN_CONFIG"
 
