@@ -98,6 +98,4 @@ for USER_HOME in /home/*; do
 
 done
 
-
 printMessage "Bogus HTTPS certificate ready"
-printTheEnd
