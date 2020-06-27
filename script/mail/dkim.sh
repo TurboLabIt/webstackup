@@ -3,6 +3,18 @@ echo ""
 
 ## Script name
 SCRIPT_NAME=dkim
+
+## Title and graphics
+FRAME="O===========================================================O"
+echo "$FRAME"
+echo "      $SCRIPT_NAME - $(date)"
+echo "$FRAME"
+
+## Enviroment variables
+TIME_START="$(date +%s)"
+DOWEEK="$(date +'%u')"
+HOSTNAME="$(hostname)"
+
 MAIL_DOMAIN=$1
 
 ## root check

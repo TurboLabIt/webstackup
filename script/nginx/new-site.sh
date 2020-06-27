@@ -152,6 +152,10 @@ curl -o "${NEW_WWW_DIR}var/log/.gitignore" https://raw.githubusercontent.com/Zan
 echo '## A new project kickstarted with Webstackup ##' > "${NEW_PROPERTY_DIR}readme.md"
 
 
+## =========== HTTPS Certificate ===========
+source ${WEBSTACKUP_DIR}script/https/self-sign-generate.sh ${NEWSITE_DOMAIN}
+
+
 ## =========== nginx ===========
 mkdir -p "${NEW_PROPERTY_DIR}conf/nginx/"
 cp "${WEBSTACKUP_DIR}config/nginx/website_template.conf" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"

@@ -7,7 +7,7 @@ SCRIPT_NAME=webpermission
 ## Install directory
 WORKING_DIR_ORIGINAL="$(pwd)"
 INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
-INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
+INSTALL_DIR=${INSTALL_DIR_PARENT}webstackup/
 
 ## Title and graphics
 FRAME="O===========================================================O"
@@ -93,7 +93,7 @@ find "$PROJECT_DIR" -type f -name 'wp-config.php' -exec chmod 440 {} +
 
 if [[ -e "${PROJECT_DIR}website/www/script" ]]; then
 
-    chmod u=rwx,go=rx "${PROJECT_DIR}www/script" -R
+    chmod u=rwx,go=rx "${PROJECT_DIR}website/www/script" -R
 fi
 
 
