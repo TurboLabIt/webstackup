@@ -1,108 +1,43 @@
 #!/bin/bash
 echo ""
 
-## Script name
-SCRIPT_NAME=webpermission
+## BASE
+if [ -f script/base.sh ]; then
+	source script/base.sh
+else
+	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
+	source base.sh
+	rm -f base.sh
+fi
 
-## Install directory
-WORKING_DIR_ORIGINAL="$(pwd)"
-INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
-INSTALL_DIR=${INSTALL_DIR_PARENT}webstackup/
-
-## Title and graphics
-FRAME="O===========================================================O"
-echo "$FRAME"
-echo "      $SCRIPT_NAME - $(date)"
-echo "$FRAME"
-
-## Enviroment variables
-TIME_START="$(date +%s)"
-DOWEEK="$(date +'%u')"
-HOSTNAME="$(hostname)"
+printHeader "Set the optimal permission set for a web project"
+rootCheck
 
 ## Config file path from CLI (if any)
-PROJECT_DIR=$1
+WEBPERMISSION_PROJECT_DIR=$1
 
-
-## Title printing function
-function printTitle
-{
-	STYLE='\033[44m'
-	RESET='\033[0m'
-
-    echo ""
-	echo -n -e $STYLE
-    echo "$1"
-    printf '%0.s-' $(seq 1 ${#1})
-	echo -e $RESET
-	echo ""
-}
-
-
-function printMessage
-{
-	STYLE='\033[45m'
-	RESET='\033[0m'
-
-	echo -n -e $STYLE
-    echo "$1"
-	echo -e $RESET
-	echo ""
-}
-
-
-## root check
-if ! [ $(id -u) = 0 ]; then
-
-	echo ""
-	echo "vvvvvvvvvvvvvvvvvvvv"
-	echo "Catastrophic error!!"
-	echo "^^^^^^^^^^^^^^^^^^^^"
-	echo "This script must run as root!"
-
-	printTitle "How to fix it?"
-	echo "Execute the script like this:"
-	echo "sudo $SCRIPT_NAME"
-
-	printTitle "The End"
-	echo $(date)
-	echo "$FRAME"
-	exit
-fi
-
-
-## =========== Get directory ===========
-while [ -z "$PROJECT_DIR" ] || [ ! -d "$PROJECT_DIR" ]
+while [ -z "$WEBPERMISSION_PROJECT_DIR" ] || [ ! -d "$WEBPERMISSION_PROJECT_DIR" ]
 do
-	read -p "Please provide the directory to work on: " PROJECT_DIR  < /dev/tty
+	read -p "Please provide the directory to work on: " WEBPERMISSION_PROJECT_DIR  < /dev/tty
 done
 
-printTitle "OK, will work on:"
-printMessage "$PROJECT_DIR"
+printMessage "OK, will work on: $WEBPERMISSION_PROJECT_DIR"
 
 
-## =========== Change owner and permission ===========
-printTitle "Changing ownership and permissions"
+printMessage "Changing ownership and permissions"
+chown webstackup:www-data "${WEBPERMISSION_PROJECT_DIR}" -R
+chmod g+s "${WEBPERMISSION_PROJECT_DIR}" -R
+find "$WEBPERMISSION_PROJECT_DIR" -type f -exec chmod 660 {} +
+find "$WEBPERMISSION_PROJECT_DIR" -type d -exec chmod 770 {} +
 
-chown webstackup:www-data "${PROJECT_DIR}" -R
-chmod g+s "${PROJECT_DIR}" -R
-find "$PROJECT_DIR" -type f -exec chmod 660 {} +
-find "$PROJECT_DIR" -type d -exec chmod 770 {} +
+#find "$WEBPERMISSION_PROJECT_DIR" -type f -name 'wp-config.php' -exec chmod 440 {} +
 
-find "$PROJECT_DIR" -type f -name 'wp-config.php' -exec chmod 440 {} +
+if [[ -e "${WEBPERMISSION_PROJECT_DIR}website/www/script" ]]; then
 
-if [[ -e "${PROJECT_DIR}website/www/script" ]]; then
-
-    chmod u=rwx,go=rx "${PROJECT_DIR}website/www/script" -R
+    chmod u=rwx,go=rx "${WEBPERMISSION_PROJECT_DIR}website/www/script" -R
 fi
 
 
-## =========== Show results ===========
-printTitle "Web permissions applied!"
-ls -la "$PROJECT_DIR"
+printMessage "Web permissions applied!"
+ls -la "$WEBPERMISSION_PROJECT_DIR"
 
-
-## =========== THE END ===========
-printTitle "The End"
-echo $(date)
-echo "$FRAME"
