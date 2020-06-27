@@ -21,7 +21,7 @@ DOWEEK="$(date +'%u')"
 HOSTNAME="$(hostname)"
 
 ## Config file path from CLI (if any)
-FOLDER_FULLPATH=$1
+PROJECT_DIR=$1
 
 
 ## Title printing function
@@ -89,7 +89,7 @@ chmod g+s "${PROJECT_DIR}" -R
 find "$PROJECT_DIR" -type f -exec chmod 660 {} +
 find "$PROJECT_DIR" -type d -exec chmod 770 {} +
 
-find "$FOLDER_FULLPATH" -type f -name 'wp-config.php' -exec chmod 440 {} +
+find "$PROJECT_DIR" -type f -name 'wp-config.php' -exec chmod 440 {} +
 
 if [[ -e "${PROJECT_DIR}website/www/script" ]]; then
 
@@ -99,7 +99,7 @@ fi
 
 ## =========== Show results ===========
 printTitle "Web permissions applied!"
-ls -la "$FOLDER_FULLPATH"
+ls -la "$PROJECT_DIR"
 
 
 ## =========== THE END ===========

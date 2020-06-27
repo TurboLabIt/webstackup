@@ -155,10 +155,6 @@ cp "${WEBSTACKUP_DIR}config/nginx/website_template_https.conf" "${NEW_PROPERTY_D
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 
-service nginx restart
-systemctl  --no-pager status nginx
-sleep 5
-
 
 ## =========== php ===========
 PHP_FPM=php${PHP_INSTALLED_VERSION}-fpm
@@ -169,9 +165,6 @@ sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/php/${NEWSI
 sed -i -e "s|/usr/share/nginx/|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/fpm/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
 ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/cli/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
-service ${PHP_FPM} restart
-systemctl  --no-pager status ${PHP_FPM}
-sleep 5
 
 
 ## =========== Database ===========
@@ -213,6 +206,15 @@ source "${WEBSTACKUP_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
 
 ## =========== Change owner and permission ===========
 source "${WEBSTACKUP_DIR}script/filesystem/webpermission.sh" "${NEW_PROPERTY_DIR}"
+
+
+## =========== Restart the services ===========
+service nginx restart
+systemctl  --no-pager status nginx
+sleep 5
+service ${PHP_FPM} restart
+systemctl  --no-pager status ${PHP_FPM}
+sleep 5
 
 
 ## =========== Show results ===========
