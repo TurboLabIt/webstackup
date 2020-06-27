@@ -75,32 +75,29 @@ fi
 
 
 ## =========== Get directory ===========
-while [ -z "$NEWSITE_DOMAIN" ]
-do
-	read -p "Please provide the new website domain (no-www! E.g.: turbolab.it): " NEWSITE_DOMAIN  < /dev/tty
-	
+checkInputDomain ()
+{	
 	if [ -z "${NEWSITE_DOMAIN}" ]; then
 	
-		printMessage "Please provide the website domain to create!"
-		continue
+		return 0
 	fi
 	
 	printMessage "Domain: $NEWSITE_DOMAIN"
-	
+
 	NEWSITE_DOMAIN_2ND=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 1)
 	NEWSITE_DOMAIN_TLD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 2)
+	NEWSITE_DOMAIN_3RD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 3)
 	
-	if [ -z "${NEWSITE_DOMAIN_2ND}" ] || [ -z "${NEWSITE_DOMAIN_TLD}" ] || [ "${NEWSITE_DOMAIN_2ND}" == "${NEWSITE_DOMAIN_TLD}" ]; then
+	if [ ! -z "${NEWSITE_DOMAIN_3RD}" ] || [ -z "${NEWSITE_DOMAIN_2ND}" ] || [ -z "${NEWSITE_DOMAIN_TLD}" ] || [ "${NEWSITE_DOMAIN_2ND}" == "${NEWSITE_DOMAIN_TLD}" ]; then
 	
-		NEWSITE_DOMAIN=		
-		printTitle "Website error!"
-		printMessage "Please provide a valid domain, such as: turbolab.it"
-		continue
+		NEWSITE_DOMAIN=
+		
+		printTitle "Domain error!"
+		return 0
 	fi
 	
 	printMessage "OK, this website domain looks valid!"
 
-	
 	NEWSITE_NAME=${NEWSITE_DOMAIN_2ND}_${NEWSITE_DOMAIN_TLD}
 	printMessage "Directory and database: $NEWSITE_NAME"
 
@@ -111,12 +108,23 @@ do
 	
 		NEWSITE_DOMAIN=
 		
-		printTitle "Website error!"
+		printTitle "Domain error!"
 		printMessage "This website already exists!"
 		ls -la "${NEW_PROPERTY_DIR}"
-		continue
+		return 0
 	fi
+}
 
+
+## Check the domain provided as argument from CLI (if any)
+checkInputDomain
+
+
+## Ask the user interactively
+while [ -z "$NEWSITE_DOMAIN" ]
+do
+	read -p "Please provide the new website domain (no-www! E.g.: turbolab.it): " NEWSITE_DOMAIN  < /dev/tty	
+	checkInputDomain
 done
 
 printMessage "This domain is not served from here yet..."
@@ -124,7 +132,6 @@ NEW_WWW_DIR="${NEW_PROPERTY_DIR}website/www/"
 NEW_WWW_PUBLIC_DIR="${NEW_WWW_DIR}public/"
 printMessage "Full path: ${NEW_WWW_PUBLIC_DIR}"
 
-touch "${NEW_PROPERTY_DIR}readme.md > ## A new project kickstarted with Webstackup ##"
 
 ## =========== Directory tree ===========
 printTitle "Creating directory tree"
@@ -142,6 +149,8 @@ curl -o "${NEW_WWW_DIR}backup/.gitignore" https://raw.githubusercontent.com/Zane
 mkdir -p "${NEW_WWW_DIR}var/log/"
 curl -o "${NEW_WWW_DIR}var/log/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
 
+echo '## A new project kickstarted with Webstackup ##' > "${NEW_PROPERTY_DIR}readme.md"
+
 
 ## =========== nginx ===========
 mkdir -p "${NEW_PROPERTY_DIR}conf/nginx/"
@@ -155,6 +164,10 @@ cp "${WEBSTACKUP_DIR}config/nginx/website_template_https.conf" "${NEW_PROPERTY_D
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 
+service nginx restart
+systemctl  --no-pager status nginx
+sleep 5
+
 
 ## =========== php ===========
 PHP_FPM=php${PHP_INSTALLED_VERSION}-fpm
@@ -165,6 +178,9 @@ sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/php/${NEWSI
 sed -i -e "s|/usr/share/nginx/|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/fpm/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
 ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/cli/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
+service ${PHP_FPM} restart
+systemctl  --no-pager status ${PHP_FPM}
+sleep 5
 
 
 ## =========== Database ===========
@@ -206,15 +222,6 @@ source "${WEBSTACKUP_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
 
 ## =========== Change owner and permission ===========
 source "${WEBSTACKUP_DIR}script/filesystem/webpermission.sh" "${NEW_PROPERTY_DIR}"
-
-
-## =========== Restart the services ===========
-service nginx restart
-systemctl  --no-pager status nginx
-sleep 5
-service ${PHP_FPM} restart
-systemctl  --no-pager status ${PHP_FPM}
-sleep 5
 
 
 ## =========== Show results ===========
