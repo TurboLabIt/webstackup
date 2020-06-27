@@ -84,15 +84,19 @@ rm -f "$SELFSIGN_CONFIG"
 echo "Trusting my new cert (Firfox only)..."
 apt install libnss3-tools -y
 killall firefox
-for FIREFOX_DIR in /home/$(logname)/.mozilla/firefox/*; do
+for USER_HOME in /home/*; do
 
-	if ls ${FIREFOX_DIR}/places.sqlite &>/dev/null; then
-	
-		echo "Found! $FIREFOX_DIR"
-		certutil -D -n "${SELFSIGN_DOMAIN}" -d sql:"${FIREFOX_DIR}" >/dev/null 2>&1
-		certutil -A -n "${SELFSIGN_DOMAIN}" -t "TC,," -i "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -d sql:"${FIREFOX_DIR}"
-		certutil -d sql:"${FIREFOX_DIR}" -L
-	fi
+	for FIREFOX_DIR in ${USER_HOME}/.mozilla/firefox/*; do
+echo $FIREFOX_DIR
+		if ls ${FIREFOX_DIR}/places.sqlite &>/dev/null; then
+		
+			echo "Found! $FIREFOX_DIR"
+			certutil -D -n "${SELFSIGN_DOMAIN}" -d sql:"${FIREFOX_DIR}" >/dev/null 2>&1
+			certutil -A -n "${SELFSIGN_DOMAIN}" -t "TC,," -i "${SSL_DIR}https-${SELFSIGN_DOMAIN}.crt" -d sql:"${FIREFOX_DIR}"
+			certutil -d sql:"${FIREFOX_DIR}" -L
+		fi
+	done
+
 done
 
 
