@@ -17,7 +17,7 @@ WIDTH=40
 CHOICE_HEIGHT=10
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
-MENU="Choose one of the following options:"
+MENU="Choose one of the options:"
 
 OPTIONS=(1 "New site (generic)"
 		 2 "New WordPress site"
@@ -26,7 +26,7 @@ OPTIONS=(1 "New site (generic)"
 		 5 "Web service reload"
 		 6 "Web service restart"
 		 7 "Webpermissions a directory"
-		 8 "WEBSTACK.UP reinstall.")
+		 8 "Show webstackup SSH public key")
 
 CHOICE=$(dialog --clear \
 				--backtitle "$BACKTITLE" \
@@ -35,8 +35,6 @@ CHOICE=$(dialog --clear \
 				$HEIGHT $WIDTH $CHOICE_HEIGHT \
 				"${OPTIONS[@]}" \
 				2>&1 >/dev/tty)
-
-
 
 clear
 case $CHOICE in
@@ -61,4 +59,7 @@ case $CHOICE in
 	    7)
 			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
 			;;
-esac
+		8)
+			sudo printMessage "/home/webstackup/.ssh/id_rsa.pub"
+			;;
+esac	
