@@ -97,16 +97,24 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	fi
 	
 	printMessage "Creating a new user account (the deployer)..."
-	id -u webstackup &>/dev/null || useradd webstackup --shell=/bin/false --create-home
+	id -u webstackup &>/dev/null || useradd -G www-data webstackup --shell=/bin/false --create-home
 	printMessage $(cat /etc/passwd | grep webstackup)
 	
 	printMessage "Generating an SSH key..."
 	DEPLOYER_SSH_DIR=/home/webstackup/.ssh/
 	mkdir -p "${DEPLOYER_SSH_DIR}"
+	ssh-keyscan -t rsa github.com > "${DEPLOYER_SSH_DIR}known_hosts"
+	touch "${DEPLOYER_SSH_DIR}config"
 	chown webstackup:webstackup "${DEPLOYER_SSH_DIR}" -R
+	
 	chmod u=rwX,go= "${DEPLOYER_SSH_DIR}" -R
 	sudo -u webstackup -H ssh-keygen -t rsa -f "${DEPLOYER_SSH_DIR}id_rsa" -N ''
+	
 	chmod u=rX,go= "${DEPLOYER_SSH_DIR}" -R
+	chmod u=rw,go= "${DEPLOYER_SSH_DIR}known_hosts"
+	
+	sudo -u webstackup -H git config --global user.name "webstack.up"
+	sudo -u webstackup -H git config --global user.email "info@webstack.up"
 
 	sleep 5
 
@@ -183,15 +191,22 @@ User: ben | Pass: venuto"
 	
 		printMessage "Creating the www-data home..."
 		mkdir -p "${WWW_DATA_HOME}"
-		chown www-data:www-data "${WWW_DATA_HOME}" -R
-		chmod ug=rwX,o= "${WWW_DATA_HOME}" -R
 	else	
 		printMessage "www-data home already exists, skipping"
 	fi
 	
+	printMessage "Setting the ownership for the whole tree..."
+	chown www-data:www-data "${WWW_DATA_HOME}" -R
+
+	printMessage "SetGID on the root directory only"
 	# Any files created in the directory will have their group set to www-data
-	printMessage "Setting SetGUID on the directory"
-	chmod g+s "$WWW_DATA_HOME" -R
+	chmod g+s "${WWW_DATA_HOME}"
+
+	printMessage "SetGID on the directories inside..."
+	find "${WWW_DATA_HOME}" -type d -exec chmod g+s {} \;
+
+	printMessage "Setting the permissions for the whole tree..."
+	chmod u=rwX,g=rX,o= "${WWW_DATA_HOME}" -R
 	
 	sleep 5
 	
