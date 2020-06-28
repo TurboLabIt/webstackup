@@ -1,18 +1,9 @@
 #!/bin/bash
 clear
 
-## Script name
-SCRIPT_NAME=webstackup
-
-## Install directory
-WORKING_DIR_ORIGINAL="$(pwd)"
-INSTALL_DIR_PARENT="/usr/local/turbolab.it/"
-INSTALL_DIR=${INSTALL_DIR_PARENT}${SCRIPT_NAME}/
-
-## Absolute path to this script, e.g. /home/user/bin/foo.sh
-SCRIPT_FULLPATH=$(readlink -f "$0")
-ZZWS_SCRIPT_HASH=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
-
+source "/usr/local/webstackup/script/base.sh"
+printHeader "Server management GUI"
+rootCheck
 
 if [ -z "$(command -v dialog)" ]; then
 
@@ -20,21 +11,7 @@ if [ -z "$(command -v dialog)" ]; then
 fi
 
 echo "Updating..."
-git -C "${INSTALL_DIR}" pull
-
-ZZWS_SCRIPT_HASH_AFTER_UPDATE=`md5sum ${SCRIPT_FULLPATH} | awk '{ print $1 }'`
-if [ "$ZZWS_SCRIPT_HASH" != "$ZZWS_SCRIPT_HASH_AFTER_UPDATE" ]; then
-
-	echo ""
-	echo "vvvvvvvvvvvvvvvvvvvvvv"
-	echo "Self-update installed!"
-	echo "^^^^^^^^^^^^^^^^^^^^^^"
-	echo "This script itself has been updated!"
-	echo "Please run zzws again."
-
-	echo $(date)
-	exit
-fi
+git -C "${WEBSTACKUP_INSTALL_DIR}" pull
 
 HEIGHT=15
 WIDTH=40
@@ -65,16 +42,16 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
         1)
-            sudo bash "${INSTALL_DIR}script/nginx/new-site.sh"
+            sudo bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
             ;;
         2)
-            sudo bash "${INSTALL_DIR}script/nginx/new-wordpress.sh"
+            sudo bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
             ;;
         3)
-			sudo bash "${INSTALL_DIR}script/mail/dkim.sh"
+			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
 			;;
 		4)
-			sudo bash "${INSTALL_DIR}script/https/letsencrypt-generate.sh"
+			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
 			;;
 		5)
 			sudo zzws reload
@@ -83,6 +60,6 @@ case $CHOICE in
 			sudo zzws restart
             ;;
 	    7)
-			sudo bash "${INSTALL_DIR}script/filesystem/webpermission.sh"
+			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
 			;;
 esac
