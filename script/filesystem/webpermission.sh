@@ -15,10 +15,6 @@ done
 
 printMessage "OK, will work on: $WEBPERMISSION_PROJECT_DIR"
 
-printMessage "Resetting owners and permissions...."
-chown root:root "${WEBPERMISSION_PROJECT_DIR}" -R
-chmod ugo=rwx "${WEBPERMISSION_PROJECT_DIR}" -R
-
 printMessage "Changing ownership and permissions..."
 chown webstackup:www-data "${WEBPERMISSION_PROJECT_DIR}" -R
 chmod u=rwX,g=rX,o= "${WEBPERMISSION_PROJECT_DIR}" -R
