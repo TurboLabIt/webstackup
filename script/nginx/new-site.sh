@@ -1,7 +1,7 @@
 #!/bin/bash
 echo ""
 
-source "/usr/local/webstackup/script/base.sh"
+source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "Create a new project"
 rootCheck
 

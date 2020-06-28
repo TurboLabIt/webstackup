@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-source "/usr/local/webstackup/script/base.sh"
+source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "Server management GUI"
 rootCheck
 
