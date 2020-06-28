@@ -11,21 +11,21 @@ if [ -z "$(command -v dialog)" ]; then
 fi
 
 
-HEIGHT=15
-WIDTH=40
-CHOICE_HEIGHT=20
+HEIGHT=17
+WIDTH=65
+CHOICE_HEIGHT=25
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
 MENU="Choose one of the options:"
 
-OPTIONS=(1 "New site (generic)"
-		 2 "New WordPress site"
-		 3 "DKIM a domain"
-		 4 "Let's Encrypt a domain"
-		 5 "Web service reload"
-		 6 "Web service restart"
-		 7 "Webpermissions a directory"
-		 8 "↗️ Show webstackup SSH public key"
+OPTIONS=(1 "🔥  New site (generic)"
+		 2 "📰  New WordPress site"
+		 3 "📧  DKIM a domain"
+		 4 "🔒  Let's Encrypt a domain"
+		 5 "🧰  Web service reload"
+		 6 "🧰  Web service restart"
+		 7 "🔑  Webpermissions a directory"
+		 8 "↗️  Show webstackup SSH public key"
 		 9 "🔄 Self-update")
 
 CHOICE=$(dialog --clear \
@@ -64,7 +64,5 @@ case $CHOICE in
 			;;
 		9)
 			git -C "${WEBSTACKUP_INSTALL_DIR}" pull
-			sleep 5
-			bash "${WEBSTACKUP_INSTALL_DIR}script/webstackup.sh"
 			;;
 esac	
