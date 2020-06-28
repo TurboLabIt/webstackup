@@ -13,7 +13,7 @@ fi
 
 HEIGHT=15
 WIDTH=40
-CHOICE_HEIGHT=10
+CHOICE_HEIGHT=20
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
 MENU="Choose one of the options:"
@@ -25,7 +25,8 @@ OPTIONS=(1 "New site (generic)"
 		 5 "Web service reload"
 		 6 "Web service restart"
 		 7 "Webpermissions a directory"
-		 8 "Show webstackup SSH public key")
+		 8 "↗️ Show webstackup SSH public key"
+		 9 "🔄 Self-update")
 
 CHOICE=$(dialog --clear \
 				--backtitle "$BACKTITLE" \
@@ -60,5 +61,10 @@ case $CHOICE in
 			;;
 		8)
 			printMessage "/home/webstackup/.ssh/id_rsa.pub"
+			;;
+		9)
+			git -C "${WEBSTACKUP_INSTALL_DIR}" pull
+			sleep 5
+			bash "${WEBSTACKUP_INSTALL_DIR}script/webstackup.sh"
 			;;
 esac	
