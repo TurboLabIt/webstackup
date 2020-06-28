@@ -3,7 +3,6 @@ clear
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "Server management GUI"
-rootCheck
 
 if [ -z "$(command -v dialog)" ]; then
 
