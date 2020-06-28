@@ -1,15 +1,7 @@
 #!/bin/bash
 echo ""
 
-## BASE
-if [ -f ../base.sh ]; then
-	source ../base.sh
-else
-	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
-	source base.sh
-	rm -f base.sh
-fi
-
+source "/usr/local/webstackup/script/base.sh"
 printHeader "Create a new project"
 rootCheck
 
@@ -44,7 +36,7 @@ checkInputDomain ()
 	NEWSITE_NAME=${NEWSITE_DOMAIN_2ND}_${NEWSITE_DOMAIN_TLD}
 	printMessage "Directory and database: $NEWSITE_NAME"
 
-	NEW_PROPERTY_DIR="${WEB_DIR_ALL}${NEWSITE_NAME}/"
+	NEW_PROPERTY_DIR=/var/www/${NEWSITE_NAME}/
 	printMessage "Full path: $NEW_PROPERTY_DIR"
 	
 	if [ -d "${NEW_PROPERTY_DIR}" ]; then
@@ -95,19 +87,19 @@ echo '## A new project kickstarted with Webstackup ##' > "${NEW_PROPERTY_DIR}rea
 
 
 ## =========== HTTPS Certificate ===========
-source ${WEBSTACKUP_DIR}script/https/self-sign-generate.sh ${NEWSITE_DOMAIN}
+source ${WEBSTACKUP_INSTALL_DIR}script/https/self-sign-generate.sh ${NEWSITE_DOMAIN}
 
 
 ## =========== nginx ===========
 printMessage "Setting up NGINX..."
 mkdir -p "${NEW_PROPERTY_DIR}conf/nginx/"
-cp "${WEBSTACKUP_DIR}config/nginx/website_template.conf" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"
+cp "${WEBSTACKUP_INSTALL_DIR}config/nginx/website_template.conf" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s/localhost_tld/${NEWSITE_NAME}/g" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 ln -s "${NEW_PROPERTY_DIR}conf/nginx/${NEWSITE_NAME}.conf" "/etc/nginx/conf.d/${NEWSITE_NAME}.conf"
 
-cp "${WEBSTACKUP_DIR}config/nginx/website_template_https.conf" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
+cp "${WEBSTACKUP_INSTALL_DIR}config/nginx/website_template_https.conf" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 sed -i -e "s|/usr/share/nginx/html|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/nginx/https.conf"
 
@@ -119,11 +111,11 @@ sleep 5
 ## =========== php ===========
 printMessage "Setting up PHP..."
 mkdir -p "${NEW_PROPERTY_DIR}conf/php/"
-cp "${WEBSTACKUP_DIR}config/php/website_template.ini" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
+cp "${WEBSTACKUP_INSTALL_DIR}config/php/website_template.ini" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 sed -i -e "s|/usr/share/nginx/|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
-ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/fpm/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
-ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_INSTALLED_VERSION}/cli/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
+ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/fpm/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
+ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/cli/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
 service ${PHP_FPM} restart
 systemctl  --no-pager status ${PHP_FPM}
 sleep 5
@@ -131,7 +123,7 @@ sleep 5
 
 ## =========== Database ===========
 printMessage "Setting up ZZMYSQLDUMP..."
-ZZMYSQLDUMP_DIR="${WEBSTACKUP_DIR_PARENT}zzmysqldump/"
+ZZMYSQLDUMP_DIR="${WEBSTACKUP_INSTALL_DIR_PARENT}zzmysqldump/"
 for ZZMYSQLDUMP_CONFIGFILE_FULLPATH in "${ZZMYSQLDUMP_DIR}zzmysqldump.default.conf" "/etc/turbolab.it/mysql.conf" "/etc/turbolab.it/zzmysqldump.conf" "${ZZMYSQLDUMP_DIR}zzmysqldump.conf" 
 do
 	if [ -f "$ZZMYSQLDUMP_CONFIGFILE_FULLPATH" ]; then
@@ -164,14 +156,13 @@ if [ ! -z "${MYSQL_PASSWORD}" ]; then
 fi
 
 ## =========== DKIM ===========
-source "${WEBSTACKUP_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
+source "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh" "$NEWSITE_DOMAIN"
 
 
 ## =========== Change owner and permission ===========
-source "${WEBSTACKUP_DIR}script/filesystem/webpermission.sh" "${NEW_PROPERTY_DIR}"
+source "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh" "${NEW_PROPERTY_DIR}"
 
 
 ## =========== Show results ===========
 printMessage "Your new website is ready!"
-ls -la "$NEW_PROPERTY_DIR"
 ls -la "$NEW_WWW_PUBLIC_DIR"

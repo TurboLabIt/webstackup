@@ -2,8 +2,9 @@
 clear
 
 ## BASE
-if [ -f script/base.sh ]; then
-	source script/base.sh
+if [ -f "$(dirname "$(readlink -f "$0")")/script/base.sh" ]; then
+
+	source "$(dirname "$(readlink -f "$0")")/script/base.sh"
 else
 	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
 	source base.sh

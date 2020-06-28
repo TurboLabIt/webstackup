@@ -1,15 +1,7 @@
 #!/bin/bash
 echo ""
 
-## BASE
-if [ -f ../base.sh ]; then
-	source ../base.sh
-else
-	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
-	source base.sh
-	rm -f base.sh
-fi
-
+source "/usr/local/webstackup/script/base.sh"
 printHeader "Set the optimal permission set for a web project"
 rootCheck
 
