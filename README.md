@@ -3,9 +3,10 @@ An unattended bash script for Ubuntu to setup a  PHP-based web server stack for 
 
 # How to
 
-`sudo -H -s`
-
-`wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?cachebuster=1 && bash setup.sh && rm setup.sh`
+````
+sudo -H -s
+wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?cachebuster=1 && bash setup.sh && rm setup.sh
+````
 
 Your stack is now ready.
 
