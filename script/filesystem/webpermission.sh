@@ -21,7 +21,7 @@ chmod ugo=rwx "${WEBPERMISSION_PROJECT_DIR}" -R
 
 printMessage "Changing ownership and permissions..."
 chown webstackup:www-data "${WEBPERMISSION_PROJECT_DIR}" -R
-chmod ug=rwX,o= "${WEBPERMISSION_PROJECT_DIR}" -R
+chmod u=rwX,g=rX,o= "${WEBPERMISSION_PROJECT_DIR}" -R
 
 printMessage "SetGID on the root directory"
 chmod g+s "${WEBPERMISSION_PROJECT_DIR}"
