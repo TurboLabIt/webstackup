@@ -15,11 +15,19 @@ done
 
 printMessage "OK, will work on: $WEBPERMISSION_PROJECT_DIR"
 
+printMessage "Resetting owners and permissions...."
+chown root:root "${WEBPERMISSION_PROJECT_DIR}" -R
+chmod ugo=rwx "${WEBPERMISSION_PROJECT_DIR}" -R
 
-printMessage "Changing ownership and permissions"
+printMessage "Changing ownership and permissions..."
 chown webstackup:www-data "${WEBPERMISSION_PROJECT_DIR}" -R
-chmod g+s "${WEBPERMISSION_PROJECT_DIR}" -R
-chmod uo=rwX,o= "${WEBPERMISSION_PROJECT_DIR}" -R
+chmod ug=rwX,o= "${WEBPERMISSION_PROJECT_DIR}" -R
+
+printMessage "SetGID on the root directory"
+chmod g+s "${WEBPERMISSION_PROJECT_DIR}"
+
+printMessage "SetGID on the directories inside..."
+find "${WEBPERMISSION_PROJECT_DIR}" -type d -exec chmod g+s {} \;
 
 if [[ -e "${WEBPERMISSION_PROJECT_DIR}website/www/script" ]]; then
 
