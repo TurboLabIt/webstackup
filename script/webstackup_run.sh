@@ -60,7 +60,7 @@ case $CHOICE in
 			bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
 			;;
 		8)
-			printMessage "/home/webstackup/.ssh/id_rsa.pub"
+			printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
 			;;
 		9)
 			git -C "${WEBSTACKUP_INSTALL_DIR}" pull
