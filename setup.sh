@@ -93,7 +93,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 	printMessage "Setting up the webstackup command..."
 	if [ ! -e "/usr/bin/webstackup" ]; then
 	
-		ln -s ${WEBSTACKUP_INSTALL_DIR}script/zzwebstackup.sh /usr/bin/webstackup
+		ln -s ${WEBSTACKUP_INSTALL_DIR}script/sudo_webstackup.sh /usr/bin/webstackup
 	fi
 	
 	printMessage "Creating a new user account (the deployer)..."

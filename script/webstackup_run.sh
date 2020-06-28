@@ -3,14 +3,13 @@ clear
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "Server management GUI"
+rootCheck
 
 if [ -z "$(command -v dialog)" ]; then
 
-	sudo apt install dialog -y -qq
+	apt install dialog -y -qq
 fi
 
-echo "Updating..."
-git -C "${WEBSTACKUP_INSTALL_DIR}" pull
 
 HEIGHT=15
 WIDTH=40
@@ -39,27 +38,27 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
         1)
-            sudo bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
+            bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
             ;;
         2)
-            sudo bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
+            bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
             ;;
         3)
-			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
+			bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
 			;;
 		4)
-			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
+			bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
 			;;
 		5)
-			sudo zzws reload
+			zzws reload
             ;;
 		6)
-			sudo zzws restart
+			zzws restart
             ;;
 	    7)
-			sudo bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
+			bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
 			;;
 		8)
-			sudo printMessage "/home/webstackup/.ssh/id_rsa.pub"
+			printMessage "/home/webstackup/.ssh/id_rsa.pub"
 			;;
 esac	
