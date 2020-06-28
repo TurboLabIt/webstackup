@@ -22,11 +22,11 @@ OPTIONS=(1 "🔥  New site (generic)"
 		 2 "📰  New WordPress site"
 		 3 "📧  DKIM a domain"
 		 4 "🔒  Let's Encrypt a domain"
-		 5 "🧰  Web service reload"
-		 6 "🧰  Web service restart"
+		 5 "🔄  Web service reload"
+		 6 "🔄  Web service restart"
 		 7 "🔑  Webpermissions a directory"
 		 8 "↗️  Show webstackup SSH public key"
-		 9 "🔄 Self-update")
+		 9 "✔️  Self-update")
 
 CHOICE=$(dialog --clear \
 				--backtitle "$BACKTITLE" \
