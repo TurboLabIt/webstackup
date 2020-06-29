@@ -15,13 +15,16 @@ done
 
 printMessage "OK, will work on: $WEBPERMISSION_PROJECT_DIR"
 
-printMessage "Setting the ownership for the whole tree..."
+printMessage "Reset the permissions to none..."
+chmod ugo= "${WEBPERMISSION_PROJECT_DIR}" -R
+
+printMessage "Setting the ownership for the whole tree to webstackup:www-data..."
 chown webstackup:www-data "${WEBPERMISSION_PROJECT_DIR}" -R
 
 printMessage "SetGID on the root directory only"
 chmod g+s "${WEBPERMISSION_PROJECT_DIR}"
 
-printMessage "SetGID on the directories inside..."
+printMessage "All the file created will belong to creator:www-data"
 find "${WEBPERMISSION_PROJECT_DIR}" -type d -exec chmod g+s {} \;
 
 printMessage "Setting the permissions for the whole tree..."
