@@ -6,7 +6,7 @@ if [ -f "$(dirname "$(readlink -f "$0")")/script/base.sh" ]; then
 
 	source "$(dirname "$(readlink -f "$0")")/script/base.sh"
 else
-	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
+	wget -O base.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh?$(date +%s)
 	source base.sh
 	rm -f base.sh
 fi
@@ -23,7 +23,7 @@ if [ -f webstackup.default.conf ]; then
 	source webstackup.default.conf
 else
 	printMessage "Default local config not found. Downloading..."
-	wget -O webstackup.default.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.default.conf
+	wget -O webstackup.default.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.default.conf?$(date +%s)
 	source webstackup.default.conf
 	rm -f webstackup.default.conf
 fi
