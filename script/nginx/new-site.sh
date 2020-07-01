@@ -114,8 +114,8 @@ mkdir -p "${NEW_PROPERTY_DIR}conf/php/"
 cp "${WEBSTACKUP_INSTALL_DIR}config/php/website_template.ini" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 sed -i -e "s/localhost/${NEWSITE_DOMAIN}/g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
 sed -i -e "s|/usr/share/nginx/|${NEW_WWW_PUBLIC_DIR}|g" "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini"
-ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/fpm/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
-ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/cli/conf.d/22-webstackup-${NEWSITE_NAME}.ini"
+ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/fpm/conf.d/50-webstackup-${NEWSITE_NAME}.ini"
+ln -s "${NEW_PROPERTY_DIR}conf/php/${NEWSITE_NAME}.ini" "/etc/php/${PHP_VER}/cli/conf.d/50-webstackup-${NEWSITE_NAME}.ini"
 service ${PHP_FPM} restart
 systemctl  --no-pager status ${PHP_FPM}
 sleep 5
