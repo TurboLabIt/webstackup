@@ -19,8 +19,10 @@ CONFIGFILE_FULLPATH=$1
 
 ## Default config
 if [ -f webstackup.default.conf ]; then
+	printMessage "Default local config found! Loading..."
 	source webstackup.default.conf
 else
+	printMessage "Default local config not found. Downloading..."
 	wget -O webstackup.default.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
 	source webstackup.default.conf
 	rm -f webstackup.default.conf
