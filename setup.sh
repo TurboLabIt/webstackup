@@ -23,7 +23,7 @@ if [ -f webstackup.default.conf ]; then
 	source webstackup.default.conf
 else
 	printMessage "Default local config not found. Downloading..."
-	wget -O webstackup.default.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/base.sh
+	wget -O webstackup.default.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.default.conf
 	source webstackup.default.conf
 	rm -f webstackup.default.conf
 fi
