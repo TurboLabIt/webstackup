@@ -64,5 +64,7 @@ case $CHOICE in
 			;;
 		9)
 			git -C "${WEBSTACKUP_INSTALL_DIR}" pull
+			nginx -t && service nginx restart
+			service ${PHP_FPM} restart
 			;;
 esac	
