@@ -134,3 +134,7 @@ if [ -r "/etc/turbolab.it/mysql.conf" ]; then
 
 	source "/etc/turbolab.it/mysql.conf"
 fi
+
+
+INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
+INSTALLED_RAM="${INSTALLED_RAM//.}"
