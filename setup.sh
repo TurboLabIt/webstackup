@@ -407,6 +407,8 @@ if [ $INSTALL_XDEBUG = 1 ]; then
 	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/30-xdebug-${SCRIPT_NAME}.ini
 	ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/30-xdebug-${SCRIPT_NAME}.ini
 	
+	ln -s "${WEBSTACKUP_INSTALL_DIR}config/php/xdebug-vscode-ssh.ini" /etc/php/${PHP_VER}/fpm/conf.d/35-xdebug-vscode-ssh-${SCRIPT_NAME}.ini
+	
 	systemctl restart php${PHP_VER}-fpm
 	sleep 5
 
