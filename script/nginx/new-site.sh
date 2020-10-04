@@ -75,6 +75,8 @@ curl -o "${NEW_WWW_PUBLIC_DIR}file_esempio.zip" https://turbolab.it/scarica/145
 unzip -o "${NEW_WWW_PUBLIC_DIR}file_esempio.zip" -d "${NEW_WWW_PUBLIC_DIR}"
 rm -f "${NEW_WWW_PUBLIC_DIR}file_esempio.zip"
 
+curl -o "${NEW_PROPERTY_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+
 mkdir -p "${NEW_WWW_DIR}script/"
 
 mkdir -p "${NEW_WWW_DIR}backup/"
