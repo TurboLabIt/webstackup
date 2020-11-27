@@ -21,3 +21,6 @@ echo "Pin-Priority: -900" >> $NGINX_PINNING_FILE
 	
 ## Install Nginx
 apt update -qq && apt install nginx -y
+
+## Start the service
+systemctl restart nginx
