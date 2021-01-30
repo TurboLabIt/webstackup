@@ -35,8 +35,7 @@ if [ ! -z "$CONFIGFILE_FULLPATH" ]; then
     printTitle "Importing custom options"
     source "$CONFIGFILE_FULLPATH"
     
-    printMessage "Custom options imported from
-$CONFIGFILE_FULLPATH"
+    printMessage "Custom options imported from $CONFIGFILE_FULLPATH"
     
 else
 
@@ -105,6 +104,15 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 else
     
     printLightWarning "Skipped (disabled in config)"
+fi
+
+
+printTitle "Set the timezone..."
+if [ ! -z "$INSTALL_TIMEZONE" ]; then 
+
+	timedatectl set-timezone $INSTALL_TIMEZONE
+	service syslog restart
+	service cron restart
 fi
 
 
