@@ -21,7 +21,3 @@ bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 # Run the manager
 
 `webstackup`
-
-# Post-setup ideas (optional)
-
-[webstackcentral](https://github.com/TurboLabIt/webstackcentral)
