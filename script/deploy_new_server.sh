@@ -1,7 +1,7 @@
 #!/bin/bash
 clear
 
-source "$(dirname "$(readlink -f "$0")")/script/base.sh"
+source "$(dirname "$(readlink -f "$0")")/base.sh"
 
 printHeader "WEBSTACK.UP"
 rootCheck
