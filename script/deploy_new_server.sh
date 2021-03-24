@@ -395,10 +395,6 @@ fi
 
 printTitle "Installing LET'S ENCRYPT..."
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
-
-    printMessage "Setting up the repo..."
-    add-apt-repository ppa:certbot/certbot -y
-    apt update -qq
     
     printMessage "Installing..."
     apt install certbot -y -qq
