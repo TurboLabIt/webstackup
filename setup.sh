@@ -496,6 +496,18 @@ else
 fi
 
 
+printTitle "Firewalling..."
+if [ $INSTALL_UFW = 1 ]; then
+
+    ufw allow 22,25,80,443/tcp && ufw --force enable
+    sleep 5
+    
+else
+    
+    printLightWarning "Skipped (disabled in config)"
+fi
+
+
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
 
