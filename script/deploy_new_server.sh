@@ -320,8 +320,6 @@ Actual hash: ### ${COMPOSER_ACTUAL_SIGNATURE}"
     php composer-setup.php --filename=composer --install-dir=/usr/local/bin
     php -r "unlink('composer-setup.php');"
     
-    printMessage "$(composer --version)"
-    
     sleep 5
     
 else
