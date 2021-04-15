@@ -18,6 +18,9 @@ if [ -z "$SCRIPT_FULLPATH" ]; then
 
 	## Absolute path this script is in, thus /home/user/bin
 	SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
+	
+	PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
+	WEBROOT_DIR=${PROJECT_DIR}public/
 fi
 
 if [ -z "$TIME_START" ]; then
