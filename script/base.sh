@@ -80,9 +80,34 @@ function catastrophicError ()
 rootCheck ()
 {
   if ! [ $(id -u) = 0 ]; then
-
     catastrophicError "This script must run as ROOT"
   fi
+}
+
+
+lockCheck ()
+{
+  LOCKFILE=$1.lock
+  if [ -f $LOCKFILE ]; then
+    catastrophicError "Lockfile detected. It looks like this script is already running
+To override:
+sudo rm -f \"$LOCKFILE\""
+
+    echo ""
+    cat "$1.lock"
+
+    echo ""
+    exit
+  fi
+
+  echo "$1.sh lock file." > "$LOCKFILE"
+  echo "File created $(date)" >> "$LOCKFILE"
+}
+
+
+removeLock ()
+{
+  rm -f "$1.lock"
 }
 
 
@@ -91,10 +116,10 @@ function printTitle ()
   STYLE='\033[44m'
   RESET='\033[0m'
 
-    echo ""
+  echo ""
   echo -n -e $STYLE
-    echo "$1"
-    printf '%0.s-' $(seq 1 ${#1})
+  echo "$1"
+  printf '%0.s-' $(seq 1 ${#1})
   echo -e $RESET
   echo ""
 }
@@ -107,7 +132,7 @@ function printMessage ()
 
   echo ""
   echo -n -e $STYLE
-    echo "$1"
+  echo "$1"
   echo -e $RESET
   echo ""
 }
@@ -120,7 +145,7 @@ printLightWarning ()
 
   echo ""
   echo -n -e $STYLE
-    echo "$1"
+  echo "$1"
   echo -e $RESET
   echo ""
 }
@@ -133,7 +158,6 @@ fi
 
 
 if [ -r "/etc/turbolab.it/mysql.conf" ]; then
-
   source "/etc/turbolab.it/mysql.conf"
 fi
 
