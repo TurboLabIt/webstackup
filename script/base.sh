@@ -13,28 +13,27 @@ WEBSTACKUP_SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
 
 if [ -z "$SCRIPT_FULLPATH" ]; then
 
-	## Absolute path to this script, e.g. /home/user/bin/foo.sh
-	SCRIPT_FULLPATH=$(readlink -f "$0")
+  ## Absolute path to this script, e.g. /home/user/bin/foo.sh
+  SCRIPT_FULLPATH=$(readlink -f "$0")
 
-	## Absolute path this script is in, thus /home/user/bin
-	SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
+  ## Absolute path this script is in, thus /home/user/bin
+  SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
 	
-	PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
-	WEBROOT_DIR=${PROJECT_DIR}public/
+  PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
+  WEBROOT_DIR=${PROJECT_DIR}public/
 fi
 
 if [ -z "$TIME_START" ]; then
 
-	TIME_START="$(date +%s)"
+  TIME_START="$(date +%s)"
 fi
 
 ## Header (green)
 WEBSTACKUP_FRAME="O===========================================================O"
 printHeader ()
 {
-
-	STYLE='\033[42m'
-	RESET='\033[0m'
+  STYLE='\033[42m'
+  RESET='\033[0m'
 
 	echo ""
 	echo -n -e $STYLE
