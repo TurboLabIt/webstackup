@@ -10,7 +10,7 @@ WEBPERMISSION_PROJECT_DIR=$1
 
 while [ -z "$WEBPERMISSION_PROJECT_DIR" ] || [ ! -d "$WEBPERMISSION_PROJECT_DIR" ]
 do
-	read -p "Please provide the directory to work on: " WEBPERMISSION_PROJECT_DIR  < /dev/tty
+  read -p "Please provide the directory to work on: " WEBPERMISSION_PROJECT_DIR  < /dev/tty
 done
 
 printMessage "OK, will work on: $WEBPERMISSION_PROJECT_DIR"

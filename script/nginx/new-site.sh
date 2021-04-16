@@ -11,43 +11,43 @@ NEWSITE_DOMAIN=$1
 
 ## =========== Get directory ===========
 checkInputDomain ()
-{	
-	if [ -z "${NEWSITE_DOMAIN}" ]; then
-	
-		return 0
-	fi
-	
-	printMessage "Domain: $NEWSITE_DOMAIN"
+{  
+  if [ -z "${NEWSITE_DOMAIN}" ]; then
+  
+    return 0
+  fi
+  
+  printMessage "Domain: $NEWSITE_DOMAIN"
 
-	NEWSITE_DOMAIN_2ND=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 1)
-	NEWSITE_DOMAIN_TLD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 2)
-	NEWSITE_DOMAIN_3RD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 3)
-	
-	if [ ! -z "${NEWSITE_DOMAIN_3RD}" ] || [ -z "${NEWSITE_DOMAIN_2ND}" ] || [ -z "${NEWSITE_DOMAIN_TLD}" ] || [ "${NEWSITE_DOMAIN_2ND}" == "${NEWSITE_DOMAIN_TLD}" ]; then
-	
-		NEWSITE_DOMAIN=
-		
-		printLightWarning "Domain error!"
-		return 0
-	fi
-	
-	printMessage "OK, this website domain looks valid!"
+  NEWSITE_DOMAIN_2ND=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 1)
+  NEWSITE_DOMAIN_TLD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 2)
+  NEWSITE_DOMAIN_3RD=$(echo "$NEWSITE_DOMAIN" |  cut -d '.' -f 3)
+  
+  if [ ! -z "${NEWSITE_DOMAIN_3RD}" ] || [ -z "${NEWSITE_DOMAIN_2ND}" ] || [ -z "${NEWSITE_DOMAIN_TLD}" ] || [ "${NEWSITE_DOMAIN_2ND}" == "${NEWSITE_DOMAIN_TLD}" ]; then
+  
+    NEWSITE_DOMAIN=
+    
+    printLightWarning "Domain error!"
+    return 0
+  fi
+  
+  printMessage "OK, this website domain looks valid!"
 
-	NEWSITE_NAME=${NEWSITE_DOMAIN_2ND}_${NEWSITE_DOMAIN_TLD}
-	printMessage "Directory and database: $NEWSITE_NAME"
+  NEWSITE_NAME=${NEWSITE_DOMAIN_2ND}_${NEWSITE_DOMAIN_TLD}
+  printMessage "Directory and database: $NEWSITE_NAME"
 
-	NEW_PROPERTY_DIR=/var/www/${NEWSITE_NAME}/
-	printMessage "Full path: $NEW_PROPERTY_DIR"
-	
-	if [ -d "${NEW_PROPERTY_DIR}" ]; then
-	
-		NEWSITE_DOMAIN=
-		
-		printLightWarning "Domain error!"
-		printMessage "This website already exists!"
-		ls -la "${NEW_PROPERTY_DIR}"
-		return 0
-	fi
+  NEW_PROPERTY_DIR=/var/www/${NEWSITE_NAME}/
+  printMessage "Full path: $NEW_PROPERTY_DIR"
+  
+  if [ -d "${NEW_PROPERTY_DIR}" ]; then
+  
+    NEWSITE_DOMAIN=
+    
+    printLightWarning "Domain error!"
+    printMessage "This website already exists!"
+    ls -la "${NEW_PROPERTY_DIR}"
+    return 0
+  fi
 }
 
 
@@ -58,8 +58,8 @@ checkInputDomain
 ## Ask the user interactively
 while [ -z "$NEWSITE_DOMAIN" ]
 do
-	read -p "Please provide the new website domain (no-www! E.g.: turbolab.it): " NEWSITE_DOMAIN  < /dev/tty	
-	checkInputDomain
+  read -p "Please provide the new website domain (no-www! E.g.: turbolab.it): " NEWSITE_DOMAIN  < /dev/tty  
+  checkInputDomain
 done
 
 printMessage "This domain is not served from here yet..."
@@ -128,33 +128,33 @@ printMessage "Setting up ZZMYSQLDUMP..."
 ZZMYSQLDUMP_DIR="${WEBSTACKUP_INSTALL_DIR_PARENT}zzmysqldump/"
 for ZZMYSQLDUMP_CONFIGFILE_FULLPATH in "${ZZMYSQLDUMP_DIR}zzmysqldump.default.conf" "/etc/turbolab.it/mysql.conf" "/etc/turbolab.it/zzmysqldump.conf" "${ZZMYSQLDUMP_DIR}zzmysqldump.conf" 
 do
-	if [ -f "$ZZMYSQLDUMP_CONFIGFILE_FULLPATH" ]; then
+  if [ -f "$ZZMYSQLDUMP_CONFIGFILE_FULLPATH" ]; then
 
-		source "$ZZMYSQLDUMP_CONFIGFILE_FULLPATH"
-	fi
+    source "$ZZMYSQLDUMP_CONFIGFILE_FULLPATH"
+  fi
 done
 
 
 if [ ! -z "${MYSQL_PASSWORD}" ]; then
 
-	printMessage "Creating database..."
-	MYSQL_EXE="mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}"
-	NEWSITE_DB_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
-	$MYSQL_EXE -e "CREATE USER '$NEWSITE_NAME'@'localhost' IDENTIFIED BY '$NEWSITE_DB_PASSWORD';"
-	$MYSQL_EXE -e "CREATE DATABASE \`$NEWSITE_NAME\`;"
-	$MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEWSITE_NAME//_/\\_}%\`.* TO '$NEWSITE_NAME'@'localhost';"
-	$MYSQL_EXE -e "FLUSH PRIVILEGES;"
-	
-	MYSQL_CREDENTIALS_DIR="${NEW_PROPERTY_DIR}conf/mysql/"
-	MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
-	
-	printMessage "Writing MySQL credentials to ${MYSQL_CREDENTIALS_FULLPATH}"
-	mkdir -p "${MYSQL_CREDENTIALS_DIR}"
-	echo "MYSQL_USER='$NEWSITE_NAME'" > "${MYSQL_CREDENTIALS_FULLPATH}"
-	echo "MYSQL_PASSWORD='$NEWSITE_DB_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
-	chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
-	chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
-	printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
+  printMessage "Creating database..."
+  MYSQL_EXE="mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD}"
+  NEWSITE_DB_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
+  $MYSQL_EXE -e "CREATE USER '$NEWSITE_NAME'@'localhost' IDENTIFIED BY '$NEWSITE_DB_PASSWORD';"
+  $MYSQL_EXE -e "CREATE DATABASE \`$NEWSITE_NAME\`;"
+  $MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEWSITE_NAME//_/\\_}%\`.* TO '$NEWSITE_NAME'@'localhost';"
+  $MYSQL_EXE -e "FLUSH PRIVILEGES;"
+  
+  MYSQL_CREDENTIALS_DIR="${NEW_PROPERTY_DIR}conf/mysql/"
+  MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
+  
+  printMessage "Writing MySQL credentials to ${MYSQL_CREDENTIALS_FULLPATH}"
+  mkdir -p "${MYSQL_CREDENTIALS_DIR}"
+  echo "MYSQL_USER='$NEWSITE_NAME'" > "${MYSQL_CREDENTIALS_FULLPATH}"
+  echo "MYSQL_PASSWORD='$NEWSITE_DB_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
+  chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
+  chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
+  printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 fi
 
 ## =========== DKIM ===========

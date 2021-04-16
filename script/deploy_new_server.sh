@@ -110,9 +110,9 @@ fi
 printTitle "Set the timezone..."
 if [ ! -z "$INSTALL_TIMEZONE" ]; then 
 
-	timedatectl set-timezone $INSTALL_TIMEZONE
-	service syslog restart
-	service cron restart
+  timedatectl set-timezone $INSTALL_TIMEZONE
+  service syslog restart
+  service cron restart
 fi
 
 
@@ -121,8 +121,8 @@ if [ $INSTALL_NGINX = 1 ]; then
     
     printMessage "Removing previous version (if any)"
     apt purge --auto-remove nginx* -y -qq
-	
-	source ${WEBSTACKUP_INSTALL_DIR}script/nginx/install.sh
+  
+  source ${WEBSTACKUP_INSTALL_DIR}script/nginx/install.sh
 
     ## Create self-signed, bogus certificates (so that we can disable plain-HTTP completely)
     source "${WEBSTACKUP_INSTALL_DIR}script/https/self-sign-generate.sh" localhost
@@ -214,9 +214,9 @@ if [ $INSTALL_PHP = 1 ]; then
     printMessage "Set timezone to Italy..."
     ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-timezone-italy.ini
     ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/cli/conf.d/30-webstackup-timezone-italy.ini
-	
-	printMessage "Disable cgi.fix_pathinfo..."
-	ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-no-cgi.fix_pathinfo.ini
+  
+  printMessage "Disable cgi.fix_pathinfo..."
+  ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-no-cgi.fix_pathinfo.ini
     
     printMessage "Activating custom php-fpm pool settings..."
     if [ "$INSTALLED_RAM" -gt "6000" ]; then

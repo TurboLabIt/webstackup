@@ -20,56 +20,56 @@ MAIL_DOMAIN=$1
 ## root check
 if ! [ $(id -u) = 0 ]; then
 
-	echo ""
-	echo "vvvvvvvvvvvvvvvvvvvv"
-	echo "Catastrophic error!!"
-	echo "^^^^^^^^^^^^^^^^^^^^"
-	echo "This script must run as root!"
+  echo ""
+  echo "vvvvvvvvvvvvvvvvvvvv"
+  echo "Catastrophic error!!"
+  echo "^^^^^^^^^^^^^^^^^^^^"
+  echo "This script must run as root!"
 
-	echo "How to fix it?"
-	echo "Execute the script like this:"
-	echo "sudo $SCRIPT_NAME"
+  echo "How to fix it?"
+  echo "Execute the script like this:"
+  echo "sudo $SCRIPT_NAME"
 
-	echo "The End"
-	echo $(date)
-	exit
+  echo "The End"
+  echo $(date)
+  exit
 fi
 
 
 while [ -z "$MAIL_DOMAIN" ]
 do
-	read -p "Please provide the email domain to DKIM (no-www! E.g.: turbolab.it): " MAIL_DOMAIN  < /dev/tty
-	
-	if [ -z "${MAIL_DOMAIN}" ]; then
-	
-		echo "Please provide the email domain to DKIM!"
-		continue
-	fi
-	
-	echo "Domain: $MAIL_DOMAIN"
-	
-	MAIL_DOMAIN_2ND=$(echo "$MAIL_DOMAIN" |  cut -d '.' -f 1)
-	MAIL_DOMAIN_TLD=$(echo "$MAIL_DOMAIN" |  cut -d '.' -f 2)
-	
-	if [ -z "${MAIL_DOMAIN_2ND}" ] || [ -z "${MAIL_DOMAIN_TLD}" ] || [ "${MAIL_DOMAIN_2ND}" == "${MAIL_DOMAIN_TLD}" ]; then
-	
-		MAIL_DOMAIN=		
-		echo "Mail error!"
-		echo "Please provide a valid domain, such as: turbolab.it"
-		continue
-	fi
-	
-	echo "OK, this mail domain looks valid!"
-	
-	if [ -d "/etc/opendkim/keys/${MAIL_DOMAIN}" ]; then
-	
-		MAIL_DOMAIN=
-		
-		echo "Mail error!"
-		echo "This domain already exists!"
-		ls -la "/etc/opendkim/keys/${MAIL_DOMAIN}"
-		continue
-	fi
+  read -p "Please provide the email domain to DKIM (no-www! E.g.: turbolab.it): " MAIL_DOMAIN  < /dev/tty
+  
+  if [ -z "${MAIL_DOMAIN}" ]; then
+  
+    echo "Please provide the email domain to DKIM!"
+    continue
+  fi
+  
+  echo "Domain: $MAIL_DOMAIN"
+  
+  MAIL_DOMAIN_2ND=$(echo "$MAIL_DOMAIN" |  cut -d '.' -f 1)
+  MAIL_DOMAIN_TLD=$(echo "$MAIL_DOMAIN" |  cut -d '.' -f 2)
+  
+  if [ -z "${MAIL_DOMAIN_2ND}" ] || [ -z "${MAIL_DOMAIN_TLD}" ] || [ "${MAIL_DOMAIN_2ND}" == "${MAIL_DOMAIN_TLD}" ]; then
+  
+    MAIL_DOMAIN=    
+    echo "Mail error!"
+    echo "Please provide a valid domain, such as: turbolab.it"
+    continue
+  fi
+  
+  echo "OK, this mail domain looks valid!"
+  
+  if [ -d "/etc/opendkim/keys/${MAIL_DOMAIN}" ]; then
+  
+    MAIL_DOMAIN=
+    
+    echo "Mail error!"
+    echo "This domain already exists!"
+    ls -la "/etc/opendkim/keys/${MAIL_DOMAIN}"
+    continue
+  fi
 
 done
 

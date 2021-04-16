@@ -16,9 +16,9 @@ source ${SCRIPT_DIR}new-site.sh
 ##
 if [ -z "${NEWSITE_DIR}" ] || [ -z "${NEW_WWW_PUBLIC_DIR}" ] || [ ! -d "${NEW_WWW_PUBLIC_DIR}" ]; then
 
-	printTitle "Error setting up newsite"
-	printMessage "WordPress not installed"
-	exit
+  printTitle "Error setting up newsite"
+  printMessage "WordPress not installed"
+  exit
 fi
 
 
@@ -26,7 +26,7 @@ fi
 NGINX_WP_INCL1="include /usr/local/turbolab.it/webstackup/config/nginx/15_wordpress_location.conf;"
 for NGINX_WP_INCL in "${NGINX_WP_INCL1}"
 do
-	sed -i -e "s|#${NGINX_WP_INCL}|${NGINX_WP_INCL}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
+  sed -i -e "s|#${NGINX_WP_INCL}|${NGINX_WP_INCL}|g" "${NEWSITE_DIR}conf/nginx/${NEWSITE_NAME}.conf"
 done
 
 

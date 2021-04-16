@@ -19,14 +19,14 @@ apt install git -y
 ## Install/update
 echo ""
 if [ ! -d "$INSTALL_DIR" ]; then
-	echo "Installing..."
-	echo "-------------"
-	mkdir -p "$INSTALL_DIR_PARENT"
-	cd "$INSTALL_DIR_PARENT"
-	git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
+  echo "Installing..."
+  echo "-------------"
+  mkdir -p "$INSTALL_DIR_PARENT"
+  cd "$INSTALL_DIR_PARENT"
+  git clone https://github.com/TurboLabIt/${SCRIPT_NAME}.git
 else
-	echo "Updating..."
-	echo "----------"
+  echo "Updating..."
+  echo "----------"
 fi
 
 ## Fetch & pull new code
