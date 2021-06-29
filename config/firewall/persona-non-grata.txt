@@ -1,0 +1,26 @@
+##  Hostname turbolab.it provided via SNI, but no hostname provided in HTTP request
+109.248.237.61
+
+## file fishing on server
+211.159.167.45
+132.232.212.45
+39.65.64.194
+
+## multiple RDP bruteforce attacks to port 3389
+146.0.77.151
+84.240.9.6
+90.102.18.181
+185.209.0.14
+222.89.218.3
+185.222.209.113
+
+## Huwaei Petabot
+114.119.0.0/16
+
+## Asia (sorry)
+36.0.0.0
+113.128.0.0/16
+106.0.0.0/16
+
+## Africa (sorry)
+168.128.148.0/24
