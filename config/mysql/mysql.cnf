@@ -14,6 +14,8 @@ skip_name_resolve
 # -------
 # Total buffers: 168.0M global + 65.1M per thread (250 max threads)
 # Maximum possible memory usage: 16.1G (51.38% of installed RAM)
+# 
+# Check: select @@max_connections;
 max_connections = 250
 
 
@@ -27,3 +29,11 @@ max_connections = 250
 # ---
 # This will give you the RIBPS, Recommended InnoDB Buffer Pool Size, based on all InnoDB Data and Indexes, with an additional 60%.
 innodb_buffer_pool_size = 2G
+
+##
+# the log file size should be set as big as possible, but not bigger than necessary.
+# A bigger log file size is better for performance, but it has a drawback (a significant one) that you need to worry about: the recovery time after a crash
+# https://www.percona.com/blog/2016/05/31/what-is-a-big-innodb_log_file_size/
+#
+# InnoDB total log files size equals to 25% of buffer pool size
+innodb_log_file_size = 500MB
