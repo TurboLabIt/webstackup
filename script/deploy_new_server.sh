@@ -270,9 +270,9 @@ if [ $INSTALL_MYSQL = 1 ]; then
     apt update -qq
     apt install mysql-server mysql-client -y -qq
     
-    printMessage "Enabling legacy credentials plugin..."
-    cp "${WEBSTACKUP_INSTALL_DIR}config/mysql/legacy_auth_plugin.cnf" "/etc/mysql/mysql.conf.d/legacy_auth_plugin.cnf"
-    sudo chmod ugo=r "/etc/mysql/mysql.conf.d/legacy_auth_plugin.cnf"
+    printMessage "Enabling the custom config..."
+    cp "${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf" "/etc/mysql/mysql.conf.d/webstackup.cnf"
+    sudo chmod u=rw,go=r "/etc/mysql/mysql.conf.d/*.cnf"
     
     MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
     MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
