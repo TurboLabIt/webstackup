@@ -21,4 +21,8 @@ printMessage "🔥🔥 Shields up! Activating the firewall..."
 ufw --force enable 
 ufw status
 
+printMessage "🧹 Removing backup file..."
+sudo rm -f /etc/ufw/user.rules.* /etc/ufw/before.rules.* /etc/ufw/after.rules.*
+sudo rm -f /etc/ufw/user6.rules.* /etc/ufw/before6.rules.* /etc/ufw/after6.rules.*
+
 printMessage "persona-non-grata is done"
