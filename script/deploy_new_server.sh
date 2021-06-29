@@ -491,7 +491,7 @@ fi
 printTitle "Firewalling..."
 if [ $INSTALL_UFW = 1 ]; then
 
-    ufw allow 22,25,80,443/tcp && ufw --force enable
+    source "${WEBSTACKUP_INSTALL_DIR}script/firewall/persona-non-grata.sh"
     sleep 5
     
 else
@@ -499,6 +499,8 @@ else
     printLightWarning "Skipped (disabled in config)"
 fi
 
+printTitle "Installing cron..."
+cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
 
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
