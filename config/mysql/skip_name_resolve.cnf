@@ -1,5 +1,0 @@
-## Disable MySQL name resolution
-# Warning: "localhost" MAY fail. User 127.0.0.1 instead
-
-[mysqld]
-skip-name-resolve
