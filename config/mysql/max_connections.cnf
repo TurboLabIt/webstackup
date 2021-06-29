@@ -1,0 +1,7 @@
+## Rise the max_connections limit
+# https://serverfault.com/questions/92056/how-to-find-out-the-memory-cost-of-each-mysql-connection
+#
+#
+
+[mysqld]
+max_connections = 250
