@@ -1,6 +1,6 @@
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-WSU_CRON_SCRIPT_DIR=/var/www/turbolab_it/website/www/script/
+WSU_CRON_SCRIPT_DIR=/usr/local/turbolab.it/webstackup/
 WSU_CRON_LOG_DIR=/var/log/webstackup_cron_
 
 ## Ogni 5 minuti - Cron del forum
