@@ -3,5 +3,5 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 WSU_CRON_SCRIPT_DIR=/usr/local/turbolab.it/webstackup/
 WSU_CRON_LOG_DIR=/var/log/webstackup_cron_
 
-## Ogni 5 minuti - Cron del forum
+## Every 30 mins: download new firewall rules
 */30 * * * * root ${WSU_CRON_SCRIPT_DIR}firewall/persona-non-grata.sh >${WSU_CRON_LOG_DIR}persona-non-grata.sh.log 2>&1
