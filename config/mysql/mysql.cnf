@@ -1,0 +1,29 @@
+## Various MySQL optimization
+
+[mysqld]
+
+## Disable MySQL name resolution
+# Warning: "localhost" MAY fail. Use 127.0.0.1 instead
+skip_name_resolve
+
+
+## Rise the max_connections limit
+# https://serverfault.com/questions/92056/how-to-find-out-the-memory-cost-of-each-mysql-connection
+#
+# Example
+# -------
+# Total buffers: 168.0M global + 65.1M per thread (250 max threads)
+# Maximum possible memory usage: 16.1G (51.38% of installed RAM)
+max_connections = 250
+
+
+## The size in bytes of the buffer pool, the memory area where InnoDB caches table and index data. 
+# https://dba.stackexchange.com/a/27341
+# First run this query
+# ---
+# SELECT CEILING(Total_InnoDB_Bytes*1.6/POWER(1024,3)) RIBPS FROM
+# (SELECT SUM(data_length+index_length) Total_InnoDB_Bytes
+# FROM information_schema.tables WHERE engine='InnoDB') A;
+# ---
+# This will give you the RIBPS, Recommended InnoDB Buffer Pool Size, based on all InnoDB Data and Indexes, with an additional 60%.
+innodb_buffer_pool_size = 2G
