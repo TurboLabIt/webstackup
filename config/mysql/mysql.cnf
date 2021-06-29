@@ -3,6 +3,12 @@
 
 [mysqld]
 
+## MySQL legacy auth plugin
+# The caching_sha2_password plugin will be supported in a future PHP release.
+# http://php.net/manual/en/mysqli.requirements.php
+default_authentication_plugin=mysql_native_password
+
+
 ## Disable MySQL name resolution
 # Warning: "localhost" MAY fail. Use 127.0.0.1 instead
 skip_name_resolve
@@ -30,6 +36,7 @@ max_connections = 250
 # ---
 # This will give you the RIBPS, Recommended InnoDB Buffer Pool Size, based on all InnoDB Data and Indexes, with an additional 60%.
 innodb_buffer_pool_size = 2G
+
 
 ##
 # the log file size should be set as big as possible, but not bigger than necessary.
