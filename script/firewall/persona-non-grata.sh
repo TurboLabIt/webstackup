@@ -25,12 +25,11 @@ printTitle "Insert a dummy rule (it's needed for scripting)"
 ufw deny from 95.141.35.37 to any
 
 while read -r line || [[ -n "$line" ]]; do
-	
-	FIRSTCHAR="${line:0:1}"
-	if [ "$FIRSTCHAR" != "#" ] && [ "$FIRSTCHAR" != "" ]; then
-		ufw insert 1 deny from $line to any
-	fi
-	
+  FIRSTCHAR="${line:0:1}"
+  if [ "$FIRSTCHAR" != "#" ] && [ "$FIRSTCHAR" != "" ]; then
+    echo "Blocking: $line"
+    ufw insert 1 deny from $line to any
+  fi	
 done < "$IP_BLACKLIST_FULLPATH"
 
 printTitle "Remove the dummy rule"
