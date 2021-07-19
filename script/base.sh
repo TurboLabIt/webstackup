@@ -206,3 +206,21 @@ function checkExecutingUser ()
     printTheEnd
   fi
 }
+
+
+function browsePage
+{
+    echo "Browsing ##${1}##..."
+    curl --insecure --location --show-error --write-out "%{http_code}" "${1}"
+    echo
+}
+
+
+function zzcache()
+{
+  ZZCACHE_INITIAL_DIR=$(pwd)
+  cd "$PROJECT_DIR"
+  XDEBUG_MODE=off symfony console cache:clear
+  cachetool opcache:reset --fcgi=/run/php/${PHP_FPM}.sock
+  cd "$ZZCACHE_INITIAL_DIR"
+}
