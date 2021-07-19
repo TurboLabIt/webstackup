@@ -190,3 +190,19 @@ elif [ "$GIT_BRANCH" = "dev" ]; then
 fi
 
 
+function checkExecutingUser ()
+{
+  ## Current user
+  CURRENT_USER=$(whoami)
+
+  if [ "$CURRENT_USER" != "$1" ]; then
+
+    echo "vvvvvvvvvvvvvvvvvvvv"
+    echo "Catastrophic error!!"
+    echo "^^^^^^^^^^^^^^^^^^^^"
+    echo "Wrong user: please run this script as: "
+    echo "sudo -u $1 -H bash \"$SCRIPT_FULLPATH\""
+
+    printTheEnd
+  fi
+}
