@@ -211,7 +211,7 @@ function checkExecutingUser ()
 function browsePage
 {
     echo "Browsing ##${1}##..."
-    curl --insecure --location --show-error --write-out "%{http_code}" "${1}"
+    curl --insecure --location --show-error --write-out "%{http_code}" "${SITE_URL}${1}"
     echo
 }
 
