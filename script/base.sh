@@ -13,6 +13,9 @@ WEBSTACKUP_SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
 
 if [ -z "$SCRIPT_FULLPATH" ]; then
 
+  ## Current directory to cd back to at the end
+  INITIAL_DIR=$(pwd)
+
   ## Absolute path to this script, e.g. /home/user/bin/foo.sh
   SCRIPT_FULLPATH=$(readlink -f "$0")
 
@@ -56,6 +59,7 @@ function printTheEnd ()
   fi
   
   echo "$WEBSTACKUP_FRAME"
+  cd $INITIAL_DIR
   exit
 }
 
