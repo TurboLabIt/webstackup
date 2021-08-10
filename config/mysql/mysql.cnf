@@ -6,7 +6,7 @@
 ## Disable MySQLx
 # it’s a way to name the crossover between relational and document models 
 # https://www.percona.com/blog/2019/01/07/understanding-mysql-x-all-flavors/
-mysqlx = OFF
+mysqlx = off
 
 ## MySQL MUST listen only to localhost!
 bind-address = 127.0.0.1
