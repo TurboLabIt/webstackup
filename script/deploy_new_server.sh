@@ -98,6 +98,9 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
     
     sudo -u webstackup -H git config --global user.name "webstack.up"
     sudo -u webstackup -H git config --global user.email "info@webstack.up"
+    
+    printMessage "Keep SSH alive..."
+    cp "${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf" /etc/ssh/sshd_config.d/
 
     sleep 5
 
