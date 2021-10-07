@@ -403,6 +403,8 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
 
     service cron restart
     
+    source "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-create-hooks.sh"
+    
     sleep 5
     
 else
