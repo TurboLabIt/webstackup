@@ -7,7 +7,7 @@
 ## Let's Encrypt post-renewal hook
 # source <(curl -Ls https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-create-hooks.sh)
 
-if [ ! -d "/etc/letsencrypt/renewal-hooks/deploy/" ]; then
+if [ -d "/etc/letsencrypt/renewal-hooks/deploy/" ]; then
 
   echo "🪝 Deploying Let's Encrypt post-renewal hook..."
   sudo curl -Lo /etc/letsencrypt/renewal-hooks/deploy/nginx_restart https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/restart.sh
