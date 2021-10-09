@@ -1,6 +1,6 @@
 ### LET'S ENCRYPT RENEWAL CRON JOB BY WEBSTACK.UP
 # Taken from certbot for ubuntu
-# sudo curl -Lo /etc/cron.d/certbot 
+# sudo curl -Lo /etc/cron.d/certbot https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/https/certbot-renew
 
 SHELL=/bin/sh
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
