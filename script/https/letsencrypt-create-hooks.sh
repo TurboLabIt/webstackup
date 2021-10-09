@@ -5,7 +5,7 @@
 #
 # Usage:
 ## Let's Encrypt post-renewal hook
-# source <(curl -Ls https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-create-hooks.sh?$(date +%s))
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-create-hooks.sh?$(date +%s) | sudo bash
 
 if [ -d "/etc/letsencrypt/renewal-hooks/deploy/" ]; then
 
