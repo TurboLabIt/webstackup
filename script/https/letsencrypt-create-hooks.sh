@@ -13,7 +13,7 @@ if [ -d "/etc/letsencrypt/renewal-hooks/deploy/" ]; then
   sudo curl -Lo /etc/letsencrypt/renewal-hooks/deploy/nginx_restart https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/restart.sh
   sudo chown root:root /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
   sudo chmod u=rwx,go=rx /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
-  sudo certbot renew --force-renewal
+  sudo certbot renew --force-renewal --no-random-sleep-on-renew
   
 else
 
