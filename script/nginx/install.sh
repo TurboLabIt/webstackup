@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+### AUTOMATIC NGINX INSTALL BY WEBSTACK.UP
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh?$(date +%s) | sudo bash
 
 if ! [ $(id -u) = 0 ]; then
 
