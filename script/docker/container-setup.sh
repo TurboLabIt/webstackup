@@ -8,6 +8,6 @@ if ! [ $(id -u) = 0 ]; then
     exit
 fi
 
-apt install sudo wget nano -y
+apt install sudo wget nano openssh-server -y
 apt dist-upgrade -y
 apt autoremove -y
