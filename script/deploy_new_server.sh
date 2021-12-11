@@ -237,6 +237,9 @@ if [ $INSTALL_PHP = 1 ]; then
   usermod -a -G www-data nginx
   service nginx restart
   
+  printMessage "Create the socket directory..."
+  mkdir -p /run/php/
+  
   service php${PHP_VER}-fpm restart
   systemctl --no-pager status php${PHP_VER}-fpm
   
