@@ -25,4 +25,4 @@ apt update -qq
 apt install nginx -y
 
 ## Start the service
-systemctl restart nginx
+service nginx restart
