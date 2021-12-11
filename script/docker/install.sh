@@ -35,5 +35,5 @@ docker pull ubuntu
 docker images
 
 ## Istantiate one Ubuntu container
-docker run -t -d --name=ws1 -p 802:80 -p 4432:443 -p 127.0.0.1:33062:3306 ubuntu apt update && apt-get dist-upgrade -y --allow-downgrades
+docker run --name=ws1 -p 802:80 -p 4432:443 -p 127.0.0.1:33062:3306 ubuntu apt update && apt-get dist-upgrade -y --allow-downgrades
 docker ps -a
