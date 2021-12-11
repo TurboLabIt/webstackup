@@ -19,10 +19,10 @@ add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(
 
 ## Pinning the repo
 DOCKER_PINNING_FILE=/etc/apt/preferences.d/99-docker-webstackup
-echo "Package: docker-ce" > $DOCKER_PINNING_FILE
-echo -n "Pin: release a=" >> $DOCKER_PINNING_FILE
-echo "$(lsb_release -sc)" >> $DOCKER_PINNING_FILE
-echo "Pin-Priority: -900" >> $DOCKER_PINNING_FILE
+#echo "Package: docker-ce" > $DOCKER_PINNING_FILE
+#echo -n "Pin: release a=" >> $DOCKER_PINNING_FILE
+#echo "$(lsb_release -sc)" >> $DOCKER_PINNING_FILE
+#echo "Pin-Priority: -900" >> $DOCKER_PINNING_FILE
 
 apt update -qq
 apt-cache policy docker-ce
