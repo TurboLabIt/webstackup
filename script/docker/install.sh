@@ -35,4 +35,7 @@ docker pull ubuntu
 docker images
 
 ## Istantiate one Ubuntu container
-echo "docker run -it --name=ws1 -p 802:80 -p 4432:443 -p 222:22 ubuntu"
+echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
+echo "sudo docker run -it --name=ws1 -p 802:80 -p 4432:443 -p 222:22 ubuntu"
+echo "^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+
