@@ -1,0 +1,10 @@
+FROM ubuntu
+
+RUN apt update && apt install apt-utils sudo wget nano openssh-server -y
+RUN apt dist-upgrade -y
+RUN apt autoremove -y
+
+RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s)
+RUN bash setup.sh
+RUN rm setup.sh
+
