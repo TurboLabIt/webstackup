@@ -243,6 +243,9 @@ if [ $INSTALL_PHP = 1 ]; then
   service php${PHP_VER}-fpm restart
   systemctl --no-pager status php${PHP_VER}-fpm
   
+  printMessage "Aliasing the PHP-FPM socket as php-fpm.sock..."
+  ln -s /run/php/php${PHP_VER}-fpm.sock /run/php/php-fpm.sock
+  
   sleep 5
   
 else
