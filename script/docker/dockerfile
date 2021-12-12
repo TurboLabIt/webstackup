@@ -8,3 +8,5 @@ RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/mas
 RUN bash setup.sh
 RUN rm setup.sh
 
+CMD /usr/bin/bash
+
