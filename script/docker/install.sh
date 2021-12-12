@@ -34,6 +34,12 @@ apt install docker-ce -y
 docker pull ubuntu
 docker images
 
+##
+curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/dockerfile?$(date +%s)
+docker build -t webstackup:latest .
+docker run -it --name=ws1 -p 802:80 -p 4432:443 -p 222:22 webstackup
+
+
 ## Istantiate one Ubuntu container
 echo "vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv"
 echo "sudo docker run -it --name=ws1 -p 802:80 -p 4432:443 -p 222:22 ubuntu"
