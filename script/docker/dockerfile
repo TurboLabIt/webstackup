@@ -8,5 +8,9 @@ RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/mas
 RUN bash setup.sh
 RUN rm setup.sh
 
+RUN cp /usr/local/turbolab.it/webstackup/webstackup.default.conf /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_MYSQL=1|INSTALL_MYSQL=0|g' /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_UFW=1|INSTALL_UFW=0|g' /etc/turbolab.it/webstackup.conf
+
 CMD /usr/bin/bash
 
