@@ -5,6 +5,9 @@ source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "🛡️ persona-non-grata"
 rootCheck
 
+printMessage "Install UFW..."
+apt install ufw -y
+
 printMessage "Removing previous rules and disable the firewall..."
 sudo ufw --force reset
 
