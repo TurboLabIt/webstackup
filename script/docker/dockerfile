@@ -14,5 +14,5 @@ RUN sed -i 's|INSTALL_POSTFIX=1|INSTALL_POSTFIX=0|g' /etc/turbolab.it/webstackup
 
 RUN bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 
-CMD service ssh restart && service nginx restart && service php8.1-fpm restart && /usr/bin/bash
+CMD service ssh start && service nginx start && service php8.1-fpm start && /usr/bin/bash
 
