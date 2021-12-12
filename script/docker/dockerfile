@@ -10,6 +10,7 @@ RUN rm setup.sh
 
 RUN cp /usr/local/turbolab.it/webstackup/webstackup.default.conf /etc/turbolab.it/webstackup.conf
 RUN sed -i 's|INSTALL_MYSQL=1|INSTALL_MYSQL=0|g' /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_POSTFIX=1|INSTALL_POSTFIX=0|g' /etc/turbolab.it/webstackup.conf
 
 RUN bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 
