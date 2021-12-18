@@ -35,7 +35,7 @@ docker pull ubuntu
 docker images
 
 ##
-curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/dockerfile?$(date +%s)
+curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/docker/dockerfile?$(date +%s)
 docker build -t webstackup:latest .
 docker run -td --name=ws1 -p 802:80 -p 4432:443 -p 222:22 webstackup
 
