@@ -1,0 +1,18 @@
+FROM ubuntu
+
+RUN apt update && apt install apt-utils sudo wget nano openssh-server -y
+RUN apt dist-upgrade -y
+RUN apt autoremove -y
+
+RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s)
+RUN bash setup.sh
+RUN rm setup.sh
+
+RUN cp /usr/local/turbolab.it/webstackup/webstackup.default.conf /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_MYSQL=1|INSTALL_MYSQL=0|g' /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_POSTFIX=1|INSTALL_POSTFIX=0|g' /etc/turbolab.it/webstackup.conf
+RUN sed -i 's|INSTALL_UFW=1|INSTALL_UFW=0|g' /etc/turbolab.it/webstackup.conf
+
+RUN bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
+
+CMD service ssh start && service nginx start && service php8.1-fpm start && /usr/bin/bash
