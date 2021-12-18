@@ -15,4 +15,7 @@ RUN sed -i 's|INSTALL_UFW=1|INSTALL_UFW=0|g' /etc/turbolab.it/webstackup.conf
 
 RUN bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 
-CMD service ssh start && service nginx start && service php8.1-fpm start && /usr/bin/bash
+RUN wget -O /usr/local/bin/docker-startup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/startup.sh
+RUN chmod ug=rwx,o=rx /usr/local/bin/docker-startup.sh
+
+CMD /usr/local/bin/docker-startup.sh && /usr/bin/bash
