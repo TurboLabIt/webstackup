@@ -101,11 +101,16 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
   printMessage "Keep SSH alive..."
   cp "${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf" /etc/ssh/sshd_config.d/
 
-  sleep 5
-
 else
   
   printLightWarning "Skipped (disabled in config)"
+fi
+
+
+
+printTitle "Installing cron..."
+if [ $INSTALL_CRON = 1 ]; then
+  apt install cron -y -qq
 fi
 
 
@@ -185,8 +190,6 @@ User: ben | Pass: venuto"
   printMessage "Setting the permissions for the whole tree..."
   chmod u=rwX,g=rX,o= "${WWW_DATA_HOME}" -R
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -246,8 +249,6 @@ if [ $INSTALL_PHP = 1 ]; then
   printMessage "Aliasing the PHP-FPM socket as php-fpm.sock..."
   ln -s /run/php/php${PHP_VER}-fpm.sock /run/php/php-fpm.sock
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -301,7 +302,6 @@ if [ $INSTALL_MYSQL = 1 ]; then
   
   service mysql restart
   systemctl --no-pager status mysql
-  sleep 5
   
 else
   
@@ -329,8 +329,6 @@ Actual hash: ### ${COMPOSER_ACTUAL_SIGNATURE}"
   php composer-setup.php --filename=composer --install-dir=/usr/local/bin
   php -r "unlink('composer-setup.php');"
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -346,8 +344,6 @@ if [ $INSTALL_SYMFONY = 1 ]; then
   
   printMessage "$(symfony -V)"
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -358,7 +354,6 @@ printTitle "Installing ZZUPDATE..."
 if [ $INSTALL_ZZUPDATE = 1 ]; then
 
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | sudo bash
-  sleep 5
   
 else
   
@@ -370,7 +365,6 @@ printTitle "Installing ZZMYSQLDUMP"
 if [ $INSTALL_ZZMYSQLDUMP = 1 ]; then
 
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo bash
-  sleep 5
   
 else
   
@@ -390,7 +384,6 @@ if [ $INSTALL_XDEBUG = 1 ]; then
   ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/30-webstackup-xdebug.ini
   
   service php${PHP_VER}-fpm restart
-  sleep 5
 
 else
   
@@ -409,8 +402,6 @@ if [ $INSTALL_LETSENCRYPT = 1 ]; then
   service cron restart
   
   source "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-create-hooks.sh"
-  
-  sleep 5
   
 else
   
@@ -462,8 +453,6 @@ if [ $INSTALL_POSTFIX = 1 ]; then
   service postfix restart
   service opendkim restart
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -479,8 +468,6 @@ if [ $INSTALL_NTP = 1 ]; then
   service ntp restart
   systemctl --no-pager status ntp
   
-  sleep 5
-  
 else
   
   printLightWarning "Skipped (disabled in config)"
@@ -491,7 +478,6 @@ printTitle "Installing ZZALIAS..."
 if [ $INSTALL_ZZALIAS = 1 ]; then
 
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | sudo bash
-  sleep 5
   
 else
   
@@ -503,7 +489,6 @@ printTitle "Firewalling..."
 if [ $INSTALL_UFW = 1 ]; then
 
   source "${WEBSTACKUP_INSTALL_DIR}script/firewall/persona-non-grata.sh"
-  sleep 5
   
 else
   
@@ -539,4 +524,3 @@ fi
 
 
 printTheEnd
-
