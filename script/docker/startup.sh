@@ -1,4 +1,8 @@
 #!/usr/bin/env bash
+## WEBSTACKUP DOCKER STARTUP SCRIPT
+#
+# This is your own copy of https://github.com/TurboLabIt/webstackup/blob/master/script/docker/startup.sh
+# Edit to your needs!
 
 source /usr/local/turbolab.it/webstackup/script/base.sh
 
