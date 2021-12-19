@@ -18,4 +18,4 @@ RUN bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 RUN wget -O /usr/local/bin/docker-startup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/startup.sh
 RUN chmod ug=rwx,o=rx /usr/local/bin/docker-startup.sh
 
-CMD /usr/local/bin/docker-startup.sh && /bin/bash
+CMD /usr/local/bin/docker-startup.sh ; /bin/bash
