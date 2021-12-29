@@ -11,8 +11,11 @@ apt install ufw -y
 printMessage "Removing previous rules and disable the firewall..."
 sudo ufw --force reset
 
+printMessage "🚢 Allow connections from Docker containers..."
+ufw allow from 172.17.0.0/16 to any
+
 printMessage "🐧 Allow SSH..."
-ufw allow 22/tcp
+ufw allow 22,222/tcp
 
 printMessage "💌 Allow SMTP..."
 ufw allow 25/tcp
