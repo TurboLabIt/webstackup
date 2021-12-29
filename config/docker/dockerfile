@@ -1,6 +1,6 @@
 FROM ubuntu
 
-RUN apt update && apt install apt-utils sudo wget nano openssh-server -y
+RUN apt update && apt install apt-utils sudo wget nano iproute2 openssh-server -y
 RUN apt dist-upgrade -y
 RUN apt autoremove -y
 
