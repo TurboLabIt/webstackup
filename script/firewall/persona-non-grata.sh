@@ -14,6 +14,9 @@ sudo ufw --force reset
 printMessage "🚢 Allow connections from Docker containers..."
 ufw allow from 172.17.0.0/16 to any
 
+printMessage "📁 Allow FTP/FTPS (if installed)"
+ufw allow 20,21,990,2121:2221/tcp
+
 printMessage "🐧 Allow SSH..."
 ufw allow 22,222/tcp
 
