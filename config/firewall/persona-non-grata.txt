@@ -17,6 +17,9 @@
 ## Huwaei Petabot
 114.119.0.0/16
 
+## US provider "HEG US" used to DDoS (broad) 2022-01-14
+148.72.0.0/16
+
 ## China by https://www.ip2location.com/free/visitor-blocker 2022-01-14
 202.97.51.184/31
 202.97.51.187/32
@@ -27639,3 +27642,4 @@
 103.112.191.0/24
 103.109.116.0/22
 103.95.24.0/22
+
