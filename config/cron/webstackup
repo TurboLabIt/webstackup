@@ -3,5 +3,5 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 WSU_CRON_SCRIPT_DIR=/usr/local/turbolab.it/webstackup/script/
 WSU_CRON_LOG_DIR=/var/log/webstackup_cron_
 
-## At 0:30 and 21:30: apply new firewall rules
-30 */9 * * * root ${WSU_CRON_SCRIPT_DIR}firewall/persona-non-grata.sh >${WSU_CRON_LOG_DIR}persona-non-grata.sh.log 2>&1
+## At 09:30: apply new firewall rules
+30 9 * * * root ${WSU_CRON_SCRIPT_DIR}firewall/persona-non-grata.sh >${WSU_CRON_LOG_DIR}persona-non-grata.sh.log 2>&1
