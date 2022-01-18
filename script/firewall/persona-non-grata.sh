@@ -93,7 +93,7 @@ while read -r line || [[ -n "$line" ]]; do
   FIRSTCHAR="${line:0:1}"
   if [ "$FIRSTCHAR" != "#" ] && [ "$FIRSTCHAR" != "" ]; then
     echo "Add: $line" >> "${PNG_IP_LOG_FILE}"
-    #ipset add PersonaNonGrata $line
+    ipset add PersonaNonGrata $line
   fi  
 done < "$IP_BLACKLIST_FULLPATH"
 
