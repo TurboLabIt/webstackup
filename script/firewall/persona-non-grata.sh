@@ -64,6 +64,10 @@ else
 fi
 
 
+printTitle "🧹 Try to uninstall iptables-persistent..."
+apt purge iptables-persistent -y
+
+
 printTitle "🧹 Reset iptables..."
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
