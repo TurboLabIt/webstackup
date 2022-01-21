@@ -9,7 +9,7 @@ rootCheck
 printTitle "📦 Checking packages...."
 if [ -z "$(command -v curl)" ] || [ -z "$(command -v iptables)" ] || [ -z "$(command -v ipset)" ]; then
 
-  printMessage "Installing ufw and ipset..."
+  printMessage "Installing packages..."
   apt update
   apt install iptables ipset curl -y
   
