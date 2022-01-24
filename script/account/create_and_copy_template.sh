@@ -1,5 +1,6 @@
-#!/bin/bash
-## https://turbolab.it/3147
+#!/usr/bin/env bash
+### AUTOMATIC LINUX USER ACCOUNT PROVISIONING INSTALL BY WEBSTACK.UP
+# https://github.com/TurboLabIt/webstackup/edit/master/script/account/create_and_copy_template.sh
 echo ""
 
 if ! [ $(id -u) = 0 ]; then
