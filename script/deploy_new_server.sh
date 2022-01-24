@@ -452,8 +452,20 @@ else
   printLightWarning "Skipped (disabled in config)"
 fi
 
+
+printTitle "Creating users..."
+if [ ! -z $INSTALL_USERS_TEMPLATE_PATH ]; then
+
+  bash "${WEBSTACKUP_INSTALL_DIR}script/account/create_and_copy_template.sh" "$INSTALL_USERS_TEMPLATE_PATH"
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
 printTitle "Installing cron..."
 cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
+
 
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
