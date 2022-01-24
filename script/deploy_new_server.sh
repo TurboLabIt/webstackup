@@ -258,50 +258,7 @@ fi
 printTitle "Installing MYSQL..."
 if [ $INSTALL_MYSQL = 1 ]; then
   
-  printMessage "Removing previous version (if any)"
-  apt purge --auto-remove mysql* -y -qq
-
-  printMessage "Setting up the repo..."
-  apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 5072E1F5
-
-  touch /etc/apt/sources.list.d/webstackup.mysql.list
-  echo "### webstackup" >> /etc/apt/sources.list.d/webstackup.mysql.list
-  echo "deb http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-${MYSQL_VER}" >> /etc/apt/sources.list.d/webstackup.mysql.list
-  echo "deb-src http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-${MYSQL_VER}" >> /etc/apt/sources.list.d/webstackup.mysql.list
-  echo "deb http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-tools" >> /etc/apt/sources.list.d/webstackup.mysql.list
-  
-  printMessage "Generating a random MySQL root password..."
-  MYSQL_ROOT_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
-  debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password ${MYSQL_ROOT_PASSWORD}"
-  debconf-set-selections <<< "mysql-community-server mysql-community-server/re-root-pass password ${MYSQL_ROOT_PASSWORD}"
-  debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select"
-
-  printMessage "Installing..."
-  apt update -qq
-  apt install mysql-server mysql-client -y -qq
-  
-  printMessage "Enabling the custom config..."
-  cp "${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf" "/etc/mysql/mysql.conf.d/webstackup.cnf"
-  sudo chmod u=rw,go=r "/etc/mysql/mysql.conf.d/*.cnf"
-  
-  MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
-  MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
-  
-  if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
-  
-    printMessage "Writing MySQL root credentials to ${MYSQL_CREDENTIALS_FULLPATH}..."
-    mkdir -p "$MYSQL_CREDENTIALS_DIR"
-    echo "MYSQL_USER='root'" > "${MYSQL_CREDENTIALS_FULLPATH}"
-    echo "MYSQL_PASSWORD='$MYSQL_ROOT_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
-    
-    chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
-    chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
-  fi
-  
-  printMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")" 
-  
-  service mysql restart
-  systemctl --no-pager status mysql
+  source ${WEBSTACKUP_INSTALL_DIR}script/nginx/install.sh
   
 else
   
