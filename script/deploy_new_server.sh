@@ -463,6 +463,19 @@ else
   printLightWarning "Skipped (disabled in config)"
 fi
 
+
+printTitle "Disable SSH password login..."
+if [ ! -z $INSTALL_SSH_DISABLE_PASSWORD_LOGIN ]; then
+
+  ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/
+  service sshd restart
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
+
 printTitle "Installing cron..."
 cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
 
