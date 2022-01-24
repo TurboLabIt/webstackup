@@ -78,7 +78,7 @@ mv /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} ${LOCAL_CLONE_FULLPATH}
 git -C ${LOCAL_CLONE_FULLPATH} status
 git -C ${LOCAL_CLONE_FULLPATH} branch
 
-bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh ${LOCAL_CLONE_FULLPATH}
+bash ${SCRIPT_DIR}filesystem/webpermission.sh ${LOCAL_CLONE_FULLPATH}
 
 
 printTitle "🤠 Would you like to deploy?"
