@@ -483,7 +483,7 @@ cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
 printTitle "Running cloning wizard..."
 if [ $INSTALL_GIT_CLONE_WEBAPP = 1 ]; then
 
-  bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone-a-webapp.sh
+  bash ${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh
   
 else
   
