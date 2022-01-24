@@ -72,8 +72,9 @@ printMessage "ℹ $NEWSITE_BRANCH"
 
 
 printTitle "🏭 Cloning ${NEWSITE_REPO_URL} into ${NEWSITE_FOLDER_NAME}..."
-sudo -u webstackup -H git clone ${NEWSITE_REPO_URL} ${LOCAL_CLONE_FULLPATH}
-sudo -u webstackup -H git -C ${LOCAL_CLONE_FULLPATH} switch ${NEWSITE_BRANCH}
+sudo -u webstackup -H git clone ${NEWSITE_REPO_URL} /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME}
+sudo -u webstackup -H git -C /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} switch ${NEWSITE_BRANCH}
+mv /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} ${NEWSITE_FOLDER_NAME}
 git -C ${LOCAL_CLONE_FULLPATH} status
 git -C ${LOCAL_CLONE_FULLPATH} branch
 
