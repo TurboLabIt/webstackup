@@ -12,7 +12,7 @@ apt purge --auto-remove mysql* -y -qq
 
 echo -e "\e[1;45m Setting up the repo... \e[0m"
 # https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
-sudo apt-key adv --keyserver pgp.mit.edu --recv-keys 3A79BD29
+apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3A79BD29
 
 touch /etc/apt/sources.list.d/webstackup.mysql.list
 echo "### webstackup" >> /etc/apt/sources.list.d/webstackup.mysql.list
