@@ -480,6 +480,18 @@ printTitle "Installing cron..."
 cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
 
 
+printTitle "Running cloning wizard..."
+if [ $INSTALL_GIT_CLONE_WEBAPP = 1 ]; then
+
+  bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone-a-webapp.sh
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
+
+
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
 
