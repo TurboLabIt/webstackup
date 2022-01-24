@@ -18,7 +18,8 @@ BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
 MENU="Choose one of the options:"
 
-OPTIONS=(1 "🔥  New site (generic)"
+OPTIONS=(
+     1 "🔥  Git clone an existing app"
      2 "📰  New WordPress site"
      3 "📧  DKIM a domain"
      4 "🔒  Let's Encrypt a domain"
@@ -39,7 +40,8 @@ CHOICE=$(dialog --clear \
 clear
 case $CHOICE in
         1)
-            bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
+            #bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
+            bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
             ;;
         2)
             bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
