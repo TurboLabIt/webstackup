@@ -465,7 +465,7 @@ fi
 
 
 printTitle "Disable SSH password login..."
-if [ ! -z $INSTALL_SSH_DISABLE_PASSWORD_LOGIN ]; then
+if [ $INSTALL_SSH_DISABLE_PASSWORD_LOGIN = 1 ]; then
 
   ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/
   service sshd restart
