@@ -14,8 +14,7 @@ echo -e "\e[1;45m Setting up the repo... \e[0m"
 # https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
 apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3A79BD29
 
-touch /etc/apt/sources.list.d/webstackup.mysql.list
-echo "### webstackup" >> /etc/apt/sources.list.d/webstackup.mysql.list
+echo "### webstackup" > /etc/apt/sources.list.d/webstackup.mysql.list
 echo "deb http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-${MYSQL_VER}" >> /etc/apt/sources.list.d/webstackup.mysql.list
 echo "deb-src http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-${MYSQL_VER}" >> /etc/apt/sources.list.d/webstackup.mysql.list
 echo "deb http://repo.mysql.com/apt/ubuntu/ $(lsb_release -sc) mysql-tools" >> /etc/apt/sources.list.d/webstackup.mysql.list
