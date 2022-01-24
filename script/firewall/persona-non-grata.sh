@@ -1,5 +1,5 @@
 #!/bin/bash
-clear
+echo ""
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "🛡️ persona-non-grata"
