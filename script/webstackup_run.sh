@@ -19,7 +19,7 @@ TITLE="Web service management GUI"
 MENU="Choose one of the options:"
 
 OPTIONS=(
-     1 "🔥  Git clone an existing app"
+     1 "🚀  Git clone an existing app"
      2 "📰  New WordPress site"
      3 "📧  DKIM a domain"
      4 "🔒  Let's Encrypt a domain"
