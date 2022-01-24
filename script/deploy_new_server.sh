@@ -486,7 +486,7 @@ fi
 
 
 printTitle "Firewalling..."
-if [ $INSTALL_UFW = 1 ]; then
+if [ $INSTALL_FIREWALL = 1 ]; then
 
   source "${WEBSTACKUP_INSTALL_DIR}script/firewall/persona-non-grata.sh"
   
