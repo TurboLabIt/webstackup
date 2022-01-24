@@ -32,7 +32,7 @@ apt install mysql-server mysql-client -y -qq
   
 echo -e "\e[1;45m Enabling the custom config... \e[0m"
 cp "${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf" "/etc/mysql/mysql.conf.d/webstackup.cnf"
-sudo chmod u=rw,go=r "/etc/mysql/mysql.conf.d/*.cnf"
+chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
   
 MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
 MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
