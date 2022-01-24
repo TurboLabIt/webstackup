@@ -258,7 +258,7 @@ fi
 printTitle "Installing MYSQL..."
 if [ $INSTALL_MYSQL = 1 ]; then
   
-  source ${WEBSTACKUP_INSTALL_DIR}script/nginx/install.sh
+  source ${WEBSTACKUP_INSTALL_DIR}script/mysql/install.sh
   
 else
   
