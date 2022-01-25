@@ -17,13 +17,39 @@ fi
 
 NEW_MYSQL_USER=$1
 NEW_MYSQL_PASSWORD=$2
-NEW_MYSQL_HOST=$3
-NEW_MYSQL_DB_NAME=$4
+NEW_MYSQL_DB_NAME=$3
 
-if [ -z $NEW_MYSQL_USER ] || [ -z $NEW_MYSQL_PASSWORD ] || [ -z $NEW_MYSQL_HOST ] || [ -z $NEW_MYSQL_DB_NAME ]; then
-  catastrophicError "Bad command line! Arguments are: user password host db_name"
-  exit;
+if [ -z $NEW_MYSQL_USER ] || [ -z $NEW_MYSQL_PASSWORD ] || [ -z $NEW_MYSQL_DB_NAME ]; then
+  NEW_MYSQL_USER=
+  NEW_MYSQL_PASSWORD=
+  NEW_MYSQL_DB_NAME=
 fi
+
+
+printTitle "🧔 Username"
+while [ -z "$NEW_MYSQL_USER" ]
+do
+  read -p "🤖 Provide the username: " NEW_MYSQL_USER  < /dev/tty
+done
+
+
+printTitle "🔑 Password"
+while [ -z "$NEW_MYSQL_PASSWORD" ]
+do
+  read -p "🤖 Provide the password (leave blank for autogeneration): " NEW_MYSQL_PASSWORD  < /dev/tty
+  
+  if [ -z "$NEW_MYSQL_PASSWORD" ]; then
+    NEW_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
+  fi
+  
+done
+
+
+printTitle "🔑 DB name"
+while [ -z "$NEW_MYSQL_DB_NAME" ]
+do
+  read -p "🤖 Provide the name of the database to create: " NEW_MYSQL_DB_NAME  < /dev/tty
+done
 
 
 if [ -z "$(command -v git)" ]; then
@@ -43,7 +69,7 @@ $MYSQL_EXE -e "CREATE USER '$NEW_MYSQL_USER'@'%' IDENTIFIED BY '$NEW_MYSQL_PASSW
 printMessage "🧺 Creating database..."
 $MYSQL_EXE -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\`;"
 
-printMessage 🔑 Granting privileges..."
+printMessage "🔑 Granting privileges..."
 $MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
 $MYSQL_EXE -e "FLUSH PRIVILEGES;"
 
