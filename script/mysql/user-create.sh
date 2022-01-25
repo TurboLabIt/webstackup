@@ -45,7 +45,7 @@ do
 done
 
 
-printTitle "🔑 DB name"
+printTitle "🧺 DB name"
 while [ -z "$NEW_MYSQL_DB_NAME" ]
 do
   read -p "🤖 Provide the name of the database to create: " NEW_MYSQL_DB_NAME  < /dev/tty
