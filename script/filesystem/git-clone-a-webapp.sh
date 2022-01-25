@@ -83,7 +83,6 @@ bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh ${LOCAL_CLONE_FULLPATH}
 bash ${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh
 
 
-printTitle "🤠 Would you like to deploy?"
 if [ -f ${LOCAL_CLONE_FULLPATH}/script/deploy.sh ]; then
 
   DEPLOY_SCRIPT=${LOCAL_CLONE_FULLPATH}/script/deploy.sh
@@ -102,6 +101,7 @@ elif [ -f ${LOCAL_CLONE_FULLPATH}/www/scripts/deploy.sh ]; then
   
 else
 
+  printTitle "🤠 Would you like to deploy?"
   read -p "🤖 Provide the full path to the deploy script (e.g.: ${LOCAL_CLONE_FULLPATH}/utils/deploy.sh): " DEPLOY_SCRIPT  < /dev/tty
 fi
 
