@@ -80,6 +80,8 @@ git -C ${LOCAL_CLONE_FULLPATH} branch
 
 bash ${SCRIPT_DIR}filesystem/webpermission.sh ${LOCAL_CLONE_FULLPATH}
 
+bash ${SCRIPT_DIR}mysql/new.sh
+
 
 printTitle "🤠 Would you like to deploy?"
 if [ -f ${LOCAL_CLONE_FULLPATH}/script/deploy.sh ]; then
