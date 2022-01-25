@@ -18,8 +18,10 @@ echo -e "\e[1;45m Installing... \e[0m"
 apt update -qq
 apt install elasticsearch -y -qq
 
-echo -e "\e[1;45m Binding to localhost only... \e[0m"
-
+echo -e "\e[1;45m Service management... \e[0m"
 systemctl enable elasticsearch
 service elasticsearch restart
 systemctl --no-pager status elasticsearch
+
+echo -e "\e[1;45m Netstat... \e[0m"
+ss -lpt | grep -i 'java\|elastic'
