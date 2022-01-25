@@ -14,7 +14,9 @@ apt purge --auto-remove elasticsearch* -y -qq
 echo ""
 echo -e "\e[1;45m Setting up the repo... \e[0m"
 curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a /etc/apt/sources.list.d/elastic-7.x.list
+ES_APT_SOURCE_FILE=/etc/apt/sources.list.d/elastic-7.x.list
+rm -f ${ES_APT_SOURCE_FILE}
+echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a ${ES_APT_SOURCE_FILE}
 
 echo ""
 echo -e "\e[1;45m Installing... \e[0m"
