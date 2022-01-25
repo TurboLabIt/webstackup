@@ -231,6 +231,7 @@ function zzcache()
 
 function flushOpcache()
 {
+  echo "flushOpcache is a TO DO"
 }
 
 
