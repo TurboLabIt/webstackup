@@ -20,7 +20,7 @@ MENU="Choose one of the options:"
 
 OPTIONS=(
      1 "🚀  Git clone an existing app"
-     2 "📰  New WordPress site"
+     2 "🧺  New database user access"
      3 "📧  DKIM a domain"
      4 "🔒  Let's Encrypt a domain"
      5 "🔄  Web service reload"
@@ -44,7 +44,8 @@ case $CHOICE in
             bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
             ;;
         2)
-            bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
+            #bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
+            bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
             ;;
         3)
       bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
