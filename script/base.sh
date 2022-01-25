@@ -95,7 +95,7 @@ devOnlyCheck ()
 
 lockCheck ()
 {
-  LOCKFILE=${1}.lock
+  local LOCKFILE=${1}.lock
   if [ -f $LOCKFILE ]; then
     catastrophicError "Lockfile detected. It looks like this script is already running
 To override:
@@ -116,7 +116,7 @@ sudo rm -f \"$LOCKFILE\""
 
 removeLock ()
 {
-  LOCKFILE=${1}.lock
+  local LOCKFILE=${1}.lock
   ls -la ${LOCKFILE}
   rm -f "${LOCKFILE}"
   ls -la ${LOCKFILE}
