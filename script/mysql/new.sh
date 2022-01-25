@@ -4,7 +4,7 @@
 echo ""
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
-printHeader "🚀 Create a new MySQL user"
+printHeader "🚀 Create a new MySQL database access"
 rootCheck
 
 
