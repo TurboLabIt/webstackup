@@ -117,9 +117,7 @@ sudo rm -f \"$LOCKFILE\""
 removeLock ()
 {
   local LOCKFILE=${1}.lock
-  ls -la ${LOCKFILE}
   rm -f "${LOCKFILE}"
-  ls -la ${LOCKFILE}
   printMessage "${LOCKFILE} deleted"
 }
 
