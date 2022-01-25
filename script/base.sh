@@ -95,7 +95,7 @@ devOnlyCheck ()
 
 lockCheck ()
 {
-  LOCKFILE=$1.lock
+  LOCKFILE=${1}.lock
   if [ -f $LOCKFILE ]; then
     catastrophicError "Lockfile detected. It looks like this script is already running
 To override:
@@ -108,14 +108,19 @@ sudo rm -f \"$LOCKFILE\""
     exit
   fi
 
-  echo "$1.sh lock file." > "$LOCKFILE"
+  echo "${1}.sh lock file." > "$LOCKFILE"
   echo "File created $(date)" >> "$LOCKFILE"
+  printMessage "Lock file created in $LOCKFILE"
 }
 
 
 removeLock ()
 {
-  rm -f "$1.lock"
+  LOCKFILE=${1}.lock
+  ls -la ${LOCKFILE}
+  rm -f "${LOCKFILE}"
+  ls -la ${LOCKFILE}
+  printMessage "${LOCKFILE} deleted"
 }
 
 
