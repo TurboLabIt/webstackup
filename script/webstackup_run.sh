@@ -20,7 +20,7 @@ MENU="Choose one of the options:"
 
 OPTIONS=(
      1 "🚀  Git clone an existing app"
-     2 "  New database user access"
+     2 "🧺  New database user access"
      3 "📧  DKIM a domain"
      4 "🔒  Let's Encrypt a domain"
      5 "🔄  Web service reload"
