@@ -73,8 +73,9 @@ printMessage "🔑 Granting privileges..."
 $MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
 $MYSQL_EXE -e "FLUSH PRIVILEGES;"
 
+
 printTitle "🔎 Testing..."
-$MYSQL_EXE -e "SHOW DATABASES;"
+mysql -u${NEW_MYSQL_USER} -p${NEW_MYSQL_PASSWORD} -h${MYSQL_HOST} -e "SHOW DATABASES;"
 
 
 printTitle "💾 Saving credentials..."
