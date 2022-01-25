@@ -67,7 +67,7 @@ printMessage "🧔 Creating user..."
 $MYSQL_EXE -e "CREATE USER '$NEW_MYSQL_USER'@'%' IDENTIFIED BY '$NEW_MYSQL_PASSWORD';"
 
 printMessage "🧺 Creating database..."
-$MYSQL_EXE -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\`;"
+$MYSQL_EXE -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
 
 printMessage "🔑 Granting privileges..."
 $MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
