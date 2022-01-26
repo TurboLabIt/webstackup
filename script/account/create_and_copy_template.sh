@@ -4,12 +4,9 @@
 echo ""
 
 if ! [ $(id -u) = 0 ]; then
-
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
-  
 fi
-
 
 USERS_ORIGIN=$1
 # remove the trailing "/"
