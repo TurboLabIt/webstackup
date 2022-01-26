@@ -36,7 +36,7 @@ if [ ! -f /usr/local/bin/wp-cli ]; then
   chmod u=rwx,go=rx /usr/local/bin/wp-cli
 fi
 
-if [ -z $WP_EXE ]; then
+if [ -z "$WP_EXE" ]; then
 
   WPINST_WP_EXE="sudo -u $EXPECTED_USER -H /usr/local/bin/wp-cli --path=${WPINST_WEBROOT_DIR}"
   
