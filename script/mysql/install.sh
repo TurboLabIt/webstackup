@@ -2,9 +2,8 @@
 ### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
 
 if ! [ $(id -u) = 0 ]; then
-
-    echo "This script must run as ROOT"
-    exit
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
 fi
 
 echo -e "\e[1;45m Removing previous version (if any) \e[0m"
