@@ -42,7 +42,7 @@ if [ -z "$WP_EXE" ]; then
   
 else
 
-  WPINST_WP_EXE=${WPINST_WP_EXE}
+  WPINST_WP_EXE=${WP_EXE}
 fi
 
 printTitle "Downloading WordPress..."
