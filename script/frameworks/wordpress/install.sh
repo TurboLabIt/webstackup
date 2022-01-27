@@ -104,13 +104,28 @@ fi
 printTitle "Installing WordPress plugin..."
 ## https://developer.wordpress.org/cli/commands/plugin/install/
 # https://wordpress.org/plugins/wps-hide-login/
+# https://wordpress.org/plugins/duracelltomi-google-tag-manager/
+# https://wordpress.org/plugins/seo-by-rank-math/
+# https://wordpress.org/plugins/webp-express/
+# https://wordpress.org/plugins/timber-library/
+# https://wordpress.org/plugins/advanced-custom-fields/
+# https://wordpress.org/plugins/google-authenticator/
+# https://wordpress.org/plugins/autoptimize/
+# https://wordpress.org/plugins/classic-editor/
+# https://wordpress.org/plugins/radio-buttons-for-taxonomies/
+# https://wordpress.org/plugins/regenerate-thumbnails/
+# https://wordpress.org/plugins/wp-fastest-cache/
+
 $WPINST_WP_EXE plugin install \
-  wps-hide-login \
+  wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
+  webp-express timber-library advanced-custom-fields \
+  google-authenticator autoptimize classic-editor \
+  radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   --activate-network --activate
   
 printTitle "Enable plugin auto-update..."
-$WPINST_WP_EXE plugin auto-updates enable \
-  --all
+## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
+$WPINST_WP_EXE plugin auto-updates enable --all
 
 printTitle "Setting some options..."
 ## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
