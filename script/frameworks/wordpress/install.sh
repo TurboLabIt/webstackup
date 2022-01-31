@@ -139,7 +139,7 @@ chmod u=rwx,g=rwX,o=rX ${WPINST_WEBROOT_DIR} -R
 chmod u=rw,g=r,o= ${WPINST_WEBROOT_DIR}wp-config.php
 
 printTitle "Adding extra configs to wp-config.php"
-echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WPINST_WEBROOT_DIR}wp.config.php"
-echo "define('FS_METHOD', 'direct');" >> "${WPINST_WEBROOT_DIR}wp.config.php"
+echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WPINST_WEBROOT_DIR}wp-config.php"
+echo "define('FS_METHOD', 'direct');" >> "${WPINST_WEBROOT_DIR}wp-config.php"
 
 printMessage "Your admin password is: $WPINST_FIRST_ADMIN_PASSWORD"
