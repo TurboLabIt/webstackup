@@ -407,6 +407,7 @@ fi
 printTitle "Firewalling..."
 if [ $INSTALL_FIREWALL = 1 ]; then
 
+  source "${WEBSTACKUP_SCRIPT_DIR}firewall/iptables-reset.sh"
   source "${WEBSTACKUP_SCRIPT_DIR}firewall/persona-non-grata.sh"
   
 else
