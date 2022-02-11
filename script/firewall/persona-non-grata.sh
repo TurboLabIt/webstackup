@@ -128,6 +128,9 @@ iptables -A INPUT -p tcp --dport 25 -j ACCEPT
 printMessage "🌎 Allow HTTP(s)..."
 iptables -A INPUT -p tcp -m multiport --dport 80,443 -j ACCEPT
 
+printMessage "📉 Allow monitor..."
+iptables -A INPUT -p tcp -m multiport --dport 5666 -j ACCEPT
+
 printMessage "🛑 Drop everything else..."
 iptables -A INPUT -j DROP
 
