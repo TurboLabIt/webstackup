@@ -138,7 +138,7 @@ if [ -f /etc/pure-ftpd/conf/PassivePortRange ]; then
   printMessage "pure-ftpd found! Updating PassivePortRange..."
   rm -f /etc/pure-ftpd/conf/PassivePortRange
   ln -s ${WEBSTACKUP_CONFIG_DIR}ftp/PassivePortRange /etc/pure-ftpd/conf/PassivePortRange
-  ls -la etc/pure-ftpd/conf/
+  ls -la /etc/pure-ftpd/conf/
   
 else 
   printMessage "pure-ftpd not found. No PassivePortRange updated."
