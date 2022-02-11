@@ -132,6 +132,16 @@ printMessage "🛑 Drop everything else..."
 iptables -A INPUT -j DROP
 
 
+printTitle "🍃 Looking for pure-ftpd..."
+if [ -f /etc/pure-ftpd/conf/PassivePortRange ]; then
+  
+  printMessage "pure-ftpd found! Updating PassivePortRange..."
+  ln -s ${WEBSTACKUP_CONFIG_DIR}ftp/PassivePortRange /etc/pure-ftpd/conf/PassivePortRange
+  
+else 
+  printMessage "pure-ftpd not found. No PassivePortRange updated."
+fi
+
 printTitle "✅ persona-non-grata is done"
 printMessage "iptables"
 iptables -nvL
