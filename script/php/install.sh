@@ -35,6 +35,9 @@ ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" /etc/php/${
 printMessage "Enable OPcache..."
 ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/opcache.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-opcache.ini
 
+printMessage "Cookies forever..."
+ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/cookies-forever.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-cookies-forever.ini
+
 printMessage "Activating custom php-fpm pool settings..."
 if [ "$INSTALLED_RAM" -gt "6000" ]; then
   
