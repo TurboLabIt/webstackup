@@ -116,23 +116,23 @@ printTitle "🚪 Creating iptables rules..."
 printMessage "🏡 Allow from localhost..."
 iptables -A INPUT -i lo -j ACCEPT
 
-printMessage "🏡 Allow connections from LAN..."
-iptables -A INPUT -s 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 -j ACCEPT
-
 printMessage "🎅 Drop XMAS packets..."
 iptables -A INPUT -p tcp --tcp-flags ALL ALL -j DROP
 
 printMessage "💩 Drop null packets..."
 iptables -A INPUT -p tcp --tcp-flags ALL NONE -j DROP
 
+printMessage "📤 Allow ESTABLISHED,RELATED..."
+iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
+
+printMessage "🏡 Allow connections from LAN..."
+iptables -A INPUT -s 10.0.0.0/8,172.16.0.0/12,192.168.0.0/16 -j ACCEPT
+
 printMessage "👐 Enable ipset whitelist..."
 iptables -A INPUT -p tcp -m multiport --dport 80,443 -m set --match-set PersonaNonGrataWhitelist src -j ACCEPT
 
 printMessage "🛑 Enable ipset blocklist..."
 iptables -A INPUT -m set --match-set PersonaNonGrataBlacklist src -j DROP
-
-printMessage "📤 Allow ESTABLISHED,RELATED..."
-iptables -A INPUT -m conntrack --ctstate ESTABLISHED,RELATED -j ACCEPT
 
 printMessage "🐧 Allow SSH..."
 iptables -A INPUT -p tcp -m multiport --dport 22,222 -j ACCEPT
