@@ -39,8 +39,15 @@ foreach($arrIpsum as $lineIpsum) {
         continue;
     }
 
-    $newLine = mb_substr($lineIpsum, 0, mb_strpos($lineIpsum, "\t"));
-    $txtBlacklist .= PHP_EOL . $newLine;
+    // format: IP_ADDRESS\tNUMBER_OF_BLACKLISTS
+    $arrPieces = explode("\t", $lineIpsum);
+
+    // let's exclude those with 2 or less reports
+    if( empty($arrPieces) || count($arrPieces) != 2 || $arrPieces[1] <= 2 ) {
+        continue;
+    }
+
+    $txtBlacklist .= PHP_EOL . $arrPieces[0];
 }
 
 
