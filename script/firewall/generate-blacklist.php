@@ -39,7 +39,8 @@ foreach($arrIpsum as $lineIpsum) {
         continue;
     }
 
-    $txtBlacklist .= PHP_EOL . preg_replace('!\s+!', '/', $lineIpsum);;
+    $newLine = mb_substr($lineIpsum, 0, mb_strpos($lineIpsum, "\t"));
+    $txtBlacklist .= PHP_EOL . $newLine;
 }
 
 
