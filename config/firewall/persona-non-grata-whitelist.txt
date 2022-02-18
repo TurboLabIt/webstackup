@@ -1,1 +1,1 @@
-## This is the static whitelist from https://github.com/TurboLabIt/webstackup/new/master/config/firewall/persona-non-grata-whitelist.txt
+## ✅ This is the static whitelist from https://github.com/TurboLabIt/webstackup/new/master/config/firewall/persona-non-grata-whitelist.txt
