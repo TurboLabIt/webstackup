@@ -17,7 +17,7 @@ if [ -z $2 ] || [ ! -f "$2" ]; then
   exit
 fi
 
-REQUEST_FILE=/tmp/${2}
+REQUEST_FILE=/tmp/${1}
 printTitle "Looking for request file ##$REQUEST_FILE##..."
 if [ ! -f "${REQUEST_FILE}" ]; then
   printMessage "💤 Request file not found. Sleeping..."
