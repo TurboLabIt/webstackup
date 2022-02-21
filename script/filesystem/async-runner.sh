@@ -21,6 +21,7 @@ REQUEST_FILE=/tmp/${2}
 printTitle "Looking for request file ##$REQUEST_FILE##..."
 if [ ! -f "${REQUEST_FILE}" ]; then
   printMessage "💤 Request file not found. Sleeping..."
+  printTheEnd
   exit
 fi
 
