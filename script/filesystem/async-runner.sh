@@ -26,4 +26,4 @@ fi
 
 rm -f "${REQUEST_FILE}"
 printMessage "✅ Request file found! Running the script..."
-bash "$2"
+bash "$2" ${@:3}
