@@ -1,0 +1,11 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+SCRIPT_TO_RUN=/var/www/my-app/scripts/deploy.sh
+
+##
+FILENAME_TO_CHECK=autodeploy-async
+ASYNC_RUNNER=/usr/local/turbolab.it/webstackup/script/filesystem
+
+## Every xxx minute(s): check for an autodeploy request
+*/1 * * * * root bash ${ASYNC_RUNNER} "${FILENAME_TO_CHECK}" "${SCRIPT_TO_RUN}" >/var/log/autodeploy-async.cron.log 2>&1
