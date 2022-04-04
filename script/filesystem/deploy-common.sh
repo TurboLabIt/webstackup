@@ -120,7 +120,7 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "/etc/ng
 fi
 
 ## autodeploy
-if [ "$APP_ENV" == "staging" ] && [ ! -z "${WEBROOT_DIR}" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
+if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
