@@ -113,6 +113,7 @@ echo ""
 echo "/etc/php/${PHP_VER}/cli/conf.d/"
 ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
+
 ## logrotate
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ] && [ ! -f "/etc/logrotate.d/${APP_NAME}.conf" ]; then
   printTitle "📄 Linking custom logrotate config..."
@@ -130,12 +131,13 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "/etc/ng
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "/etc/nginx/conf.d/${APP_NAME}"
 fi
 
+printTitle "🔃 Conditional nginx restart..."
+echo "/etc/nginx/conf.d"
+ls -la "/etc/nginx/conf.d"
+nginx -t && service nginx restart
+
 ## autodeploy
 if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
-
-## nginx restart
-printTitle "🔃 Conditional nginx restart..."
-nginx -t && service nginx restart
