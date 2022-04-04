@@ -113,7 +113,6 @@ echo ""
 echo "/etc/php/${PHP_VER}/cli/conf.d/"
 ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
-
 ## logrotate
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ] && [ ! -f "/etc/logrotate.d/${APP_NAME}.conf" ]; then
   printTitle "📄 Linking custom logrotate config..."
