@@ -41,7 +41,6 @@ if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer dump-env ${APP_ENV} --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})"
 fi
 
-
 ## zzdeploy global command
 if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ] ; then
   printTitle "⚙️ Linking zzdeploy..."
