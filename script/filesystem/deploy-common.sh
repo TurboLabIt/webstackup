@@ -1,6 +1,26 @@
-if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ] ; then
+if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ]; then
   printTitle "Common deploy ops can't run in this APP_ENV (##${APP_ENV}##)"
   return
+fi
+
+if [ -z "${PROJECT_DIR}" ] || [ -z "${SCRIPT_DIR}" ]; then
+  printTitle "Common deploy ops can't run with either PROJECT_DIR or SCRIPT_DIR undefined"
+  printMessage "PROJECT_DIR: ##${PROJECT_DIR}##"
+  printMessage "SCRIPT_DIR: ##${SCRIPT_DIR}##"
+  return
+fi
+
+## pulling and merging
+if [ ! -z "${EXPECTED_USER}" ]; then
+  printTitle "⏬ Git pulling..."
+  #sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
+  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
+fi
+
+if [ ! -z "${EXPECTED_USER}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
+  printTitle "📦 Composer install..."
+  sudo -u ${EXPECTED_USER} -H composer install --working-dir "${PROJECT_DIR}"
 fi
 
 ## zzdeploy global command
@@ -71,3 +91,19 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -z "${APP_N
   printTitle "🌎 Linking nginx server {}..."
   sudo ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "/etc/nginx/conf.d/${APP_NAME}"
 fi
+
+## autodeploy
+if [ "$APP_ENV" == "staging" ] && [ ! -z "${WEBROOT_DIR}" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
+  printTitle "Linking autodeploy..."
+  ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
+fi
+
+## php restart
+if [ ! -z "${PHP_VER}" ]; then
+  printTitle "🔃 Restarting PHP..."
+  sudo service php${PHP_VER}-fpm restart
+fi
+
+## nginx restart
+printTitle "🔃 Conditional nginx restart..."
+sudo nginx -t && service nginx restart
