@@ -18,9 +18,9 @@ if [ ! -z "${EXPECTED_USER}" ]; then
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
 fi
 
-if [ ! -z "${EXPECTED_USER}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
+if [ ! -z "${EXPECTED_USER}" ] && [ ! -z "${PHP_CLI}" } && [ -f "${PROJECT_DIR}composer.json" ]; then
   printTitle "📦 Composer install..."
-  sudo -u ${EXPECTED_USER} -H composer install --working-dir "${PROJECT_DIR}"
+  sudo -u $EXPECTED_USER -H ${PHP_CLI} /usr/local/bin/composer install --working-dir "${PROJECT_DIR}"
 fi
 
 ## zzdeploy global command
