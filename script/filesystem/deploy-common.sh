@@ -36,7 +36,7 @@ if [ ! -f "${PROJECT_DIR}config/custom/cron" ] && [ ! -z "${APP_NAME}" ]; then
 fi
 
 ## env-specific cron file
-if [ ! -f "${PROJECT_DIR}config/custom/${APP_ENV}" ] && [ ! -z "${APP_NAME}" ]; then
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ] && [ ! -z "${APP_NAME}" ]; then
   printTitle "⏲️ Copying ${APP_ENV} cron file..."
   sudo cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME}_${APP_ENV}"
   sudo service cron restart
@@ -64,4 +64,10 @@ fi
 if [ ! -z "${PHP_VER}" ] && [ ! -z "${APP_NAME}" ] && [ -f "${PROJECT_DIR}config/custom/php-custom-cli.ini" ] && [ ! -f "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini" ]; then
   printTitle "📜 Linking php-custom-cli..."
   sudo ln -s "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
+fi
+
+## nginx server{}
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -z "${APP_NAME}" ] && [ ! -f "/etc/nginx/conf.d/${APP_NAME}" ]; then
+  printTitle "🌎 Linking nginx server {}..."
+  sudo ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "/etc/nginx/conf.d/${APP_NAME}"
 fi
