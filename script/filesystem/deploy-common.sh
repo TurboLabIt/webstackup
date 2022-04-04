@@ -21,9 +21,9 @@ fi
 
 ## pulling and merging
 printTitle "⏬ Git pulling..."
-#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
-#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
-#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
   
 ## composer
 if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
