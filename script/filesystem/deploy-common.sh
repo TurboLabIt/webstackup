@@ -21,9 +21,9 @@ fi
 
 ## pulling and merging
 printTitle "⏬ Git pulling..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
+#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
+#sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
   
 ## composer
 if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
@@ -112,6 +112,14 @@ ls -la "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
 echo ""
 echo "/etc/php/${PHP_VER}/cli/conf.d/"
 ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
+
+
+## logrotate
+if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ] && [ ! -f "/etc/logrotate.d/${APP_NAME}.conf" ]; then
+  printTitle "Linking custom logrotate config..."
+  ln -s "${PROJECT_DIR}config/custom/logrotate.conf" "/etc/logrotate.d/${APP_NAME}.conf"
+fi
+
 
 ## nginx server{}
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "/etc/nginx/conf.d/${APP_NAME}" ]; then
