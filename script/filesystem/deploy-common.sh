@@ -43,19 +43,19 @@ if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
 fi
 
 ## zzdeploy global command
-if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ] ; then
+if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
   printTitle "⚙️ Linking zzdeploy..."
   ln -s "${SCRIPT_DIR}deploy.sh" "/usr/local/bin/zzdeploy"
 fi
 
 ## zzcache global command
-if [ -f "${SCRIPT_DIR}cache-flush.sh" ] && [ ! -f "/usr/local/bin/zzcache" ] ; then
+if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
   printTitle "⚙️ Linking zzcache..."
-  ln -s "${SCRIPT_DIR}cache-flush.sh" "/usr/local/bin/zzcache"
+  ln -s "${SCRIPT_DIR}cache-clear.sh" "/usr/local/bin/zzcache"
 fi
 
 ## zztest global command
-if [ -f "${SCRIPT_DIR}test-runner.sh" ] && [ ! -f "/usr/local/bin/zztest" ] ; then
+if [ -f "${SCRIPT_DIR}test-runner.sh" ] && [ ! -f "/usr/local/bin/zztest" ]; then
   printTitle "⚙️ Linking zztest..."
   ln -s "${SCRIPT_DIR}test_runner.sh" "/usr/local/bin/zztest"
 fi
@@ -141,4 +141,10 @@ nginx -t && service nginx restart
 if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
+fi
+
+## cache-clear
+if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
+  printTitle "🧹 Clearing the cache..."
+  sudo -u $EXPECTED_USER -H bash "${SCRIPT_DIR}cache-clear.sh"
 fi
