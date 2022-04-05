@@ -142,7 +142,7 @@ fi
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   printTitle "🧹 Clearing the cache..."
-  sudo -u $EXPECTED_USER -H bash "${SCRIPT_DIR}cache-clear.sh"
+  bash "${SCRIPT_DIR}cache-clear.sh"
 fi
 
 ## user account
