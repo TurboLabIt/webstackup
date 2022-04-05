@@ -71,7 +71,7 @@ fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
   printTitle "⏲️ Copying ${APP_ENV} cron file..."
-  cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME}_${APP_ENV}"
+  cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME}_${APP_ENV}"
 fi
 
 printTitle "🔃️ Restarting cron..."
