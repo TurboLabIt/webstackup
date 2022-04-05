@@ -125,7 +125,7 @@ service logrotate restart
 ## nginx server{}
 if [ -d "/etc/nginx/sites-enabled" ]; then
   NGINX_ETC_CONFD_FULLPATH="/etc/nginx/sites-enabled/"
-elif [ -d "/etc/nginx/conf.d" ]
+elif [ -d "/etc/nginx/conf.d" ]; then
   NGINX_ETC_CONFD_FULLPATH="/etc/nginx/conf.d/"
 fi
 
