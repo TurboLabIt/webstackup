@@ -129,9 +129,9 @@ elif [ -d "/etc/nginx/conf.d" ]; then
   NGINX_ETC_CONFD_FULLPATH="/etc/nginx/conf.d/"
 fi
 
-if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}" ]; then
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf" ]; then
   printTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}"
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf"
 fi
 
 printTitle "🔃 Conditional nginx restart..."
