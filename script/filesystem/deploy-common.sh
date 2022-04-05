@@ -123,9 +123,15 @@ ls -la "/etc/logrotate.d"
 service logrotate restart
 
 ## nginx server{}
-if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "/etc/nginx/conf.d/${APP_NAME}" ]; then
-  printTitle "🌎 Linking nginx server {}..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "/etc/nginx/conf.d/${APP_NAME}"
+if [ -d "/etc/nginx/sites-enabled" ]; then
+  NGINX_ETC_CONFD_FULLPATH="/etc/nginx/sites-enabled/"
+elif [ -d "/etc/nginx/conf.d" ]
+  NGINX_ETC_CONFD_FULLPATH="/etc/nginx/conf.d/"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}" ]; then
+  printTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}"
 fi
 
 printTitle "🔃 Conditional nginx restart..."
