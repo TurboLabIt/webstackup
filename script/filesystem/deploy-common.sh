@@ -4,6 +4,7 @@ if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ]; then
 fi
 
 if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  [ -z "${PROJECT_DIR}" ] || [ -z "${SCRIPT_DIR}" ]; then
+
   catastrophicError "Common deploy ops can't run with these variables undefined:
   
   APP_NAME:    ##${APP_NAME}##
@@ -11,11 +12,6 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
   PHP_VER:     ##${PHP_VER}##
   PROJECT_DIR: ##${PROJECT_DIR}##
   SCRIPT_DIR:  ##${SCRIPT_DIR}##"
-  return
-fi
-
-if [ -z "${PROJECT_DIR}" ] || [ -z "${SCRIPT_DIR}" ]; then
-  catastrophicError "Common deploy ops can't run with either PROJECT_DIR or SCRIPT_DIR undefined"
   return
 fi
 
@@ -139,7 +135,7 @@ nginx -t && service nginx restart
 
 ## autodeploy
 if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
-  printTitle "Linking autodeploy..."
+  printTitle "🧙‍♂️ Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
 
@@ -147,4 +143,13 @@ fi
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   printTitle "🧹 Clearing the cache..."
   sudo -u $EXPECTED_USER -H bash "${SCRIPT_DIR}cache-clear.sh"
+fi
+
+## user account
+if [ ! -z "${USERS_TEMPLATE_PATH}" ]; then
+  bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH"
+fi
+
+if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; then
+  bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH_STAGING"
 fi
