@@ -39,7 +39,13 @@ if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
 fi
 
 ## zzdeploy global command
-if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
+if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -z "${ZZDEPLOY_NAME}" ] && [ ! -f "/usr/local/bin/${ZZDEPLOY_NAME}" ]; then
+
+  printTitle "⚙️ Linking zzdeploy (${ZZDEPLOY_NAME})..."
+  ln -s "${SCRIPT_DIR}deploy.sh" "/usr/local/bin/${ZZDEPLOY_NAME}"
+  
+elif [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
+
   printTitle "⚙️ Linking zzdeploy..."
   ln -s "${SCRIPT_DIR}deploy.sh" "/usr/local/bin/zzdeploy"
 fi
