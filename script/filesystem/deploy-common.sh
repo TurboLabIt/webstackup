@@ -7,11 +7,11 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
 
   catastrophicError "Common deploy ops can't run with these variables undefined:
   
-  APP_NAME:    ##${APP_NAME}##
-  APP_NAME:    ##${EXPECTED_USER}##
-  PHP_VER:     ##${PHP_VER}##
-  PROJECT_DIR: ##${PROJECT_DIR}##
-  SCRIPT_DIR:  ##${SCRIPT_DIR}##"
+  APP_NAME:       ##${APP_NAME}##
+  EXPECTED_USER:  ##${EXPECTED_USER}##
+  PHP_VER:        ##${PHP_VER}##
+  PROJECT_DIR:    ##${PROJECT_DIR}##
+  SCRIPT_DIR:     ##${SCRIPT_DIR}##"
   return
 fi
 
