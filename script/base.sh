@@ -103,15 +103,14 @@ To override:
 sudo rm -f \"$LOCKFILE\""
 
     echo ""
-    cat "$1.lock"
+    ls -lah "${LOCKFILE}"
 
     echo ""
     exit
   fi
 
-  echo "${1}.sh lock file." > "$LOCKFILE"
-  echo "File created $(date)" >> "$LOCKFILE"
-  printMessage "Lock file created in $LOCKFILE"
+  touch "$LOCKFILE"
+  printMessage "Lock file created in ##${LOCKFILE}##"
 }
 
 
