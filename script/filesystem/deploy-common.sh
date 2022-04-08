@@ -171,3 +171,21 @@ fi
 if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH_STAGING"
 fi
+
+## zzmysqldump
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
+
+  printTitle "🗃️ Linking custom zzmysqldump-deploy.conf (from ${APP_ENV})..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf"
+  
+elif [ -f "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
+
+  printTitle "🗃️ Linking custom zzmysqldump-deploy.conf..."
+  ln -s "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf"
+fi
+
+if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
+  printTitle "🗃️ zzmysqldump..."
+  zzmysqldump ${APP_NAME}-deploy.conf
+fi
+
