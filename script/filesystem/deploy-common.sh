@@ -145,6 +145,12 @@ echo "/etc/nginx/conf.d"
 ls -la "/etc/nginx/conf.d"
 nginx -t && service nginx restart
 
+## ElasticSearch
+if systemctl --all --type service | grep -q "elasticsearch"; then
+  printTitle "🔃 Restarting ElasticSearch (background)..."
+  service elasticsearch restart &
+fi
+
 ## autodeploy
 if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "🧙‍♂️ Linking autodeploy..."
