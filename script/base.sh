@@ -97,8 +97,14 @@ devOnlyCheck ()
 lockCheck ()
 {
   local LOCKFILE=${1}.lock
-  if [ -f $LOCKFILE ]; then
-    catastrophicError "Lockfile detected. It looks like this script is already running
+  if [ -z "$2" ]; then
+    LOCKFILE_TIMEOUT=120
+  else
+    LOCKFILE_TIMEOUT=$2
+  fi 
+  
+  if [ -f "${LOCKFILE}" ] && [ ! -z `find "${LOCKFILE}" -mmin -${LOCKFILE_TIMEOUT}` ]; then
+    catastrophicError "Lockfile detected. It looks like this script is already running!
 To override:
 sudo rm -f \"$LOCKFILE\""
 
