@@ -24,6 +24,14 @@ apt update -qq
 apt install elasticsearch -y -qq
 
 echo ""
+echo -e "\e[1;45m Linking a base config... \e[0m"
+if [ ! -f "/etc/elasticsearch/jvm.options.d/jvm.options" ]; then
+  ln -s "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" "/etc/elasticsearch/jvm.options.d/"
+else
+  printMessage "Skipping! Config file already exists!"
+fi
+
+echo ""
 echo -e "\e[1;45m Service management... \e[0m"
 systemctl enable elasticsearch
 service elasticsearch restart
