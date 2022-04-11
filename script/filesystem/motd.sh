@@ -15,3 +15,14 @@ sudo chmod -x /etc/update-motd.d/10-help-text
 
 ## Disable "XX updates can be applied immediately"
 sudo chmod -x /etc/update-motd.d/90-updates-available
+
+## Add hostname
+if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname.sh ]; then
+
+ ln -s /usr/local/turbolab.it/webstackup/script/filesystem/hostname.sh /etc/update-motd.d/00-webstackup-hostname
+ 
+elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname.sh ]; then
+
+  sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/hostname.sh?$(date +%s)
+ 
+fi
