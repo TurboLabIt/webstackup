@@ -3,4 +3,4 @@ if [ -z "$(command -v figlet)" ] || [ ! -f "/usr/games/lolcat" ]; then
   sudo apt install figlet lolcat -y -qq
 fi
 
-figlet "$(hostname)" | /usr/games/lolcat
+figlet "$(hostname)" | /usr/games/lolcat -f
