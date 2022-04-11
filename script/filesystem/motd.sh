@@ -12,3 +12,6 @@ sudo chmod -x /etc/update-motd.d/00-header
 
 ## Disable support links
 sudo chmod -x /etc/update-motd.d/10-help-text
+
+## Disable "XX updates can be applied immediately"
+sudo chmod -x /etc/update-motd.d/90-updates-available
