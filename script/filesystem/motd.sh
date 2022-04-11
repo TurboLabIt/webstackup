@@ -24,5 +24,6 @@ if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbola
 elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
 
   sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/hostname-banner.sh?$(date +%s)
- 
+  sudo chmod u=rwx,go=rx /etc/update-motd.d/00-webstackup-hostname
+  
 fi
