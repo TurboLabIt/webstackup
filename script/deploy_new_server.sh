@@ -73,7 +73,6 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 
   printMessage "Setting up the webstackup command..."
   if [ ! -e "/usr/bin/webstackup" ]; then
-  
     ln -s ${WEBSTACKUP_SCRIPT_DIR}webstackup.sh /usr/bin/webstackup
   fi
   
@@ -99,6 +98,9 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
   
   printMessage "Keep SSH alive..."
   cp "${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf" /etc/ssh/sshd_config.d/
+  
+  printMessage "Updating MOTD"
+  source "${WEBSTACKUP_SCRIPT_DIR}filesystem/motd.sh"
 
 else
   
