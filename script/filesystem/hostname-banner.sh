@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
-
-if [ -z "$(command -v figlet)" ]; then
-  sudo apt install figlet -y -qq
+if [ -z "$(command -v figlet)" ] || [ -z "$(command -v lolcat)" ]; then
+  sudo apt install figlet lolcat -y -qq
 fi
 
-figlet "$(hostname)"
+figlet "$(hostname)" | lolcat -a -d 500
