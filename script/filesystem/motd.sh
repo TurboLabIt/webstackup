@@ -5,7 +5,6 @@
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
 ##
 sudo sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
-sudo cat /etc/default/motd-news | grep 'ENABLED='
 
 ## Disable "Welcome to Ubuntu"
 sudo chmod -x /etc/update-motd.d/00-header
