@@ -4,4 +4,5 @@
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
 ##
-sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+sudo sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+sudo cat /etc/default/motd-news | grep 'ENABLED='
