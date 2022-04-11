@@ -1,5 +1,5 @@
 ### CHANGE MOTD ON UBUNTU BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/script/filesystem/motd.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/motd.sh?$(date +%s) | sudo bash
 #!/usr/bin/env bash
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
