@@ -186,6 +186,6 @@ fi
 
 if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
   printTitle "🗃️ zzmysqldump..."
-  zzmysqldump ${APP_NAME}-deploy.conf
+  zzmysqldump ${APP_NAME}-deploy
 fi
 
