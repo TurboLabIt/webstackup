@@ -119,9 +119,10 @@ ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
 ## mysql-custom
-if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ ! -f "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf" ]; then
-  printTitle "📜 Linking mysql-custom..."
-  ln -s "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
+if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ]; then
+  # https://serverfault.com/questions/439378/mysql-not-reading-symlinks-for-options-files-my-cnf
+  printTitle "📜 Copying mysql-custom..."
+  cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
 fi
 
 printTitle "🔃 Restarting MySQL..."
