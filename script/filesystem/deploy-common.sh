@@ -17,6 +17,7 @@ fi
 
 ## pulling and merging
 printTitle "⏬ Git pulling..."
+sudo -u ${EXPECTED_USER} -H git config --global --add safe.directory "${PROJECT_DIR}"
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
