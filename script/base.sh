@@ -181,6 +181,7 @@ fi
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 
+git config --global --add safe.directory "${PROJECT_DIR}"
 GIT_BRANCH=$(git -C $PROJECT_DIR branch | grep \* | cut -d ' ' -f2-)
 
 if [ -f "${PROJECT_DIR}env" ]; then
