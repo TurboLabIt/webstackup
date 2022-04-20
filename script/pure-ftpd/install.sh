@@ -40,6 +40,19 @@ fi
 
 
 echo ""
+echo -e "\e[1;44m /var/www setup... \e[0m"
+if [ -d "/var/www" ]; then
+
+  echo "/var/www found, skipping"
+  
+else
+
+  mkdir -p /var/www
+  chown www-data:www-data /var/www -R
+fi
+
+
+echo ""
 echo -e "\e[1;44m PassivePortRange... \e[0m"
 if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
 
