@@ -92,22 +92,19 @@ else
   echo "Auth exists, skipping"
 fi
 
-
-if [ ! -f "/etc/pure-ftpd/pureftpd.passwd" ]; then
-  touch "/etc/pure-ftpd/pureftpd.passwd"
-fi
-
 echo ""
 echo -e "\e[1;44m Listing... \e[0m"
 ls -lAtrh "/etc/pure-ftpd/conf"
 
+echo ""
+echo -e "\e[1;44m Listing FTP users... \e[0m"
+if [ ! -f "/etc/pure-ftpd/pureftpd.passwd" ]; then
+  touch "/etc/pure-ftpd/pureftpd.passwd"
+fi
+pure-pw mkdb
+pure-pw list
+echo ""
 
 echo ""
 echo -e "\e[1;44m Restarting... \e[0m"
 service pure-ftpd restart
-
-echo ""
-echo -e "\e[1;44m Listing FTP users... \e[0m"
-pure-pw mkdb
-pure-pw list
-echo ""
