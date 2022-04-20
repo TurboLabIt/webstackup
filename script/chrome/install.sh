@@ -3,17 +3,27 @@
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh?$(date +%s) | sudo bash
 # 
 
+echo -e "\e[1;46m ================= \e[0m"
+echo -e "\e[1;46m INSTALLING CHROME \e[0m"
+echo -e "\e[1;46m ================= \e[0m"
+
 echo ""
 if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
 fi
 
-## https://turbolab.it/chrome-144/come-installare-chrome-stabile-beta-dev-ubuntu-modo-giusto-sola-riga-comando-video-3267
+echo ""
+if [ -f "/usr/bin/google-chrome" ]; then
+  echo -e "\e[1;33m ✔ Chome is already installed \e[0m"
+  exit
+fi
+
+## https://turbolab.it/3267
 wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 apt update
 apt install ./chrome.deb -y
 rm -f chrome.deb
 
-echo -e "\e[1;33m Chrome is ready! \e[0m"
-echo -e "\e[1;33m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
+echo -e "\e[1;32m Chrome is ready! \e[0m"
+echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
