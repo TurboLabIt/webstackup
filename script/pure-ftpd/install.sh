@@ -8,14 +8,17 @@ if ! [ $(id -u) = 0 ]; then
   exit
 fi
 
+
 echo ""
 echo -e "\e[1;44m Installing Pure-FTPd... \e[0m"
 apt update
 apt install pure-ftpd  -y
 
+
 echo ""
 echo -e "\e[1;44m Start Pure-FTPd at boot... \e[0m"
 systemctl enable pure-ftpd
+
 
 echo ""
 echo -e "\e[1;44m www-data user setup... \e[0m"
@@ -34,6 +37,7 @@ else
   chown www-data:www-data /var/www -R
 fi
 
+
 echo ""
 echo -e "\e[1;44m PassivePortRange... \e[0m"
 if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
@@ -49,7 +53,6 @@ elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
 else
 
   echo "PassivePortRange exists, skipping"
-  
 fi
 
 
@@ -65,8 +68,8 @@ else
 
   echo "Downloading NoAnonymous..."
   curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/NoAnonymous
-  
 fi
+
 
 echo ""
 echo -e "\e[1;44m PureDB... \e[0m"
@@ -80,8 +83,8 @@ else
 
   echo "Downloading PureDB..."
   curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PureDB
-  
 fi
+
 
 echo ""
 echo -e "\e[1;44m Activating PureDB auth... \e[0m"
@@ -92,9 +95,26 @@ else
   echo "Auth exists, skipping"
 fi
 
+
+echo ""
+echo -e "\e[1;44m MinUID... \e[0m"
+rm -f "/etc/pure-ftpd/conf/MinUID"
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" ]; then
+
+  echo "Linking MinUID..."
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" "/etc/pure-ftpd/conf/MinUID"
+
+else
+
+  echo "Downloading MinUID..."
+  curl -Lo "/etc/pure-ftpd/conf/MinUID" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/MinUID
+fi
+
+
 echo ""
 echo -e "\e[1;44m Listing... \e[0m"
 ls -lAtrh "/etc/pure-ftpd/conf"
+
 
 echo ""
 echo -e "\e[1;44m Listing FTP users... \e[0m"
@@ -103,8 +123,9 @@ if [ ! -f "/etc/pure-ftpd/pureftpd.passwd" ]; then
 fi
 pure-pw mkdb
 pure-pw list
-echo ""
+
 
 echo ""
 echo -e "\e[1;44m Restarting... \e[0m"
 service pure-ftpd restart
+echo ""
