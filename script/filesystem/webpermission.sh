@@ -1,9 +1,16 @@
 #!/bin/bash
+
 echo ""
+echo -e "\e[1;46m ================= \e[0m"
+echo -e "\e[1;46m 👮 WEB-PERMISSION \e[0m"
+echo -e "\e[1;46m ================= \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
-printHeader "Set the optimal permission set for a web project"
-rootCheck
 
 ## Config file path from CLI (if any)
 WEBPERMISSION_PROJECT_DIR=$1
