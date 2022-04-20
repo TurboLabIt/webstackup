@@ -454,6 +454,17 @@ else
 fi
 
 
+printTitle "Installing CHROME..."
+if [ $INSTALL_CHROME = 1 ]; then
+  
+  source ${WEBSTACKUP_SCRIPT_DIR}chrome/install.sh
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
+
 printTitle "Installing cron..."
 cp "${WEBSTACKUP_INSTALL_DIR}config/cron/webstackup" /etc/cron.d/
 
