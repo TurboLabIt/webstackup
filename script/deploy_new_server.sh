@@ -230,6 +230,17 @@ else
 fi
 
 
+printTitle "Installing ELASTICSEARCH..."
+if [ $INSTALL_PUREFTPD = 1 ]; then
+  
+  source ${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
+
 printTitle "Installing COMPOSER..."
 if [ $INSTALL_COMPOSER = 1 ]; then
 
