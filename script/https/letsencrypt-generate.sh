@@ -1,29 +1,18 @@
 #!/usr/bin/env bash
 echo ""
+echo -e "\e[1;46m ========================= \e[0m"
+echo -e "\e[1;46m 🔏 LET'S ENCRYPT GENERATE \e[0m"
+echo -e "\e[1;46m ========================= \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 ## Script name
 SCRIPT_NAME=letsencrypt-generate
 LETSENCRYPT_DOMAIN=$1
 LETSENCRYPT_EMAIL=$2
-
-## root check
-if ! [ $(id -u) = 0 ]; then
-
-  echo ""
-  echo "vvvvvvvvvvvvvvvvvvvv"
-  echo "Catastrophic error!!"
-  echo "^^^^^^^^^^^^^^^^^^^^"
-  echo "This script must run as root!"
-
-  echo "How to fix it?"
-  echo "Execute the script like this:"
-  echo "sudo $SCRIPT_NAME"
-
-  echo "The End"
-  echo $(date)
-  exit
-fi
-
 
 ## Domain
 while [ -z "$LETSENCRYPT_DOMAIN" ]
