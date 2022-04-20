@@ -230,7 +230,7 @@ else
 fi
 
 
-printTitle "Installing ELASTICSEARCH..."
+printTitle "Installing PURE-FTPD..."
 if [ $INSTALL_PUREFTPD = 1 ]; then
   
   source ${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh
