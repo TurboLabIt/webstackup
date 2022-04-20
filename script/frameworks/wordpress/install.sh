@@ -22,6 +22,11 @@
 #@-- 
 #@-- source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh
 
+echo ""
+echo -e "\e[1;46m ==================== \e[0m"
+echo -e "\e[1;46m 📋 WORDPRESS INSTALL \e[0m"
+echo -e "\e[1;46m ==================== \e[0m"
+
 if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   return 1
