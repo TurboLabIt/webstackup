@@ -1,18 +1,24 @@
 #!/usr/bin/env bash
 ### GUIDED PROJECT CLONING AND STARTUP BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/filesystem/git_cloner.sh
+#
+
 echo ""
+echo -e "\e[1;46m =================== \e[0m"
+echo -e "\e[1;46m 🚀 REMOTE APP SETUP \e[0m"
+echo -e "\e[1;46m =================== \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
-printHeader "🚀 Git clone and setup a remote web app"
-rootCheck
-
 
 if [ -z "$(command -v git)" ]; then
 
   printTitle "📦 Installing prerequisites..."
   apt update && apt install git -y
-  
 fi
 
 
