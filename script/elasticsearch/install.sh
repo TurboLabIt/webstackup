@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 ### AUTOMATIC ELASTICSEARCH INSTALL BY WEBSTACK.UP
 
-if ! [ $(id -u) = 0 ]; then
+echo ""
+echo -e "\e[1;46m ===================== \e[0m"
+echo -e "\e[1;46m ELASTICSEARCH INSTALL \e[0m"
+echo -e "\e[1;46m ===================== \e[0m"
 
-    echo "This script must run as ROOT"
-    exit
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
 fi
 
 echo ""
