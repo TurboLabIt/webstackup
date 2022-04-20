@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 ### CHANGE MOTD ON UBUNTU BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/motd.sh?$(date +%s) | sudo bash
+#
+
+echo ""
+echo -e "\e[1;46m ========== \e[0m"
+echo -e "\e[1;46m MOTD SETUP \e[0m"
+echo -e "\e[1;46m ========== \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
-##
 sudo sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
 
 ## Disable "Welcome to Ubuntu"
