@@ -42,12 +42,12 @@ echo ""
 echo -e "\e[1;44m PassivePortRange... \e[0m"
 if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
 
-  echo "Linking PassivePortRange..."
+  echo "Linking..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
 
 elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
 
-  echo "Downloading PassivePortRange..."
+  echo "Downloading..."
   curl -Lo "/etc/pure-ftpd/conf/PassivePortRange" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PassivePortRange
   
 else
@@ -59,15 +59,15 @@ fi
 echo ""
 echo -e "\e[1;44m NoAnonymous... \e[0m"
 rm -f "/etc/pure-ftpd/conf/NoAnonymous"
-if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/NoAnonymous" ]; then
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" ]; then
 
-  echo "Linking NoAnonymous..."
-  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/NoAnonymous" "/etc/pure-ftpd/conf/NoAnonymous"
+  echo "Linking..."
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" "/etc/pure-ftpd/conf/NoAnonymous"
 
 else
 
-  echo "Downloading NoAnonymous..."
-  curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/NoAnonymous
+  echo "Downloading..."
+  curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/Yes
 fi
 
 
@@ -76,12 +76,12 @@ echo -e "\e[1;44m PureDB... \e[0m"
 rm -f "/etc/pure-ftpd/conf/PureDB"
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" ]; then
 
-  echo "Linking PureDB..."
+  echo "Linking..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" "/etc/pure-ftpd/conf/PureDB"
 
 else
 
-  echo "Downloading PureDB..."
+  echo "Downloading..."
   curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PureDB
 fi
 
@@ -94,6 +94,25 @@ if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
 else
   echo "Auth exists, skipping"
 fi
+
+
+echo ""
+echo -e "\e[1;44m Disabling Unix auth... \e[0m"
+rm -f "/etc/pure-ftpd/conf/UnixAuthentication"
+rm -f "/etc/pure-ftpd/conf/PAMAuthentication"
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" ]; then
+
+  echo "Linking..."
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/UnixAuthentication"
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/PAMAuthentication"
+
+else
+
+  echo "Downloading..."
+  curl -Lo "/etc/pure-ftpd/conf/UnixAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
+  curl -Lo "/etc/pure-ftpd/conf/PAMAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
+fi
+
 
 
 echo ""
