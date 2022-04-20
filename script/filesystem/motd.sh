@@ -1,6 +1,6 @@
+#!/usr/bin/env bash
 ### CHANGE MOTD ON UBUNTU BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/motd.sh?$(date +%s) | sudo bash
-#!/usr/bin/env bash
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
 ##
@@ -26,3 +26,5 @@ elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/tur
   sudo chmod u=rwx,go=rx /etc/update-motd.d/00-webstackup-hostname
   
 fi
+
+bash "/etc/update-motd.d/00-webstackup-hostname"
