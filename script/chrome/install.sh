@@ -3,6 +3,7 @@
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh?$(date +%s) | sudo bash
 # 
 
+echo ""
 echo -e "\e[1;46m ================= \e[0m"
 echo -e "\e[1;46m INSTALLING CHROME \e[0m"
 echo -e "\e[1;46m ================= \e[0m"
