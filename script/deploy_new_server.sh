@@ -56,7 +56,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
 
   printMessage "Installing dependencies..."
   apt update -qq
-  apt install git software-properties-common gnupg2 dialog htop screen openssl -y -qq
+  apt install git software-properties-common gnupg2 dialog htop screen openssl zip unzip -y -qq
   
   if [ ! -d "$WEBSTACKUP_INSTALL_DIR" ]; then
     printMessage "Installing..."
