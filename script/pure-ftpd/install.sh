@@ -83,6 +83,16 @@ else
   
 fi
 
+echo ""
+echo -e "\e[1;44m Activating PureDB auth... \e[0m"
+if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
+  echo "Linking..."
+  ln -s "/etc/pure-ftpd/conf/PureDB" "/etc/pure-ftpd/auth/20PureDB"
+else
+  echo "Auth exists, skipping"
+fi
+
+
 if [ ! -f "/etc/pure-ftpd/pureftpd.passwd" ]; then
   touch "/etc/pure-ftpd/pureftpd.passwd"
 fi
