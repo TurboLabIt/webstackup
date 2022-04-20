@@ -233,6 +233,8 @@ fi
 printTitle "Installing PURE-FTPD..."
 if [ $INSTALL_PUREFTPD = 1 ]; then
   
+  printMessage "Removing previous version (if any)"
+  apt purge --auto-remove pure-ftpd* -y -qq
   source ${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh
   
 else
