@@ -1,3 +1,8 @@
+echo ""
+echo -e "\e[1;46m ============= \e[0m"
+echo -e "\e[1;46m DEPLOY-COMMON \e[0m"
+echo -e "\e[1;46m ============= \e[0m"
+
 if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ]; then
   catastrophicError "Common deploy ops can't run in this APP_ENV (##${APP_ENV}##)"
   return
