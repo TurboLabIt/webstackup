@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACK.UP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/ftp/install.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/pure-ftpd/install.sh?$(date +%s) | sudo bash
 
 echo ""
 if ! [ $(id -u) = 0 ]; then
@@ -36,15 +36,15 @@ fi
 
 echo ""
 echo -e "\e[1;44m PassivePortRange... \e[0m"
-if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/ftp/PassivePortRange" ]; then
+if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
 
   echo "Linking PassivePortRange..."
-  ln -s "/usr/local/turbolab.it/webstackup/config/ftp/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
 
 elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
 
   echo "Downloading PassivePortRange..."
-  curl -Lo "/etc/pure-ftpd/conf/PassivePortRange" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ftp/PassivePortRange
+  curl -Lo "/etc/pure-ftpd/conf/PassivePortRange" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PassivePortRange
   
 else
 
@@ -56,30 +56,30 @@ fi
 echo ""
 echo -e "\e[1;44m NoAnonymous... \e[0m"
 rm -f "/etc/pure-ftpd/conf/NoAnonymous"
-if [ -f "/usr/local/turbolab.it/webstackup/config/ftp/NoAnonymous" ]; then
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/NoAnonymous" ]; then
 
   echo "Linking NoAnonymous..."
-  ln -s "/usr/local/turbolab.it/webstackup/config/ftp/NoAnonymous" "/etc/pure-ftpd/conf/NoAnonymous"
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/NoAnonymous" "/etc/pure-ftpd/conf/NoAnonymous"
 
 else
 
   echo "Downloading NoAnonymous..."
-  curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ftp/NoAnonymous
+  curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/NoAnonymous
   
 fi
 
 echo ""
 echo -e "\e[1;44m PureDB... \e[0m"
 rm -f "/etc/pure-ftpd/conf/PureDB"
-if [ -f "/usr/local/turbolab.it/webstackup/config/ftp/PureDB" ]; then
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" ]; then
 
   echo "Linking PureDB..."
-  ln -s "/usr/local/turbolab.it/webstackup/config/ftp/PureDB" "/etc/pure-ftpd/conf/PureDB"
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" "/etc/pure-ftpd/conf/PureDB"
 
 else
 
   echo "Downloading PureDB..."
-  curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ftp/PureDB
+  curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PureDB
   
 fi
 
