@@ -8,13 +8,11 @@ echo -e "\e[1;46m ================= \e[0m"
 echo -e "\e[1;46m INSTALLING CHROME \e[0m"
 echo -e "\e[1;46m ================= \e[0m"
 
-echo ""
 if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
 fi
 
-echo ""
 if [ -f "/usr/bin/google-chrome" ]; then
   echo -e "\e[1;33m ✔ Chome is already installed \e[0m"
   exit
