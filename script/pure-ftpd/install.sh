@@ -133,7 +133,7 @@ fi
 echo ""
 echo -e "\e[1;44m Generating TLS certificate... \e[0m"
 mkdir -p "/etc/ssl/private/"
-if [ ! -f "/etc/ssl/private/pure-ftpd.pem" ];
+if [ ! -f "/etc/ssl/private/pure-ftpd.pem" ]; then
 
   openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout "/etc/ssl/private/pure-ftpd.pem" -out "/etc/ssl/private/pure-ftpd.pem" -subj "/CN=ftps"
   
