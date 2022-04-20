@@ -9,7 +9,7 @@ if ! [ $(id -u) = 0 ]; then
 fi
 
 echo ""
-echo -e "\e[1;44m InstallingPure-FTPd... \e[0m"
+echo -e "\e[1;44m Installing Pure-FTPd... \e[0m"
 apt update
 apt install pure-ftpd  -y
 
