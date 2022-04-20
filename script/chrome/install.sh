@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC Chrome Headless INSTALL BY WEBSTACK.UP
+### AUTOMATIC Chrome INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh?$(date +%s) | sudo bash
 # 
 
@@ -15,3 +15,5 @@ apt update
 apt install ./chrome.deb -y
 rm -f chrome.deb
 
+echo -e "\e[1;33m Chrome is ready! \e[0m"
+echo -e "\e[1;33m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
