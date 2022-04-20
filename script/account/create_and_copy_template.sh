@@ -1,7 +1,11 @@
 #!/usr/bin/env bash
 ### AUTOMATIC LINUX USER ACCOUNT PROVISIONING INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/edit/master/script/account/create_and_copy_template.sh
+
 echo ""
+echo -e "\e[1;46m =============== \e[0m"
+echo -e "\e[1;46m CREATE ACCOUNTS \e[0m"
+echo -e "\e[1;46m =============== \e[0m"
 
 if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
@@ -31,7 +35,6 @@ else
 
   echo -e "\e[1;43m Creating group $GROUPNAME... \e[0m"
   groupadd devops
-
 fi
 
 
