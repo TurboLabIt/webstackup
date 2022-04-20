@@ -115,19 +115,46 @@ else
 fi
 
 
-
 echo ""
 echo -e "\e[1;44m MinUID... \e[0m"
 rm -f "/etc/pure-ftpd/conf/MinUID"
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" ]; then
 
-  echo "Linking MinUID..."
+  echo "Linking..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" "/etc/pure-ftpd/conf/MinUID"
 
 else
 
-  echo "Downloading MinUID..."
+  echo "Downloading..."
   curl -Lo "/etc/pure-ftpd/conf/MinUID" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/MinUID
+fi
+
+
+echo ""
+echo -e "\e[1;44m Generating TLS certificate... \e[0m"
+mkdir -p "/etc/ssl/private/"
+if [ ! -f "/etc/ssl/private/pure-ftpd.pem" ];
+
+  openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout "/etc/ssl/private/pure-ftpd.pem" -out "/etc/ssl/private/pure-ftpd.pem" -subj "/CN=ftps"
+  
+else
+
+  echo "Certificate file exists, skipping"
+fi
+
+
+echo ""
+echo -e "\e[1;44m Activate TLS... \e[0m"
+rm -f "/etc/pure-ftpd/conf/TLS"
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" ]; then
+
+  echo "Linking..."
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" "/etc/pure-ftpd/conf/TLS"
+
+else
+
+  echo "Downloading..."
+  curl -Lo "/etc/pure-ftpd/conf/TLS" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/TLS-only
 fi
 
 
