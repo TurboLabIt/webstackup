@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 ### GUIDED MySQL USER CREATION BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/new.sh
+#
+
 echo ""
+echo -e "\e[1;46m ============================ \e[0m"
+echo -e "\e[1;46m 🗄️ MYSQL NEW DATABASE ACCESS \e[0m"
+echo -e "\e[1;46m ============================ \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
-printHeader "🚀 Create a new MySQL database access"
-rootCheck
-
 
 MYSQL_CREDENTIALS_FILE=/etc/turbolab.it/mysql.conf
 if [ ! -f ${MYSQL_CREDENTIALS_FILE} ]; then
