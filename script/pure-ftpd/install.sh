@@ -2,17 +2,17 @@
 ### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/pure-ftpd/install.sh?$(date +%s) | sudo bash
 # sudo pure-pw useradd USERNAME_TO_ADD -u www-data -d /var/www && sudo pure-pw mkdb && sudo pure-pw list
+#
 
+echo ""
 echo -e "\e[1;46m ==================== \e[0m"
 echo -e "\e[1;46m INSTALLING Pure-FTPd \e[0m"
 echo -e "\e[1;46m ==================== \e[0m"
 
-echo ""
 if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
 fi
-
 
 echo ""
 echo -e "\e[1;44m Installing Pure-FTPd... \e[0m"
