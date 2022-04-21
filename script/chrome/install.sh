@@ -24,7 +24,7 @@ apt update
 apt install ./chrome.deb -y
 rm -f chrome.deb
 
-/usr/bin/google-chrome --headless --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
+/usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
 
 echo -e "\e[1;32m Chrome is ready! \e[0m"
 echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
