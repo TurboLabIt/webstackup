@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 ### AUTOMATIC NGINX INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh?$(date +%s) | sudo bash
+#
+
+echo ""
+echo -e "\e[1;46m ================ \e[0m"
+echo -e "\e[1;46m 📰 NGINX INSTALL \e[0m"
+echo -e "\e[1;46m ================ \e[0m"
 
 if ! [ $(id -u) = 0 ]; then
-
-    echo "This script must run as ROOT"
-    exit
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
 fi
   
 ## Add Nginx key and repo
