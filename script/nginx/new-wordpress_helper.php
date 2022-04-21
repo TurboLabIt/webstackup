@@ -1,5 +1,7 @@
 <?php
 
+die('UNMAINTAINED as of 2022-04');
+
 $filename   = $argv[1];
 $filecontent= file_get_contents($filename);
 $newcontent = file_get_contents('https://api.wordpress.org/secret-key/1.1/salt/');
