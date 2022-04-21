@@ -1,6 +1,9 @@
 #!/bin/bash
 echo ""
 
+echo -e "\e[1;41m UNMAINTAINED as of 2022-04 \e[0m"
+exit
+
 ## Script name
 SCRIPT_NAME=new-wordpress
 
