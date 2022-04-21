@@ -1,6 +1,9 @@
 #!/bin/bash
 echo ""
 
+echo -e "\e[1;41m UNMAINTAINED as of 2022-04 \e[0m"
+exit
+
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 printHeader "Create a new project"
 rootCheck
