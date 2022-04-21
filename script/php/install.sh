@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 ### AUTOMATIC PHP INSTALL BY WEBSTACK.UP
+#
+
+echo ""
+echo -e "\e[1;46m ============= \e[0m"
+echo -e "\e[1;46m ⚙️ PHP INSTALL \e[0m"
+echo -e "\e[1;46m ============= \e[0m"
 
 if ! [ $(id -u) = 0 ]; then
-
-    echo "This script must run as ROOT"
-    exit
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
 fi
-
-printMessage "Removing previous version (if any)"
-apt purge --auto-remove php* -y -qq
   
 printMessage "Setting up ondrej/php"
 LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
