@@ -1,41 +1,16 @@
 #!/bin/bash
+
 echo ""
+echo -e "\e[1;46m ================= \e[0m"
+echo -e "\e[1;46m 📤 DKIM GENERATOR \e[0m"
+echo -e "\e[1;46m ================= \e[0m"
 
-## Script name
-SCRIPT_NAME=dkim
-
-## Title and graphics
-FRAME="O===========================================================O"
-echo "$FRAME"
-echo "      $SCRIPT_NAME - $(date)"
-echo "$FRAME"
-
-## Enviroment variables
-TIME_START="$(date +%s)"
-DOWEEK="$(date +'%u')"
-HOSTNAME="$(hostname)"
-
-MAIL_DOMAIN=$1
-
-## root check
 if ! [ $(id -u) = 0 ]; then
-
-  echo ""
-  echo "vvvvvvvvvvvvvvvvvvvv"
-  echo "Catastrophic error!!"
-  echo "^^^^^^^^^^^^^^^^^^^^"
-  echo "This script must run as root!"
-
-  echo "How to fix it?"
-  echo "Execute the script like this:"
-  echo "sudo $SCRIPT_NAME"
-
-  echo "The End"
-  echo $(date)
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
 fi
 
-
+MAIL_DOMAIN=$1
 while [ -z "$MAIL_DOMAIN" ]
 do
   read -p "Please provide the email domain to DKIM (no-www! E.g.: turbolab.it): " MAIL_DOMAIN  < /dev/tty
