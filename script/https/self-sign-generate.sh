@@ -1,10 +1,16 @@
 #!/bin/bash
+
 echo ""
+echo -e "\e[1;46m ============================= \e[0m"
+echo -e "\e[1;46m 🔏 HTTPS SELF-SIGNED GENERATE \e[0m"
+echo -e "\e[1;46m ============================= \e[0m"
+
+if ! [ $(id -u) = 0 ]; then
+  echo -e "\e[1;41m This script must run as ROOT \e[0m"
+  exit
+fi
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
-printHeader "Generate a HTTPS certificate (self-signed)"
-rootCheck
-
 
 ## New website data from CLI (if any)
 SELFSIGN_DOMAIN=$1
