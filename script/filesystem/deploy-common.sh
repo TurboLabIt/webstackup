@@ -182,6 +182,12 @@ if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   bash "${SCRIPT_DIR}cache-clear.sh"
 fi
 
+## migrations
+if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
+  printTitle "☣️ Database migration..."
+  bash "${SCRIPT_DIR}migrate.sh"
+fi
+
 ## user account
 if [ ! -z "${USERS_TEMPLATE_PATH}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH"
