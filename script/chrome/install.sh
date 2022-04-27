@@ -20,17 +20,17 @@ chromeTestRun()
   
   /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
   
-  echo -e "\e[1;32m Chrome is ready! \e[0m"
+  echo -e "\e[1;32m ✔ Chrome is ready! \e[0m"
   echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
 }
 
 if [ -f "/usr/bin/google-chrome" ]; then
-  echo -e "\e[1;33m ✔ Chrome is already installed \e[0m"
+  echo -e "\e[1;33m Chrome is already installed \e[0m"
   chromeTestRun
   exit
 fi
 
-echo -e "\e[1;33m ✔ Installing Chrome... \e[0m"
+echo -e "\e[1;33m Installing Chrome... \e[0m"
 
 ## https://turbolab.it/3267
 wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
