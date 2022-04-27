@@ -13,7 +13,7 @@ if ! [ $(id -u) = 0 ]; then
   exit
 fi
 
-$CHROME_TEST_CMD="/usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'"
+CHROME_TEST_CMD="/usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'"
 
 if [ -f "/usr/bin/google-chrome" ]; then
   echo -e "\e[1;33m ✔ Chome is already installed \e[0m"
