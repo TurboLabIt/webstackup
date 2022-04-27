@@ -19,6 +19,7 @@ chromeTestRun()
   echo ""
   
   /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
+  rm -rf "/tmp/Crashpad"
   
   echo -e "\e[1;32m ✔ Chrome is ready! \e[0m"
   echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
