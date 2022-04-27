@@ -18,11 +18,9 @@ chromeTestRun()
   /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
 }
 
-chromeTestRun
-
 if [ -f "/usr/bin/google-chrome" ]; then
   echo -e "\e[1;33m ✔ Chome is already installed \e[0m"
-  $CHROME_TEST_CMD
+  chromeTestRun
   exit
 fi
 
