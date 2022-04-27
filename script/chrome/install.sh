@@ -13,7 +13,12 @@ if ! [ $(id -u) = 0 ]; then
   exit
 fi
 
-CHROME_TEST_CMD="/usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'"
+chromeTestRun()
+{
+  /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
+}
+
+chromeTestRun
 
 if [ -f "/usr/bin/google-chrome" ]; then
   echo -e "\e[1;33m ✔ Chome is already installed \e[0m"
@@ -27,7 +32,7 @@ apt update
 apt install ./chrome.deb -y
 rm -f chrome.deb
 
-$CHROME_TEST_CMD
+chromeTestRun
 
 echo -e "\e[1;32m Chrome is ready! \e[0m"
 echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
