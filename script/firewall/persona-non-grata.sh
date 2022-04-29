@@ -200,11 +200,11 @@ iptables -A INPUT -j DROP
 
 
 printTitle "🍃 Looking for pure-ftpd..."
-if [ -f /etc/pure-ftpd/conf/PassivePortRange ]; then
+if [ -d /etc/pure-ftpd/conf/ ]; then
   
   printMessage "pure-ftpd found! Updating PassivePortRange..."
   rm -f /etc/pure-ftpd/conf/PassivePortRange
-  ln -s ${WEBSTACKUP_CONFIG_DIR}ftp/PassivePortRange /etc/pure-ftpd/conf/PassivePortRange
+  ln -s "{WEBSTACKUP_CONFIG_DIR}pure-ftpd/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
   ls -la /etc/pure-ftpd/conf/
   cat /etc/pure-ftpd/conf/PassivePortRange
   
