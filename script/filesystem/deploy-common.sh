@@ -21,9 +21,10 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
 fi
 
 ##
-echo "Sourcing script. Hashing ##${0}##"
-DEPLOY_SCRIPT_HASH=`md5sum $0 | awk '{ print $1 }'`
-echo "Hash: $DEPLOY_SCRIPT_HASH"
+printTitle "Pre-pull hashing"
+echo "#️⃣ Hashing the sourcing script ##${0}##"
+DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
+echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
 ## pulling and merging
 printTitle "⏬ Git pulling..."
@@ -31,7 +32,18 @@ sudo -u ${EXPECTED_USER} -H git config --global --add safe.directory "${PROJECT_
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
-  
+
+printTitle "Post-pull hashing"
+echo "#️⃣ Hashing the sourcing script ##${0}##"
+DEPLOY_SCRIPT_POSTPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
+echo "Hash: $DEPLOY_SCRIPT_POSTPULL_HASH"
+
+if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
+
+  catastrophicError "The deploy script has been updated by the pull! Please run it again!"
+  return
+fi
+
 ## composer
 if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
 
