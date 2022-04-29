@@ -5,7 +5,7 @@ echo -e "\e[1;46m ============= \e[0m"
 
 if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ]; then
   catastrophicError "Common deploy ops can't run in this APP_ENV (##${APP_ENV}##)"
-  return
+  exit
 fi
 
 if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  [ -z "${PROJECT_DIR}" ] || [ -z "${SCRIPT_DIR}" ]; then
@@ -17,7 +17,7 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
   PHP_VER:        ##${PHP_VER}##
   PROJECT_DIR:    ##${PROJECT_DIR}##
   SCRIPT_DIR:     ##${SCRIPT_DIR}##"
-  return
+  exit
 fi
 
 ##
@@ -38,10 +38,14 @@ echo "#️⃣ Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_POSTPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_POSTPULL_HASH"
 
+if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ] && [ !-z "${LOCKFILE}" ]; then
+  rm -f "${LOCKFILE}"
+fi
+
 if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
 
   catastrophicError "The deploy script has been updated by the pull! Please run it again!"
-  return
+  exit
 fi
 
 ## composer
