@@ -20,6 +20,11 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
   return
 fi
 
+##
+echo "Sourcing script. Hashing ##${0}##"
+DEPLOY_SCRIPT_HASH=`md5sum $0 | awk '{ print $1 }'`
+echo "Hash: $DEPLOY_SCRIPT_HASH"
+
 ## pulling and merging
 printTitle "⏬ Git pulling..."
 sudo -u ${EXPECTED_USER} -H git config --global --add safe.directory "${PROJECT_DIR}"
