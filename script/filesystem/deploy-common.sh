@@ -21,8 +21,8 @@ if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  
 fi
 
 ##
-printTitle "Pre-pull hashing"
-echo "#️⃣ Hashing the sourcing script ##${0}##"
+printTitle "#️⃣ Pre-pull hashing"
+echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
@@ -33,8 +33,8 @@ sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
 
-printTitle "Post-pull hashing"
-echo "#️⃣ Hashing the sourcing script ##${0}##"
+printTitle "#️⃣ Post-pull hashing"
+echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_POSTPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_POSTPULL_HASH"
 
