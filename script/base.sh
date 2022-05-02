@@ -1,5 +1,8 @@
 #!/bin/bash
 
+## kill the whole script on Ctrl+C
+trap "exit" INT
+
 #### Webstackup directory
 WEBSTACKUP_INSTALL_DIR_PARENT=/usr/local/turbolab.it/
 WEBSTACKUP_INSTALL_DIR=${WEBSTACKUP_INSTALL_DIR_PARENT}webstackup/
