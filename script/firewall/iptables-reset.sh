@@ -32,10 +32,13 @@ if [ $UFW_INACTIVE != 1 ]; then
   ufw --force reset
   ufw disable
   
+else 
+  
+  echo -e "\e[1;32m ✔ ufw is not enabled \e[0m"
 fi
 
 
-echo -e "\e[1;33m ACCEPT everything... \e[0m"
+echo -e "\e[1;33m ACCEPTing everything... \e[0m"
 iptables -P INPUT ACCEPT
 
 echo -e "\e[1;33m Clearing the rules... \e[0m"
