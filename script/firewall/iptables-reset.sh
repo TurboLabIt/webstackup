@@ -37,15 +37,15 @@ else
 fi
 
 
-echo -e "\e[1;33m Accept all traffic first to avoid ssh lockdown via iptables firewall rules \e[0m"
+echo -e "\e[1;33m Accept all traffic first to avoid ssh lockdown via iptables firewall rules... \e[0m"
 iptables -P INPUT ACCEPT
 iptables -P FORWARD ACCEPT
 iptables -P OUTPUT ACCEPT
  
-echo -e "\e[1;33m Flush All Iptables Chains/Firewall rules... \e[0m"
+echo -e "\e[1;33m Flush all iptables chains/firewall rules... \e[0m"
 iptables -F
  
-echo -e "\e[1;33m Delete all Iptables Chains... \e[0m"
+echo -e "\e[1;33m Delete all iptables chains... \e[0m"
 iptables -X
  
 echo -e "\e[1;33m Flush all counters too... \e[0m"
