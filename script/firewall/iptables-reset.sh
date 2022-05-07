@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### FIREWALL FACTORY RESET BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/firewall/iptables-reset.sh?$(date +%s) | sudo bash
+# clear && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/firewall/iptables-reset.sh?$(date +%s) | sudo bash
 # 
 
 echo ""
@@ -28,7 +28,7 @@ fi
   
 if [ $UFW_INACTIVE != 1 ]; then
 
-  echo -e "\e[1;33m "Disabling UFW... \e[0m"
+  echo -e "\e[1;33m Disabling UFW... \e[0m"
   ufw --force reset
   ufw disable
   
