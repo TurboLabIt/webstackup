@@ -13,22 +13,27 @@ if ! [ $(id -u) = 0 ]; then
   exit
 fi
 
+
 echo -e "\e[1;33m Checking UFW... \e[0m"
 if [ -z "$(command -v ufw)" ]; then
 
   echo -e "\e[1;32m ✔ ufw is not installed \e[0m"
+  UFW_INACTIVE=1
   
-elif [ $(ufw status | grep -qw active) != 1 ]; then
+else
+
+  ufw status | grep -qw active
+  UFW_INACTIVE=$?
+fi
+  
+if [ $UFW_INACTIVE != 1 ]; then
 
   echo -e "\e[1;33m "Disabling UFW... \e[0m"
   ufw --force reset
   ufw disable
   
-else
-
-  echo -e "\e[1;32m ✔ ufw is installed, but it looks inactive \e[0m"
-
 fi
+
 
 echo -e "\e[1;33m ACCEPT everything... \e[0m"
 iptables -P INPUT ACCEPT
