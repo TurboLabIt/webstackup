@@ -51,7 +51,7 @@ iptables -X
 echo -e "\e[1;33m Flush all counters too... \e[0m"
 iptables -Z 
 
-echo -e "\e[1;33m Flush and delete all nat and  mangle... \e[0m"
+echo -e "\e[1;33m Flush and delete all NAT and mangle... \e[0m"
 iptables -t nat -F
 iptables -t nat -X
 iptables -t mangle -F
