@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 ### FIREWALL FACTORY RESET BY WEBSTACKUP
 # clear && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/firewall/iptables-reset.sh?$(date +%s) | sudo bash
-#
 
 echo ""
 echo -e "\e[1;46m ==================== \e[0m"
