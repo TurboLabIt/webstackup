@@ -146,16 +146,18 @@ ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
 ## mysql-custom
-if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ]; then
+if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/mysql.conf.d/" ]; then
+
   # https://serverfault.com/questions/439378/mysql-not-reading-symlinks-for-options-files-my-cnf
   printTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
+
+  printTitle "🔃 Restarting MySQL..."
+  service mysql restart
+  echo "/etc/mysql/mysql.conf.d/"
+  ls -la "/etc/mysql/mysql.conf.d/"
 fi
 
-printTitle "🔃 Restarting MySQL..."
-service mysql restart
-echo "/etc/mysql/mysql.conf.d/"
-ls -la "/etc/mysql/mysql.conf.d/"
 
 ## logrotate
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ] && [ ! -f "/etc/logrotate.d/${APP_NAME}.conf" ]; then
