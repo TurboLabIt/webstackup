@@ -199,7 +199,7 @@ elif [ "$GIT_BRANCH" = "staging" ]; then
 
   APP_ENV=staging
   
-elif [ "$GIT_BRANCH" = "dev" ]; then
+elif [ "$GIT_BRANCH" = "dev" ] || [[ "$GIT_BRANCH" = "dev-"* ]]; then
 
   APP_ENV=dev
 
