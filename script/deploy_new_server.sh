@@ -427,8 +427,7 @@ fi
 printTitle "Firewalling..."
 if [ $INSTALL_FIREWALL = 1 ]; then
 
-  source "${WEBSTACKUP_SCRIPT_DIR}firewall/iptables-reset.sh"
-  source "${WEBSTACKUP_SCRIPT_DIR}firewall/persona-non-grata.sh"
+   curl -s https://raw.githubusercontent.com/TurboLabIt/zzfirewall/master/setup.sh | sudo bash
   
 else
   
