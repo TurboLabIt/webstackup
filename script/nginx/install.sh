@@ -31,5 +31,14 @@ echo "Pin-Priority: -900" >> $NGINX_PINNING_FILE
 apt update -qq
 apt install nginx -y
 
+if [ -f "/usr/local/turbolab.it/webstackup/config/nginx/85_status_page.conf" ] && [ ! -f "/etc/nginx/conf.d/status_page.conf" ]; then
+
+  ln -s /usr/local/turbolab.it/webstackup/config/nginx/85_status_page.conf /etc/nginx/conf.d/status_page.conf
+
+elif [ ! -f "/etc/nginx/conf.d/status_page.conf" ]; then
+  
+  curl -o "/etc/nginx/conf.d/status_page.conf" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/nginx/85_status_page.conf
+fi
+
 ## Start the service
 service nginx restart
