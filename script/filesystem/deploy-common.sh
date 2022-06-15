@@ -237,3 +237,14 @@ if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
   zzmysqldump ${APP_NAME}-deploy
 fi
 
+
+## zzfirewall
+if [ -f "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf" ]; then
+  printTitle "🔥🧱 Linking zzfirewall-whitelist..."
+  ln -s "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf" ]; then
+  printTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf"
+fi
