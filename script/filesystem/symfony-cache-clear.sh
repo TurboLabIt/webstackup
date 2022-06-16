@@ -1,4 +1,7 @@
 #!/usr/bin/env bash
+## Standard Symfony cache-clearing routine by WEBSTACKUP
+# ln -s "/usr/local/turbolab.it/webstackup/script/filesystem/symfony-cache-clear.sh" "scripts/cache-clear.sh"
+
 SCRIPT_NAME=symfony-cache-clear
 
 source $(dirname $(readlink -f $0))/script_begin.sh
