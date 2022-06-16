@@ -214,6 +214,7 @@ echo "/etc/logrotate.d"
 ls -la "/etc/logrotate.d"
 service logrotate restart
 
+
 ## nginx server{}
 if [ -d "/etc/nginx/sites-enabled" ]; then
   NGINX_ETC_CONFD_FULLPATH="/etc/nginx/sites-enabled/"
@@ -225,6 +226,19 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX
   printTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf"
 fi
+
+
+## Let's Encrypt Renwal Hook
+if [ -d "/etc/letsencrypt/renewal-hooks/deploy" ] && [ ! -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ]; then
+  printTitle "🔐 Deploy Let's Encrypt post-renewal hook"
+  cp "${WEBSTACKUP_SCRIPT_DIR}nginx/lets-encrypt-renewal-hook" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action"
+fi
+
+if [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] && [ -s "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] ; then
+  printTitle "🔐 Renewing Let's Encrypt..."
+  certbot renew --force-renewal
+fi
+
 
 printTitle "🔃 Conditional nginx restart..."
 echo "/etc/nginx/conf.d"
