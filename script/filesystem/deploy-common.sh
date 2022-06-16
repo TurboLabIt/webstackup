@@ -1,3 +1,41 @@
+### MANAGED FILES ###
+#####################
+
+# ${PROJECT_DIR}composer.json
+# ${WEBROOT_DIR}composer.json
+
+# ${SCRIPT_DIR}deploy.sh
+# ${SCRIPT_DIR}cache-clear.sh
+# ${SCRIPT_DIR}test_runner.sh
+# ${SCRIPT_DIR}migrate.sh
+
+# ${SCRIPT_DIR}zzcd_bookmarks.sh
+
+# ${PROJECT_DIR}config/custom/cron
+# ${PROJECT_DIR}config/custom/${APP_ENV}/cron
+
+# ${PROJECT_DIR}config/custom/php-custom.ini
+# ${PROJECT_DIR}config/custom/php-custom-fpm.ini
+# ${PROJECT_DIR}config/custom/php-custom-cli.ini
+
+# ${PROJECT_DIR}config/custom/mysql-custom.conf
+
+# ${PROJECT_DIR}config/custom/logrotate.conf
+
+# ${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf
+
+# AUTODEPLOY (work in progress...)
+
+# bash ${USERS_TEMPLATE_PATH}
+# bash ${USERS_TEMPLATE_PATH_STAGING}
+
+# ${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf
+
+# ${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf
+
+
 echo ""
 echo -e "\e[1;46m ============= \e[0m"
 echo -e "\e[1;46m DEPLOY-COMMON \e[0m"
@@ -38,7 +76,7 @@ echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_POSTPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_POSTPULL_HASH"
 
-if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ] && [ !-z "${LOCKFILE}" ]; then
+if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ] && [ ! -z "${LOCKFILE}" ]; then
   rm -f "${LOCKFILE}"
 fi
 
@@ -47,6 +85,12 @@ if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
   catastrophicError "The deploy script has been updated by the pull! Please run it again!"
   exit
 fi
+
+
+## cleanup
+printTitle "🧹 Cleaning up..."
+sudo rm -rf /tmp/.symfony
+
 
 ## composer
 if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
