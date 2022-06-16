@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ## Standard Symfony migration routine by WEBSTACKUP
-# ln -s "/usr/local/turbolab.it/webstackup/script/filesystem/symfony-migrate.sh" "scripts/migrate.sh"
+# printTitle "💫 Copying Symfony scripts from webstackup..."
+# cp "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/migrate.sh" "${SCRIPT_DIR}"
 
 SCRIPT_NAME=symfony-migrate
 
