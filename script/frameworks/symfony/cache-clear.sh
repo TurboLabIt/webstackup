@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ## Standard Symfony cache-clearing routine by WEBSTACKUP
-# ln -s "/usr/local/turbolab.it/webstackup/script/filesystem/symfony-cache-clear.sh" "scripts/cache-clear.sh"
+# printTitle "💫 Copying Symfony scripts from webstackup..."
+# cp "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/cache-clear.sh" "${SCRIPT_DIR}"
 
 SCRIPT_NAME=symfony-cache-clear
 
