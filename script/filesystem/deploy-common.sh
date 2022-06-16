@@ -282,6 +282,11 @@ if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; the
 fi
 
 ## zzmysqldump
+if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
+  printTitle "🗃️ Linking custom zzmysqldump.conf..."
+  ln -s "${PROJECT_DIR}config/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.conf"
+fi
+
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
 
   printTitle "🗃️ Linking custom zzmysqldump-deploy.conf (from ${APP_ENV})..."
@@ -294,8 +299,12 @@ elif [ -f "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" ] && [ ! -f "/et
 fi
 
 if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
-  printTitle "🗃️ zzmysqldump..."
+  printTitle "🗃️ zzmysqldump (deploy profile)..."
   zzmysqldump ${APP_NAME}-deploy
+  
+elif [ -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
+  printTitle "🗃️ zzmysqldump..."
+  zzmysqldump
 fi
 
 
