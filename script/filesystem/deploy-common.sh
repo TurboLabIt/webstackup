@@ -213,6 +213,7 @@ fi
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ]; then
   printTitle "📄 Deploying custom logrotate config..."
   # error: Ignoring xxx.conf because the file owner is wrong (should be root or user with uid 0).
+  rm -f "/etc/logrotate.d/${APP_NAME}.conf"
   cp "${PROJECT_DIR}config/custom/logrotate.conf" "/etc/logrotate.d/${APP_NAME}.conf"
   chown root:root "/etc/logrotate.d/${APP_NAME}.conf"
   chmod u=rw,go= "/etc/logrotate.d/${APP_NAME}.conf"
