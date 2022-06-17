@@ -262,13 +262,11 @@ fi
 
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
-  printTitle "🧹 Clearing the cache..."
   bash "${SCRIPT_DIR}cache-clear.sh"
 fi
 
 ## migrations
 if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
-  printTitle "☣️ Database migration..."
   bash "${SCRIPT_DIR}migrate.sh"
 fi
 
@@ -299,11 +297,9 @@ elif [ -f "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" ] && [ ! -f "/et
 fi
 
 if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
-  printTitle "🗃️ zzmysqldump (deploy profile)..."
   zzmysqldump ${APP_NAME}-deploy
   
 elif [ -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
-  printTitle "🗃️ zzmysqldump..."
   zzmysqldump
 fi
 
