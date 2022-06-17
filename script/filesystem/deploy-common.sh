@@ -103,15 +103,23 @@ elif [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${WEBROOT_DIR}composer.json" ];
 fi
 
 if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
+
   printTitle "📦 Composer install from ##${COMPOSER_JSON_FULLPATH}##..."
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer install --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-dev --no-interaction
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer dump-env ${APP_ENV} --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction
+  
 fi
 
 
 if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 1 ]; then
+
   printTitle "📦 Composer dump-autoload..."
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer dump-autoload --classmap-authoritative --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-dev --no-interaction
+
+elif [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
+
+  printTitle "📦 Removing composer dump-autoload..."
+  rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
 fi
 
 
