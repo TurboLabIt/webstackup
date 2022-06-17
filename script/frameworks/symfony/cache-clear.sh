@@ -9,7 +9,9 @@ source $(dirname $(readlink -f $0))/script_begin.sh
 printHeader "🧹 cache-clear"
 
 if [ -d "${PROJECT_DIR}var/cache" ]; then
-  rm -rf "${PROJECT_DIR}var/cache"
+  sudo rm -rf "/tmp/webstackup-symfony-cache-clear"
+  sudo mv "${PROJECT_DIR}var/cache" "/tmp/webstackup-symfony-cache-clear"
+  sudo rm -rf "/tmp/webstackup-symfony-cache-clear"
 fi
 
 sudo -u "${EXPECTED_USER}" -H symfony console cache:clear
