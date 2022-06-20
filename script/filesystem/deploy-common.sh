@@ -89,7 +89,7 @@ fi
 
 ## cleanup
 printTitle "🧹 Cleaning up..."
-sudo rm -rf /tmp/.symfony
+rm -rf /tmp/.symfony
 
 
 ## composer
