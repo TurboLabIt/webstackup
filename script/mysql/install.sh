@@ -59,5 +59,5 @@ service mysql restart
 systemctl --no-pager status mysql
 
 if [ -f /usr/local/turbolab.it/webstackup/script/mysql/maintentance.sh ]; then
-  cp /usr/local/turbolab.it/webstackup/config/cron/mysql.conf /etc/cron.d/webstackup-mysql.conf
+  cp /usr/local/turbolab.it/webstackup/config/cron/mysql /etc/cron.d/webstackup-mysql
 fi
