@@ -27,7 +27,8 @@ OPTIONS=(
      6 "🔄  Web service restart"
      7 "🔑  Webpermissions a directory"
      8 "↗️  Show webstackup SSH public key"
-     9 "✔️  Self-update")
+     9 "✔️  Self-update"
+     10 "🔧 MySQL maintenance")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -39,36 +40,36 @@ CHOICE=$(dialog --clear \
 
 clear
 case $CHOICE in
-        1)
-            #bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-site.sh"
-            bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
-            ;;
-        2)
-            #bash "${WEBSTACKUP_INSTALL_DIR}script/nginx/new-wordpress.sh"
-            bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
-            ;;
-        3)
-      bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
-      ;;
-    4)
-      bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
-      ;;
-    5)
-      zzws reload
-            ;;
-    6)
-      zzws restart
-            ;;
-      7)
-      bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
-      ;;
-    8)
-      printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
-      ;;
-    9)
-      git -C "${WEBSTACKUP_INSTALL_DIR}" pull
-      bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
-      nginx -t && service nginx restart
-      service ${PHP_FPM} restart
-      ;;
+  1)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
+    ;;
+  2)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
+    ;;
+  3)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
+    ;;
+  4)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
+    ;;
+  5)
+    zzws reload
+    ;;
+  6)
+    zzws restart
+    ;;
+  7)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
+    ;;
+  8)
+    printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
+    ;;
+  9)
+    git -C "${WEBSTACKUP_INSTALL_DIR}" pull
+    bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
+    nginx -t && service nginx restart
+    service ${PHP_FPM} restart
+    ;;
+  10)
+    bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
 esac  
