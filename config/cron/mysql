@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+## Various maintenance tasks for MySQL
+50 12 * * * root bash "/usr/local/turbolab.it/webstackup/mysql/maintenance-cron.sh" > /dev/null 2>&1 
