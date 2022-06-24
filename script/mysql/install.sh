@@ -50,10 +50,14 @@ if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
   echo "MYSQL_HOST=localhost" >> "${MYSQL_CREDENTIALS_FULLPATH}"
     
   chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
-  chmod u=r,go= "${MYSQL_CREDENTIALS_FULLPATH}"
+  chmod u=rw,go= "${MYSQL_CREDENTIALS_FULLPATH}"
 fi
   
 echo -e "\e[1;45m $(cat "${MYSQL_CREDENTIALS_FULLPATH}") \e[0m"
   
 service mysql restart
 systemctl --no-pager status mysql
+
+if [ -f /usr/local/turbolab.it/webstackup/script/mysql/maintentance.sh ]; then
+  cp /usr/local/turbolab.it/webstackup/config/cron/mysql.conf /etc/cron.d/webstackup-mysql.conf
+fi
