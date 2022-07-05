@@ -8,6 +8,7 @@
 # ${SCRIPT_DIR}cache-clear.sh
 # ${SCRIPT_DIR}test_runner.sh
 # ${SCRIPT_DIR}migrate.sh
+# ${SCRIPT_DIR}maintenance.sh
 
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
 
@@ -139,6 +140,12 @@ fi
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
   printTitle "⚙️ Linking zzcache..."
   ln -s "${SCRIPT_DIR}cache-clear.sh" "/usr/local/bin/zzcache"
+fi
+
+## zzmaintenance global command
+if [ -f "${SCRIPT_DIR}maintenance.sh" ] && [ ! -f "/usr/local/bin/zzmaintenance" ]; then
+  printTitle "⚙️ Linking zzmaintenance..."
+  ln -s "${SCRIPT_DIR}maintenance.sh" "/usr/local/bin/zzmaintenance"
 fi
 
 ## zztest global command
