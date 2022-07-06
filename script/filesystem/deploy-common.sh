@@ -141,7 +141,7 @@ fi
 ## zzcache global command
 if [ "${USE_SYMFONY_CLEARCACHE}" = 1 ]; then
   printTitle "💫 Copying Symfony clear-cache.sh from webstackup..."
-  cp "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/cache-clear.sh" "${SCRIPT_DIR}"
+  cp -p "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/cache-clear.sh" "${SCRIPT_DIR}"
 fi
 
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
@@ -152,7 +152,7 @@ fi
 ## zzmaintenance global command
 if [ "${USE_NGINX_MAINTENANCE}" = 1 ]; then
   printTitle "💫 Copying Nginx maintenance.sh from webstackup..."
-  cp "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
+  cp -p "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
 fi
 
 if [ -f "${SCRIPT_DIR}maintenance.sh" ] && [ ! -f "/usr/local/bin/zzmaintenance" ]; then
