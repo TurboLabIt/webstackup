@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 ## Activate standard maintenace page by WEBSTACKUP
-# printTitle "💫 Copying Nginx scripts from webstackup..."
-# cp "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
 
 SCRIPT_NAME=maintenance
 
