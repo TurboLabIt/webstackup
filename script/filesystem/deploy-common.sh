@@ -5,9 +5,11 @@
 # ${WEBROOT_DIR}composer.json
 
 # ${SCRIPT_DIR}deploy.sh
+# USE_SYMFONY_CLEARCACHE
 # ${SCRIPT_DIR}cache-clear.sh
 # ${SCRIPT_DIR}test_runner.sh
 # ${SCRIPT_DIR}migrate.sh
+# USE_NGINX_MAINTENANCE
 # ${SCRIPT_DIR}maintenance.sh
 
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
@@ -137,12 +139,22 @@ elif [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
 fi
 
 ## zzcache global command
+if [ "${USE_SYMFONY_CLEARCACHE}" = 1 ]; then
+  printTitle "💫 Copying Symfony clear-cache.sh from webstackup..."
+  cp "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/cache-clear.sh" "${SCRIPT_DIR}"
+fi
+
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
   printTitle "⚙️ Linking zzcache..."
   ln -s "${SCRIPT_DIR}cache-clear.sh" "/usr/local/bin/zzcache"
 fi
 
 ## zzmaintenance global command
+if [ "${USE_NGINX_MAINTENANCE}" = 1 ]; then
+  printTitle "💫 Copying Nginx scripts from webstackup..."
+  cp "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
+fi
+
 if [ -f "${SCRIPT_DIR}maintenance.sh" ] && [ ! -f "/usr/local/bin/zzmaintenance" ]; then
   printTitle "⚙️ Linking zzmaintenance..."
   ln -s "${SCRIPT_DIR}maintenance.sh" "/usr/local/bin/zzmaintenance"
