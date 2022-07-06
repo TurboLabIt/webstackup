@@ -6,7 +6,7 @@
 SCRIPT_NAME=maintenance
 
 source $(dirname $(readlink -f $0))/script_begin.sh
-fxHeader "🧰 Nginx maintenance mode manager"
+printHeader "🧰 Nginx maintenance mode manager"
 
 if [ "$1" = "on" ]; then
 
@@ -20,7 +20,7 @@ elif [ "$1" = "off" ]; then
   
 else
 
-  fxCatastrophicError "❓ Usage: zzmaintenance on|off"
+  catastrophicError "❓ Usage: zzmaintenance on|off"
 fi
 
 source $(dirname $(readlink -f $0))/script_end.sh
