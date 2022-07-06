@@ -151,7 +151,7 @@ fi
 
 ## zzmaintenance global command
 if [ "${USE_NGINX_MAINTENANCE}" = 1 ]; then
-  printTitle "💫 Copying Nginx scripts from webstackup..."
+  printTitle "💫 Copying Nginx maintenance.sh from webstackup..."
   cp "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
 fi
 
