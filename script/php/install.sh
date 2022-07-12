@@ -32,6 +32,9 @@ ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/php-custom.ini" /etc/php/${PHP_VER}/
 printMessage "Set timezone to Italy..."
 ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-timezone-italy.ini
 ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" /etc/php/${PHP_VER}/cli/conf.d/30-webstackup-timezone-italy.ini
+
+printMessage "Removing all limits from CLI..."
+ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/unlimited.ini" /etc/php/${PHP_VER}/cli/conf.d/35-webstackup-unlimited.ini
   
 printMessage "Disable cgi.fix_pathinfo..."
 ln -s  "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-no-cgi.fix_pathinfo.ini
