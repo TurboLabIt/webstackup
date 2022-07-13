@@ -212,7 +212,7 @@ if [ -f "${PROJECT_DIR}config/custom/php-custom-cli.ini" ] && [ ! -f "/etc/php/$
 fi
 
 printTitle "🔃 Restarting PHP..."
-service php${PHP_VER}-fpm restart
+/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
 echo "/etc/php/${PHP_VER}/fpm/conf.d/"
 ls -la "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
 echo ""
