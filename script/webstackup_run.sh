@@ -68,7 +68,7 @@ case $CHOICE in
     git -C "${WEBSTACKUP_INSTALL_DIR}" pull
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     nginx -t && service nginx restart
-    service ${PHP_FPM} restart
+    /usr/sbin/${PHP_FPM} -t && service ${PHP_FPM} restart
     ;;
   10)
     bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
