@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
 ## Activate standard maintenace page by WEBSTACKUP
+#
+# 1. In your project `script_begin.sh`: `USE_NGINX_MAINTENANCE=1`
+# 1. In your server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
+# 1. Run your `deploy.sh` at least once
+# 1. You can now `zzmaintenance on` and `zzmaintenance off`
 
 SCRIPT_NAME=maintenance
 
