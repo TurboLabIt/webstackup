@@ -89,6 +89,9 @@ if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
   exit
 fi
 
+## show PHP the selected PHP version
+showPHPVer
+
 
 ## cleanup
 printTitle "🧹 Cleaning up..."
