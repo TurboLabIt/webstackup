@@ -3,6 +3,11 @@
 ## kill the whole script on Ctrl+C
 trap "exit" INT
 
+##
+if [ -z "$TIME_START" ]; then
+  TIME_START="$(date +%s)"
+fi
+
 #### Webstackup directory
 WEBSTACKUP_INSTALL_DIR_PARENT=/usr/local/turbolab.it/
 WEBSTACKUP_INSTALL_DIR=${WEBSTACKUP_INSTALL_DIR_PARENT}webstackup/
@@ -22,157 +27,14 @@ INITIAL_DIR=$(pwd)
 PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
 WEBROOT_DIR=${PROJECT_DIR}public/
 
+##
+source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}php/version-variables.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}app-env.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}deprecated-retrocompat.sh"
+
 ## Hostname
 HOSTNAME="$(hostname)"
-
-if [ -z "$TIME_START" ]; then
-  TIME_START="$(date +%s)"
-fi
-
-DOWEEK="$(date +'%u')"
-
-## Header (green)
-WEBSTACKUP_FRAME="O===========================================================O"
-printHeader ()
-{
-  STYLE='\033[42m'
-  RESET='\033[0m'
-
-  echo ""
-  echo -n -e $STYLE
-  echo ""
-  echo "$WEBSTACKUP_FRAME"
-  echo " --> $1 - $(date) on $(hostname)"
-  echo "$WEBSTACKUP_FRAME"
-  echo -e $RESET
-}
-
-
-function printTheEnd ()
-{
-  echo ""
-  echo "The End"
-  echo $(date)
-  
-  if [ ! -z "$TIME_START" ]; then
-    echo "$((($(date +%s)-$TIME_START)/60)) min."
-  fi
-  
-  echo "$WEBSTACKUP_FRAME"
-  cd $INITIAL_DIR
-  exit
-}
-
-
-function catastrophicError ()
-{
-  STYLE='\033[41m'
-  RESET='\033[0m'
-
-  echo ""
-  echo -n -e $STYLE
-  echo "vvvvvvvvvvvvvvvvvvvv"
-  echo "Catastrophic error!!"
-  echo "^^^^^^^^^^^^^^^^^^^^"
-  echo "$1"
-  echo -e $RESET
-  
-  printTheEnd
-}
-
-
-rootCheck ()
-{
-  if ! [ $(id -u) = 0 ]; then
-    catastrophicError "This script must run as ROOT"
-  fi
-}
-
-
-devOnlyCheck ()
-{
-  if [ "$APP_ENV" != "dev" ]; then
-    catastrophicError "This script is for DEV only!"
-  fi
-}
-
-
-lockCheck ()
-{
-  local LOCKFILE=${1}.lock
-  if [ -z "$2" ]; then
-    LOCKFILE_TIMEOUT=120
-  else
-    LOCKFILE_TIMEOUT=$2
-  fi 
-  
-  if [ -f "${LOCKFILE}" ] && [ ! -z `find "${LOCKFILE}" -mmin -${LOCKFILE_TIMEOUT}` ]; then
-    catastrophicError "Lockfile detected. It looks like this script is already running!
-To override:
-sudo rm -f \"$LOCKFILE\""
-
-    echo ""
-    ls -lah "${LOCKFILE}"
-
-    echo ""
-    exit
-  fi
-
-  touch "$LOCKFILE"
-  printMessage "Lock file created in ##${LOCKFILE}##"
-}
-
-
-removeLock ()
-{
-  local LOCKFILE=${1}.lock
-  rm -f "${LOCKFILE}"
-  printMessage "${LOCKFILE} deleted"
-}
-
-
-function printTitle ()
-{
-  STYLE='\033[44m'
-  RESET='\033[0m'
-
-  echo ""
-  echo -n -e $STYLE
-  echo "$1"
-  printf '%0.s-' $(seq 1 ${#1})
-  echo -e $RESET
-  echo ""
-}
-
-
-function printMessage ()
-{
-  STYLE='\033[45m'
-  RESET='\033[0m'
-
-  echo ""
-  echo -n -e $STYLE
-  echo "$1"
-  echo -e $RESET
-  echo ""
-}
-
-
-printLightWarning ()
-{
-  STYLE='\033[33m'
-  RESET='\033[0m'
-
-  echo ""
-  echo -n -e $STYLE
-  echo "$1"
-  echo -e $RESET
-  echo ""
-}
-
-
-##
-source "${WEBSTACKUP_SCRIPT_DIR}php/php-version-variables.sh"
 
 
 if [ -r "/etc/turbolab.it/mysql.conf" ]; then
@@ -183,92 +45,3 @@ fi
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 
-git config --global --add safe.directory "${PROJECT_DIR}"
-GIT_BRANCH=$(git -C $PROJECT_DIR branch | grep \* | cut -d ' ' -f2-)
-
-if [ -f "${PROJECT_DIR}env" ]; then
-
-  APP_ENV=$(head -n 1 ${PROJECT_DIR}env)
-
-elif [ "$GIT_BRANCH" = "master" ]; then
-
-  APP_ENV=prod
-  
-elif [ "$GIT_BRANCH" = "staging" ]; then
-
-  APP_ENV=staging
-  
-elif [ "$GIT_BRANCH" = "dev" ] || [[ "$GIT_BRANCH" = "dev-"* ]]; then
-
-  APP_ENV=dev
-
-fi
-
-
-function checkExecutingUser ()
-{
-  ## Current user
-  CURRENT_USER=$(whoami)
-
-  if [ "$CURRENT_USER" != "$1" ]; then
-
-    echo "vvvvvvvvvvvvvvvvvvvv"
-    echo "Catastrophic error!!"
-    echo "^^^^^^^^^^^^^^^^^^^^"
-    echo "Wrong user: please run this script as: "
-    echo "sudo -u $1 -H bash \"$SCRIPT_FULLPATH\""
-
-    printTheEnd
-  fi
-}
-
-
-function browsePage
-{
-    echo "Browsing ##${1}##..."
-    curl --insecure --location --show-error --write-out "%{http_code}" "${1}"
-    echo
-}
-
-
-function zzcache()
-{
-  ZZCACHE_INITIAL_DIR=$(pwd)
-  cd "$PROJECT_DIR"
-  XDEBUG_MODE=off symfony console cache:clear
-  cachetool opcache:reset --fcgi=/run/php/${PHP_FPM}.sock
-  cd "$ZZCACHE_INITIAL_DIR"
-}
-
-
-function flushOpcache()
-{
-  echo "flushOpcache is a TO DO"
-}
-
-
-function browse()
-{
-  BROWSEURL=$1
-  echo ${BROWSEURL}
-  curl --insecure --location --silent --show-error --output /dev/null --write-out "%{http_code}" ${BROWSEURL}
-  echo
-}
-
-
-function playSoundLongOK()
-{
-  "${WEBSTACKUP_SCRIPT_DIR}notify/play-sound.sh" "${WEBSTACKUP_ASSET_DIR}sound/mario-stage-clear.wav"
-}
-
-
-function playSoundLongKO()
-{
-  "${WEBSTACKUP_SCRIPT_DIR}notify/play-sound.sh" "${WEBSTACKUP_ASSET_DIR}sound/mario-dies.wav"
-}
-
-
-function playSoundKO()
-{
-  "${WEBSTACKUP_SCRIPT_DIR}notify/play-sound.sh" "${WEBSTACKUP_ASSET_DIR}sound/cannon.wav"
-}
