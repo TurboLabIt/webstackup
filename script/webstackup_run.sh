@@ -6,7 +6,6 @@ printHeader "Server management GUI"
 rootCheck
 
 if [ -z "$(command -v dialog)" ]; then
-
   apt install dialog -y -qq
 fi
 
@@ -65,6 +64,7 @@ case $CHOICE in
     printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
     ;;
   9)
+    git -C "${WEBSTACKUP_INSTALL_DIR}" reset --hard
     git -C "${WEBSTACKUP_INSTALL_DIR}" pull
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     nginx -t && service nginx restart
