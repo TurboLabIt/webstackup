@@ -9,7 +9,7 @@
 # 1. Copy the "starter" script to your project directory with:
 #   curl -Lo script/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/cache-clear-starter.sh && sudo chmod u=rwx,go=rx script/cache-clear.sh
 #
-# 1. You should then git commit your copy
+# 1. You should now git commit your copy
 #
 # Tip: after the first `deploy.sh`, you can `zzcache` directly
 
