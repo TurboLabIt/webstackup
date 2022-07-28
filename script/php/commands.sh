@@ -51,7 +51,6 @@ function wsuComposer()
 ## Magento bin/console
 function wsuMage()
 {
-  fxTitle "🧙 Running Magento bin/console..."
   expectedUserSetCheck
   
   if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
