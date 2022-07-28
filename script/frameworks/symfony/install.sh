@@ -11,6 +11,8 @@ echo -e "\e[1;46m ================== \e[0m"
 SYMFONY_FILE_PATH=/usr/local/bin/symfony
 sudo rm -f "${SYMFONY_FILE_PATH}"
 
+sudo apt update && sudo apt install ca-certificates apt-transport-https -y
+
 ## https://symfony.com/download
 curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 sudo apt install symfony-cli -y
