@@ -79,4 +79,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "⚙️ Restarting services.."
   sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
   
+else
+
+  fxTitle "🌊 OPcache clear..."
+  wsuOpcacheClear
+  
 fi
