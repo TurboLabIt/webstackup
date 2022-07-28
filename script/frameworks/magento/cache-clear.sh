@@ -81,7 +81,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   
 else
 
-  fxTitle "🌊 OPcache clear..."
-  wsuOpcacheClear
+  fxTitle "🌊 OPcache clear (PHP reload)..."
+  sudo service ${PHP_FPM} reload
   
 fi
