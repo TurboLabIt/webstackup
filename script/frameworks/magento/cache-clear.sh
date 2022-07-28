@@ -10,12 +10,12 @@ printHeader "🧹 cache-clear"
 
 showPHPVer
 
-sudo service nginx stop
-sudo service ${PHP_FPM} stop
+fxTitle "Stopping services.."
+sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
 wsuMage cache:flush
 
-sudo service ${PHP_FPM} restart
-sudo service nginx restart
+fxTitle "Restarting services.."
+sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
 
-source $(dirname $(readlink -f $0))/script_end.sh
+source "${SCRIPT_DIR}/script_end.sh"
