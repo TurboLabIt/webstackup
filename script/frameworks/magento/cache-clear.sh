@@ -1,12 +1,10 @@
 #!/usr/bin/env bash
 ## Standard Magento cache-clearing routine by WEBSTACKUP
-# printTitle "💫 Copying Magento scripts from webstackup..."
-# cp "${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/cache-clear.sh" "${SCRIPT_DIR}"
+#
+# To be used via https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/cache-clear-template.sh
 
 SCRIPT_NAME=magento-cache-clear
-
-source $(dirname $(readlink -f $0))/script_begin.sh
-printHeader "🧹 cache-clear"
+fxHeader "🧹 cache-clear"
 
 showPHPVer
 
@@ -17,5 +15,3 @@ wsuMage cache:flush
 
 fxTitle "Restarting services.."
 sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
-
-source "${SCRIPT_DIR}/script_end.sh"
