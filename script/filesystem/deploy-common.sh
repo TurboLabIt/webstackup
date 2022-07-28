@@ -5,11 +5,9 @@
 # ${WEBROOT_DIR}composer.json
 
 # ${SCRIPT_DIR}deploy.sh
-# USE_SYMFONY_CLEARCACHE
 # ${SCRIPT_DIR}cache-clear.sh
 # ${SCRIPT_DIR}test_runner.sh
 # ${SCRIPT_DIR}migrate.sh
-# USE_NGINX_MAINTENANCE
 # ${SCRIPT_DIR}maintenance.sh
 
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
@@ -140,22 +138,12 @@ elif [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
 fi
 
 ## zzcache global command
-if [ "${USE_SYMFONY_CLEARCACHE}" = 1 ]; then
-  printTitle "💫 Copying Symfony clear-cache.sh from webstackup..."
-  cp -p "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/cache-clear.sh" "${SCRIPT_DIR}"
-fi
-
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
   printTitle "⚙️ Linking zzcache..."
   ln -s "${SCRIPT_DIR}cache-clear.sh" "/usr/local/bin/zzcache"
 fi
 
 ## zzmaintenance global command
-if [ "${USE_NGINX_MAINTENANCE}" = 1 ]; then
-  printTitle "💫 Copying Nginx maintenance.sh from webstackup..."
-  cp -p "${WEBSTACKUP_SCRIPT_DIR}nginx/maintenance.sh" "${SCRIPT_DIR}"
-fi
-
 if [ -f "${SCRIPT_DIR}maintenance.sh" ] && [ ! -f "/usr/local/bin/zzmaintenance" ]; then
   printTitle "⚙️ Linking zzmaintenance..."
   ln -s "${SCRIPT_DIR}maintenance.sh" "/usr/local/bin/zzmaintenance"
@@ -295,11 +283,6 @@ if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ];
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
 
-## cache-clear
-if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
-  bash "${SCRIPT_DIR}cache-clear.sh"
-fi
-
 ## migrations
 if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
   bash "${SCRIPT_DIR}migrate.sh"
@@ -348,4 +331,10 @@ fi
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf" ]; then
   printTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf"
+fi
+
+
+## cache-clear
+if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
+  bash "${SCRIPT_DIR}cache-clear.sh"
 fi
