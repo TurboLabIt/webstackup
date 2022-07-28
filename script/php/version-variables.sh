@@ -54,8 +54,11 @@ function wsuMage()
   if [ -z "${EXPECTED_USER}" ]; then
     fxCatastrophicError "EXPECTED_USER not set"
   fi
+  
+  local CURR_DIR_BACKUP=$(cd)
 
   cd "${MAGENTO_DIR}"
   sudo -u "${EXPECTED_USER}" -H ${MAGE_CLI_EXE} $@
-  cd -
+  
+  cd "${CURR_DIR_BACKUP}"
 }
