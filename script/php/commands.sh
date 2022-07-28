@@ -69,6 +69,35 @@ function wsuMage()
 
 
 
+## Symfony executable
+function wsuSymfony()
+{
+  expectedUserSetCheck
+  
+  if [ -z "${PROJECT_DIR}" ] || [ ! -d "${PROJECT_DIR}" ]; then
+    fxCatastrophicError "📁 PROJECT_DIR not set"
+  fi
+  
+  sudo rm -rf "/tmp/symfony"
+  
+  local SYMFONY_FILE_PATH=/usr/bin/symfony
+  
+  if [ ! -f "${SYMFONY_FILE_PATH}" ]; then
+  
+    fxTitle "symfony-cli is not installed. Installing it now..."
+    bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh"
+    
+  fi
+  
+  local CURR_DIR_BACKUP=$(pwd)
+
+  cd "${PROJECT_DIR}"
+  sudo -u "${EXPECTED_USER}" -H ${PHP_CLI} ${SYMFONY_FILE_PATH} $@
+  
+  cd "${CURR_DIR_BACKUP}"
+}
+
+
 function wsuOpcacheClear()
 {
   sudo service ${PHP_FPM} reload
