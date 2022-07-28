@@ -47,6 +47,14 @@ showPHPVer()
 
 function wsuMage()
 {
+  if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
+    fxCatastrophicError "MAGENTO_DIR not set"
+  fi
+  
+  if [ -z "${EXPECTED_USER}" ]; then
+    fxCatastrophicError "EXPECTED_USER not set"
+  fi
+
   cd "${MAGENTO_DIR}"
   sudo -u "${EXPECTED_USER}" -H ${MAGE_CLI_EXE} $@
   cd -
