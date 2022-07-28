@@ -20,6 +20,7 @@ cd "$MAGENTO_DIR"
 fxTitle "Stopping services.."
 sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
+fxTitle "Removing folders..."
 sudo rm -rf \
   "pub/static/frontend/" \
   "pub/static/adminhtml/" \
@@ -31,9 +32,11 @@ sudo rm -rf \
   "var/view_preprocessed/" \
   "var/session/" \
   "var/di/"
-              
+
+fxTitle "Removing folders..."
 wsuMage setup:di:compile
 
+fxTitle "static-content:deploy admin"
 wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
 
 if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
