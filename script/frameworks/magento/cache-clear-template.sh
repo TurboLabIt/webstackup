@@ -8,4 +8,3 @@ fx#!/usr/bin/env bash
 source $(dirname $(readlink -f $0))/script_begin.sh
 source "${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/cache-clear.sh"
 source "${SCRIPT_DIR}/script_end.sh"
-
