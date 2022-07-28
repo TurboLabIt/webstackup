@@ -13,7 +13,7 @@ showPHPVer
 sudo service nginx stop
 sudo service ${PHP_FPM} stop
 
-sudo -u "${EXPECTED_USER}" -H ${MAGE_CLI_EXE} cache:flush
+wsuMage cache:flush
 
 sudo service ${PHP_FPM} restart
 sudo service nginx restart
