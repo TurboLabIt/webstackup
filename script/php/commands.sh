@@ -40,7 +40,9 @@ function wsuComposer()
   
   fi
   
-  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ]; then
+  local SYMFONY_FLEX="$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/flex/src/Command/DumpEnvCommand.php"
+  
+  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX_DUMP_ENV_COMMAND}" ]; then
     fxTitle "📦 dump-env ${APP_ENV}..."
     ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
   fi
