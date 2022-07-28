@@ -40,7 +40,7 @@ else
 fi
 
 fxTitle "🌊 Symfony cache:clear..."
-wsuSymfony cache:clear
+wsuSymfony console cache:clear
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
