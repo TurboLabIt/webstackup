@@ -15,7 +15,7 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
-if [ "$1" = "fast"]; then
+if [ "$1" = "fast" ]; then
   FAST_CACHE_CLEAR=1
 fi
 
