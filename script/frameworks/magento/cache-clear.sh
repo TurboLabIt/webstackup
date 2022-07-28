@@ -26,9 +26,9 @@ sudo rm -rf \
   "pub/static/adminhtml/" \
   "pub/static/_requirejs" \
   "pub/static/deployed_version.txt" \
-  "var/cache/" \ 
+  "var/cache/" \
   "var/page_cache/" \
-  "generated/" \ 
+  "generated/" \
   "var/view_preprocessed/" \
   "var/session/" \
   "var/di/"
