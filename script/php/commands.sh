@@ -68,10 +68,14 @@ function wsuMage()
 }
 
 
-## cachetool https://github.com/gordalina/cachetool
-# The application requires the version ">=8.0.0" or greater
+
 function wsuOpcacheClear()
 {
+  sudo service ${PHP_FPM} reload
+  return 0
+
+  ## cachetool https://github.com/gordalina/cachetool
+  # The application requires the version ">=8.0.0" or greater
   local CACHETOOL_FILE_PATH=/usr/local/bin/cachetool
   
   if [ ! -f "${CACHETOOL_FILE_PATH}" ]; then
