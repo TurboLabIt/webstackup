@@ -3,6 +3,11 @@
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/symfony/install.sh?$(date +%s) | sudo bash
 #
 
+echo ""
+echo -e "\e[1;46m ================== \e[0m"
+echo -e "\e[1;46m 📐 SYMFONY INSTALL \e[0m"
+echo -e "\e[1;46m ================== \e[0m"
+
 ## https://symfony.com/download
 curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 sudo apt install symfony-cli -y
