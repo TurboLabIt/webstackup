@@ -21,7 +21,7 @@ fi
 
 cd "$MAGENTO_DIR"
 
-if [ -z "${FAST_CACHE_CLEAR}"]; then
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Stopping services.."
   sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
@@ -67,7 +67,7 @@ fxTitle "🐧 Setting permissions..."
 sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 
-if [ -z "${FAST_CACHE_CLEAR}"]; then
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Restarting services.."
   sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
