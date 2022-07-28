@@ -33,7 +33,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "⚙️ Stopping services.."
   sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
-  fxTitle "🧹 Removing folders..."
+  fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
     "pub/static/frontend/" \
     "pub/static/adminhtml/" \
@@ -64,7 +64,7 @@ else
   
 fi
 
-fxTitle "🌊 cache:flush..."
+fxTitle "🌊 Magento cache:flush..."
 wsuMage cache:flush
 
 fxTitle "🐧 Setting the owner..."
@@ -81,7 +81,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   
 else
 
-  fxTitle "🌊 OPcache clear..."
+  fxTitle "🌊 PHP OPcache clear..."
   wsuOpcacheClear
   
 fi
