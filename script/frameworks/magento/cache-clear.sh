@@ -2,9 +2,16 @@
 ## Standard Magento cache-clearing routine by WEBSTACKUP
 #
 # How to:
-# Copy this file to your project directory with:
-#   curl -Lo script/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/cache-clear-template.sh && sudo chmod u=rwx,go=rx script/cache-clear.sh
-# You should then git commit your copy
+#
+# 1. Set your theme and language(s) in your project `script_begin.sh`:
+#  MAGENTO_STATIC_CONTENT_DEPLOY="MyCompany/myTheme en_US it_IT fr_FR de_DE es_ES"
+#
+# 1. Copy the "starter" script to your project directory with:
+#   curl -Lo script/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/cache-clear-starter.sh && sudo chmod u=rwx,go=rx script/cache-clear.sh
+#
+# 1. You should then git commit your copy
+#
+# Tip: after the first `deploy.sh`, you can `zzcache` directly
 
 SCRIPT_NAME=magento-cache-clear
 fxHeader "🧙🧹 Magento cache-clear"
