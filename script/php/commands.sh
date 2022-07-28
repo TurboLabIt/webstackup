@@ -7,7 +7,7 @@
 # COMPOSER_JSON_FULLPATH
 # COMPOSER_SKIP_DUMP_AUTOLOAD
 
-source $(dirname $(readlink -f $0))/version-variables.sh
+source $(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/version-variables.sh
 
 
 ## composer
