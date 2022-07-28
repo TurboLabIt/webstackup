@@ -69,12 +69,13 @@ function wsuMage()
 
 
 ## cachetool https://github.com/gordalina/cachetool
+# The application requires the version ">=8.0.0" or greater
 function wsuOpcacheClear()
 {
   local CACHETOOL_FILE_PATH=/usr/local/bin/cachetool
   
   if [ ! -f "${CACHETOOL_FILE_PATH}" ]; then
-  
+    fxTitle "cachetool is not installed. Installing..."
     sudo curl -Lo "${CACHETOOL_FILE_PATH}" https://github.com/gordalina/cachetool/releases/latest/download/cachetool.phar
     sudo chmod u=rwx,go=rx "${CACHETOOL_FILE_PATH}"
   fi
