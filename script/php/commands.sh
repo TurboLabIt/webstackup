@@ -30,7 +30,6 @@ function wsuComposer()
   fi
   
   local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction ${NO_DEV}"
-  echo $FULL_COMPOSER_CMD
 
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
   
