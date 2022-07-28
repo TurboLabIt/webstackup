@@ -27,7 +27,7 @@ PHP_FPM="php${PHP_VER}-fpm"
   
 COMPOSER_EXE="${PHP_CLI} /usr/local/bin/composer --no-interaction"
 SYMFONY_EXE="${PHP_CLI} /usr/local/bin/symfony"
-MAGE_CLI_EXE="${PROJECT_DIR}shop && ${PHP_CLI} bin/magento"
+MAGE_CLI_EXE="cd ${PROJECT_DIR}shop && ${PHP_CLI} bin/magento"
 N98_MAGERUN_EXE="${PHP_CLI} /usr/local/bin/n98-magerun2"
 WP_CLI_EXE="${PHP_CLI} /usr/local/bin/wp-cli"
 
