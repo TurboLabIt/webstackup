@@ -35,7 +35,11 @@ sudo rm -rf \
 wsuMage setup:di:compile
 
 wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
-wsuMage setup:static-content:deploy -t $@ -f
+
+if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
+  fxTitle "static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
+  wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
+fi
 
 wsuMage cache:flush
 
