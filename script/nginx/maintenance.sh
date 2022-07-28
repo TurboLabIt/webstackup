@@ -6,7 +6,7 @@
 # 1. In your Nginx server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo script/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx maintenance-starter.sh
+#   curl -Lo script/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx script/maintenance-starter.sh
 #
 # 1. You should now git commit your copy
 #
