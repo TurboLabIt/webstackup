@@ -1,29 +1,35 @@
 #!/usr/bin/env bash
-## Activate standard maintenace page by WEBSTACKUP
+## Standard Symfony cache-clearing routine by WEBSTACKUP
 #
-# 1. In your project `script_begin.sh`: `USE_NGINX_MAINTENANCE=1`
-# 1. In your server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
-# 1. Run your `deploy.sh` at least once
-# 1. You can now `zzmaintenance on` and `zzmaintenance off`
+# How to:
+#
+# 1. In your Nginx server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
+#
+# 1. Copy the "starter" script to your project directory with:
+#   curl -Lo script/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx maintenance-starter.sh
+#
+# 1. You should now git commit your copy
+#
+# You can now `script/maintenance.sh on` and `script/maintenance.sh off`
+#
+# Tip: after the first `deploy.sh`, you can ``zzmaintenance on` and `zzmaintenance off` directly
 
 SCRIPT_NAME=maintenance
 
 source $(dirname $(readlink -f $0))/script_begin.sh
-printHeader "🧰 Nginx maintenance mode manager"
+fxHeader "🧰 Nginx maintenance mode manager"
 
 if [ "$1" = "on" ]; then
 
-  printTitle "🧰 ENGAGE maintenance mode..."
+  fxTitle "🧰 ENGAGE maintenance mode..."
   sudo -u "${EXPECTED_USER}" -H touch "${WEBROOT_DIR}wsu-maintenance"
 
 elif [ "$1" = "off" ]; then
 
-  printTitle "🌂 STOP maintenance mode..."
+  fxTitle "🌂 STOP maintenance mode..."
   sudo -u "${EXPECTED_USER}" -H rm -f "${WEBROOT_DIR}wsu-maintenance"
   
 else
 
-  catastrophicError "❓ Usage: zzmaintenance on|off"
+  fxCatastrophicError "❓ Usage: zzmaintenance on|off"
 fi
-
-source $(dirname $(readlink -f $0))/script_end.sh
