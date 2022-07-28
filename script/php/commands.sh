@@ -66,3 +66,19 @@ function wsuMage()
   
   cd "${CURR_DIR_BACKUP}"
 }
+
+
+## cachetool https://github.com/gordalina/cachetool
+function wsuOpcacheClear()
+{
+  local CACHETOOL_FILE_PATH=/usr/local/bin/cachetool
+  
+  if [ ! -f "${CACHETOOL_FILE_PATH}" ]; then
+  
+    sudo curl -Lo "${CACHETOOL_FILE_PATH}" https://github.com/gordalina/cachetool/releases/latest/download/cachetool.phar
+    sudo chmod u=rwx,go=rx "${CACHETOOL_FILE_PATH}"
+  fi
+  
+  local CACHETOOL_EXE="${PHP_CLI} ${CACHETOOL_FILE_PATH}"
+  sudo ${CACHETOOL_EXE} opcache:reset --fcgi=/run/php/${PHP_FPM}.sock
+}
