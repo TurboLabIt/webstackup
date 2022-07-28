@@ -47,6 +47,8 @@ showPHPVer()
 
 function wsuMage()
 {
+  fxTitle "🧙 Running Magento bin/console..."
+
   if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
     fxCatastrophicError "MAGENTO_DIR not set"
   fi
