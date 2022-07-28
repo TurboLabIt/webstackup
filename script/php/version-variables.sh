@@ -57,6 +57,8 @@ function wsuMage()
     fxCatastrophicError "EXPECTED_USER not set"
   fi
   
+  sudo rm -rf "/tmp/magento"
+  
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
