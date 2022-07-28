@@ -68,7 +68,6 @@ function wsuMage()
 }
 
 
-
 ## Symfony executable
 function wsuSymfony()
 {
