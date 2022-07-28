@@ -1,4 +1,4 @@
-fx#!/usr/bin/env bash
+#!/usr/bin/env bash
 ## Magento cache-clearing script by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/cache-clear-template.sh
 
