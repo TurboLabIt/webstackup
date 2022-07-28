@@ -25,18 +25,17 @@ function wsuComposer()
     COMPOSER_JSON_FULLPATH=${WEBROOT_DIR}composer.json
   fi
   
-  if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ]; then
+  if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
     local NO_DEV="--no-dev"
   fi
   
   local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction ${NO_DEV}"
+  echo $FULL_COMPOSER_CMD
 
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
-
-    fxTitle "📦 Removing composer dump-autoload..."
+  
+    fxMessage "Using ##${COMPOSER_JSON_FULLPATH}##"
     rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
-
-    fxTitle "📦 Composer install from ##${COMPOSER_JSON_FULLPATH}##..."
     ${FULL_COMPOSER_CMD} $@  
   
   fi
@@ -44,13 +43,6 @@ function wsuComposer()
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ]; then
     fxTitle "📦 dump-env ${APP_ENV}..."
     ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
-  fi
-  
-  if [ ! -z "${NO_DEV}" ] && [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 1 ]; then
-
-    fxTitle "📦 dump-autoload..."
-    ${FULL_COMPOSER_CMD} dump-autoload --classmap-authoritative
-    
   fi
 }
 
