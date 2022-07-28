@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 ## Activate standard maintenace page by WEBSTACKUP
 # Install instruction: https://github.com/TurboLabIt/webstackup/blob/master/script/nginx/maintenance.sh
