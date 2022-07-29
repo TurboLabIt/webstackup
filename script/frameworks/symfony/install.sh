@@ -8,8 +8,8 @@ echo -e "\e[1;46m ================== \e[0m"
 echo -e "\e[1;46m 📐 SYMFONY INSTALL \e[0m"
 echo -e "\e[1;46m ================== \e[0m"
 
-SYMFONY_FILE_PATH=/usr/local/bin/symfony
-sudo rm -f "${SYMFONY_FILE_PATH}"
+sudo rm -f /usr/local/bin/symfony
+sudo rm -f /usr/local/bin/__symfony*
 
 sudo apt update && sudo apt install ca-certificates apt-transport-https -y
 
