@@ -46,8 +46,11 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/session/" \
     "var/di/"
     
+  fxTitle "📦 composer install..."
+  wsuComposer install
+    
   fxTitle "🧙🏗️ setup:upgrade..." 
-  wsuMage setup:upgrade   
+  wsuMage setup:upgrade
 
   if [ -f "${SCRIPT_DIR}magento-module-disable.sh" ]; then
     bash "${SCRIPT_DIR}magento-module-disable.sh"
