@@ -45,7 +45,14 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/view_preprocessed/" \
     "var/session/" \
     "var/di/"
+    
+  fxTitle "🧙🏗️ setup:upgrade..." 
+  wsuMage setup:upgrade   
 
+  if [ -f "${SCRIPT_DIR}magento-module-disable.sh" ]; then
+    bash "${SCRIPT_DIR}magento-module-disable.sh"
+  fi   
+    
   fxTitle "🧙🏗️ setup:di:compile..."
   wsuMage setup:di:compile
 
@@ -53,6 +60,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
 
   if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
+  
     fxTitle "🧙🏗️ static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
     wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
     
