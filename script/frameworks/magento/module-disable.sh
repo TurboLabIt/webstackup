@@ -7,7 +7,7 @@
 #  MAGENTO_MODULE_DISABLE="Magento_TwoFactorAuth Magento_Csp Mageplaza_Core"
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo script/module-disable.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/module-disable-starter.sh && sudo chmod u=rwx,go=rx script/module-disable.sh
+#   curl -Lo script/magento-module-disable.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/module-disable-starter.sh && sudo chmod u=rwx,go=rx script/magento-module-disable.sh
 #
 # 1. You should now git commit your copy
 #
