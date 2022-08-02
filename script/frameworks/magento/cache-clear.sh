@@ -31,7 +31,7 @@ cd "$MAGENTO_DIR"
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Entering maintenance mode..."
-  wsuMagento maintenance:enable 
+  wsuMage maintenance:enable 
 
   fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
