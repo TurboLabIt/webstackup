@@ -29,5 +29,6 @@ if [ -z "${MAGENTO_MODULE_DISABLE}" ]; then
   
 else
 
+  fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
   wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
 fi
