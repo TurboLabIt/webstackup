@@ -89,7 +89,7 @@ sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Exiting maintenance mode..."
-  wsuMagento maintenance:disable 
+  wsuMage maintenance:disable 
   
 else
 
