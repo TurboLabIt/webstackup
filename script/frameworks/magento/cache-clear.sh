@@ -51,10 +51,11 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     
   fxTitle "🧙🏗️ setup:upgrade..." 
   wsuMage setup:upgrade
-
-  if [ -f "${SCRIPT_DIR}magento-module-disable.sh" ]; then
-    bash "${SCRIPT_DIR}magento-module-disable.sh"
-  fi   
+  
+  if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
+    fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
+    wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
+  fi
     
   fxTitle "🧙🏗️ setup:di:compile..."
   wsuMage setup:di:compile
