@@ -58,14 +58,6 @@ rootCheck ()
 }
 
 
-devOnlyCheck ()
-{
-  if [ "$APP_ENV" != "dev" ]; then
-    catastrophicError "This script is for DEV only!"
-  fi
-}
-
-
 lockCheck ()
 {
   local LOCKFILE=${1}.lock
