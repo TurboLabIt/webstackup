@@ -30,17 +30,11 @@ WEBROOT_DIR=${PROJECT_DIR}public/
 ##
 source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}php/commands.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}mysql/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}deprecated-retrocompat.sh"
 
 ## Hostname
 HOSTNAME="$(hostname)"
 
-
-if [ -r "/etc/turbolab.it/mysql.conf" ]; then
-  source "/etc/turbolab.it/mysql.conf"
-fi
-
-
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
-
