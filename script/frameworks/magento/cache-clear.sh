@@ -28,22 +28,27 @@ fi
 
 cd "$MAGENTO_DIR"
 
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
+
+  fxTitle "⚙️ Entering maintenance mode..."
+  wsuMage maintenance:enable 
+fi
+
+
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   fxTitle "🧑‍💻 Setting developer mode..."
+  rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
 
 elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
   fxTitle "🛍️ Setting PRODUCTION mode..."
   wsuMage deploy:mode:set production --skip-compilation
-
 fi
 
-if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
-  fxTitle "⚙️ Entering maintenance mode..."
-  wsuMage maintenance:enable 
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
