@@ -35,7 +35,7 @@ function wsuComposer()
 
     fxMessage "Using ##${COMPOSER_JSON_FULLPATH}##"
     rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
-    ${FULL_COMPOSER_CMD} $@
+    ${FULL_COMPOSER_CMD} "$@"
 
   fi
 
@@ -62,7 +62,7 @@ function wsuMage()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
-  sudo -u "${EXPECTED_USER}" -H ${PHP_CLI} bin/magento $@
+  sudo -u "${EXPECTED_USER}" -H ${PHP_CLI} bin/magento "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
@@ -91,7 +91,7 @@ function wsuSymfony()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${PROJECT_DIR}"
-  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${SYMFONY_FILE_PATH} $@
+  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${SYMFONY_FILE_PATH} "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
