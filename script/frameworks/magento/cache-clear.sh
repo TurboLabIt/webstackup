@@ -43,7 +43,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
   
   fxTitle "🧑‍💻 Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 31536000
-  wsuMage config:set admin/security/password_lifetime 0
+  wsuMage config:set admin/security/password_lifetime ''
 
 elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
@@ -52,7 +52,7 @@ elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
   
   fxTitle "🛍️ Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 86400
-  wsuMage config:set admin/security/password_lifetime 0
+  wsuMage config:set admin/security/password_lifetime ''
 fi
 
 
