@@ -40,11 +40,19 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
   fxTitle "🧑‍💻 Setting developer mode..."
   rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
+  
+  fxTitle "🧑‍💻 Change admin settings..."
+  wsuMage config:set admin/security/session_lifetime 31536000
+  wsuMage config:set admin/security/password_lifetime 0
 
 elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
   fxTitle "🛍️ Setting PRODUCTION mode..."
   wsuMage deploy:mode:set production --skip-compilation
+  
+  fxTitle "🛍️ Change admin settings..."
+  wsuMage config:set admin/security/session_lifetime 86400
+  wsuMage config:set admin/security/password_lifetime 0
 fi
 
 
