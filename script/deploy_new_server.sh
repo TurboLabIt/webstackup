@@ -469,6 +469,20 @@ else
 fi
 
 
+printTitle "Installing and running benchmark..."
+if [ $INSTALL_BENCHMARK = 1 ]; then
+
+  apt install sysbench -y -qq
+  sysbench cpu --threads=1 run
+  
+  printMessage "Cfr i7-9750H: 1.489"
+  
+  
+else
+  
+  printLightWarning "Skipped (disabled in config)"
+fi
+
 
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
@@ -496,4 +510,3 @@ fi
 
 
 printTheEnd
-
