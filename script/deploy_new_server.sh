@@ -475,8 +475,7 @@ if [ $INSTALL_BENCHMARK = 1 ]; then
   apt install sysbench -y -qq
   sysbench cpu --threads=1 run
   
-  printMessage "Cfr i7-9750H: 1.489"
-  
+  printMessage "Cfr i7-9750H: 1415 (events per second) | 14162 (total number of events)"
   
 else
   
