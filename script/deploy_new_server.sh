@@ -486,20 +486,12 @@ fi
 printTitle "REBOOTING..."
 if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
 
-  while [ $REBOOT_TIMEOUT -gt 0 ]; do
-     echo -ne "$REBOOT_TIMEOUT\033[0K\r"
-     sleep 1
-     : $((REBOOT_TIMEOUT--))
-  done
+  fxCountdown
   zzupdate
 
 elif [ "$REBOOT" = "1" ]; then
 
-  while [ $REBOOT_TIMEOUT -gt 0 ]; do
-     echo -ne "$REBOOT_TIMEOUT\033[0K\r"
-     sleep 1
-     : $((REBOOT_TIMEOUT--))
-  done
+  fxCountdown
   reboot
 
 else
