@@ -40,7 +40,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
   fxTitle "🧑‍💻 Setting developer mode..."
   rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
-  
+
   fxTitle "🧑‍💻 Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 31536000
   wsuMage config:set admin/security/password_lifetime ''
@@ -49,7 +49,7 @@ elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
   fxTitle "🛍️ Setting PRODUCTION mode..."
   wsuMage deploy:mode:set production --skip-compilation
-  
+
   fxTitle "🛍️ Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 86400
   wsuMage config:set admin/security/password_lifetime ''
@@ -70,18 +70,18 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/view_preprocessed/" \
     "var/session/" \
     "var/di/"
-    
+
   fxTitle "📦 composer install..."
   wsuComposer install
-    
+
   fxTitle "🧙🏗️ setup:upgrade..." 
   wsuMage setup:upgrade
-  
+
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
     fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
     wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
   fi
-    
+
   fxTitle "🧙🏗️ setup:di:compile..."
   wsuMage setup:di:compile
 
@@ -89,16 +89,15 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
 
   if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
-  
+
     fxTitle "🧙🏗️ static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
     wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
-    
+
   fi
-  
+
 else
 
   fxTitle "🧙🏗️ di:compile and static-content:deploy skipped (fast mode)"
-  
 fi
 
 fxTitle "🌊 Magento cache:flush..."
@@ -115,10 +114,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Exiting maintenance mode..."
   wsuMage maintenance:disable 
-  
+
 else
 
   fxTitle "🌊 PHP OPcache clear..."
   wsuOpcacheClear
-  
 fi
