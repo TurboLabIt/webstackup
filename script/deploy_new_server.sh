@@ -492,7 +492,7 @@ if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
 elif [ "$REBOOT" = "1" ]; then
 
   fxCountdown
-  reboot
+  shutdown -r -t 5
 
 else
   
