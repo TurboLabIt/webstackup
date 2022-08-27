@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 if [ -z "$(command -v figlet)" ] || [ ! -f "/usr/games/lolcat" ]; then
   sudo apt install figlet lolcat -y -qq
 fi
