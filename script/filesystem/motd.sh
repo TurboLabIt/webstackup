@@ -51,3 +51,5 @@ elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/tur
 fi
 
 bash "/etc/update-motd.d/00-webstackup-hostname"
+
+fxFooter
