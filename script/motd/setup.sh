@@ -47,7 +47,6 @@ elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/tur
 
   sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/hostname-banner.sh?$(date +%s)
   sudo chmod u=rwx,go=rx /etc/update-motd.d/00-webstackup-hostname
-  
 fi
 
 bash "/etc/update-motd.d/00-webstackup-hostname"
