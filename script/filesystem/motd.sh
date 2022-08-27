@@ -3,15 +3,23 @@
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/motd.sh?$(date +%s) | sudo bash
 #
 
-echo ""
-echo -e "\e[1;46m ========== \e[0m"
-echo -e "\e[1;46m MOTD SETUP \e[0m"
-echo -e "\e[1;46m ========== \e[0m"
-
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+## bash-fx
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
 fi
+## bash-fx is ready
+
+fxHeader "Message of the day setup"
+rootCheck
+
+function disableExec()
+{
+  if [ -f "$1" ]; then
+    chmod -x "$1"
+  fi
+}
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
 if [ -f "/etc/default/motd-news" ]; then
@@ -19,24 +27,16 @@ if [ -f "/etc/default/motd-news" ]; then
 fi
 
 ## Disable "Welcome to Ubuntu"
-if [ -f "/etc/update-motd.d/00-header" ]; then
-  sudo chmod -x /etc/update-motd.d/00-header
-fi
+disableExec /etc/update-motd.d/00-header
 
 ## Disable support links
-if [ -f "/etc/update-motd.d/10-help-text" ]; then
-  sudo chmod -x /etc/update-motd.d/10-help-text
-fi
+disableExec /etc/update-motd.d/10-help-text
 
 ## Disable "This system has been minimized"
-if [ -f "/etc/update-motd.d/60-unminimize" ]; then
-  sudo chmod -x /etc/update-motd.d/60-unminimize
-fi
+disableExec /etc/update-motd.d/60-unminimize
 
 ## Disable "XX updates can be applied immediately"
-if [ -f "/etc/update-motd.d/90-updates-available" ]; then
-  sudo chmod -x /etc/update-motd.d/90-updates-available
-fi
+disableExec /etc/update-motd.d/90-updates-available
 
 ## Add hostname
 if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
