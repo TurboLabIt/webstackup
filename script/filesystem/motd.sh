@@ -52,4 +52,4 @@ fi
 
 bash "/etc/update-motd.d/00-webstackup-hostname"
 
-fxFooter
+fxEndFooter
