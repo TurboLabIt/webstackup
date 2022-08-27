@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### CHANGE MOTD ON UBUNTU BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/motd.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/setup.sh?$(date +%s) | sudo bash
 #
 
 ## bash-fx
@@ -39,13 +39,13 @@ disableExec /etc/update-motd.d/60-unminimize
 disableExec /etc/update-motd.d/90-updates-available
 
 ## Add hostname
-if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
+if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh ]; then
 
- ln -s /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh /etc/update-motd.d/00-webstackup-hostname
+ ln -s /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh /etc/update-motd.d/00-webstackup-hostname
  
-elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
+elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh ]; then
 
-  sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/filesystem/hostname-banner.sh?$(date +%s)
+  sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/hostname-banner.sh?$(date +%s)
   sudo chmod u=rwx,go=rx /etc/update-motd.d/00-webstackup-hostname
   
 fi
