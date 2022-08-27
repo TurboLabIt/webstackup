@@ -28,14 +28,14 @@ if [ -f "/etc/update-motd.d/10-help-text" ]; then
   sudo chmod -x /etc/update-motd.d/10-help-text
 fi
 
-## Disable "XX updates can be applied immediately"
-if [ -f "/etc/update-motd.d/10-help-text" ]; then
-  sudo chmod -x /etc/update-motd.d/90-updates-available
-fi
-
 ## Disable "This system has been minimized"
 if [ -f "/etc/update-motd.d/60-unminimize" ]; then
   sudo chmod -x /etc/update-motd.d/60-unminimize
+fi
+
+## Disable "XX updates can be applied immediately"
+if [ -f "/etc/update-motd.d/90-updates-available" ]; then
+  sudo chmod -x /etc/update-motd.d/90-updates-available
 fi
 
 ## Add hostname
