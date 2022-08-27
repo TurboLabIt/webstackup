@@ -91,7 +91,7 @@ if [ $INSTALL_WEBSTACKUP = 1 ]; then
   cp "${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf" /etc/ssh/sshd_config.d/
   
   printMessage "Updating MOTD"
-  source "${WEBSTACKUP_SCRIPT_DIR}filesystem/motd.sh"
+  source "${WEBSTACKUP_SCRIPT_DIR}motd/setup.sh"
 
 else
   
