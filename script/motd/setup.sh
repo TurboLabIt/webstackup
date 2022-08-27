@@ -11,7 +11,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "Message of the day setup"
+fxHeader "💡 Message of the day setup"
 rootCheck
 
 function disableExec()
