@@ -33,6 +33,11 @@ if [ -f "/etc/update-motd.d/10-help-text" ]; then
   sudo chmod -x /etc/update-motd.d/90-updates-available
 fi
 
+## Disable "This system has been minimized"
+if [ -f "/etc/update-motd.d/60-unminimize" ]; then
+  sudo chmod -x /etc/update-motd.d/60-unminimize
+fi
+
 ## Add hostname
 if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
 
