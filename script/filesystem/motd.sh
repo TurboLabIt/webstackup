@@ -14,16 +14,24 @@ if ! [ $(id -u) = 0 ]; then
 fi
 
 ## Disable dynamic news ( https://motd.ubuntu.com/ )
-sudo sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+if [ -f "/etc/default/motd-news" ]; then
+  sudo sed -i 's/ENABLED=1/ENABLED=0/g' /etc/default/motd-news
+fi
 
 ## Disable "Welcome to Ubuntu"
-sudo chmod -x /etc/update-motd.d/00-header
+if [ -f "/etc/update-motd.d/00-header" ]; then
+  sudo chmod -x /etc/update-motd.d/00-header
+fi
 
 ## Disable support links
-sudo chmod -x /etc/update-motd.d/10-help-text
+if [ -f "/etc/update-motd.d/10-help-text" ]; then
+  sudo chmod -x /etc/update-motd.d/10-help-text
+fi
 
 ## Disable "XX updates can be applied immediately"
-sudo chmod -x /etc/update-motd.d/90-updates-available
+if [ -f "/etc/update-motd.d/10-help-text" ]; then
+  sudo chmod -x /etc/update-motd.d/90-updates-available
+fi
 
 ## Add hostname
 if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/filesystem/hostname-banner.sh ]; then
