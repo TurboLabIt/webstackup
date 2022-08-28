@@ -34,4 +34,10 @@ sudo apt-get install apt-transport-https ca-certificates syncthing -y
 systemctl enable syncthing@$(logname).service
 systemctl start syncthing@$(logname).service
 
+#
+fxTitle "Add this to your .ssh/config profile"
+echo "# syncthing http://localhost:5555/"
+echo "LocalForward 5555 localhost:8384"
+fxMessage "🏁 http://localhost:5555/"
+
 fxEndFooter
