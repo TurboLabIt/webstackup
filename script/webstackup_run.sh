@@ -10,7 +10,7 @@ if [ -z "$(command -v dialog)" ]; then
 fi
 
 
-HEIGHT=17
+HEIGHT=20
 WIDTH=65
 CHOICE_HEIGHT=25
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
