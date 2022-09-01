@@ -52,9 +52,7 @@ innodb_buffer_pool_size = 4G
 # the log file size should be set as big as possible, but not bigger than necessary.
 # A bigger log file size is better for performance, but it has a drawback (a significant one) that you need to worry about: the recovery time after a crash
 # https://www.percona.com/blog/2016/05/31/what-is-a-big-innodb_log_file_size/
-#
-# InnoDB total log files size equals to 25% of buffer pool size
-innodb_log_file_size = 1G
+innodb_log_file_size = 512M
 
 
 ##
