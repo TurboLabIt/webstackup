@@ -21,7 +21,7 @@ MYSQLTUNER=/usr/local/bin/mysqltuner
 MYSQLTUNER_DATA_DIR=/var/lib/mysqltuner/
 mkdir -p ${MYSQLTUNER_DATA_DIR}
 
-fxTitle "Install/update..."
+fxTitle "💿 Install/update..."
 curl -o ${MYSQLTUNER} https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
 chmod u=rwx,go=rx ${MYSQLTUNER}
 
@@ -33,6 +33,7 @@ if [ -f ${MYSQLTUNER_WSU} ]; then
   fxLinkBin $MYSQLTUNER_WSU zzmysqltuner
 fi
 
+fxTitle "🎚️ Running..."
 source /etc/turbolab.it/mysql.conf
 ${MYSQLTUNER} --user "$MYSQL_USER" --pass "$MYSQL_PASSWORD" --color --cvefile=${MYSQLTUNER_DATA_DIR}vulnerabilities.csv
 
