@@ -17,15 +17,23 @@ rootCheck
 # https://github.com/major/MySQLTuner-perl#downloadinstallation #
 #################################################################
 
+MYSQLTUNER=/usr/local/bin/mysqltuner
 MYSQLTUNER_DATA_DIR=/var/lib/mysqltuner/
 mkdir -p ${MYSQLTUNER_DATA_DIR}
 
 fxTitle "Install/update..."
-curl -o ${MYSQLTUNER_DATA_DIR}mysqltuner.pl https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+curl -o ${MYSQLTUNER} https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
+chmod u=rwx,go=rx ${MYSQLTUNER}
+
 curl -o ${MYSQLTUNER_DATA_DIR}basic_passwords.txt https://raw.githubusercontent.com/major/MySQLTuner-perl/master/basic_passwords.txt
 curl -o ${MYSQLTUNER_DATA_DIR}vulnerabilities.csv https://raw.githubusercontent.com/major/MySQLTuner-perl/master/vulnerabilities.csv
 
+MYSQLTUNER_WSU=/usr/local/turbolab.it/webstackup/script/mysql/mysqltuner.sh
+if [ -f ${MYSQLTUNER_WSU} ]; then
+  fxLinkBin $MYSQLTUNER_WSU zzmysqltuner
+fi
+
 source /etc/turbolab.it/mysql.conf
-perl ${MYSQLTUNER_DATA_DIR}mysqltuner.pl --user "$MYSQL_USER" --pass "$MYSQL_PASSWORD" --color
+${MYSQLTUNER} --user "$MYSQL_USER" --pass "$MYSQL_PASSWORD" --color --cvefile=${MYSQLTUNER_DATA_DIR}vulnerabilities.csv
 
 fxEndFooter
