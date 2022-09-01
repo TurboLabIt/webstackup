@@ -56,6 +56,7 @@ innodb_buffer_pool_size = 4G
 # InnoDB total log files size equals to 25% of buffer pool size
 innodb_log_file_size = 1G
 
+
 ##
 # If innodb_buffer_pool_size is set to more than 1GB, innodb_buffer_pool_instances divides 
 # the InnoDB buffer pool into a specific number of instances.
@@ -63,11 +64,10 @@ innodb_log_file_size = 1G
 # so for example if innodb_buffer_pool_size is 4GB and innodb_buffer_pool_instances is set to 4, each 
 # instance will be 1GB. Each instance should ideally be at least 1GB in size.
 # https://mariadb.com/kb/en/innodb-buffer-pool
-innodb_buffer_pool_instances = 2
+innodb_buffer_pool_instances = 4
 
 
 ##
 # How MySQL Uses the Join Buffer Cache
 # https://dev.mysql.com/doc/internals/en/join-buffer-size.html
 join_buffer_size = 512kb
-
