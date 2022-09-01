@@ -69,3 +69,10 @@ innodb_buffer_pool_instances = 4
 # How MySQL Uses the Join Buffer Cache
 # https://dev.mysql.com/doc/internals/en/join-buffer-size.html
 join_buffer_size = 512kb
+
+
+## The General Query Log
+# https://dev.mysql.com/doc/refman/8.0/en/query-log.html
+# This SLOWS DOWN MySQL! Enable for debugging only!
+general_log = 0
+general_log_file = /var/log/mysql/general.log
