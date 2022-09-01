@@ -61,3 +61,5 @@ systemctl --no-pager status mysql
 if [ -f /usr/local/turbolab.it/webstackup/script/mysql/maintentance.sh ]; then
   cp /usr/local/turbolab.it/webstackup/config/cron/mysql /etc/cron.d/webstackup-mysql
 fi
+
+curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/mysqltuner.sh?$(date +%s) | sudo bash
