@@ -18,7 +18,7 @@ rootCheck
 #################################################################
 
 MYSQLTUNER_DATA_DIR=/var/lib/mysqltuner/
-mkdir ${MYSQLTUNER_DATA_DIR}
+mkdir -p ${MYSQLTUNER_DATA_DIR}
 
 fxTitle "Install/update..."
 curl -o ${MYSQLTUNER_DATA_DIR}mysqltuner.pl https://raw.githubusercontent.com/major/MySQLTuner-perl/master/mysqltuner.pl
