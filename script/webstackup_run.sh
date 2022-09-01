@@ -27,7 +27,8 @@ OPTIONS=(
      7 "🔑  Webpermissions a directory"
      8 "↗️  Show webstackup SSH public key"
      9 "✔️  Self-update"
-     10 "🔧 MySQL maintenance")
+     10 "🔧 MySQL maintenance"
+     11 "🎚️ MySQL Tuner")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -72,4 +73,8 @@ case $CHOICE in
     ;;
   10)
     bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
+    ;;
+  11)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/mysqltuner.sh"
+    ;;
 esac  
