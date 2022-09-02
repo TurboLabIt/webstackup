@@ -13,7 +13,7 @@ source $(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/version-variables.sh
 ## composer
 function wsuComposer()
 {
-  fxTitle "📦 Running Composer..."
+  fxTitle "📦 Running composer $@..."
   expectedUserSetCheck
 
   if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
@@ -40,7 +40,7 @@ function wsuComposer()
   fi
 
   local SYMFONY_FLEX="$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/flex/src/Command/DumpEnvCommand.php"
-
+  
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX_DUMP_ENV_COMMAND}" ]; then
     fxTitle "📦 dump-env ${APP_ENV}..."
     ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
