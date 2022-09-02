@@ -71,7 +71,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/session/" \
     "var/di/"
 
-  fxTitle "📦 composer install..."
   wsuComposer install
 
   fxTitle "🧙🏗️ setup:upgrade..." 
