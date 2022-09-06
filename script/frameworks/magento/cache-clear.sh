@@ -43,7 +43,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   fxTitle "🧑‍💻 Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 31536000
-  wsuMage config:set admin/security/password_lifetime ''
 
 elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
@@ -52,9 +51,13 @@ elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
 
   fxTitle "🛍️ Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 86400
-  wsuMage config:set admin/security/password_lifetime ''
 fi
 
+wsuMage config:set admin/security/password_lifetime ''
+
+## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
+# https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
+wsuMage config:set system/security/max_session_size_admin 512000
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
