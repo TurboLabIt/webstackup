@@ -36,3 +36,6 @@ else
   wsuMage indexer:reindex "$@"
   
 fi
+
+fxTitle "Status"
+wsuMage indexer:status
