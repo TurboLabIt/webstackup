@@ -19,37 +19,20 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
-if [ "$1" = "fast" ]; then
-  FAST_REINDEX=1
-fi
-
 cd "$MAGENTO_DIR"
 
-#if [ -z "${FAST_REINDEX}" ]; then
+if [ -z "$1" ]; then
 
-  #fxTitle "⚙️ Entering maintenance mode..."
-  #wsuMage maintenance:enable 
-#fi
+  fxTitle "Reindexing all..."
+  wsuMage indexer:reindex
+  
+elif [ "$1" = "fast" ]; then
 
-fxTitle "Applying catalog rules.."
+  fxTitle "Fast reindexing..."
+  fxMessage "My bad, fast reindex is note define yet :-("
 
+else
 
-fxTitle "Reindexing..."
-wsuMage indexer:reindex
-
-
-fxTitle "🌊 Magento cache:flush..."
-wsuMage cache:flush
-
-
-#if [ -z "${FAST_REINDEX}" ]; then
-
-  #fxTitle "⚙️ Exiting maintenance mode..."
-  #wsuMage maintenance:disable 
-
-#else
-
-  #fxTitle "🌊 PHP OPcache clear..."
-  #wsuOpcacheClear
-
-#fi
+  wsuMage indexer:reindex "$@"
+  
+fi
