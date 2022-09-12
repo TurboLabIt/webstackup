@@ -288,6 +288,7 @@ if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
   bash "${SCRIPT_DIR}migrate.sh"
 fi
 
+
 ## user account
 if [ ! -z "${USERS_TEMPLATE_PATH}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH"
@@ -296,6 +297,7 @@ fi
 if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH_STAGING"
 fi
+
 
 ## zzmysqldump
 if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
@@ -331,6 +333,18 @@ fi
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf" ]; then
   printTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf"
+fi
+
+
+## nginx-allow-deny-list
+if [ -f "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}.conf" ]; then
+  printTitle "🚪 Linking nginx-allow-deny-list..."
+  ln -s "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}.conf"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf" ]; then
+  printTitle "🚪 Linking ${APP_ENV} nginx-allow-deny-list..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf"
 fi
 
 
