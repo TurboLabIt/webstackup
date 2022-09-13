@@ -36,6 +36,9 @@
 # ${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf
 
+# ${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf
+
 
 echo ""
 echo -e "\e[1;46m ============= \e[0m"
