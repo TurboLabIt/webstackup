@@ -68,6 +68,26 @@ function wsuMage()
 }
 
 
+## Magento n98-magerun2
+function wsuN98MageRun()
+{
+  expectedUserSetCheck
+
+  if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
+    fxCatastrophicError "📁 MAGENTO_DIR not set"
+  fi
+
+  sudo rm -rf "/tmp/magento"
+
+  local CURR_DIR_BACKUP=$(pwd)
+
+  cd "${MAGENTO_DIR}"
+  sudo -u $EXPECTED_USER -H ${PHP_CLI} /usr/local/bin/n98-magerun2 "$@"
+
+  cd "${CURR_DIR_BACKUP}"
+}
+
+
 ## Symfony executable
 function wsuSymfony()
 {
