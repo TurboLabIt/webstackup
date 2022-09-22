@@ -21,7 +21,7 @@ fxTitle "🥞 Backing up current DB..."
 DB_DUMP_SQL=${PROJECT_DIR}backup/dbdump_${APP_ENV}_pre-deploy.sql
 fxMessage "$DB_DUMP_SQL"
 rm "${DB_DUMP_SQL}"
-sudo -u $EXPECTED_USER -H ${PHP_CLI} "${N98_MAGERUN_FILE}" db:dump --strip="@stripped" --no-tablespaces "${DB_DUMP_SQL}"
+wsuN98MageRun db:dump --strip="@stripped" --no-tablespaces "${DB_DUMP_SQL}"
 rm -f "${DB_DUMP_SQL}.gz"
 gzip "${DB_DUMP_SQL}" --best &
 
