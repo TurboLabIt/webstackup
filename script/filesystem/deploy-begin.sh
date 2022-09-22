@@ -44,6 +44,9 @@ fi
 
 lockCheck ${LOCKFILE}
 
+fxTitle "Disable xdebug..."
+export XDEBUG_MODE=off
+
 fxTitle "Switch to project directory"
 cd ${PROJECT_DIR}
 pwd
