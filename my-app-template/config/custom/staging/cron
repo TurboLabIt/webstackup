@@ -1,0 +1,25 @@
+## 🚨 WARNING 🚨
+#
+# This file is under version control!
+# DO NOT EDIT DIRECTLY - If you do, you'll loose your changes!
+#
+# The original file is in `/var/www/my-app/config/custom/staging/`
+#
+# You MUST:
+#
+# 1. edit the original file on you PC
+# 2. Git-commit+push the changes
+# 3. run `sudo bash /var/www/my-app/scripts/deploy.sh`
+#
+# ⚠️ This file is for the STAGING env only ⚠️
+#
+# 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/staging/cron
+
+SHELL=/usr/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+PROJECT_DIR=/var/www/my-app/
+
+## Every minute: check for an autodeploy async request
+AUTODEPLOY_FILENAME_TO_CHECK=autodeploy-async-request
+* * * * * root bash /usr/local/turbolab.it/webstackup/script/filesystem/async-runner.sh "${AUTODEPLOY_FILENAME_TO_CHECK}" "${PROJECT_DIR}scripts/deploy.sh" fast >> ${PROJECT_DIR}var/log/autodeploy-async.log 2>&1
+

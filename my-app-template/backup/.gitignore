@@ -1,0 +1,10 @@
+### webdev-gitignore by https://github.com/ZaneCEO/webdev-gitignore/ ###
+########################################################################
+#
+# curl -o .gitignore https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
+
+## Put this in a directory to ignore all of its content BUT the root-level readme.md
+## and this file itself.
+*
+!readme.md
+!.gitignore
