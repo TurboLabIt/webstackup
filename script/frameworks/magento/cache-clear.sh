@@ -61,6 +61,9 @@ wsuMage config:set system/security/max_session_size_admin 512000
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
+  fxTitle "🛍️ Current mode..."
+  wsuMage deploy:mode:show
+
   fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
     "pub/static/frontend/" \

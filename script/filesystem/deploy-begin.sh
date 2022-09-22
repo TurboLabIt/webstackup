@@ -1,0 +1,60 @@
+fxHeader "🤖 ${APP_NAME} deploy script"
+fxTitle "Running on ${APP_ENV} ($HOSTNAME)"
+rootCheck
+
+if [ -z "$PROJECT_DIR" ] || [ ! -d "$PROJECT_DIR" ]; then
+  fxCatastrophicError "PROJECT_DIR is undefined. This deploy can't proceed! Aborting!"
+fi
+
+if [ -z "$APP_ENV" ]; then
+  fxCatastrophicError "APP_ENV is undefined! This deploy can't proceed! Aborting!"
+fi
+
+if [ "$1" = "fast" ]; then
+  fxTitle "🐇 Fast mode"
+  IS_FAST=1
+else
+  printTitle "🐢 Slow mode (non-fast)"
+  IS_FAST=0
+fi
+
+if [ "$APP_ENV" = "prod" ]; then
+
+  fxTitle '⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡'
+  local options=("OK" "Cancel")
+  select opt in "${options[@]}"
+  do
+    case $opt in
+
+      "OK")
+        if [ -f ${SCRIPT_DIR}deploy_notify.sh ]; then
+          bash ${SCRIPT_DIR}notify.sh "🏁 Deploy started for ${APP_NAME} on PRODUCTION ($HOSTNAME)" "deploy" "$1"
+        fi
+        break
+        ;;
+
+      "Cancel")
+        if [ -f "${SCRIPT_DIR}script_end.sh" ]; then
+          source ${SCRIPT_DIR}script_end.sh
+        fi
+        exit
+        ;;
+
+      *) echo "👎🏻 Invalid option";;
+    esac
+  done
+
+fi
+
+if [ -z "${LOCKFILE}" ]; then
+  LOCKFILE=${PROJECT_DIR}var/deploy
+fi
+
+lockCheck ${LOCKFILE}
+
+fxTitle "Disable xdebug..."
+export XDEBUG_MODE=off
+
+fxTitle "Switch to project directory"
+cd ${PROJECT_DIR}
+pwd
