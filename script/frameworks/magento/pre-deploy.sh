@@ -1,4 +1,4 @@
-if [ -d "${MAGENTO_DIR}" ]; then
+if [ ! -d "${MAGENTO_DIR}" ]; then
   return 0
 fi
 
