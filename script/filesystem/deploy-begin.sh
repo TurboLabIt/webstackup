@@ -10,6 +10,14 @@ if [ -z "$APP_ENV" ]; then
   fxCatastrophicError "APP_ENV is undefined! This deploy can't proceed! Aborting!"
 fi
 
+if [ "$1" = "fast" ]; then
+  fxTitle "🐇 Fast mode"
+  IS_FAST=1
+else
+  printTitle "🐢 Slow mode (non-fast)"
+  IS_FAST=0
+fi
+
 if [ "$APP_ENV" = "prod" ]; then
 
   fxTitle '⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡'
