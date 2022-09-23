@@ -264,7 +264,8 @@ if [ $INSTALL_SYMFONY = 1 ]; then
   
   printMessage "Installing..."
   wget https://get.symfony.com/cli/installer -O - | bash
-  mv /root/.symfony/bin/symfony /usr/local/bin/symfony
+  mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
+  rm -rf "/root/.symfony5"
   
   printMessage "$(symfony -V)"
   
