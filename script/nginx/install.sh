@@ -2,6 +2,7 @@
 ### AUTOMATIC NGINX INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh?$(date +%s) | sudo bash
 #
+# Source: http://nginx.org/en/linux_packages.html#Ubuntu
 
 echo ""
 echo -e "\e[1;46m ================ \e[0m"
@@ -12,20 +13,27 @@ if ! [ $(id -u) = 0 ]; then
   echo -e "\e[1;41m This script must run as ROOT \e[0m"
   exit
 fi
-  
-## Add Nginx key and repo
-apt update
-apt install curl gnupg2 ca-certificates lsb-release unzip nano -y
-curl -fsSL https://nginx.org/keys/nginx_signing.key | apt-key add -
-echo "deb [arch=amd64] http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" > /etc/apt/sources.list.d/nginx.list
-echo "deb-src [arch=amd64] http://nginx.org/packages/mainline/ubuntu/ $(lsb_release -sc) nginx" >> /etc/apt/sources.list.d/nginx.list
-  
-## Pinning the repo
-NGINX_PINNING_FILE=/etc/apt/preferences.d/99-nginx-webstackup
-echo "Package: nginx" > $NGINX_PINNING_FILE
-echo -n "Pin: release a=" >> $NGINX_PINNING_FILE
-echo "$(lsb_release -sc)" >> $NGINX_PINNING_FILE
-echo "Pin-Priority: -900" >> $NGINX_PINNING_FILE
+
+apt update -qq
+
+# Install the prerequisites:
+apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
+
+# (webstackup extras)
+apt install unzip nano -y
+
+# Import an official nginx signing key so apt could verify the packages authenticity. Fetch the key:
+curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+
+# Verify that the downloaded file contains the proper key:
+gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+
+# If you would like to use mainline nginx packages, run the following command instead:
+echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
+
+# Set up repository pinning to prefer our packages over distribution-provided ones:
+echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
   
 ## Install Nginx
 apt update -qq
