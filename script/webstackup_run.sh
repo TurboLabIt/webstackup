@@ -83,6 +83,6 @@ case $CHOICE in
     bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/password-reset.sh"
     ;;
   13)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/my-app-template/setup.sh"
+    bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
     ;;
 esac  
