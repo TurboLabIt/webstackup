@@ -55,8 +55,11 @@ echo "Pass:  ##${TARGET_MYSQL_PASSWORD}##"
 
 fxTitle "Creating MySQL init file..."
 MYSQL_PASSWD_RESET_FILE=/tmp/mysql_password_reset.sql
-echo -n \
+echo \
   "ALTER USER '${TARGET_MYSQL_USER}'@'${TARGET_MYSQL_USER_HOST}' IDENTIFIED WITH mysql_native_password BY '${TARGET_MYSQL_PASSWORD}';" \
+  > "${MYSQL_PASSWD_RESET_FILE}"
+echo \
+  "ALTER USER '${TARGET_MYSQL_USER}'@'${TARGET_MYSQL_USER_HOST}' IDENTIFIED WITH caching_sha2_password BY '${TARGET_MYSQL_PASSWORD}';" \
   >> "${MYSQL_PASSWD_RESET_FILE}"
 
 fxMessage "$(cat ${MYSQL_PASSWD_RESET_FILE})"
