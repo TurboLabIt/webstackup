@@ -16,8 +16,6 @@ fi
 
 fxHeader "🤦‍MySQL password reset"
 rootCheck
-echo "Manine dimenticose edition"
-echo ""
 
 WSU_BASE="/usr/local/turbolab.it/webstackup/script/base.sh"
 if [ -f "${WSU_BASE}" ]; then
@@ -87,13 +85,11 @@ chmod ug=rw,o= "${MYSQL_PASSWD_RESET_FILE}"
 ls -l "${MYSQL_PASSWD_RESET_FILE}"
 
 
-fxTitle "Checking if nginx is active and needs stopping..."
+fxTitle "Stopping nginx..."
 systemctl is-active --quiet nginx
 if [ "$?" = "0" ]; then
   NGINX_RESTART_NEEDED=1
-  fxMessage "Stopping nginx..."
   service nginx stop
-  fxOK
 else
   fxInfo "nginx not detected"
 fi
@@ -127,11 +123,9 @@ fxTitle "Starting MySQL..."
 service mysql start
 
 
-fxTitle "Checking if nginx must be restarted..."
+fxTitle "Restarting nginx..."
 if [ ! -z "$NGINX_RESTART_NEEDED" ]; then
-  fxMessage "Restarting nginx..."
   service nginx restart
-  fxOK
 else
   fxInfo "nginx not detected"
 fi
