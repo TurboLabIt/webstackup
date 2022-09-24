@@ -66,19 +66,16 @@ if [ -z "$(command -v git)" ]; then
   
 fi
 
-source $MYSQL_CREDENTIALS_FILE
-MYSQL_EXE="mysql -u${MYSQL_USER} -p${MYSQL_PASSWORD} -h${MYSQL_HOST}"
-
 
 printMessage "🧔 Creating user..."  
-$MYSQL_EXE -e "CREATE USER '$NEW_MYSQL_USER'@'%' IDENTIFIED BY '$NEW_MYSQL_PASSWORD';"
+wsuMysql -e "CREATE USER '$NEW_MYSQL_USER'@'%' IDENTIFIED BY '$NEW_MYSQL_PASSWORD';"
 
 printMessage "🧺 Creating database..."
-$MYSQL_EXE -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
+wsuMysql -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
 
 printMessage "🔑 Granting privileges..."
-$MYSQL_EXE -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
-$MYSQL_EXE -e "FLUSH PRIVILEGES;"
+wsuMysql -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
+wsuMysql -e "FLUSH PRIVILEGES;"
 
 
 printTitle "🔎 Testing..."
@@ -99,5 +96,4 @@ chmod u=r,go= "${MYSQL_NEW_CREDENTIALS_STORE_FILE}"
 printMessage "ℹ Credentials saved in $MYSQL_NEW_CREDENTIALS_STORE_FILE"
 printMessage "$(cat "${MYSQL_NEW_CREDENTIALS_STORE_FILE}")"
 
-
-printTheEnd
+fxEndFooter
