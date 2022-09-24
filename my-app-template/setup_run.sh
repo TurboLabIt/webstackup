@@ -19,7 +19,7 @@ while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ] || [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]
 do
   WSU_MAP_CURR_DIR=$(pwd)
   echo "🤖 Provide the path to your project root (e.g.: /var/www/my-app)"
-  read -p "Hit enter for ${WSU_MAP_CURR_DIR}: " WSU_MAP_DEPLOY_TO_PATH  < /dev/tty
+  read -p "Hit Enter for ${WSU_MAP_CURR_DIR}: " WSU_MAP_DEPLOY_TO_PATH  < /dev/tty
   if [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     WSU_MAP_DEPLOY_TO_PATH=$WSU_MAP_CURR_DIR
   fi
