@@ -29,7 +29,8 @@ OPTIONS=(
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
      11 "🎚️ MySQL Tuner"
-     12 "🤦 MySQL password reset")
+     12 "🤦 MySQL password reset"
+     13 "🐫 my-app-template")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -80,5 +81,8 @@ case $CHOICE in
     ;;
   12)
     bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/password-reset.sh"
+    ;;
+  13)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/my-app-template/setup.sh"
     ;;
 esac  
