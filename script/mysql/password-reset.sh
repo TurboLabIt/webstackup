@@ -29,7 +29,12 @@ fxTitle "🧔 Username"
 while [ -z "$TARGET_MYSQL_USER" ]
 do
   read -p "🤖 Provide the username: " TARGET_MYSQL_USER  < /dev/tty
+  if [ -z "$TARGET_MYSQL_USER" ]; then
+    TARGET_MYSQL_USER=root
+  fi
 done
+
+fxOK "OK, $TARGET_MYSQL_USER"
 
 fxTitle "🔑 Password"
 while [ -z "$TARGET_MYSQL_PASSWORD" ]
@@ -41,6 +46,8 @@ do
   fi
 done
 
+fxOK "OK, $TARGET_MYSQL_PASSWORD"
+
 fxTitle "${TARGET_MYSQL_USER}@ host"
 while [ -z "$TARGET_MYSQL_USER_HOST" ]
 do
@@ -50,6 +57,8 @@ do
     TARGET_MYSQL_USER_HOST="localhost"
   fi
 done
+
+fxOK "OK, $TARGET_MYSQL_USER_HOST"
 
 fxTitle "New credentials preview"
 echo "User:  ##${TARGET_MYSQL_USER}##@##${TARGET_MYSQL_USER_HOST}##"
