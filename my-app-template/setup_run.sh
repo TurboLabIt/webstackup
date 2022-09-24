@@ -24,7 +24,7 @@ do
     WSU_MAP_DEPLOY_TO_PATH=$WSU_MAP_CURR_DIR
   fi
   
-  if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ];
+  if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     fxCatastrophicError "Directory ##${$WSU_MAP_DEPLOY_TO_PATH}## doesn't exist!" "proceed"
   fi  
 done
