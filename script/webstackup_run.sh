@@ -29,7 +29,7 @@ OPTIONS=(
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
      11 "🎚️ MySQL Tuner"
-     12 "🤦‍♂️ MySQL password reset")
+     12 "🤦 MySQL password reset")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
