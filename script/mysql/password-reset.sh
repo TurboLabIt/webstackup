@@ -55,6 +55,7 @@ echo "Pass:  ##${TARGET_MYSQL_PASSWORD}##"
 
 fxTitle "Creating MySQL init file..."
 MYSQL_PASSWD_RESET_FILE=/tmp/mysql_password_reset.sql
+rm -f "${MYSQL_PASSWD_RESET_FILE}"
 echo \
   "ALTER USER '${TARGET_MYSQL_USER}'@'${TARGET_MYSQL_USER_HOST}' IDENTIFIED BY '${TARGET_MYSQL_PASSWORD}';" \
   > "${MYSQL_PASSWD_RESET_FILE}"
@@ -81,12 +82,12 @@ fxTitle "Removing the init file..."
 rm -f "${MYSQL_PASSWD_RESET_FILE}"
 
 fxTitle "Display MySQL error log..."
-tail -n 25 /var/log/mysql/error.log
+tail -n 10 /var/log/mysql/error.log
 
 fxTitle "Stopping MySQL as application..."
 while pkill mysqld; do 
   echo "Waiting..."
-  sleep 1
+  sleep 2
 done
 
 fxTitle "Starting MySQL..."
