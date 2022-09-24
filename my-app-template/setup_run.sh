@@ -80,6 +80,9 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   wsuMapReplace "my-app" "${WSU_MAP_MY_APP}"
   wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
   
+  ## oops..
+  wsuMapReplace "webstackup/blob/master/${WSU_MAP_MY_APP}" "webstackup/blob/master/my-app"
+  
   curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
   curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
   
