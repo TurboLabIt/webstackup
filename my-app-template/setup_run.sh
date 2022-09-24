@@ -9,7 +9,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "my-app-template"
+fxHeader "🐫 my-app-template"
 rootCheck
 
 WSU_MAP_DEPLOY_TO_PATH=$1
