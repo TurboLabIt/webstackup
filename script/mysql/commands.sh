@@ -25,6 +25,9 @@ function wsuMysqlStoreCredentials()
   echo "MYSQL_USER=$MYSQL_USER" > "$FILENAME"
   echo "MYSQL_PASSWORD=$MYSQL_PASS" >> "$FILENAME"
   echo "MYSQL_HOST=$MYSQL_HOST" >> "$FILENAME"
+  echo ""
+  
+  fxOK "ℹ Credentials saved in $FILENAME"
   
   if [ "$FILENAME" != "/etc/turbolab.it/mysql.conf" ] && [ ! -z "MYSQL_DB_NAME" ]; then
     echo "MYSQL_DB_NAME=$MYSQL_DB_NAME" >> "$FILENAME"
@@ -38,6 +41,4 @@ function wsuMysqlStoreCredentials()
   
   fxTitle "🧪 Testing..."
   mysql -u${MYSQL_USER} -p${MYSQL_PASS} -h${MYSQL_HOST} -e "SHOW DATABASES;"
-  
-  fxOK "ℹ Credentials saved in $FILENAME"
 }
