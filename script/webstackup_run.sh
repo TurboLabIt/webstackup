@@ -28,7 +28,8 @@ OPTIONS=(
      8 "↗️  Show webstackup SSH public key"
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
-     11 "🎚️ MySQL Tuner")
+     11 "🎚️ MySQL Tuner"
+     12 "🤦‍♂️ MySQL password reset")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -76,5 +77,8 @@ case $CHOICE in
     ;;
   11)
     bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/mysqltuner.sh"
+    ;;
+  12)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/password-reset.sh"
     ;;
 esac  
