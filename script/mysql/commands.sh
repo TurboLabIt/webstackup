@@ -26,9 +26,15 @@ function wsuMysqlStoreCredentials()
   echo "MYSQL_PASSWORD=$MYSQL_PASS" >> "$FILENAME"
   echo "MYSQL_HOST=$MYSQL_HOST" >> "$FILENAME"
   
-  if [ ! -z "MYSQL_DB_NAME" ]; then
+  if [ "$FILENAME" != "/etc/turbolab.it/mysql.conf" ] && [ ! -z "MYSQL_DB_NAME" ]; then
     echo "MYSQL_DB_NAME=$MYSQL_DB_NAME" >> "$FILENAME"
   fi
   
-  fxOK
+  if [ "$FILENAME" = "/etc/turbolab.it/mysql.conf" ]; then
+    fxTitle "🔒 Restricting access to root only..."
+    chown root:root "$FILENAME"
+    chmod u=rw,go= "$FILENAME"
+  fi
+  
+  fxOK "ℹ Credentials saved in $FILENAME"
 }
