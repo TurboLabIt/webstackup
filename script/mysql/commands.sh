@@ -13,7 +13,7 @@ function wsuMysql()
 }
 
 
-function wsuMysqlStoreConfig()
+function wsuMysqlStoreCredentials()
 {
   local MYSQL_USER=$1
   local MYSQL_PASS=$2
