@@ -21,7 +21,7 @@ function wsuMysqlStoreCredentials()
   local FILENAME=$4
   local MYSQL_DB_NAME=$5
 
-  fxTitle "Storing MySQL credentials to ${FILENAME}..."
+  fxTitle "💾 Storing MySQL credentials to ${FILENAME}..."
   echo "MYSQL_USER=$MYSQL_USER" > "$FILENAME"
   echo "MYSQL_PASSWORD=$MYSQL_PASS" >> "$FILENAME"
   echo "MYSQL_HOST=$MYSQL_HOST" >> "$FILENAME"
