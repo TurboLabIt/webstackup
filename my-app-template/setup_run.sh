@@ -37,6 +37,9 @@ done
 WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "OK, $WSU_MAP_DEPLOY_TO_PATH"
 
+WSU_MAP_MY_APP=$(basename ${WSU_MAP_DEPLOY_TO_PATH%*/})
+fxOK "OK, $WSU_MAP_MY_APP"
+
 
 fxTitle "🌎 Real app domain to replace the placeholder my-app.com"
 while [ -z "$WSU_MAP_DOMAIN" ]
@@ -74,7 +77,8 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   
   wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
   wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
-  wsuMapReplace "my-app" "${WSU_MAP_NAME}"
+  wsuMapReplace "my-app" "${WSU_MAP_MY_APP}"
+  wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
   
   curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
   curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
