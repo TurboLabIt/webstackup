@@ -77,6 +77,7 @@ fxTitle "Starting MySQL as application..."
 # mkdir -p /var/run/mysqld
 # chown mysql:mysql /var/run/mysqld
 sudo -u mysql -H mysqld --skip-networking --init-file="${MYSQL_PASSWD_RESET_FILE}" &
+sleep 15
 
 fxTitle "Removing the init file..."
 rm -f "${MYSQL_PASSWD_RESET_FILE}"
@@ -87,7 +88,7 @@ tail -n 10 /var/log/mysql/error.log
 fxTitle "Stopping MySQL as application..."
 while pkill mysqld; do 
   echo "Waiting..."
-  sleep 2
+  sleep 15
 done
 
 fxTitle "Starting MySQL..."
