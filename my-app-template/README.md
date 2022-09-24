@@ -4,7 +4,7 @@
 
 🟥 [Wiki](/wiki/browse/)
 
-🧪 [Staging](https://username:password@next.my-app.com) `username` / `password` | | [Admin](username:password@https://next.my-app.com/secret-admin-slug) | 🎛️ [Staging docs]()
+🧪 [Staging](https://username:password@next.my-app.com) `username` / `password` | [Admin](username:password@https://next.my-app.com/secret-admin-slug) | 🎛️ [Staging docs]()
 
 🤖 [Deploy how-to](/wiki/Deploy)
 
