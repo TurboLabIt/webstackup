@@ -37,11 +37,11 @@ printTitle "🔑 Password"
 while [ -z "$NEW_MYSQL_PASSWORD" ]
 do
   read -p "🤖 Provide the password (leave blank for autogeneration): " NEW_MYSQL_PASSWORD  < /dev/tty
-  
+
   if [ -z "$NEW_MYSQL_PASSWORD" ]; then
     NEW_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
   fi
-  
+
 done
 
 fxTitle "Attempting to stop Nginx..."
@@ -56,7 +56,8 @@ fxTitle "Starting MySQL as application..."
 sudo -u mysql -H /usr/sbin/mysqld --skip-grant-tables --skip-networking &
 
 fxTitle "Setting the password..."
-wsuMysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
+mysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
+echo mysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
 wsuMysql -e "FLUSH PRIVILEGES;"
 
 fxTitle "Stopping MySQL as application..."
