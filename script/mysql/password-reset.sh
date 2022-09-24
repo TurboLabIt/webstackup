@@ -3,6 +3,8 @@
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/password-reset.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/password-reset.sh?$(date +%s) | sudo bash
+#
+# Based on: https://turbolab.it/3354 | https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
@@ -64,7 +66,7 @@ fxMessage "$(cat ${MYSQL_PASSWD_RESET_FILE})"
 
 fxTitle "Securing the init file..."
 chown mysql:root "${MYSQL_PASSWD_RESET_FILE}"
-chmod u=r,go= "${MYSQL_PASSWD_RESET_FILE}"
+chmod ug=rw,o= "${MYSQL_PASSWD_RESET_FILE}"
 ls -l "${MYSQL_PASSWD_RESET_FILE}"
 
 fxTitle "Attempting to stop Nginx..."
@@ -86,7 +88,7 @@ fxTitle "Display MySQL error log..."
 tail -n 10 /var/log/mysql/error.log
 
 fxTitle "Stopping MySQL as application..."
-while pkill mysqld; do 
+while pkill mysqld; do
   echo "Waiting..."
   sleep 15
 done
