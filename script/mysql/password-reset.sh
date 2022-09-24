@@ -55,16 +55,17 @@ fxTitle "Starting MySQL as application..."
 # chown mysql:mysql /var/run/mysqld
 sudo -u mysql -H /usr/sbin/mysqld --skip-grant-tables --skip-networking &
 
-fxTitle "Setting the password..."
-mysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
-echo mysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
-wsuMysql -e "FLUSH PRIVILEGES;"
+fxTitle "Resetting the password to blank..."
+mysql -e "UPDATE mysql.user SET authentication_string=null WHERE User='${NEW_MYSQL_USER}';"
 
 fxTitle "Stopping MySQL as application..."
 pkill mysqld
 
 fxTitle "Starting MySQL..."
 service mysql start
+
+fxTitle "Setting the new password..."
+mysql -uroot -e "ALTER USER '${NEW_MYSQL_USER}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${NEW_MYSQL_PASSWORD}'; FLUSH PRIVILEGES;"
 
 fxTitle "Attempting to restart Nginx..."
 service nginx start
