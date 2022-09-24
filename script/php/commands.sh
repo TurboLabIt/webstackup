@@ -117,6 +117,24 @@ function wsuSymfony()
 }
 
 
+## WordPress CLI
+function wsuWordPress()
+{
+  expectedUserSetCheck
+
+  if [ -z "${WEBROOT_DIR}" ] || [ ! -d "${WEBROOT_DIR}" ]; then
+    fxCatastrophicError "📁 WEBROOT_DIR not set"
+  fi
+
+  local CURR_DIR_BACKUP=$(pwd)
+
+  cd "${WEBROOT_DIR}"
+  sudo -u $EXPECTED_USER -H ${PHP_CLI} /usr/local/bin/wp-cli "$@"
+
+  cd "${CURR_DIR_BACKUP}"
+}
+
+
 function wsuOpcacheClear()
 {
   sudo service ${PHP_FPM} reload
