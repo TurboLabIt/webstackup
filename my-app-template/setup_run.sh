@@ -26,16 +26,17 @@ do
   
   if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     fxCatastrophicError "Directory ##${$WSU_MAP_DEPLOY_TO_PATH}## doesn't exist!" "proceed"
-  fi  
+  fi
 done
 
+WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "OK, $WSU_MAP_DEPLOY_TO_PATH"
 
 
 fxTitle "⏬ Downloading my-app-template..."
 WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template
 if [ -d "${WSU_MAP_ORIGIN}" ]; then
-  echo cp -r "${WSU_MAP_ORIGIN}"/* 
+  echo cp -r "${WSU_MAP_ORIGIN}"/* "${WSU_MAP_DEPLOY_TO_PATH}"
 else
   fxCatastrophicError "Sorry, this is not implemented yet!"
 fi
