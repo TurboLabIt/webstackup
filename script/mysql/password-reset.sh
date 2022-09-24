@@ -53,7 +53,7 @@ service mysql stop
 fxTitle "Starting MySQL as application..."
 # mkdir -p /var/run/mysqld
 # chown mysql:mysql /var/run/mysqld
-/usr/sbin/mysqld --skip-grant-tables --skip-networking &
+sudo -u mysql -H /usr/sbin/mysqld --skip-grant-tables --skip-networking &
 
 fxTitle "Setting the password..."
 wsuMysql -e "SET PASSWORD FOR ${NEW_MYSQL_USER}@'localhost' = PASSWORD('${NEW_MYSQL_PASSWORD}');"
