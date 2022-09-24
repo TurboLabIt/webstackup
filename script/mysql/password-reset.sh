@@ -81,7 +81,7 @@ fxTitle "Removing the init file..."
 rm -f "${MYSQL_PASSWD_RESET_FILE}"
 
 fxTitle "Display MySQL error log..."
-fxMessage "$(tail -n 50 /var/log/mysql/error.log)"
+tail -n 25 /var/log/mysql/error.log
 
 fxTitle "Stopping MySQL as application..."
 pkill mysqld
