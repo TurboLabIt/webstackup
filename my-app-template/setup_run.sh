@@ -13,6 +13,9 @@ fxHeader "🐫 my-app-template"
 rootCheck
 
 WSU_MAP_DEPLOY_TO_PATH=$1
+WSU_MAP_DOMAIN=$2
+WSU_MAP_NAME=$3
+
 
 fxTitle "📂 Deploy-to path"
 while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ] || [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]
@@ -35,6 +38,31 @@ WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "OK, $WSU_MAP_DEPLOY_TO_PATH"
 
 
+fxTitle "🌎 Real app domain to replace the placeholder my-app.com"
+while [ -z "$WSU_MAP_DOMAIN" ]
+do
+  read -p "🤖 Provide the domain of your app (e.g.: www.turbolab.it or turbolab.it): " WSU_MAP_DOMAIN  < /dev/tty
+done
+
+WSU_MAP_DOMAIN=${WSU_MAP_DOMAIN%*/}
+fxOK "OK, $WSU_MAP_DOMAIN"
+
+
+fxTitle "📛 Real app name to replace my-app"
+while [ -z "$WSU_MAP_NAME" ]
+do
+  read -p "🤖 Provide the name of your app (e.g.: TurboLab.it): " WSU_MAP_NAME  < /dev/tty
+done
+
+fxOK "OK, $WSU_MAP_NAME"
+
+
+function wsuMapReplace()
+{
+  find /tmp/my-app-template \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
+}
+
+
 fxTitle "⏬ Downloading my-app-template..."
 WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
 if [ -d "${WSU_MAP_ORIGIN}" ]; then
@@ -43,6 +71,10 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   cp -r ${WSU_MAP_ORIGIN}. /tmp/my-app-template/
   
   rm -f /tmp/my-app-template/setup*.sh
+  
+  wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
+  wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
+  wsuMapReplace "my-app" "${WSU_MAP_NAME}"
   
   curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
   curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
