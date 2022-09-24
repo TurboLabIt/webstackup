@@ -36,5 +36,8 @@ function wsuMysqlStoreCredentials()
     chmod u=rw,go= "$FILENAME"
   fi
   
+  fxTitle "🧪 Testing..."
+  mysql -u${MYSQL_USER} -p${MYSQL_PASS} -h${MYSQL_HOST} -e "SHOW DATABASES;"
+  
   fxOK "ℹ Credentials saved in $FILENAME"
 }
