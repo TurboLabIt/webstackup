@@ -47,7 +47,7 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   
   chown webstackup:www-data /tmp/my-app-template -R
   chmod u=rwx,go=rX /tmp/my-app-template -R
-  chmod u=rwx,go=rx /tmp/my-app-template/scripts/.sh -R
+  chmod u=rwx,go=rx /tmp/my-app-template/scripts/*.sh -R
   
   mv /tmp/my-app-template/* "${WSU_MAP_DEPLOY_TO_PATH}"
   rm -rf /tmp/my-app-template/
