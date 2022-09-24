@@ -2,47 +2,69 @@
 ### GUIDED MySQL PASSWORD RESET BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/password-reset.sh
 #
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/password-reset.sh?$(date +%s) | sudo bash
 
-echo ""
-echo -e "\e[1;46m ============================ \e[0m"
-echo -e "\e[1;46m 🗄️ MYSQL PASSWORD RESET      \e[0m"
-echo -e "\e[1;46m ============================ \e[0m"
-
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+## bash-fx
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
 fi
+## bash-fx is ready
+
+fxHeader "🤦‍MySQL password reset"
+rootCheck
+echo "Manine dimenticose edition"
+echo ""
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 
-NEW_MYSQL_USER=$1
-NEW_MYSQL_PASSWORD=$2
-NEW_MYSQL_DB_NAME=$3
+TARGET_MYSQL_USER=$1
+TARGET_MYSQL_PASSWORD=$2
+TARGET_MYSQL_USER_HOST=$3
 
-if [ -z $NEW_MYSQL_USER ] || [ -z $NEW_MYSQL_PASSWORD ] || [ -z $NEW_MYSQL_DB_NAME ]; then
-  NEW_MYSQL_USER=
-  NEW_MYSQL_PASSWORD=
-  NEW_MYSQL_DB_NAME=
-fi
-
-
-printTitle "🧔 Username"
-while [ -z "$NEW_MYSQL_USER" ]
+fxTitle "🧔 Username"
+while [ -z "$TARGET_MYSQL_USER" ]
 do
-  read -p "🤖 Provide the username: " NEW_MYSQL_USER  < /dev/tty
+  read -p "🤖 Provide the username: " TARGET_MYSQL_USER  < /dev/tty
 done
 
-
-printTitle "🔑 Password"
-while [ -z "$NEW_MYSQL_PASSWORD" ]
+fxTitle "🔑 Password"
+while [ -z "$TARGET_MYSQL_PASSWORD" ]
 do
-  read -p "🤖 Provide the password (leave blank for autogeneration): " NEW_MYSQL_PASSWORD  < /dev/tty
+  read -p "🤖 Provide the password (leave blank for autogeneration): " TARGET_MYSQL_PASSWORD  < /dev/tty
 
-  if [ -z "$NEW_MYSQL_PASSWORD" ]; then
-    NEW_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
+  if [ -z "$TARGET_MYSQL_PASSWORD" ]; then
+    TARGET_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
   fi
-
 done
+
+fxTitle "${TARGET_MYSQL_USER}@ host"
+while [ -z "$TARGET_MYSQL_USER_HOST" ]
+do
+  read -p "🤖 Provide the host (leave blank for localhost): " TARGET_MYSQL_USER_HOST  < /dev/tty
+
+  if [ -z "$TARGET_MYSQL_USER_HOST" ]; then
+    TARGET_MYSQL_USER_HOST="localhost"
+  fi
+done
+
+fxTitle "New credentials preview"
+echo "User:  ##${TARGET_MYSQL_USER}##@##${TARGET_MYSQL_USER_HOST}##"
+echo "Pass:  ##${TARGET_MYSQL_PASSWORD}##"
+
+fxTitle "Creating MySQL init file..."
+MYSQL_PASSWD_RESET_FILE=/tmp/mysql_password_reset.sql
+echo -n \
+  "ALTER USER '${TARGET_MYSQL_USER}'@'${TARGET_MYSQL_USER_HOST}' IDENTIFIED WITH mysql_native_password BY '${TARGET_MYSQL_PASSWORD}';" \
+  >> "${MYSQL_PASSWD_RESET_FILE}"
+
+fxMessage "$(cat ${MYSQL_PASSWD_RESET_FILE})"
+
+fxTitle "Securing the init file..."
+chown mysql:root "${MYSQL_PASSWD_RESET_FILE}"
+chmod u=r,go= "${MYSQL_PASSWD_RESET_FILE}"
+ls -l "${MYSQL_PASSWD_RESET_FILE}"
 
 fxTitle "Attempting to stop Nginx..."
 service nginx stop
@@ -53,10 +75,13 @@ service mysql stop
 fxTitle "Starting MySQL as application..."
 # mkdir -p /var/run/mysqld
 # chown mysql:mysql /var/run/mysqld
-sudo -u mysql -H /usr/sbin/mysqld --skip-grant-tables --skip-networking &
+sudo -u mysql -H mysqld --skip-networking --init-file="${MYSQL_PASSWD_RESET_FILE}" &
 
-fxTitle "Resetting the password to blank..."
-mysql -e "UPDATE mysql.user SET authentication_string=null WHERE User='${NEW_MYSQL_USER}';"
+fxTitle "Removing the init file..."
+rm -f "${MYSQL_PASSWD_RESET_FILE}"
+
+fxTitle "Display MySQL error log..."
+fxMessage "$(tail -n 50 /var/log/mysql/error.log)"
 
 fxTitle "Stopping MySQL as application..."
 pkill mysqld
@@ -64,12 +89,9 @@ pkill mysqld
 fxTitle "Starting MySQL..."
 service mysql start
 
-fxTitle "Setting the new password..."
-mysql -uroot -e "ALTER USER '${NEW_MYSQL_USER}'@'localhost' IDENTIFIED WITH caching_sha2_password BY '${NEW_MYSQL_PASSWORD}'; FLUSH PRIVILEGES;"
-
 fxTitle "Attempting to restart Nginx..."
 service nginx start
 
-wsuMysqlStoreCredentials "$NEW_MYSQL_USER" "$NEW_MYSQL_PASSWORD" "$MYSQL_HOST" "/etc/turbolab.it/mysql.conf"
+wsuMysqlStoreCredentials "$TARGET_MYSQL_USER" "$TARGET_MYSQL_PASSWORD"
 
 fxEndFooter
