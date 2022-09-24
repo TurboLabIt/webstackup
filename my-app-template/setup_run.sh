@@ -42,6 +42,8 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   mkdir /tmp/my-app-template
   cp -r ${WSU_MAP_ORIGIN}. /tmp/my-app-template/
   
+  rm -f /tmp/my-app-template/setup*.sh
+  
   curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
   curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
   
