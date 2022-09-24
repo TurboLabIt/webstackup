@@ -22,91 +22,99 @@
 #@-- 
 #@-- source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh
 
-echo ""
-echo -e "\e[1;46m ==================== \e[0m"
-echo -e "\e[1;46m 📋 WORDPRESS INSTALL \e[0m"
-echo -e "\e[1;46m ==================== \e[0m"
+fxHeader "📰 WordPress installer""
+rootCheck
 
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  return 1
+if [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
+   [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
+   [ -z "${SITE_URL}" ] ||  [ -z "${WORDPRESS_SITE_NAME}" ] || \
+   [ -z "${WORDPRESS_ADMIN_USERNAME}" ] || [ -z "${WORDPRESS_ADMIN_EMAIL}" ] || \ [ -z "${WORDPRESS_ADMIN_NEW_SLUG}" ] \
+   ; then
+
+  catastrophicError "WordPress installer can't run with these variables undefined:
+  
+  WEBROOT_DIR:               ##${WEBROOT_DIR}##
+  WORDPRESS_LOCALE:          ##${WORDPRESS_LOCALE}##
+  MYSQL_DB_NAME:             ##${MYSQL_DB_NAME}##
+  MYSQL_USER:                ##${MYSQL_USER}##
+  MYSQL_HOST:                ##${MYSQL_HOST}##"
+  MYSQL_PASSWORD:            ##${MYSQL_PASSWORD}##"
+  SITE_URL:                  ##${SITE_URL}##"
+  WORDPRESS_SITE_NAME:       ##${WORDPRESS_SITE_NAME}##"
+  WORDPRESS_ADMIN_USERNAME:  ##${WORDPRESS_ADMIN_USERNAME}##"
+  WORDPRESS_ADMIN_EMAIL:     ##${WORDPRESS_ADMIN_EMAIL}##"
+  WORDPRESS_ADMIN_NEW_SLUG:  ##${WORDPRESS_ADMIN_NEW_SLUG}##"
+  exit
 fi
 
+
 WPINST_WEBROOT_DIR=${WEBROOT_DIR%*/}/
+WPINST_FIRST_ADMIN_PASSWORD=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)
+WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
+WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
+
 
 if [ ! -f /usr/local/bin/wp-cli ]; then
-
-  printTitle "Installing wp-cli..."
+  fxTitle "💿 Installing wp-cli..."
   curl -o /usr/local/bin/wp-cli  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
   chmod u=rwx,go=rx /usr/local/bin/wp-cli
 fi
 
-if [ -z "$WP_EXE" ]; then
 
-  WPINST_WP_EXE="sudo -u $EXPECTED_USER -H /usr/local/bin/wp-cli --path=${WPINST_WEBROOT_DIR}"
-  
-else
+fxTitle "Downloading WordPress..."
+# https://developer.wordpress.org/cli/commands/core/download/
+wsuWordPress core download --locale="${WORDPRESS_LOCALE}" --skip-content
 
-  WPINST_WP_EXE=${WP_EXE}
-fi
 
-printTitle "Downloading WordPress..."
-## https://developer.wordpress.org/cli/commands/core/download/
-$WPINST_WP_EXE core download \
-  --locale="${WORDPRESS_LOCALE}" \
-  --skip-content
+fxTitle "Checking WordPress version..."
+wsuWordPress core version
 
-printTitle "Checking WordPress version..."
-$WPINST_WP_EXE core version
 
-printTitle "Creating wp-config.php..."
+fxTitle "Creating wp-config.php..."
 ## https://developer.wordpress.org/cli/commands/config/create/
-$WPINST_WP_EXE config create \
+wsuWordPress config create \
   --dbname="${MYSQL_DB_NAME}" \
   --dbuser="${MYSQL_USER}" \
   --dbhost="${MYSQL_HOST}" \
   --dbpass="${MYSQL_PASSWORD}" \
   --locale="${WORDPRESS_LOCALE}"
 
-printTitle "Installing WordPress..."
-WPINST_FIRST_ADMIN_PASSWORD=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)
-WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
-WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
+
+fxTitle "Adding extra configs to wp-config.php"
+echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WPINST_WEBROOT_DIR}wp-config.php"
+echo "define('FS_METHOD', 'direct');" >> "${WPINST_WEBROOT_DIR}wp-config.php"
+echo "/** Webstackup -- Auto-update: security and minor only */" >> "${WPINST_WEBROOT_DIR}wp-config.php"
+echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${WPINST_WEBROOT_DIR}wp-config.php"
 
 
-if [ ! -z $WORDPRESS_MULTISITE_MODE  ]; then
+if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
 
-  printMessage "Installing in MULTISITE mode"
-  if [ $WORDPRESS_MULTISITE_MODE == "subdomains" ] || [ $WORDPRESS_MULTISITE_MODE == "subdomain" ]; then
-    local $WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT=--subdomains
-  fi
+  # https://developer.wordpress.org/cli/commands/core/multisite-install/
+  WPINST_WORDPRESS_INSTALL_MODE=multisite-install
   
-  ## https://developer.wordpress.org/cli/commands/core/multisite-install/
-  $WPINST_WP_EXE core multisite-install \
-    --url="${WPINST_SITE_DOMAIN}" \
-	$WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT \
-    --title="${WORDPRESS_SITE_NAME}" \
-    --admin_user="${WORDPRESS_ADMIN_USERNAME}" \
-    --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
-    --admin_password="${WPINST_FIRST_ADMIN_PASSWORD}" \
-    --skip-email
-	
 else
 
-  printMessage "Installing in SINGLE-SITE mode"
+  # https://developer.wordpress.org/cli/commands/core/install/
+  WPINST_WORDPRESS_INSTALL_MODE=install
+fi
 
-  ## https://developer.wordpress.org/cli/commands/core/install/
-  $WPINST_WP_EXE core install \
-    --url="${WPINST_SITE_DOMAIN}" \
-    --title="${WORDPRESS_SITE_NAME}" \
-    --admin_user="${WORDPRESS_ADMIN_USERNAME}" \
-    --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
-    --admin_password="${WPINST_FIRST_ADMIN_PASSWORD}" \
-    --skip-email
+if [ "$WORDPRESS_MULTISITE_MODE" = "subdomains" ] || [ "$WORDPRESS_MULTISITE_MODE" = "subdomain" ]; then
+
+  # https://developer.wordpress.org/cli/commands/core/multisite-install/
+  WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT=--subdomains
 fi
 
 
-printTitle "Installing WordPress plugin..."
+wsuWordPress core $WPINST_WORDPRESS_INSTALL_MODE $WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT \
+  --url="${WPINST_SITE_DOMAIN}" \
+  --title="${WORDPRESS_SITE_NAME}" \
+  --admin_user="${WORDPRESS_ADMIN_USERNAME}" \
+  --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
+  --admin_password="${WPINST_FIRST_ADMIN_PASSWORD}" \
+  --skip-email
+
+
+fxTitle "Installing WordPress plugin..."
 ## https://developer.wordpress.org/cli/commands/plugin/install/
 # https://wordpress.org/plugins/wps-hide-login/
 # https://wordpress.org/plugins/duracelltomi-google-tag-manager/
@@ -121,32 +129,26 @@ printTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/regenerate-thumbnails/
 # https://wordpress.org/plugins/wp-fastest-cache/
 
-$WPINST_WP_EXE plugin install \
+wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
   webp-express timber-library advanced-custom-fields \
   google-authenticator autoptimize classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   --activate-network --activate
   
-printTitle "Enable plugin auto-update..."
+fxTitle "Enable plugin auto-update..."
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
-$WPINST_WP_EXE plugin auto-updates enable --all
+wsuWordPress plugin auto-updates enable --all
 
-printTitle "Setting some options..."
+fxTitle "Setting some options..."
 ## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
-$WPINST_WP_EXE option update \
+wsuWordPress option update \
   whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
   --skip-plugins --skip-themes
 
-printTitle "Set the permissions"
+fxTitle "Set the permissions"
 chown webstackup:www-data ${WPINST_WEBROOT_DIR} -R
 chmod u=rwx,g=rwX,o=rX ${WPINST_WEBROOT_DIR} -R
 chmod u=rw,g=r,o= ${WPINST_WEBROOT_DIR}wp-config.php
 
-printTitle "Adding extra configs to wp-config.php"
-echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WPINST_WEBROOT_DIR}wp-config.php"
-echo "define('FS_METHOD', 'direct');" >> "${WPINST_WEBROOT_DIR}wp-config.php"
-echo "/** Webstackup -- Auto-update: security and minor only */" >> "${WPINST_WEBROOT_DIR}wp-config.php"
-echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${WPINST_WEBROOT_DIR}wp-config.php"
-
-printMessage "Your admin password is: $WPINST_FIRST_ADMIN_PASSWORD"
+fxMessage "Your admin password is: $WPINST_FIRST_ADMIN_PASSWORD"
