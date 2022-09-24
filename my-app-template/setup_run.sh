@@ -38,15 +38,21 @@ fxOK "OK, $WSU_MAP_DEPLOY_TO_PATH"
 fxTitle "⏬ Downloading my-app-template..."
 WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
 if [ -d "${WSU_MAP_ORIGIN}" ]; then
-  echo cp -r ${WSU_MAP_ORIGIN}. "${WSU_MAP_DEPLOY_TO_PATH}"
+
+  mkdir /tmp/my-app-template
+  cp -r ${WSU_MAP_ORIGIN}. /tmp/my-app-template/
+  
+  curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+  curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
+  
+  chown webstackup:www-data /tmp/my-app-template -R
+  chmod u=rwx,go=rX /tmp/my-app-template -R
+  chmod u=rwx,go=rx /tmp/my-app-template/scripts/.sh -R
+  
+  mv /tmp/my-app-template/* "${WSU_MAP_DEPLOY_TO_PATH}"
+  rm -rf /tmp/my-app-template/
 else
   fxCatastrophicError "Sorry, this is not implemented yet!"
 fi
-
-
-fxTitle "⏬ Downloading some other external stuff..."
-curl -Lo "${WSU_MAP_DEPLOY_TO_PATH}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
-curl -Lo "${WSU_MAP_DEPLOY_TO_PATH}backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
-
 
 fxEndFooter
