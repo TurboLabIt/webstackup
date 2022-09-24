@@ -1,4 +1,4 @@
-# my-app
+# My App Name
 
 ⚡ [Prod](https://my-app.com) | [Admin](https://my-app.com/secret-admin-slug)
 
