@@ -22,7 +22,7 @@
 #@-- 
 #@-- source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh
 
-fxHeader "📰 WordPress installer""
+fxHeader "📰 WordPress installer"
 rootCheck
 
 if [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
