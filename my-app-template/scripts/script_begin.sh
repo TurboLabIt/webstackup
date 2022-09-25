@@ -13,6 +13,7 @@ fxCatastrophicError "script_begin.sh is not ready! Please customize it and remov
 APP_NAME="my-app"
 PRIVGEN_DIR="/var/www/private_generics/"
 USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
+ZZ_CMD_SUFFIX=
 
 ## for Magento only (remove if this is NOT a Magento-based app)
 MAGENTO_DIR=${PROJECT_DIR}shop/
