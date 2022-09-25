@@ -12,4 +12,3 @@ echo "📐 for Symfony: https://github.com/TurboLabIt/webstackup/blob/master/scr
 
 fxEndFooter failure
 exit
-
