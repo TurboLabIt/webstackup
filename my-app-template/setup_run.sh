@@ -73,6 +73,9 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   mkdir /tmp/my-app-template
   cp -r ${WSU_MAP_ORIGIN}. /tmp/my-app-template/
   
+  ## log directory
+  mkdir -p /tmp/my-app-template/var/log
+  
   rm -f /tmp/my-app-template/setup*.sh
   
   wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
@@ -88,6 +91,7 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   chown webstackup:www-data /tmp/my-app-template -R
   chmod u=rwx,go=rX /tmp/my-app-template -R
   chmod u=rwx,go=rx /tmp/my-app-template/scripts/*.sh -R
+  chmod u=rwx,go=rwX /tmp/my-app-template/var -R
   
   cp -a /tmp/my-app-template/. "${WSU_MAP_DEPLOY_TO_PATH}"
   rm -rf /tmp/my-app-template/
