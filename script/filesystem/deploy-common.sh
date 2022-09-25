@@ -159,7 +159,7 @@ deployCmdLinker "${SCRIPT_DIR}maintenance.sh" "zzmaintenance"
 deployCmdLinker "${SCRIPT_DIR}test-runner.sh" "zztest"
 
 ## zzcd bookmarks
-if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ] && [ -z "${deployZzCmdSuffix}" ]; then
+if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ] && [ -z "$(deployZzCmdSuffix)" ]; then
   printTitle "📂 Linking zzcd config..."
   rm -f "/etc/turbolab.it/zzcd_bookmarks.sh"
   ln -s "${SCRIPT_DIR}zzcd_bookmarks.sh" "/etc/turbolab.it/zzcd_bookmarks.sh"
