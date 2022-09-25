@@ -80,6 +80,7 @@ printMessage "ℹ $NEWSITE_BRANCH"
 printTitle "🏭 Cloning ${NEWSITE_REPO_URL} into ${NEWSITE_FOLDER_NAME}..."
 sudo -u webstackup -H git clone ${NEWSITE_REPO_URL} /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME}
 sudo -u webstackup -H git -C /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} switch ${NEWSITE_BRANCH}
+sudo -u webstackup -H git -C /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} config core.fileMode false
 mv /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} ${LOCAL_CLONE_FULLPATH}
 git config --global --add safe.directory "${LOCAL_CLONE_FULLPATH}"
 git -C ${LOCAL_CLONE_FULLPATH} status
