@@ -74,6 +74,7 @@ sudo -u ${EXPECTED_USER} -H git config --global --add safe.directory "${PROJECT_
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" config core.fileMode false
 
 printTitle "#️⃣ Post-pull hashing"
 echo "Hashing the sourcing script ##${0}##"
@@ -97,6 +98,7 @@ showPHPVer
 ## cleanup
 printTitle "🧹 Cleaning up..."
 rm -rf /tmp/.symfony
+rm -rf /tmp/magento
 
 
 ## composer
@@ -128,38 +130,36 @@ if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" !=
 fi
 
 
-## zzdeploy global command
-if [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -z "${ZZDEPLOY_NAME}" ] && [ ! -f "/usr/local/bin/${ZZDEPLOY_NAME}" ]; then
+function deployZzCmdSuffix()
+{
+  if [ -z "${ZZ_CMD_SUFFIX}" ] || [ "${ZZ_CMD_SUFFIX}" = "0" ]; then
+    echo ""
+  else
+   echo "-${APP_NAME}"
+  fi
+}
 
-  printTitle "⚙️ Linking zzdeploy (${ZZDEPLOY_NAME})..."
-  ln -s "${SCRIPT_DIR}deploy.sh" "/usr/local/bin/${ZZDEPLOY_NAME}"
+
+function deployCmdLinker()
+{
+  local SCRIPT_FILE=$1
   
-elif [ -f "${SCRIPT_DIR}deploy.sh" ] && [ ! -f "/usr/local/bin/zzdeploy" ]; then
+  if [ ! -f "${SCRIPT_FILE}" ]; then
+    return 255
+  fi
+  
+  local LINK_NAME=${2}$(deployZzCmdSuffix)
+  
+  fxLinkBin "${SCRIPT_FILE}" "${LINK_NAME}"
+}
 
-  printTitle "⚙️ Linking zzdeploy..."
-  ln -s "${SCRIPT_DIR}deploy.sh" "/usr/local/bin/zzdeploy"
-fi
-
-## zzcache global command
-if [ -f "${SCRIPT_DIR}cache-clear.sh" ] && [ ! -f "/usr/local/bin/zzcache" ]; then
-  printTitle "⚙️ Linking zzcache..."
-  ln -s "${SCRIPT_DIR}cache-clear.sh" "/usr/local/bin/zzcache"
-fi
-
-## zzmaintenance global command
-if [ -f "${SCRIPT_DIR}maintenance.sh" ] && [ ! -f "/usr/local/bin/zzmaintenance" ]; then
-  printTitle "⚙️ Linking zzmaintenance..."
-  ln -s "${SCRIPT_DIR}maintenance.sh" "/usr/local/bin/zzmaintenance"
-fi
-
-## zztest global command
-if [ -f "${SCRIPT_DIR}test-runner.sh" ] && [ ! -f "/usr/local/bin/zztest" ]; then
-  printTitle "⚙️ Linking zztest..."
-  ln -s "${SCRIPT_DIR}test_runner.sh" "/usr/local/bin/zztest"
-fi
+deployCmdLinker "${SCRIPT_DIR}deploy.sh" "zzdeploy"
+deployCmdLinker "${SCRIPT_DIR}cache-clear.sh" "zzcache"
+deployCmdLinker "${SCRIPT_DIR}maintenance.sh" "zzmaintenance"
+deployCmdLinker "${SCRIPT_DIR}test-runner.sh" "zztest"
 
 ## zzcd bookmarks
-if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ]; then
+if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ] && [ -z "${deployZzCmdSuffix}" ]; then
   printTitle "📂 Linking zzcd config..."
   rm -f "/etc/turbolab.it/zzcd_bookmarks.sh"
   ln -s "${SCRIPT_DIR}zzcd_bookmarks.sh" "/etc/turbolab.it/zzcd_bookmarks.sh"
@@ -178,40 +178,35 @@ fi
 
 printTitle "🔃️ Restarting cron..."
 echo "/etc/cron.d/"
-ls -la "/etc/cron.d/"
+ls -l "/etc/cron.d/"
 service cron restart
 
-## php-custom for php-fpm
-if [ -f "${PROJECT_DIR}config/custom/php-custom.ini" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/conf.d/90-${APP_NAME}.ini" ]; then
-  printTitle "📜 Linking php-custom from fpm..."
-  ln -s "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER}/fpm/conf.d/90-${APP_NAME}.ini"
-fi
+function deployPhpLinker()
+{
+  local PHP_FILE=$1
+  
+  if [ ! -f "${PHP_FILE}" ]; then
+    return 255
+  fi
+  
+  local LINK_FILE=$2
+  printTitle "📜 ${LINK_FILE}..."
+  rm -f "${LINK_FILE}"
+  ln -s "${PHP_FILE}" "${LINK_FILE}"
+}
 
-## php-custom for php-cli
-if [ -f "${PROJECT_DIR}config/custom/php-custom.ini" ] && [ ! -f "/etc/php/${PHP_VER}/cli/conf.d/90-${APP_NAME}.ini" ]; then
-  printTitle "📜 Linking php-custom from cli..."
-  ln -s "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER}/cli/conf.d/90-${APP_NAME}.ini"
-fi
-
-## php-custom (specific) for php-fpm
-if [ -f "${PROJECT_DIR}config/custom/php-custom-fpm.ini" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/conf.d/95-${APP_NAME}-fpm.ini" ]; then
-  printTitle "📜 Linking php-custom-fpm..."
-  ln -s "${PROJECT_DIR}config/custom/php-custom-fpm.ini" "/etc/php/${PHP_VER}/fpm/conf.d/95-${APP_NAME}-fpm.ini"
-fi
-
-## php-custom (specific) for php-cli
-if [ -f "${PROJECT_DIR}config/custom/php-custom-cli.ini" ] && [ ! -f "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini" ]; then
-  printTitle "📜 Linking php-custom-cli..."
-  ln -s "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
-fi
+deployPhpLinker "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER}/fpm/conf.d/90-${APP_NAME}.ini"
+deployPhpLinker "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER}/cli/conf.d/90-${APP_NAME}.ini"
+deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-fpm.ini" "/etc/php/${PHP_VER}/fpm/conf.d/95-${APP_NAME}-fpm.ini"
+deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
 
 printTitle "🔃 Restarting PHP..."
 /usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
 echo "/etc/php/${PHP_VER}/fpm/conf.d/"
-ls -la "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
+ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
 echo ""
 echo "/etc/php/${PHP_VER}/cli/conf.d/"
-ls -la "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
+ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
 ## mysql-custom
@@ -240,7 +235,7 @@ fi
 
 printTitle "🔃️ Restarting logrotate..."
 echo "/etc/logrotate.d"
-ls -la "/etc/logrotate.d"
+ls -l "/etc/logrotate.d"
 service logrotate restart
 
 
@@ -271,7 +266,7 @@ fi
 
 printTitle "🔃 Conditional nginx restart..."
 echo "/etc/nginx/conf.d"
-ls -la "/etc/nginx/conf.d"
+ls -l "/etc/nginx/conf.d"
 nginx -t && service nginx restart
 
 ## ElasticSearch
@@ -281,7 +276,7 @@ if systemctl --all --type service | grep -q "elasticsearch"; then
 fi
 
 ## autodeploy
-if [ "$APP_ENV" == "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
+if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "🧙‍♂️ Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
