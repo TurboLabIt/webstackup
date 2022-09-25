@@ -28,7 +28,7 @@ rootCheck
 if [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
    [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
    [ -z "${SITE_URL}" ] ||  [ -z "${WORDPRESS_SITE_NAME}" ] || \
-   [ -z "${WORDPRESS_ADMIN_USERNAME}" ] || [ -z "${WORDPRESS_ADMIN_EMAIL}" ] || \ [ -z "${WORDPRESS_ADMIN_NEW_SLUG}" ] \
+   [ -z "${WORDPRESS_ADMIN_USERNAME}" ] || [ -z "${WORDPRESS_ADMIN_EMAIL}" ] || [ -z "${WORDPRESS_ADMIN_NEW_SLUG}" ] \
    ; then
 
   catastrophicError "WordPress installer can't run with these variables undefined:
