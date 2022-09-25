@@ -5,6 +5,8 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 
+fxHeader "🧪 Test runner"
+
 fxCatastrophicError "test-runner.sh is not ready!" dont-stop
 
 ## work in progress! Check https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh !
