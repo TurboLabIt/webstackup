@@ -1,0 +1,5 @@
+## https://github.com/ZaneCEO/webdev-gitignore/
+
+*
+!readme.md
+!.gitignore
