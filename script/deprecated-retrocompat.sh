@@ -58,40 +58,6 @@ rootCheck ()
 }
 
 
-lockCheck ()
-{
-  local LOCKFILE=${1}.lock
-  if [ -z "$2" ]; then
-    LOCKFILE_TIMEOUT=120
-  else
-    LOCKFILE_TIMEOUT=$2
-  fi 
-  
-  if [ -f "${LOCKFILE}" ] && [ ! -z `find "${LOCKFILE}" -mmin -${LOCKFILE_TIMEOUT}` ]; then
-    catastrophicError "Lockfile detected. It looks like this script is already running!
-To override:
-sudo rm -f \"$LOCKFILE\""
-
-    echo ""
-    ls -lah "${LOCKFILE}"
-
-    echo ""
-    exit
-  fi
-
-  touch "$LOCKFILE"
-  printMessage "Lock file created in ##${LOCKFILE}##"
-}
-
-
-removeLock ()
-{
-  local LOCKFILE=${1}.lock
-  rm -f "${LOCKFILE}"
-  printMessage "${LOCKFILE} deleted"
-}
-
-
 function printTitle ()
 {
   STYLE='\033[44m'
