@@ -176,9 +176,10 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
   cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME}_${APP_ENV}"
 fi
 
-printTitle "🔃️ Restarting cron..."
-echo "/etc/cron.d/"
+printTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
+
+printTitle "🔃️ Restarting cron..."
 service cron restart
 
 function deployPhpLinker()
@@ -200,12 +201,13 @@ deployPhpLinker "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER
 deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-fpm.ini" "/etc/php/${PHP_VER}/fpm/conf.d/95-${APP_NAME}-fpm.ini"
 deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
 
-printTitle "🔃 Restarting PHP..."
-/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
-echo "/etc/php/${PHP_VER}/fpm/conf.d/"
+printTitle "📂 Listing /etc/php/${PHP_VER}/fpm/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
-echo ""
-echo "/etc/php/${PHP_VER}/cli/conf.d/"
+
+printTitle "🔃️ Restarting PHP-FPM..."
+/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
+
+printTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
@@ -215,28 +217,31 @@ if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/my
   # https://serverfault.com/questions/439378/mysql-not-reading-symlinks-for-options-files-my-cnf
   printTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
-
-  printTitle "🔃 Restarting MySQL..."
+  
+  printTitle "🔃️ Restarting MySQL..."
   service mysql restart
-  echo "/etc/mysql/mysql.conf.d/"
-  ls -la "/etc/mysql/mysql.conf.d/"
+
+  printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
+  ls -l "/etc/mysql/mysql.conf.d/"
 fi
 
 
 ## logrotate
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ]; then
+
   printTitle "📄 Deploying custom logrotate config..."
   # error: Ignoring xxx.conf because the file owner is wrong (should be root or user with uid 0).
   rm -f "/etc/logrotate.d/${APP_NAME}.conf"
   cp "${PROJECT_DIR}config/custom/logrotate.conf" "/etc/logrotate.d/${APP_NAME}.conf"
   chown root:root "/etc/logrotate.d/${APP_NAME}.conf"
   chmod u=rw,go= "/etc/logrotate.d/${APP_NAME}.conf"
-fi
+  
+  printTitle "🔃️ Restarting logrotate..."
+  service logrotate restart
 
-printTitle "🔃️ Restarting logrotate..."
-echo "/etc/logrotate.d"
-ls -l "/etc/logrotate.d"
-service logrotate restart
+  printTitle "📂 Listing /etc/logrotate.d/..."
+  ls -l "/etc/logrotate.d"
+fi
 
 
 ## nginx server{}
@@ -265,9 +270,11 @@ fi
 
 
 printTitle "🔃 Conditional nginx restart..."
-echo "/etc/nginx/conf.d"
-ls -l "/etc/nginx/conf.d"
 nginx -t && service nginx restart
+
+printTitle "📂 Listing /etc/nginx/conf.d/..."
+ls -l /etc/nginx/conf.d
+
 
 ## ElasticSearch
 if systemctl --all --type service | grep -q "elasticsearch"; then
