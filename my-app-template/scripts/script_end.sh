@@ -6,4 +6,3 @@
 removeLock ${LOCKFILE}
 fxEndFooter
 exit
-
