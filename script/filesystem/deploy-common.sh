@@ -6,7 +6,7 @@
 
 # ${SCRIPT_DIR}deploy.sh
 # ${SCRIPT_DIR}cache-clear.sh
-# ${SCRIPT_DIR}test_runner.sh
+# ${SCRIPT_DIR}test-runner.sh
 # ${SCRIPT_DIR}migrate.sh
 # ${SCRIPT_DIR}maintenance.sh
 
