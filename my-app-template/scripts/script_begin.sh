@@ -52,6 +52,4 @@ else
   fxCatastrophicError "Unhandled env ##$APP_ENV## (branch: ##$GIT_BRANCH##)"
 fi
 
-
 cd $PROJECT_DIR
-
