@@ -7,10 +7,12 @@
 
 SCRIPT_NAME=deploy
 source $(dirname $(readlink -f $0))/script_begin.sh
-fxCatastrophicError "deploy_run.sh is not ready! Please customize it and remove this line when done"
+
 ## let's start!
 # https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/deploy-begin.sh
 source "${WEBSTACKUP_SCRIPT_DIR}filesystem/deploy-begin.sh"
+
+fxCatastrophicError "deploy_run.sh is not ready! Please customize it and remove this line when done"
 
 ## required PHP extensions
 fxTitle "Installing required PHP extensions..."
