@@ -18,9 +18,7 @@
 fxCatastrophicError "zzcd_bookmarks.sh is not ready! Please customize it and remove this line when done"
 PROJECT_DIR=/var/www/my-app/
 ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
-                "${PROJECT_DIR}public" "Go"
-                "${PROJECT_DIR}var/log" "Go"
-                "/var/log/nginx/" "Go"
-                "/var/www/" "Go"
-                "/etc/nginx/conf.d" "Go"
-                "/etc/nginx" "Go")
+  "${PROJECT_DIR}var/log" "Go"
+  "/var/log/nginx/" "Go"
+  "/var/www/" "Go"
+  "/etc/nginx/conf.d" "Go")
