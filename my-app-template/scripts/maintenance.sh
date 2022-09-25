@@ -5,6 +5,8 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 
+fxHeader "🧰 Maintenance"
+
 fxCatastrophicError "maintenance.sh is not ready!" dont-stop
 
 echo "🧙 for Magento: https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/maintenance.sh"
