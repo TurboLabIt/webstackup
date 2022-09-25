@@ -84,7 +84,6 @@ if [ -d "${WSU_MAP_ORIGIN}" ]; then
   wsuMapReplace "webstackup/blob/master/${WSU_MAP_MY_APP}" "webstackup/blob/master/my-app"
   
   curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
-  curl -Lo "/tmp/my-app-template/backup/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_contents?$(date +%s)
   
   chown webstackup:www-data /tmp/my-app-template -R
   chmod u=rwx,go=rX /tmp/my-app-template -R
