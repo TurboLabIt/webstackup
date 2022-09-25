@@ -21,4 +21,3 @@ PROJECT_DIR=/var/www/my-app/
 
 ## Magento cron file (every minute)
 #* * * * * www-data /bin/php ${PROJECT_DIR}shop/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> ${PROJECT_DIR}shop/var/log/magento.cron.log
-
