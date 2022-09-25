@@ -3,6 +3,6 @@
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/script_end.sh
 
-removeLock ${LOCKFILE}
+removeLock "${LOCKFILE}"
 fxEndFooter
 exit
