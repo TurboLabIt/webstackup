@@ -39,8 +39,8 @@ if [-z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" 
   MYSQL_DB_NAME:             ##${MYSQL_DB_NAME}##
   MYSQL_USER:                ##${MYSQL_USER}##
   MYSQL_HOST:                ##${MYSQL_HOST}##
-  MYSQL_PASSWORD:            ##${MYSQL_PASSWORD}##"
-  SITE_URL:                  ##${SITE_URL}##"
+  MYSQL_PASSWORD:            ##${MYSQL_PASSWORD}##
+  SITE_URL:                  ##${SITE_URL}##
   WORDPRESS_SITE_NAME:       ##${WORDPRESS_SITE_NAME}##
   WORDPRESS_ADMIN_USERNAME:  ##${WORDPRESS_ADMIN_USERNAME}##
   WORDPRESS_ADMIN_EMAIL:     ##${WORDPRESS_ADMIN_EMAIL}##
