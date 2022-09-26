@@ -63,7 +63,7 @@ fi
 
 fxTitle "Downloading WordPress..."
 # https://developer.wordpress.org/cli/commands/core/download/
-wsuWordPress core download --locale="${WORDPRESS_LOCALE}" --skip-content
+wsuWordPress core download --locale="${WORDPRESS_LOCALE}"
 
 
 fxTitle "Checking WordPress version..."
