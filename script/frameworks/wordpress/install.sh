@@ -148,11 +148,11 @@ wsuWordPress option update \
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WPINST_WEBROOT_DIR}wp-content/themes/${APP_NAME}"
-echo "Put your own theme here. It will be Git-commitable" > ${WPINST_WEBROOT_DIR}wp-content/themes/${APP_NAME}/readme.md"
+echo "Put your own theme here. It will be Git-commitable" > "${WPINST_WEBROOT_DIR}wp-content/themes/${APP_NAME}/readme.md"
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
 mkdir -p "${WPINST_WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
-echo "Put your own plugin here. It will be Git-commitable" > ${WPINST_WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
+echo "Put your own plugin here. It will be Git-commitable" > "${WPINST_WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
 fxTitle "Downloading .gitignore"
 curl -o "${WPINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_wordpress?$(date +%s)
