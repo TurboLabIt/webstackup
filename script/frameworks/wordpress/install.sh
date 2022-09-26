@@ -145,6 +145,18 @@ fxTitle "Setting some options..."
 wsuWordPress option update \
   whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
   --skip-plugins --skip-themes
+ 
+fxTitle "Preparing ${APP_NAME} theme directory..."
+mkdir -p "${WPINST_WEBROOT_DIR}wp-content/themes/${APP_NAME}"
+echo "Put your own theme here. It will be Git-commitable" > ${WPINST_WEBROOT_DIR}wp-content/themes/${APP_NAME}/readme.md"
+
+fxTitle "Preparing ${APP_NAME} plugin directory..."
+mkdir -p "${WPINST_WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
+echo "Put your own plugin here. It will be Git-commitable" > ${WPINST_WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
+
+fxTitle "Downloading .gitignore"
+curl -o "${WPINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_wordpress?$(date +%s)
+sed -i "s|my-app|${APP_NAME}|g" "${WPINST_WEBROOT_DIR}.gitignore"
 
 fxTitle "Set the permissions"
 chown webstackup:www-data ${WPINST_WEBROOT_DIR} -R
