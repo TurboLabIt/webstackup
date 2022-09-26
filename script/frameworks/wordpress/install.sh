@@ -25,14 +25,15 @@
 fxHeader "📰 WordPress installer"
 rootCheck
 
-if [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
+if [-z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
    [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
    [ -z "${SITE_URL}" ] ||  [ -z "${WORDPRESS_SITE_NAME}" ] || \
    [ -z "${WORDPRESS_ADMIN_USERNAME}" ] || [ -z "${WORDPRESS_ADMIN_EMAIL}" ] || [ -z "${WORDPRESS_ADMIN_NEW_SLUG}" ] \
    ; then
 
   catastrophicError "WordPress installer can't run with these variables undefined:
-  
+
+  APP_NAME:                  ##${APP_NAME}##
   WEBROOT_DIR:               ##${WEBROOT_DIR}##
   WORDPRESS_LOCALE:          ##${WORDPRESS_LOCALE}##
   MYSQL_DB_NAME:             ##${MYSQL_DB_NAME}##
