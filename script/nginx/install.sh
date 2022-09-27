@@ -1,5 +1,3 @@
-
-
 #!/usr/bin/env bash
 ### AUTOMATIC NGINX INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/nginx/install.sh
