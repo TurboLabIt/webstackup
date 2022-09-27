@@ -67,7 +67,7 @@ fi
 
 
 fxTitle "Disable the default error_log. You MUST set your own at the server{} level!"
-sed -i "s|error_log|;error_log|g" /etc/nginx/nginx.conf
+sed -i "s|error_log|#error_log|g" /etc/nginx/nginx.conf
 
 fxTitle "Starting the service..."
 service nginx restart
