@@ -103,7 +103,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   ## ############################
 
   fxTitle "🧙🏗️ static-content:deploy"
-  wsuMage setup:static-content:deploy --jobs 4 -s standard
+  wsuMage setup:static-content:deploy --jobs 4 -s standard -f
 
 else
 
