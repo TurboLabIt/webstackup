@@ -31,7 +31,7 @@ cd "$MAGENTO_DIR"
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Entering maintenance mode..."
-  wsuMage maintenance:enable 
+  wsuMage maintenance:enable
 fi
 
 
@@ -79,7 +79,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   wsuComposer install
 
-  fxTitle "🧙🏗️ setup:upgrade..." 
+  fxTitle "🧙🏗️ setup:upgrade..."
   wsuMage setup:upgrade
 
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
@@ -90,15 +90,20 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "🧙🏗️ setup:di:compile..."
   wsuMage setup:di:compile
 
-  fxTitle "🧙🏗️ static-content:deploy admin"
-  wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
+  ## legacy implementation
+  #fxTitle "🧙🏗️ static-content:deploy admin"
+  #wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
 
-  if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
+  #if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
 
-    fxTitle "🧙🏗️ static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
-    wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
+    #fxTitle "🧙🏗️ static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
+    #wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
 
-  fi
+  #fi
+  ## ############################
+
+  fxTitle "🧙🏗️ static-content:deploy"
+  wsuMage setup:static-content:deploy --jobs 4 -s standard
 
 else
 
@@ -118,7 +123,7 @@ sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Exiting maintenance mode..."
-  wsuMage maintenance:disable 
+  wsuMage maintenance:disable
 
 else
 
