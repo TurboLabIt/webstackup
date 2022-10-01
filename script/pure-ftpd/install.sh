@@ -32,13 +32,13 @@ if id "www-data" &>/dev/null; then
   
 else
 
-  fxTitle "Creating www-data group..."
+  fxMessage "Creating www-data group..."
   groupadd -f -r www-data
   
-  fxTitle "Creating /var/www/..."
+  fxMessage "Creating /var/www/..."
   mkdir -p /var/www
   
-  fxTitle "Creating www-data..."
+  fxMessage "Creating www-data..."
   useradd -g www-data -d /var/www -s /sbin/nologin -r www-data
   chown www-data:www-data /var/www -R
 fi
@@ -59,12 +59,12 @@ fi
 fxTitle "PassivePortRange setup..."
 if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
 
-  fxTitle "Linking PassivePortRange config from Webstackup..."
+  fxMessage "Linking PassivePortRange config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
 
 elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
 
-  fxTitle "Downloading PassivePortRange config..."
+  fxMessage "Downloading PassivePortRange config..."
   curl -Lo "/etc/pure-ftpd/conf/PassivePortRange" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PassivePortRange
   
 else
@@ -78,12 +78,12 @@ rm -f "/etc/pure-ftpd/conf/NoAnonymous"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" ]; then
 
-  fxTitle "Linking NoAnonymous config from Webstackup..."
+  fxMessage "Linking NoAnonymous config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" "/etc/pure-ftpd/conf/NoAnonymous"
 
 else
 
-  fxTitle "Downloading NoAnonymous config..."
+  fxMessage "Downloading NoAnonymous config..."
   curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/Yes
 fi
 
@@ -93,12 +93,12 @@ rm -f "/etc/pure-ftpd/conf/PureDB"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" ]; then
 
-  fxTitle "Linking PureDB config from Webstackup..."
+  fxMessage "Linking PureDB config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" "/etc/pure-ftpd/conf/PureDB"
 
 else
 
-  fxTitle "Downloading PureDB config..."
+  fxMessage "Downloading PureDB config..."
   curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PureDB
 fi
 
@@ -106,7 +106,7 @@ fi
 fxTitle "Activating PureDB auth..."
 if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
 
-  fxTitle "Linking PureDB auth config from Webstackup..."
+  fxMessage "Linking PureDB auth config from Webstackup..."
   ln -s "/etc/pure-ftpd/conf/PureDB" "/etc/pure-ftpd/auth/20PureDB"
   
 else
@@ -121,13 +121,13 @@ rm -f "/etc/pure-ftpd/conf/PAMAuthentication"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" ]; then
 
-  fxTitle "Linking Disabling Unix auth config from Webstackup..."
+  fxMessage "Linking Disabling Unix auth config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/UnixAuthentication"
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/PAMAuthentication"
 
 else
 
-  fxTitle "Downloading isabling Unix auth config..."
+  fxMessage "Downloading isabling Unix auth config..."
   curl -Lo "/etc/pure-ftpd/conf/UnixAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
   curl -Lo "/etc/pure-ftpd/conf/PAMAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
 fi
@@ -138,12 +138,12 @@ rm -f "/etc/pure-ftpd/conf/MinUID"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" ]; then
 
-  fxTitle "Linking MinUID config from Webstackup..."
+  fxMessage "Linking MinUID config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" "/etc/pure-ftpd/conf/MinUID"
 
 else
 
-  fxTitle "Downloading MinUID config..."
+  fxMessage "Downloading MinUID config..."
   curl -Lo "/etc/pure-ftpd/conf/MinUID" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/MinUID
 fi
 
@@ -166,12 +166,12 @@ rm -f "/etc/pure-ftpd/conf/TLS"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" ]; then
 
-  fxTitle "Linking TLS config from Webstackup..."
+  fxMessage "Linking TLS config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" "/etc/pure-ftpd/conf/TLS"
 
 else
 
-  fxTitle "Downloading TLS config..."
+  fxMessage "Downloading TLS config..."
   curl -Lo "/etc/pure-ftpd/conf/TLS" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/TLS-only
 fi
 
