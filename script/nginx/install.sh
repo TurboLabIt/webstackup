@@ -70,3 +70,6 @@ fi
 
 fxTitle "Starting the service..."
 service nginx restart
+
+fxEndFooter
+
