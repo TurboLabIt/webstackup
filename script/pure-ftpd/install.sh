@@ -106,7 +106,7 @@ fi
 fxTitle "Activating PureDB auth..."
 if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
 
-  fxMessage "Linking PureDB auth config from Webstackup..."
+  fxMessage "Linking internal file..."
   ln -s "/etc/pure-ftpd/conf/PureDB" "/etc/pure-ftpd/auth/20PureDB"
   
 else
@@ -121,13 +121,13 @@ rm -f "/etc/pure-ftpd/conf/PAMAuthentication"
 
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" ]; then
 
-  fxMessage "Linking Disabling Unix auth config from Webstackup..."
+  fxMessage "Linking auth config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/UnixAuthentication"
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/PAMAuthentication"
 
 else
 
-  fxMessage "Downloading isabling Unix auth config..."
+  fxMessage "Downloading auth config..."
   curl -Lo "/etc/pure-ftpd/conf/UnixAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
   curl -Lo "/etc/pure-ftpd/conf/PAMAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
 fi
