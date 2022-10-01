@@ -2,52 +2,52 @@
 ### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/pure-ftpd/install.sh?$(date +%s) | sudo bash
 # sudo pure-pw useradd USERNAME_TO_ADD -u www-data -d /var/www && sudo pure-pw mkdb && sudo pure-pw list
-#
 
-echo ""
-echo -e "\e[1;46m ==================== \e[0m"
-echo -e "\e[1;46m INSTALLING Pure-FTPd \e[0m"
-echo -e "\e[1;46m ==================== \e[0m"
 
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+## bash-fx
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
 fi
+## bash-fx is ready
 
-echo ""
-echo -e "\e[1;44m Installing Pure-FTPd... \e[0m"
+
+fxHeader "💿 Pure-FTPd installer "
+rootCheck
+
+
+fxTitle "Installing Pure-FTPd..."
 apt update
 apt install pure-ftpd  -y
 
-
-echo ""
-echo -e "\e[1;44m Start Pure-FTPd at boot... \e[0m"
+fxTitle "Start Pure-FTPd at boot..."
 systemctl enable pure-ftpd
 
 
-echo ""
-echo -e "\e[1;44m www-data user setup... \e[0m"
+fxTitle "www-data user setup..."
 if id "www-data" &>/dev/null; then
 
-  echo 'www-data user found'
+  fxOK "www-data user found"
   
 else
 
-  echo 'Creating www-data group...'
+  fxTitle "Creating www-data group..."
   groupadd -f -r www-data
   
-  echo 'Creating www-data user...'
+  fxTitle "Creating /var/www/..."
   mkdir -p /var/www
+  
+  fxTitle "Creating www-data..."
   useradd -g www-data -d /var/www -s /sbin/nologin -r www-data
   chown www-data:www-data /var/www -R
 fi
 
 
-echo ""
-echo -e "\e[1;44m /var/www setup... \e[0m"
+fxTitle "/var/www/ setup"
 if [ -d "/var/www" ]; then
 
-  echo "/var/www found, skipping"
+  fxOK "/var/www/ found, skipping"
   
 else
 
@@ -56,132 +56,131 @@ else
 fi
 
 
-echo ""
-echo -e "\e[1;44m PassivePortRange... \e[0m"
+fxTitle "PassivePortRange setup..."
 if [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ] && [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking PassivePortRange config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PassivePortRange" "/etc/pure-ftpd/conf/PassivePortRange"
 
 elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
 
-  echo "Downloading..."
+  fxTitle "Downloading PassivePortRange config..."
   curl -Lo "/etc/pure-ftpd/conf/PassivePortRange" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PassivePortRange
   
 else
 
-  echo "PassivePortRange exists, skipping"
+  fxOK "PassivePortRange exists, skipping"
 fi
 
 
-echo ""
-echo -e "\e[1;44m NoAnonymous... \e[0m"
+fxTitle "NoAnonymous setup..."
 rm -f "/etc/pure-ftpd/conf/NoAnonymous"
+
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking NoAnonymous config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Yes" "/etc/pure-ftpd/conf/NoAnonymous"
 
 else
 
-  echo "Downloading..."
+  fxTitle "Downloading NoAnonymous config..."
   curl -Lo "/etc/pure-ftpd/conf/NoAnonymous" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/Yes
 fi
 
 
-echo ""
-echo -e "\e[1;44m PureDB... \e[0m"
+fxTitle "PureDB setup..."
 rm -f "/etc/pure-ftpd/conf/PureDB"
+
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking PureDB config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/PureDB" "/etc/pure-ftpd/conf/PureDB"
 
 else
 
-  echo "Downloading..."
+  fxTitle "Downloading PureDB config..."
   curl -Lo "/etc/pure-ftpd/conf/PureDB" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/PureDB
 fi
 
 
-echo ""
-echo -e "\e[1;44m Activating PureDB auth... \e[0m"
+fxTitle "Activating PureDB auth..."
 if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
-  echo "Linking..."
+
+  fxTitle "Linking PureDB auth config from Webstackup..."
   ln -s "/etc/pure-ftpd/conf/PureDB" "/etc/pure-ftpd/auth/20PureDB"
+  
 else
-  echo "Auth exists, skipping"
+
+  fxOK "Auth exists, skipping"
 fi
 
 
-echo ""
-echo -e "\e[1;44m Disabling Unix auth... \e[0m"
+fxTitle "Disabling Unix auth..."
 rm -f "/etc/pure-ftpd/conf/UnixAuthentication"
 rm -f "/etc/pure-ftpd/conf/PAMAuthentication"
+
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking Disabling Unix auth config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/UnixAuthentication"
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/No" "/etc/pure-ftpd/conf/PAMAuthentication"
 
 else
 
-  echo "Downloading..."
+  fxTitle "Downloading isabling Unix auth config..."
   curl -Lo "/etc/pure-ftpd/conf/UnixAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
   curl -Lo "/etc/pure-ftpd/conf/PAMAuthentication" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/No
 fi
 
 
-echo ""
-echo -e "\e[1;44m MinUID... \e[0m"
+fxTitle "Configuring MinUID..."
 rm -f "/etc/pure-ftpd/conf/MinUID"
+
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking MinUID config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/MinUID" "/etc/pure-ftpd/conf/MinUID"
 
 else
 
-  echo "Downloading..."
+  fxTitle "Downloading MinUID config..."
   curl -Lo "/etc/pure-ftpd/conf/MinUID" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/MinUID
 fi
 
 
-echo ""
-echo -e "\e[1;44m Generating TLS certificate... \e[0m"
+fxTitle "Generating TLS certificate..."
 mkdir -p "/etc/ssl/private/"
+
 if [ ! -f "/etc/ssl/private/pure-ftpd.pem" ]; then
 
   openssl req -x509 -nodes -days 7300 -newkey rsa:2048 -keyout "/etc/ssl/private/pure-ftpd.pem" -out "/etc/ssl/private/pure-ftpd.pem" -subj "/CN=ftps"
   
 else
 
-  echo "Certificate file exists, skipping"
+  fxOK "Certificate file exists, skipping"
 fi
 
 
-echo ""
-echo -e "\e[1;44m Activate TLS... \e[0m"
+fxTitle "Activate TLS..."
 rm -f "/etc/pure-ftpd/conf/TLS"
+
 if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" ]; then
 
-  echo "Linking..."
+  fxTitle "Linking TLS config from Webstackup..."
   ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/TLS-only" "/etc/pure-ftpd/conf/TLS"
 
 else
 
-  echo "Downloading..."
+  fxTitle "Downloading TLS config..."
   curl -Lo "/etc/pure-ftpd/conf/TLS" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/TLS-only
 fi
 
 
-echo ""
-echo -e "\e[1;44m Listing... \e[0m"
+fxTitle "Listing config files..."
 ls -lAtrh "/etc/pure-ftpd/conf"
 
 
-echo ""
-echo -e "\e[1;44m Listing FTP users... \e[0m"
+fxTitle "Listing FTP users..."
 if [ ! -f "/etc/pure-ftpd/pureftpd.passwd" ]; then
   touch "/etc/pure-ftpd/pureftpd.passwd"
 fi
@@ -189,7 +188,5 @@ pure-pw mkdb
 pure-pw list
 
 
-echo ""
-echo -e "\e[1;44m Restarting... \e[0m"
-service pure-ftpd restart
-echo ""
+fxTitle "Starting the service..."
+service nginx restart
