@@ -189,4 +189,7 @@ pure-pw list
 
 
 fxTitle "Starting the service..."
-service nginx restart
+service pure-ftpd restart
+
+
+fxEndFooter
