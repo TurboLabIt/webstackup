@@ -1,7 +1,13 @@
-FROM alpine
+FROM ubuntu
 LABEL maintainer="Webstackup info@turbolab.it"
 
-RUN apk add --no-cache nano openssh wget git
+RUN apt update
+RUN apt install curl sudo nano lsb-release openssh-server wget git bash -y
+
+RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh?$(date +%s) | bash
+RUN zzupdate server
+
+RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh?$(date +%s) | bash
 
 RUN wget -O /usr/local/bin/docker-startup-isolated-ssh.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/startup-isolated-ssh.sh
 RUN chmod ug=rwx,o=rx /usr/local/bin/docker-startup-isolated-ssh.sh
