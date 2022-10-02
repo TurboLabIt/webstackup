@@ -59,7 +59,13 @@ fxTitle "Pre-download some image..."
 docker pull ubuntu
 # https://hub.docker.com/_/alpine
 docker pull alpine
-docker images
+
+
+fxTitle "Prepare wsu-ssh Docker image..."
+curl -o /tmp/dockerfile-isolated-ssh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/docker/dockerfile-isolated-ssh?$(date +%s)
+docker build --network host -t wsu-ssh -f /tmp/dockerfile-isolated-ssh .
+# docker run -td --name=user-name -p 30987:22 wsu-ssh
+# zzdock attach user-name
 
 
 fxTitle "Run a Docker test image..."
