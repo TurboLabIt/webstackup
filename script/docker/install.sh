@@ -15,27 +15,33 @@ fi
 fxHeader "💿 Docker installer"
 rootCheck
 
-## Source: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04
-## Add. source: https://docs.docker.com/engine/install/ubuntu/
+## Source: https://docs.docker.com/engine/install/ubuntu/
 
 
-fxTitle "Install a few prerequisite packages..."
+fxTitle "Installing additional prerequisites..."
 apt update -qq
-apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release -y
+apt install apt-transport-https software-properties-common -y
+
+
+fxTitle "Installing Nginx prerequisites from docs..."
+apt install ca-certificates curl gnupg lsb-release -y
 
 
 fxTitle "Add Docker official GPG key..."
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/webstackup.docker.gpg
 
 
 fxTitle "Set up the repository..."
-add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -sc) stable"
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/webstackup.docker.list > /dev/null
+
 apt update -qq
 apt-cache policy docker-ce
-exit
 
-fxTitle "Installing Docker..."
-apt install docker-ce -y
+
+fxTitle "Install Docker Engine..."
+apt install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
 
 fxTitle "Enable auto-start..."
@@ -44,6 +50,11 @@ systemctl enable docker
 
 fxTitle "Restarting the service..."
 service docker restart
+
+
+fxTitle "Run a Docker test image..."
+sudo docker run hello-world
+
 
 exit
 fxEndFooter
