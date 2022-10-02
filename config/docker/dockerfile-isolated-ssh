@@ -9,6 +9,8 @@ RUN zzupdate server
 
 RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh?$(date +%s) | bash
 
+RUN curl -o "/etc/ssh/sshd_config.d/disable-password-login.conf" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ssh/disable-password-login.conf?$(date +%s)
+
 RUN wget -O /usr/local/bin/docker-startup-isolated-ssh.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/startup-isolated-ssh.sh
 RUN chmod ug=rwx,o=rx /usr/local/bin/docker-startup-isolated-ssh.sh
 
