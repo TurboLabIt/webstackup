@@ -62,22 +62,13 @@ docker container rm 'webstackup-setup-test'
 docker image rm docker/whalesay
 
 
-fxEndFooter
-exit
-
-
-
-
-## Download Ubuntu
+fxTitle "Pre-download some image..."
+# https://hub.docker.com/_/ubuntu
 docker pull ubuntu
+# https://hub.docker.com/_/alpine
+docker pull alpine
+
 docker images
 
-##
-curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/docker/dockerfile?$(date +%s)
-docker build -t webstackup:latest .
-docker run -td --name=ws1 -p 802:80 -p 4432:443 -p 222:22 webstackup
 
-## 
-echo "vvvvvvvvvvvvvvvvvvvvvvvv"
-echo "docker exec -it ws1 bash"
-echo "^^^^^^^^^^^^^^^^^^^^^^^^"
+fxEndFooter
