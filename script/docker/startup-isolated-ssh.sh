@@ -5,5 +5,5 @@
 # Edit to your needs!
 
 ssh-keygen -A
-service ssh start
+service ssh restart
 tail -f /dev/null
