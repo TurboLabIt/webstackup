@@ -1,0 +1,9 @@
+FROM alpine
+LABEL maintainer="Webstackup info@turbolab.it"
+
+RUN apk add --no-cache nano openssh wget git
+
+RUN wget -O /usr/local/bin/docker-startup-isolated-ssh.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/startup-isolated-ssh.sh
+RUN chmod ug=rwx,o=rx /usr/local/bin/docker-startup-isolated-ssh.sh
+
+ENTRYPOINT ["/usr/local/bin/docker-startup-isolated-ssh.sh"]
