@@ -1,37 +1,56 @@
-
 #!/usr/bin/env bash
 ### AUTOMATIC DOCKER INSTALL BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/install.sh?$(date +%s) | sudo bash
-#
 
-echo ""
-echo -e "\e[1;46m ============== \e[0m"
-echo -e "\e[1;46m DOCKER INSTALL \e[0m"
-echo -e "\e[1;46m ============== \e[0m"
+## bash-fx
+if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
 
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
 fi
+## bash-fx is ready
 
-## Add Docker key and repo
-apt update
-apt install apt-transport-https ca-certificates curl software-properties-common -y
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+fxHeader "💿 Docker installer"
+rootCheck
+
+## Source: https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-20-04
+## Add. source: https://docs.docker.com/engine/install/ubuntu/
+
+
+fxTitle "Install a few prerequisite packages..."
+apt update -qq
+apt install apt-transport-https ca-certificates curl software-properties-common gnupg lsb-release -y
+
+
+fxTitle "Add Docker official GPG key..."
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | apt-key add -
+
+
+fxTitle "Set up the repository..."
 add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -sc) stable"
-
-## Pinning the repo
-DOCKER_PINNING_FILE=/etc/apt/preferences.d/99-docker-webstackup
-#echo "Package: docker-ce" > $DOCKER_PINNING_FILE
-#echo -n "Pin: release a=" >> $DOCKER_PINNING_FILE
-#echo "$(lsb_release -sc)" >> $DOCKER_PINNING_FILE
-#echo "Pin-Priority: -900" >> $DOCKER_PINNING_FILE
-
 apt update -qq
 apt-cache policy docker-ce
+exit
 
-## Install Docker
+fxTitle "Installing Docker..."
 apt install docker-ce -y
+
+
+fxTitle "Enable auto-start..."
+systemctl enable docker
+
+
+fxTitle "Restarting the service..."
+service docker restart
+
+exit
+fxEndFooter
+
+
+
+
 
 ## Download Ubuntu
 docker pull ubuntu
@@ -46,4 +65,3 @@ docker run -td --name=ws1 -p 802:80 -p 4432:443 -p 222:22 webstackup
 echo "vvvvvvvvvvvvvvvvvvvvvvvv"
 echo "docker exec -it ws1 bash"
 echo "^^^^^^^^^^^^^^^^^^^^^^^^"
-
