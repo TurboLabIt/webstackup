@@ -15,7 +15,7 @@ fi
 fxHeader "💿 Docker installer"
 rootCheck
 
-## Source: https://docs.docker.com/engine/install/ubuntu/
+## Source (with some tweaks): https://docs.docker.com/engine/install/ubuntu/
 
 
 fxTitle "Installing additional prerequisites..."
