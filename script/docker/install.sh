@@ -23,7 +23,7 @@ apt update -qq
 apt install apt-transport-https software-properties-common -y
 
 
-fxTitle "Installing Nginx prerequisites from docs..."
+fxTitle "Installing Docker prerequisites from docs..."
 apt install ca-certificates curl gnupg lsb-release -y
 
 
