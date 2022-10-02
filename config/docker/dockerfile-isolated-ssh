@@ -2,7 +2,7 @@ FROM ubuntu
 LABEL maintainer="Webstackup info@turbolab.it"
 
 RUN apt update
-RUN apt install curl sudo nano lsb-release openssh-server wget git bash -y
+RUN apt install curl sudo nano lsb-release openssh-server wget git bash apt-utils -y
 
 RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh?$(date +%s) | bash
 RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh?$(date +%s) | bash
