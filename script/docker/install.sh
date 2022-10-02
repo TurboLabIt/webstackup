@@ -53,6 +53,14 @@ fxTitle "Restarting the service..."
 service docker restart
 
 
+fxTitle "Pre-download some image..."
+# https://hub.docker.com/_/ubuntu
+docker pull ubuntu
+# https://hub.docker.com/_/alpine
+docker pull alpine
+docker images
+
+
 fxTitle "Run a Docker test image..."
 docker run --name 'webstackup-setup-test' docker/whalesay cowsay "Docker has been installed via Webstackup!"
 
@@ -60,15 +68,6 @@ docker run --name 'webstackup-setup-test' docker/whalesay cowsay "Docker has bee
 fxTitle "Remove the test..."
 docker container rm 'webstackup-setup-test'
 docker image rm docker/whalesay
-
-
-fxTitle "Pre-download some image..."
-# https://hub.docker.com/_/ubuntu
-docker pull ubuntu
-# https://hub.docker.com/_/alpine
-docker pull alpine
-
-docker images
 
 
 fxEndFooter
