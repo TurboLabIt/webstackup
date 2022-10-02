@@ -20,6 +20,7 @@ apt update && apt install sysbench sysstat fio -y
 fxTitle "CPU"
 sysbench cpu --threads=1 run
 fxMessage "Cfr i7-9750H: 1415 (events per second) | 14162 (total number of events)"
+fxMessage "Cfr Celeron J4115: 1439 (events per second) | 14398 (total number of events)"
 
 fxTitle "Disk (iostat)"
 iostat -d | grep -vi loop
