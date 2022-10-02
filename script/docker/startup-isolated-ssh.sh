@@ -20,6 +20,7 @@ else
   echo "## https://github.com/TurboLabIt/webstackup/blob/master/script/docker/startup-isolated-ssh.sh" >> /etc/ssh/sshd_config
   echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
   echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
+  echo "AllowTcpForwarding yes" >> /etc/ssh/sshd_config
 fi
 
 ## start OpenSSH
