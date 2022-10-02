@@ -28,13 +28,14 @@ apt install ca-certificates curl gnupg lsb-release -y
 
 
 fxTitle "Add Docker official GPG key..."
-rm -f /etc/apt/trusted.gpg.d/webstackup.docker.gpg
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/webstackup.docker.gpg
+DOCKER_GPG_FILE=/etc/apt/trusted.gpg.d/webstackup.docker.gpg
+rm -f "${DOCKER_GPG_FILE}"
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o "${DOCKER_GPG_FILE}"
 
 
 fxTitle "Set up the repository..."
 echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+  "deb [arch=$(dpkg --print-architecture) signed-by=${DOCKER_GPG_FILE}] https://download.docker.com/linux/ubuntu \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/webstackup.docker.list > /dev/null
 
 apt update -qq
