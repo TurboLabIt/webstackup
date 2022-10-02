@@ -53,19 +53,22 @@ service docker restart
 
 
 fxTitle "Run a Docker test image..."
-sudo docker run hello-world
+docker run --name 'webstackup-setup-test' docker/whalesay cowsay "Docker has been installed via Webstackup!"
 
 
-exit
-fxEndFooter
+fxTitle "Remove the test..."
+docker container rm 'webstackup-setup-test'
+docker image rm docker/whalesay
 
 
-
-
-
-## Download Ubuntu
+fxTitle "Downloading Ubuntu Docker image"
 docker pull ubuntu
 docker images
+
+
+fxEndFooter
+exit
+
 
 ##
 curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/docker/dockerfile?$(date +%s)
