@@ -28,6 +28,7 @@ apt install ca-certificates curl gnupg lsb-release -y
 
 
 fxTitle "Add Docker official GPG key..."
+rm -f /etc/apt/trusted.gpg.d/webstackup.docker.gpg
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/trusted.gpg.d/webstackup.docker.gpg
 
 
@@ -61,14 +62,15 @@ docker container rm 'webstackup-setup-test'
 docker image rm docker/whalesay
 
 
-fxTitle "Downloading Ubuntu Docker image"
-docker pull ubuntu
-docker images
-
-
 fxEndFooter
 exit
 
+
+
+
+## Download Ubuntu
+docker pull ubuntu
+docker images
 
 ##
 curl -o dockerfile https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/docker/dockerfile?$(date +%s)
