@@ -15,9 +15,11 @@ if grep -qi webstackup "/etc/ssh/sshd_config"; then
 else
   
   echo "👨‍🏭 Patching sshd_config"
+  ## https://turbolab.it/654
   echo "" >> /etc/ssh/sshd_config
   echo "## https://github.com/TurboLabIt/webstackup/blob/master/script/docker/startup-isolated-ssh.sh" >> /etc/ssh/sshd_config
   echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
+  echo "ChallengeResponseAuthentication no" >> /etc/ssh/sshd_config
 fi
 
 ## start OpenSSH
