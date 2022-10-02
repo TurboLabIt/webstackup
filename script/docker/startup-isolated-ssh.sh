@@ -10,6 +10,11 @@ ssh-keygen -A
 ## disable password login via SSH
 if grep -qi webstackup "/etc/ssh/sshd_config"; then
   
+  echo "✔ sshd_config is already patched"
+  
+else
+  
+  echo "👨‍🏭 Patching sshd_config"
   echo "" >> /etc/ssh/sshd_config
   echo "## https://github.com/TurboLabIt/webstackup/blob/master/script/docker/startup-isolated-ssh.sh" >> /etc/ssh/sshd_config
   echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
