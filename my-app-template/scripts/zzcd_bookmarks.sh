@@ -15,7 +15,6 @@
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/zzcd_bookmarks.sh
 #
-fxCatastrophicError "zzcd_bookmarks.sh is not ready! Please customize it and remove this line when done"
 PROJECT_DIR=/var/www/my-app/
 ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
   "${PROJECT_DIR}var/log" "Go"
