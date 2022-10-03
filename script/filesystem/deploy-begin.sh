@@ -27,9 +27,6 @@ if [ "$APP_ENV" = "prod" ]; then
     case $opt in
 
       "OK")
-        if [ -f "${SCRIPT_DIR}notify.sh" ]; then
-          bash "${SCRIPT_DIR}notify.sh" "🏁 Deploy started for ${APP_NAME} on PRODUCTION ($HOSTNAME)" "deploy" "$1"
-        fi
         break
         ;;
 
@@ -51,6 +48,10 @@ if [ -z "${LOCKFILE}" ]; then
 fi
 
 lockCheck "${LOCKFILE}"
+
+if [ -f "${SCRIPT_DIR}notify.sh" ]; then
+  bash "${SCRIPT_DIR}notify.sh" "deploy-start" "$1"
+fi
 
 fxTitle "Disable xdebug..."
 export XDEBUG_MODE=off
