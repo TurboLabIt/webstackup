@@ -294,7 +294,7 @@ if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 fi
 
 
-## user account
+## user account - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
 if [ ! -z "${USERS_TEMPLATE_PATH}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH"
 fi
