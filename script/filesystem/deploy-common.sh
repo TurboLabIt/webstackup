@@ -284,10 +284,10 @@ if systemctl --all --type service | grep -q "elasticsearch"; then
   service elasticsearch restart &
 fi
 
-## autodeploy
-if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
-  printTitle "🧙‍♂️ Linking autodeploy..."
-  ln -s "${WEBSTACKUP_SCRIPT_DIR}php/autodeploy-async.php" "${WEBROOT_DIR}"
+## async-runner-request
+if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}async-runner-request.php" ]; then
+  printTitle "🏃‍♂️ Linking async-runner-request.php..."
+  ln -s "${WEBSTACKUP_SCRIPT_DIR}php/async-runner-request.php" "${WEBROOT_DIR}"
 fi
 
 ## migrations
