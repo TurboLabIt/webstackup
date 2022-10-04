@@ -30,7 +30,7 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf
 
-# AUTODEPLOY (work in progress...)
+# AUTODEPLOY https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 
 # ${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf
@@ -290,7 +290,7 @@ if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}async-runner-request.php"
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/async-runner-request.php" "${WEBROOT_DIR}"
 fi
 
-## autodeploy
+## autodeploy https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "🤖 Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/autodeploy-async.php" "${WEBROOT_DIR}"
