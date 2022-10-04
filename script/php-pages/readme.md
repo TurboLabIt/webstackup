@@ -24,7 +24,7 @@ To activate the autodeploy routine on your staging env:
    As soon as the webhook runs, `my-app` should autodeploy (via `script/deploy.sh fast`)
 
 
-Please check the HTTPS status code of `autodeploy-async.php`:
+Please check the HTTP status code of `autodeploy-async.php`:
 
 * **200**: the request is OK, but is non-actionable.
    Most likely: a push to a different branch
