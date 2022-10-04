@@ -9,7 +9,12 @@
 # ${SCRIPT_DIR}test-runner.sh
 # ${SCRIPT_DIR}migrate.sh
 # ${SCRIPT_DIR}maintenance.sh
-⚠️
+
+# user account - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
+# USERS_TEMPLATE_PATH=/my-path/accounts
+# USERS_TEMPLATE_PATH_STAGING=/my-path/accounts-staging
+# ${PROJECT_DIR}config/custom/ssh-accounts
+
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
 
 # ${PROJECT_DIR}config/custom/cron
@@ -26,9 +31,6 @@
 # ${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf
 
 # AUTODEPLOY (work in progress...)
-
-# bash ${USERS_TEMPLATE_PATH}
-# bash ${USERS_TEMPLATE_PATH_STAGING}
 
 # ${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf
@@ -294,7 +296,7 @@ if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 fi
 
 
-## user account - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
+## user accounts - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
 if [ ! -z "${USERS_TEMPLATE_PATH}" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH"
 fi
