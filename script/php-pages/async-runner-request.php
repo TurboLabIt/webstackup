@@ -1,11 +1,6 @@
 <?php
 
-function fatalError(string $message, int $httpStatus)
-{
-  http_response_code($httpStatus);
-  die("🛑 " . $message);
-}
-
+require_once('php-fx.php');
 
 foreach(["app", "task", "secret"] as $param) {
 
@@ -31,4 +26,5 @@ if(!$writeResult) {
 
 chmod($filename, 0666);
 
-echo "OK " . basename($filename) . " at " . file_get_contents($filename);
+http_response_code(202);
+echo "✅ OK " . basename($filename) . " at " . file_get_contents($filename);
