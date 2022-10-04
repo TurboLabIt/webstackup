@@ -2,7 +2,7 @@
 foreach(["app-name", "task-name", "secret"] as $param) {
   
   $value = $_GET[$param] ?? null;
-  $value = strtolower(strip_tags($value));
+  $value = strip_tags($value);
   $value = str_replace(['\\', '/', '*', '?', '"', "'", '<', '>', '|'], '', $value);
   $value = trim($value);
   
