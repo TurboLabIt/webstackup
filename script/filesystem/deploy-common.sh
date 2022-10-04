@@ -9,7 +9,7 @@
 # ${SCRIPT_DIR}test-runner.sh
 # ${SCRIPT_DIR}migrate.sh
 # ${SCRIPT_DIR}maintenance.sh
-
+⚠️
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
 
 # ${PROJECT_DIR}config/custom/cron
@@ -303,8 +303,8 @@ if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; the
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH_STAGING"
 fi
 
-if [ -d "${PROJECT_DIR}config/custom/ssh-account" ] && [ ! -z "$(ls -l ${PROJECT_DIR}config/custom/ssh-account | grep '^d')" ]; then
-  bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "${PROJECT_DIR}config/custom/ssh-account"
+if [ -d "${PROJECT_DIR}config/custom/ssh-accounts" ] && [ ! -z "$(ls -l ${PROJECT_DIR}config/custom/ssh-accounts | grep '^d')" ]; then
+  bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "${PROJECT_DIR}config/custom/ssh-accounts"
 fi
 
 
