@@ -17,7 +17,7 @@ To activate the autodeploy routine on your staging env:
    [my-app-template/config/custom/staging/nginx.conf](https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/staging/nginx.conf)
    
 1. run `/var/www/my-app/scripts/deploy.sh` on your staging env. It will link
-   [autodeploy-async.php](https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/staging/cron](https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/autodeploy-async.php)
+   [autodeploy-async.php](https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/autodeploy-async.php)
    to `my-app/<webroot>` directory
    
 1. run a test commit on `my-app` and merge it to staging.
