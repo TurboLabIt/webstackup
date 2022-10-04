@@ -10,7 +10,7 @@
 # ${SCRIPT_DIR}migrate.sh
 # ${SCRIPT_DIR}maintenance.sh
 
-# user account - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
+# user accounts - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
 # USERS_TEMPLATE_PATH=/my-path/accounts
 # USERS_TEMPLATE_PATH_STAGING=/my-path/accounts-staging
 # ${PROJECT_DIR}config/custom/ssh-accounts
