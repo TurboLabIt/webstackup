@@ -20,8 +20,9 @@ default_authentication_plugin=mysql_native_password
 
 
 ## Disable MySQL name resolution
-# Warning: "localhost" MAY fail. Use 127.0.0.1 instead
-skip_name_resolve
+# https://bugs.mysql.com/bug.php?id=22118 Makes "127.0.0.1" unusable (use "localhost" instead). 
+# Connections over SSH will fail
+# skip_name_resolve
 
 
 ## Rise the max_connections limit
