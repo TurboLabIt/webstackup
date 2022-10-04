@@ -1,5 +1,5 @@
 <?php
-foreach(["app-name", "task-name"] as $param) {
+foreach(["app-name", "task-name", "secret"] as $param) {
   
   $value = $_GET[$param] ?? null;
   $value = strtolower(strip_tags($value));
@@ -15,7 +15,7 @@ foreach(["app-name", "task-name"] as $param) {
 
 $filename = "/tmp/async-runner-request-${app-name}-${task-name}";
 
-$writeResult = file_put_contents($filename, date('Y-m-d H:i:s'));
+$writeResult = file_put_contents($filename, $secret);
 
 if(!$writeResult) {
  throw new RuntimeException("Request file writing FAILED");
@@ -23,4 +23,4 @@ if(!$writeResult) {
 
 chmod($filename, 0666);
 
-echo "OK ${app-name}/${task-name} at " . file_get_contents($filename);
+echo "OK ${app-name}/${task-name} with secret ##" . $secret . "##";
