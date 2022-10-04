@@ -287,7 +287,13 @@ fi
 ## async-runner-request
 if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}async-runner-request.php" ]; then
   printTitle "🏃‍♂️ Linking async-runner-request.php..."
-  ln -s "${WEBSTACKUP_SCRIPT_DIR}php/async-runner-request.php" "${WEBROOT_DIR}"
+  ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/async-runner-request.php" "${WEBROOT_DIR}"
+fi
+
+## autodeploy
+if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
+  printTitle "🤖 Linking autodeploy..."
+  ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
 
 ## migrations
