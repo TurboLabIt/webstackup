@@ -20,5 +20,5 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 PROJECT_DIR=/var/www/my-app/
 
 ## Every minute: check for an autodeploy async request
-AUTODEPLOY_FILENAME_TO_CHECK=autodeploy-async-request
+AUTODEPLOY_FILENAME_TO_CHECK=async-runner-request-my-app-autodeploy-staging-123456789
 * * * * * root bash /usr/local/turbolab.it/webstackup/script/filesystem/async-runner.sh "${AUTODEPLOY_FILENAME_TO_CHECK}" "${PROJECT_DIR}scripts/deploy.sh" fast >> ${PROJECT_DIR}var/log/autodeploy-async.log 2>&1
