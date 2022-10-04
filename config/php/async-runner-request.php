@@ -13,9 +13,9 @@ foreach(["app-name", "task-name", "secret"] as $param) {
   $$param = $value;
 }
 
-$filename = "/tmp/async-runner-request-${app-name}-${task-name}";
+$filename = "/tmp/async-runner-request-${app-name}-${task-name}-$secret";
 
-$writeResult = file_put_contents($filename, $secret);
+$writeResult = file_put_contents($filename, date('Y-m-d H:i:s'));
 
 if(!$writeResult) {
  throw new RuntimeException("Request file writing FAILED");
@@ -23,4 +23,4 @@ if(!$writeResult) {
 
 chmod($filename, 0666);
 
-echo "OK ${app-name}/${task-name} with secret ##" . $secret . "##";
+echo "OK " . basename($filename) . " at " . file_get_contents($filename);
