@@ -18,6 +18,8 @@
 SHELL=/usr/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 PROJECT_DIR=/var/www/my-app/
+SCRIPT_DIR=${PROJECT_DIR}scripts/
+LOG_PATH=${PROJECT_DIR}var/log/cron_
 
 ## Magento cron file (every minute)
-#* * * * * www-data /bin/php ${PROJECT_DIR}shop/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> ${PROJECT_DIR}shop/var/log/magento.cron.log
+#* * * * * www-data /bin/php ${PROJECT_DIR}shop/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> ${LOG_PATH}magento.cron.log
