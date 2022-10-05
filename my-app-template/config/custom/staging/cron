@@ -18,8 +18,8 @@
 SHELL=/usr/bin/bash
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 PROJECT_DIR=/var/www/my-app/
-SCRIPT_DIR=var/www/my-app/scripts/
-LOG_PATH=var/www/my-app/var/log/cron_
+SCRIPT_DIR=/var/www/my-app/scripts/
+LOG_PATH=/var/www/my-app/var/log/cron_
 
 
 ## Every minute: check for an autodeploy async request
