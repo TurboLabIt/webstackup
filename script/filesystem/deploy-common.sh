@@ -32,8 +32,8 @@
 
 # AUTODEPLOY https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 
-# ${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf
-# ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf
+# ${PROJECT_DIR}config/custom/zzmysqldump.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf
 
 # ${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf
@@ -317,27 +317,31 @@ fi
 
 
 ## zzmysqldump
-if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
-  printTitle "🗃️ Linking custom zzmysqldump.conf..."
-  ln -s "${PROJECT_DIR}config/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.conf"
+if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
+
+  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME}..."
+  ln -s "${PROJECT_DIR}config/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf"
 fi
 
-if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
 
-  printTitle "🗃️ Linking custom zzmysqldump-deploy.conf (from ${APP_ENV})..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump-deploy.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf"
-  
-elif [ -f "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
-
-  printTitle "🗃️ Linking custom zzmysqldump-deploy.conf..."
-  ln -s "${PROJECT_DIR}config/custom/zzmysqldump-deploy.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf"
+  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME} (from ${APP_ENV})..."
+  ln -s "${PROJECT_DIR}config/${APP_ENV}/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf"
 fi
 
-if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-deploy.conf" ]; then
-  zzmysqldump ${APP_NAME}-deploy
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf" ]; then
+
+  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME}-${APP_ENV}..."
+  ln -s "${PROJECT_DIR}config/${APP_ENV}/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf"
+fi
+
+if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf" ]; then
+
+  zzmysqldump ${APP_NAME}-${APP_ENV}
   
-elif [ -f "/etc/turbolab.it/zzmysqldump.conf" ]; then
-  zzmysqldump
+elif [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
+
+  zzmysqldump ${APP_NAME}
 fi
 
 
