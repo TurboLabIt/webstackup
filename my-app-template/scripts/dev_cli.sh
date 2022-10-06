@@ -70,7 +70,6 @@ elif [ "$1" = "db:import" ]; then
 
   bash "${PROJECT_DIR}scripts/cache-clear.sh"
 
-  
 elif [ "$1" = "cmd" ]; then
 
   cd ${MAGENTO_DIR}
