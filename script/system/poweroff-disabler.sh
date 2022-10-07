@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 ## DISABLE THE POWEROFF/SHUTDOWN COMMAND BY WEBSTACKUP
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/system/poweroff-disabler.sh?$(date +%s) | sudo bash
 # 💡 To shutdown the system, you can then use `zzpoweroff`
 
 ## bash-fx
