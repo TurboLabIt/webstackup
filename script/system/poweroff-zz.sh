@@ -25,7 +25,7 @@ fxWarning "THIS SYSTEM IS ABOUT TO POWER OFF"
 fxCountdown
 
 systemctl unmask poweroff.target
-bash -c "sleep 3; shutdown -p now"&
+bash -c "sleep 5; sudo poweroff"&
 systemctl mask poweroff.target
 
 fxEndFooter
