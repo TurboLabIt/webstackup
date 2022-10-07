@@ -20,7 +20,7 @@ MASK_FILE=/etc/systemd/system/poweroff.target
 
 fxTitle "Checking current status..."
 if [ -L "${MASK_FILE}" ] && [ $(readlink -f $MASK_FILE) = /dev/null ]; then
-  fxInfo "Poweroff was ALREADY disabled on this system"
+  fxOK "Poweroff was ALREADY disabled on this system"
   fxEndFooter
   exit
 fi
@@ -28,6 +28,7 @@ fi
 fxTitle "Disabling poweroff..."
 systemctl mask poweroff.target
 
+echo ""
 fxOK "Poweroff is now disabled"
 
 fxTitle "Is done!"
