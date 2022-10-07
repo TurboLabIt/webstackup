@@ -28,6 +28,8 @@ fxTitle "Disabling poweroff..."
 systemctl mask poweroff.target
 
 fxOK "Poweroff is now disabled"
-fxMessage "To poweroff the system use zzpoweroff"
+
+fxTitle "Is done!"
+fxMessage "💡 To poweroff the system use zzpoweroff"
 
 fxEndFooter
