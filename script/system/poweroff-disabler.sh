@@ -20,16 +20,39 @@ MASK_FILE=/etc/systemd/system/poweroff.target
 
 fxTitle "Checking current status..."
 if [ -L "${MASK_FILE}" ] && [ $(readlink -f $MASK_FILE) = /dev/null ]; then
+
   fxOK "Poweroff was ALREADY disabled on this system"
-  fxEndFooter
-  exit
+  
+else
+
+  fxTitle "Disabling poweroff..."
+  systemctl mask poweroff.target
+
+  echo ""
+  fxOK "Poweroff is now disabled"
 fi
 
-fxTitle "Disabling poweroff..."
-systemctl mask poweroff.target
 
-echo ""
-fxOK "Poweroff is now disabled"
+ZZPOWEROFF_FILE="/usr/local/bin/zzserver-poweroff"
+WSU_POWEROFF=/usr/local/turbolab.it/webstackup/script/system/poweroff-zz.sh
+
+fxTitle "Checking zzserver-poweroff..."
+if [ -f "${ZZPOWEROFF_FILE}" ]; then
+
+  fxOK "zzserver-poweroff was ALREADY installed on this system"
+  
+elif [ -f "${WSU_POWEROFF}" ]; then
+
+  fxLinkBin "${WSU_POWEROFF}" "${ZZPOWEROFF_FILE}"
+  
+else
+
+  fxTitle "Downloading..."
+  curl -o "${ZZPOWEROFF_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/system/poweroff-zz.sh?$(date +%s)
+  chown root:root "${ZZPOWEROFF_FILE}"
+  chmod u=rwx,go=rx "${ZZPOWEROFF_FILE}"
+fi
+
 
 echo ""
 fxMessage "💡 To poweroff the system use zzserver-poweroff"
