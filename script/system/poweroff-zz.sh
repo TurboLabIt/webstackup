@@ -13,6 +13,7 @@ fi
 ## bash-fx is ready
 
 fxHeader "🔌 ZZPOWEROFF"
+rootCheck
 
 MASK_FILE=/etc/systemd/system/poweroff.target
 
@@ -22,10 +23,9 @@ if [ ! -L "${MASK_FILE}" ] || [ $(readlink -f $MASK_FILE) != /dev/null ]; then
 fi
 
 fxWarning "THIS SYSTEM IS ABOUT TO POWER OFF"
-fxCountdown
 
 systemctl unmask poweroff.target
-bash -c "sleep 5; sudo poweroff"&
+shutdown -P +1
 systemctl mask poweroff.target
 
 fxEndFooter
