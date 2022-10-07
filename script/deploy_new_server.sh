@@ -419,7 +419,7 @@ fi
 
 
 fxTitle "Installing and running benchmark..."
-if [ $INSTALL_BENCHMARK = 1 ]; then
+if [ "$INSTALL_BENCHMARK" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}performance/benchmark.sh
 else
   fxInfo "Skipped (disabled in config)"
@@ -427,7 +427,7 @@ fi
 
 
 fxTitle "Running Poweroff disabler..."
-if [ $INSTALL_DISABLE_POWEROFF = 1 ]; then
+if [ "$INSTALL_DISABLE_POWEROFF" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}system/poweroff-disabler.sh
 else
   fxInfo "Skipped (disabled in config)"
