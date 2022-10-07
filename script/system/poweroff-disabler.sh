@@ -31,7 +31,7 @@ systemctl mask poweroff.target
 echo ""
 fxOK "Poweroff is now disabled"
 
-fxTitle "Is done!"
+echo ""
 fxMessage "💡 To poweroff the system use zzpoweroff"
 
 fxEndFooter
