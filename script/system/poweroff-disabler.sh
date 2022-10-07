@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## DISABLE THE POWEROFF/SHUTDOWN COMMAND BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/system/poweroff-disabler.sh?$(date +%s) | sudo bash
-# 💡 To shutdown the system, you can then use `zzserver-poweroff`
+# 💡 To shutdown the system, you must then use `zzserver-poweroff`
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
