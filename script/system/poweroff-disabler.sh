@@ -22,6 +22,7 @@ fxTitle "Checking current status..."
 if [ -L "${MASK_FILE}" ] && [ $(readlink -f $MASK_FILE) = /dev/null ]; then
   fxInfo "Poweroff was ALREADY disabled on this system"
   fxEndFooter
+  exit
 fi
 
 fxTitle "Disabling poweroff..."
