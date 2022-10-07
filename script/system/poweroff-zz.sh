@@ -22,8 +22,7 @@ if [ ! -L "${MASK_FILE}" ] || [ $(readlink -f $MASK_FILE) != /dev/null ]; then
   fxCatastrophicError "The poweroff command is not disabled on this server"
 fi
 
-fxWarning "THIS SYSTEM IS ABOUT TO POWER OFF"
-
+fxTitle "Powering off..."
 systemctl unmask poweroff.target
 shutdown -P +1
 systemctl mask poweroff.target
