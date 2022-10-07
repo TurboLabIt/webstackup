@@ -37,11 +37,9 @@ ZZPOWEROFF_FILE="/usr/local/bin/zzserver-poweroff"
 WSU_POWEROFF=/usr/local/turbolab.it/webstackup/script/system/poweroff-zz.sh
 
 fxTitle "Checking zzserver-poweroff..."
-if [ -f "${ZZPOWEROFF_FILE}" ]; then
+rm -f "${ZZPOWEROFF_FILE}"
 
-  fxOK "zzserver-poweroff was ALREADY installed on this system"
-  
-elif [ -f "${WSU_POWEROFF}" ]; then
+if [ -f "${WSU_POWEROFF}" ]; then
 
   fxLinkBin "${WSU_POWEROFF}" "${ZZPOWEROFF_FILE}"
   
