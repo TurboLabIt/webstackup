@@ -37,6 +37,7 @@ fi
 fxTitle "Deploying @reboot cron..."
 CRON_FILE=/etc/cron.d/webstackup_poweroff_disabler
 rm -f "${ZZPOWEROFF_FILE}"
+mkdir -p "/var/log/turbolab.it"
 
 if [ -f "${WSU_CRON_FILE}" ]; then
 
