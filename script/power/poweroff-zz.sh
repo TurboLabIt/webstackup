@@ -28,6 +28,6 @@ fxCountdown
 
 fxTitle "Powering off..."
 systemctl unmask poweroff.target
-poweroff
+bash -c "sleep 3; poweroff"&
 
 fxEndFooter
