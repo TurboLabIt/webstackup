@@ -41,12 +41,12 @@ rm -f "${ZZPOWEROFF_FILE}"
 if [ -f "${WSU_CRON_FILE}" ]; then
 
   fxTitle "Copying..."
-  cp "/usr/local/turbolab.it/webstackup/script/poweroff/poweroff-disabler-cron" "${CRON_FILE}"
+  cp "/usr/local/turbolab.it/webstackup/config/cron/poweroff-disabler" "${CRON_FILE}"
   
 else
 
   fxTitle "Downloading..."
-  curl -o "${CRON_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler-cron?$(date +%s)
+  curl -o "${CRON_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/cron/poweroff-disabler?$(date +%s)
 fi
 
 
