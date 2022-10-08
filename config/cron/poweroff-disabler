@@ -2,4 +2,4 @@ SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 ## Disable poweroff at boot
-@reboot root curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler.sh?$(date +%s) | sudo bash > /var/log/turbolab.it/cron_poweroff_disabler.log 2>&1
+@reboot root sleep 30 && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler.sh?$(date +%s) | sudo bash > /var/log/turbolab.it/cron_poweroff_disabler.log 2>&1
