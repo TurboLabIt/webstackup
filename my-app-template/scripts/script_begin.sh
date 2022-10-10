@@ -19,7 +19,7 @@ ZZ_CMD_SUFFIX=0
 MAGENTO_DIR=${PROJECT_DIR}shop/
 WEBROOT_DIR=${MAGENTO_DIR}pub/
 MAGENTO_STATIC_CONTENT_DEPLOY="DevCompany/my-app en_US it_IT fr_FR de_DE en_GB es_ES"
-MAGENTO_MODULE_DISABLE="Magento_TwoFactorAuth Magento_Csp Mageplaza_Core"
+MAGENTO_MODULE_DISABLE="Magento_TwoFactorAuth Magento_Csp Mageplaza_Core Magento_LoginAsCustomerAssistance"
 COMPOSER_JSON_FULLPATH=${MAGENTO_DIR}composer.json
 COMPOSER_SKIP_DUMP_AUTOLOAD=1
 
