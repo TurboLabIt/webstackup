@@ -219,6 +219,7 @@ if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/my
   # https://serverfault.com/questions/439378/mysql-not-reading-symlinks-for-options-files-my-cnf
   printTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
+  chmod u=rw,go=r "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
   
   printTitle "🔃️ Restarting MySQL..."
   service mysql restart
