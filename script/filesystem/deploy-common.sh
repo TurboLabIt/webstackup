@@ -280,7 +280,8 @@ ls -l /etc/nginx/conf.d
 
 
 ## ElasticSearch
-if [ "${DEPLOY_ELASTICSEARCH_RESTART}" != 0 ] && [ systemctl --all --type service | grep -q "elasticsearch" ]; then
+systemctl --all --type service | grep -q "elasticsearch"
+if [ "$?" = 0 ] && [ "${DEPLOY_ELASTICSEARCH_RESTART}" != 0 ]; then
   printTitle "🔃 Restarting ElasticSearch (background)..."
   service elasticsearch restart &
 fi
