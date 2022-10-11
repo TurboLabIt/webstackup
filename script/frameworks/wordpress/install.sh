@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
 ### AUTOMATIC WORDPRESS SETUP BY WEBSTACK.UP
-#@-- source /usr/local/turbolab.it/webstackup/script/base.sh
+## This script must be sourced! Example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/wordpress-install.sh
+
+### Variables:
 #@-- WEBROOT_DIR=
 #@-- EXPECTED_USER=
 #@-- 
@@ -22,7 +23,6 @@
 #@-- 
 #@-- source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh
 
-fxHeader "📰 WordPress installer"
 rootCheck
 
 if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
