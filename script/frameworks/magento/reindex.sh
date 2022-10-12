@@ -4,7 +4,7 @@
 # How to:
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo script/reindex.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/reindex-starter.sh && sudo chmod u=rwx,go=rx script/reindex.sh
+#   curl -Lo scripts/reindex.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/reindex-starter.sh && sudo chmod u=rwx,go=rx scripts/reindex.sh
 #
 # 1. You should now git commit your copy
 #
