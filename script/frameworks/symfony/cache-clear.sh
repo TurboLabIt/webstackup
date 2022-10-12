@@ -4,7 +4,7 @@
 # How to:
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/symfony/cache-clear-starter.sh && sudo chmod u=rwx,go=rx script/cache-clear.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/symfony/cache-clear-starter.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
 #
 # 1. You should now git commit your copy
 #
