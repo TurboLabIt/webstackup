@@ -5,8 +5,6 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 
-fxHeader "📰 WordPress installer"
-
 source /etc/turbolab.it/mysql-my-app.conf
 
 WORDPRESS_SITE_NAME="My App Name"
