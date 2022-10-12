@@ -48,16 +48,16 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 cd /tmp
 rm -rf /tmp/${APP_NAME}
-${PHP_CLI} /usr/local/bin/composer create-project pimcore/skeleton /tmp/${APP_NAME} --no-interaction
+XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer create-project pimcore/skeleton /tmp/${APP_NAME} --no-interaction
 
 shopt -s dotglob
 cp -r /tmp/${APP_NAME}/. ${PROJECT_DIR}
 rm -rf /tmp/${APP_NAME}
 
 cd ${PROJECT_DIR}
-${PHP_CLI} vendor/bin/pimcore-install \
+XDEBUG_MODE=off ${PHP_CLI} vendor/bin/pimcore-install \
   --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PIMCOREINST_FIRST_ADMIN_PASSWORD}" \
-  --mysql-host "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
+  --mysql-host-socket "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
   --no-interaction
 
 #fxTitle "Downloading .gitignore"
