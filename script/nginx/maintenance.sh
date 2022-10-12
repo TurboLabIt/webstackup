@@ -1,16 +1,16 @@
 #!/usr/bin/env bash
-## Standard Symfony cache-clearing routine by WEBSTACKUP
+## Standard maintenance page activator by WEBSTACKUP
 #
 # How to:
 #
 # 1. In your Nginx server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo script/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx script/maintenance.sh
+#   curl -Lo scripts/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx scripts/maintenance.sh
 #
 # 1. You should now git commit your copy
 #
-# You can now `script/maintenance.sh on` and `script/maintenance.sh off`
+# You can now `scripts/maintenance.sh on` and `scripts/maintenance.sh off`
 #
 # Tip: after the first `deploy.sh`, you can ``zzmaintenance on` and `zzmaintenance off` directly
 
