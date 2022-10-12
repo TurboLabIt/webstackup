@@ -15,7 +15,7 @@ if [ ! -z "${PROJECT_DIR}" ] && [ -f "${PROJECT_DIR}.php-version" ]; then
   PHP_VER_FROM_PROJECT=${PHP_VER}
 fi
 
-PHP_CLI="XDEBUG_MODE=off /bin/php${PHP_VER}"
+PHP_CLI="/bin/php${PHP_VER}"
 PHP_FPM="php${PHP_VER}-fpm"
 
 showPHPVer()
