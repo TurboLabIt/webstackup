@@ -17,6 +17,7 @@
 # PIMCORE_ADMIN_USERNAME=
 # PIMCORE_ADMIN_NEW_SLUG=
 
+fxHeader "💿 Pimcore installer"
 rootCheck
 
 if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ] || \
