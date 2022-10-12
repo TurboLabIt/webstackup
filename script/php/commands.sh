@@ -29,7 +29,7 @@ function wsuComposer()
     local NO_DEV="--no-dev"
   fi
 
-  local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction ${NO_DEV}"
+  local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction ${NO_DEV}"
 
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
 
@@ -129,7 +129,7 @@ function wsuWordPress()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${WEBROOT_DIR}"
-  sudo -u $EXPECTED_USER -H ${PHP_CLI} /usr/local/bin/wp-cli --path="${WEBROOT_DIR%*/}/" "$@"
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/wp-cli --path="${WEBROOT_DIR%*/}/" "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
