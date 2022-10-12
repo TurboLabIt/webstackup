@@ -20,6 +20,7 @@
 # WORDPRESS_MULTISITE_MODE=<null> | subfolders | subdomains
 # WORDPRESS_ADMIN_NEW_SLUG=
 
+fxHeader "📰 WordPress installer"
 rootCheck
 
 if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}" ] || \
