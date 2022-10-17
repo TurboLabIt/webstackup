@@ -62,7 +62,7 @@ function wsuMage()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
-  sudo -u "${EXPECTED_USER}" -H ${PHP_CLI} bin/magento "$@"
+  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} bin/magento "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
@@ -82,7 +82,7 @@ function wsuN98MageRun()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
-  sudo -u $EXPECTED_USER -H ${PHP_CLI} /usr/local/bin/n98-magerun2 "$@"
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/n98-magerun2 "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
