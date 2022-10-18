@@ -60,6 +60,9 @@ XDEBUG_MODE=off ${PHP_CLI} vendor/bin/pimcore-install \
   --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PCINST_FIRST_ADMIN_PASSWORD}" \
   --mysql-host-socket "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
   --no-interaction
+  
+ fxTitle "Adding Symfony bundles..."
+ XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer req symfony/maker-bundle --dev
 
 #fxTitle "Downloading .gitignore"
 #curl -o "${PCINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_pimcore?$(date +%s)
