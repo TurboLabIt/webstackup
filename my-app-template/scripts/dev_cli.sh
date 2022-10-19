@@ -13,7 +13,7 @@ fxCatastrophicError "dev_cli.sh is not ready! Please customize it and remove thi
 #sudo chmod ugo=rwx "${PROJECT_DIR}" -R
 
 
-## for db:download and db:import
+## for db:...
 DB_SERVER=my-app.com
 DB_SERVER_HOSTNAME=my-app-hostname
 DB_NAME=my-app
@@ -25,7 +25,7 @@ fi
 FILENAME=${DB_SERVER_HOSTNAME}_${DB_NAME}_$(date +'%u').sql.7z
 
 
-if [ "$1" != "db:download" ] && [ "$1" != "db:import" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
+if [ "$1" != "db:refresh" ] && [ "$1" != "db:download" ] && [ "$1" != "db:import" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
   bash "${SCRIPT_DIR}migrate.sh"
 fi
 
@@ -37,7 +37,7 @@ elif [ "$1" = "composer" ]; then
 
   wsuComposer "${@:2}"
 
-elif [ "$1" = "db:sync" ]; then
+elif [ "$1" = "db:refresh" ]; then
 
   bash ${SCRIPT_DIR}dev_cli.sh "db:download"
   bash ${SCRIPT_DIR}dev_cli.sh "db:import"
@@ -46,7 +46,6 @@ elif [ "$1" = "db:download" ]; then
 
   ssh -t ${DB_SERVER} "sudo zzmysqldump ${APP_NAME}"
   rsync --archive --compress --partial --progress --verbose ${DB_SERVER}:${MYSQL_BACKUP_DIR}/${FILENAME} ${PROJECT_DIR}backup/dbdumps-remote/
-  bash ${SCRIPT_DIR}dev_cli.sh "db:import"
 
 elif [ "$1" = "db:import" ]; then
 
