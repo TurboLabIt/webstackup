@@ -11,7 +11,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "🎚️ MySQL Tuner"
+fxHeader "💿 MySQL Tuner installer"
 rootCheck
 
 # https://github.com/major/MySQLTuner-perl#downloadinstallation #
