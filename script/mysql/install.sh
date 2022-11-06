@@ -70,5 +70,3 @@ if [ -f /usr/local/turbolab.it/webstackup/script/mysql/maintentance.sh ]; then
 fi
 
 curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/mysqltuner.sh?$(date +%s) | sudo bash
-
-fxEndFooter
