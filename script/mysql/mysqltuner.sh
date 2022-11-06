@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 ### AUTOMATIC MYSQL TUNER BY WEBSTACK.UP
+# https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
+#
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/mysqltuner.sh?$(date +%s) | sudo bash
 #
+# Based on https://github.com/major/MySQLTuner-perl#downloadinstallation
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
@@ -13,9 +16,6 @@ fi
 
 fxHeader "💿 MySQL Tuner installer"
 rootCheck
-
-# https://github.com/major/MySQLTuner-perl#downloadinstallation #
-#################################################################
 
 MYSQLTUNER=/usr/local/bin/mysqltuner
 MYSQLTUNER_DATA_DIR=/var/lib/mysqltuner/
