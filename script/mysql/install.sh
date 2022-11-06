@@ -23,6 +23,17 @@ apt purge --auto-remove mysql* -y
 fxTitle "Import an official signing key..."
 curl https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/mysql/mysql.key | gpg --dearmor | sudo tee /usr/share/keyrings/mysql-archive-keyring.gpg >/dev/null
 
+fxTitle "Selecting the version..."
+if [ -z "${MYSQL_VER}" ]; then
+
+  MYSQL_VER=8.0
+  fxImportantMessage "MYSQL_VER is not set - defaulting to MySQL ${MYSQL_VER}"
+
+else
+
+  fxInfo "Selecting the configured MYSQL_VER version, MySQL ${MYSQL_VER}"
+fi
+
 fxTitle "Setting up the repo..."
 ## https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
 
