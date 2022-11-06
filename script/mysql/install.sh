@@ -14,7 +14,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "💿 MySQL installer "
+fxHeader "💿 MySQL installer"
 rootCheck
 
 fxTitle "Removing any old previous instance..."
