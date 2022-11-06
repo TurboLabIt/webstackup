@@ -59,17 +59,15 @@ chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
 
 MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
 MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
-if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
-  
-  fxTitle "Saving MySQL root credentials to ${MYSQL_CREDENTIALS_FULLPATH}..."
-  mkdir -p "$MYSQL_CREDENTIALS_DIR"
-  echo "MYSQL_USER='root'" > "${MYSQL_CREDENTIALS_FULLPATH}"
-  echo "MYSQL_PASSWORD='$MYSQL_ROOT_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
-  echo "MYSQL_HOST=localhost" >> "${MYSQL_CREDENTIALS_FULLPATH}"
+fxTitle "Saving MySQL root credentials to ${MYSQL_CREDENTIALS_FULLPATH}..."
+
+mkdir -p "$MYSQL_CREDENTIALS_DIR"
+echo "MYSQL_USER='root'" > "${MYSQL_CREDENTIALS_FULLPATH}"
+echo "MYSQL_PASSWORD='$MYSQL_ROOT_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
+echo "MYSQL_HOST=localhost" >> "${MYSQL_CREDENTIALS_FULLPATH}"
     
-  chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
-  chmod u=rw,go= "${MYSQL_CREDENTIALS_FULLPATH}"
-fi
+chown root:root "${MYSQL_CREDENTIALS_FULLPATH}"
+chmod u=rw,go= "${MYSQL_CREDENTIALS_FULLPATH}"
   
 fxMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
 
