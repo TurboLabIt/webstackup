@@ -41,16 +41,27 @@ fxTitle "Installing..."
 apt update -qq
 apt install mysql-server mysql-client -y -qq
   
-fxTitle "Enabling the custom config..."
-cp "${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf" "/etc/mysql/mysql.conf.d/webstackup.cnf"
-chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
+fxTitle "Enabling Webstackup custom config for MySQL..."
+WSU_MYSQL_SOURCE_CONFIG=${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf
+WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/webstackup.cnf
+
+if [ ! -z "${WEBSTACKUP_INSTALL_DIR}" ] && [ -f "WSU_MYSQL_SOURCE_CONFIG" ]; then
+
+  cp "${WSU_MYSQL_SOURCE_CONFIG}" "${WSU_MYSQL_DEST_CONFIG}"
+
+else
   
+  curl -Lo "${WSU_MYSQL_DEST_CONFIG}" "https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/mysql/mysql.cnf"
+fi
+
+chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
+
+
 MYSQL_CREDENTIALS_DIR="/etc/turbolab.it/"
 MYSQL_CREDENTIALS_FULLPATH="${MYSQL_CREDENTIALS_DIR}mysql.conf"
-  
 if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
   
-  fxTitle "Writing MySQL root credentials to ${MYSQL_CREDENTIALS_FULLPATH}..."
+  fxTitle "Saving MySQL root credentials to ${MYSQL_CREDENTIALS_FULLPATH}..."
   mkdir -p "$MYSQL_CREDENTIALS_DIR"
   echo "MYSQL_USER='root'" > "${MYSQL_CREDENTIALS_FULLPATH}"
   echo "MYSQL_PASSWORD='$MYSQL_ROOT_PASSWORD'" >> "${MYSQL_CREDENTIALS_FULLPATH}"
@@ -60,8 +71,9 @@ if [ ! -e "${MYSQL_CREDENTIALS_FULLPATH}" ]; then
   chmod u=rw,go= "${MYSQL_CREDENTIALS_FULLPATH}"
 fi
   
-fxTitle "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
-  
+fxMessage "$(cat "${MYSQL_CREDENTIALS_FULLPATH}")"
+
+fxTitle "Restarting MySQL"
 service mysql restart
 systemctl --no-pager status mysql
 
