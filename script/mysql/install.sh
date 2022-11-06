@@ -2,7 +2,8 @@
 ### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) | sudo bash
+# sudo -s
+# MYSQL_VER=8.0 && apt install curl -y && curl -Lo /tmp/mysql-install.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) && source /tmp/mysql-install.sh
 #
 # Based on: https://turbolab.it/1381
 
@@ -36,28 +37,11 @@ fi
 
 fxTitle "Setting up the repo..."
 ## https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
+
+WSU_MYSQL_LSB_RELEASE=$(lsb_release -sc)
+fxInfo "Detected version: ${WSU_MYSQL_LSB_RELEASE}"
+
 WSU_MYSQL_APT_FILE=/etc/apt/sources.list.d/webstackup.mysql.list
-
-echo "### webstackup" > ${WSU_MYSQL_APT_FILE}
-
-if [ "${MYSQL_VER}" = "5.7" ]; then
- 
-  WSU_MYSQL_LSB_RELEASE=bionic
- 
-  WSU_MYSQL_OS_VER_WARN="MySQL ${MYSQL_VER} is not available for new Ubuntu releases - Using repo for ${WSU_MYSQL_LSB_RELEASE}"
-  fxImportantMessage "$WSU_MYSQL_OS_VER_WARN"
-  echo "## $WSU_MYSQL_OS_VER_WARN" >> ${WSU_MYSQL_APT_FILE}
-  
-  WSU_MYSQL_OS_VER_WARN="Check: 22.04 http://repo.mysql.com/apt/ubuntu/dists/jammy/ vs 18.04 http://repo.mysql.com/apt/ubuntu/dists/bionic/"
-  fxImportantMessage "$WSU_MYSQL_OS_VER_WARN"
-  echo "## $WSU_MYSQL_OS_VER_WARN" >> ${WSU_MYSQL_APT_FILE}
-
-else
-
-  WSU_MYSQL_LSB_RELEASE=$(lsb_release -sc)
-  fxInfo "Detected version: ${WSU_MYSQL_LSB_RELEASE}"
-fi
-
 echo "deb http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
 echo "deb-src http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
 echo "deb http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-tools" >> ${WSU_MYSQL_APT_FILE}
