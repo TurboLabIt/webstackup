@@ -42,7 +42,9 @@ echo "### webstackup" > ${WSU_MYSQL_APT_FILE}
 
 if [ "${MYSQL_VER}" = "5.7" ]; then
  
-  WSU_MYSQL_OS_VER_WARN="MySQL ${MYSQL_VER} is not available for new Ubuntu releases - Using repo for 18.04 (bionic)"
+  WSU_MYSQL_LSB_RELEASE=bionic
+ 
+  WSU_MYSQL_OS_VER_WARN="MySQL ${MYSQL_VER} is not available for new Ubuntu releases - Using repo for ${WSU_MYSQL_LSB_RELEASE}"
   fxImportantMessage "$WSU_MYSQL_OS_VER_WARN"
   echo "## $WSU_MYSQL_OS_VER_WARN" >> ${WSU_MYSQL_APT_FILE}
   
