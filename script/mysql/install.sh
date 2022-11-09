@@ -93,6 +93,7 @@ fi
 
 if [ "${MYSQL_VER}" = "5.7" ]; then
 
+  fxTitle "Disabling incompatible MySQL ${MYSQL_VER} parameters..."
   sed -i 's|mysqlx = off|#mysqlx = off|g' "${WSU_MYSQL_DEST_CONFIG}"
   sed -i 's|mysqlx-bind-address|#mysqlx-bind-address|g' "${WSU_MYSQL_DEST_CONFIG}"
 fi
