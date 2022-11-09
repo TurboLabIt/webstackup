@@ -91,6 +91,13 @@ else
   curl -Lo "${WSU_MYSQL_DEST_CONFIG}" "https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/mysql/mysql.cnf"
 fi
 
+if [ "${MYSQL_VER}" = "5.7" ]; then
+
+  sed -i 's|mysqlx = off|#mysqlx = off|g' "${WSU_MYSQL_DEST_CONFIG}"
+  sed -i 's|mysqlx-bind-address|#mysqlx-bind-address|g' "${WSU_MYSQL_DEST_CONFIG}"
+fi
+
+
 chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
 
 
