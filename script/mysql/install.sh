@@ -2,8 +2,7 @@
 ### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
 #
-# sudo -s
-# MYSQL_VER=8.0 && apt install curl -y && curl -Lo /tmp/mysql-install.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) && source /tmp/mysql-install.sh
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) | sudo MYSQL_VER=8.0 bash
 #
 # Based on: https://turbolab.it/1381
 
