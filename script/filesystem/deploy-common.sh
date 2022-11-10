@@ -375,3 +375,8 @@ fi
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   bash "${SCRIPT_DIR}cache-clear.sh"
 fi
+
+
+## delete test files
+fxTitle "👮 Deleting test.php, phpinfo.php and similar..."
+rm -f "${WEBROOT_DIR}"test.php "${WEBROOT_DIR}"phpinfo.php
