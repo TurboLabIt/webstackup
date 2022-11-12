@@ -101,6 +101,9 @@ ln -s "${WEBSTACKUP_CONFIG_DIR}nginx/05_global_default_vhost_disable.conf" /etc/
 ## Create a self-signed, bogus certificate
 bash "${WEBSTACKUP_SCRIPT_DIR}https/self-sign-generate.sh" localhost
 
+fxMessage "Disable HTTP: upgrade all connections to HTTPS..."
+ln -s "${WEBSTACKUP_INSTALL_DIR}config/nginx/00_global_https_upgrade_all.conf" /etc/nginx/conf.d/
+
 fxTitle "Activate the status_page..."
 ln -s /usr/local/turbolab.it/webstackup/config/nginx/85_status_page.conf /etc/nginx/conf.d/status_page.conf
 
