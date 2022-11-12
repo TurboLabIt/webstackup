@@ -114,18 +114,8 @@ fi
 
 fxTitle "Installing NGINX..."
 if [ "$INSTALL_NGINX" = 1 ]; then
-
   bash ${WEBSTACKUP_SCRIPT_DIR}nginx/install.sh
-
-  fxMessage "Upgrade all to HTTPS..."
-  ln -s "${WEBSTACKUP_INSTALL_DIR}config/nginx/00_global_https_upgrade_all.conf" /etc/nginx/conf.d/
-
-  nginx -t
-  service nginx restart
-  systemctl --no-pager status nginx
-  
 else
-  
   fxInfo "Skipped (disabled in config)"
 fi
 
