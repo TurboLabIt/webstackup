@@ -39,8 +39,26 @@ http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /e
 
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
+
+NGINX_INSTALL_WWW_DIR=/var/www/
+if [ ! -d "${NGINX_INSTALL_WWW_DIR}" ]; then
+
+ fxMessage "Creating ${NGINX_INSTALL_WWW_DIR}..."
+  mkdir -p "${NGINX_INSTALL_WWW_DIR}"
+
+  fxMessage "Setting the owner to www-data:www-data..."
+  chown www-data:www-data "${NGINX_INSTALL_WWW_DIR}" -R
+  chmod u=rwX,g=rX,o= "${WWW_DATA_HOME}" -R
+
+  fxMessage "SetGID - Any new file will have its group set to www-data"
+  chmod g+s "${NGINX_INSTALL_WWW_DIR}"
+
+else
+
+  fxMessage "${NGINX_INSTALL_WWW_DIR} home already exists, skipping"
+fi
   
-fxTitle "Install Nginx..."
+fxTitle "apt install nginx..."
 apt update -qq
 apt install nginx -y
 
@@ -62,7 +80,7 @@ echo -n 'ben:' >> "$HTTPAUTH_FULLFILE"
 openssl passwd -apr1 'venuto' >> "$HTTPAUTH_FULLFILE"
 echo '' >> "$HTTPAUTH_FULLFILE"
 
-fxMessage "Ready-to-use HTTP Auth are:
+fxMessage "Ready-to-use HTTP credentials are:
 User: wel | Pass: come
 User: ben | Pass: venuto"
 
@@ -93,6 +111,7 @@ fi
 #sed -i "s|error_log|#error_log|g" /etc/nginx/nginx.conf
 
 fxTitle "Starting the service..."
+nginx -t
 service nginx restart
 
 fxEndFooter
