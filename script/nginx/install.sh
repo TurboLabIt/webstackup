@@ -57,7 +57,7 @@ if [ ! -d "${WWW_DIR}" ]; then
 
   fxTitle "Setting the owner to www-data:www-data..."
   chown www-data:www-data "${WWW_DIR}" -R
-  chmod u=rwX,g=rX,o= "${WWW_DATA_HOME}" -R
+  chmod u=rwX,g=rX,o= "${WWW_DIR}" -R
 
   fxTitle "SetGID - Any new file will have its group set to www-data"
   chmod g+s "${WWW_DIR}"
