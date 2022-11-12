@@ -133,8 +133,6 @@ if [ "$INSTALL_NGINX" = 1 ]; then
   systemctl --no-pager status nginx
   nginx -t
   
-
-  
 else
   
   fxInfo "Skipped (disabled in config)"
