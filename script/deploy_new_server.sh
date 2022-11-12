@@ -133,29 +133,7 @@ if [ "$INSTALL_NGINX" = 1 ]; then
   systemctl --no-pager status nginx
   nginx -t
   
-  WWW_DATA_HOME=/var/www/
-  if [ ! -d "${WWW_DATA_HOME}" ]; then
-  
-    fxMessage "Creating the www-data home..."
-    mkdir -p "${WWW_DATA_HOME}"
-	
-  else
 
-    fxMessage "www-data home already exists, skipping"
-  fi
-  
-  fxMessage "Setting the ownership for the whole tree..."
-  chown www-data:www-data "${WWW_DATA_HOME}" -R
-
-  fxMessage "SetGID on the root directory only"
-  # Any files created in the directory will have their group set to www-data
-  chmod g+s "${WWW_DATA_HOME}"
-
-  fxMessage "SetGID on the directories inside..."
-  find "${WWW_DATA_HOME}" -type d -exec chmod g+s {} \;
-
-  fxMessage "Setting the permissions for the whole tree..."
-  chmod u=rwX,g=rX,o= "${WWW_DATA_HOME}" -R
   
 else
   
