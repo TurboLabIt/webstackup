@@ -115,23 +115,14 @@ fi
 fxTitle "Installing NGINX..."
 if [ "$INSTALL_NGINX" = 1 ]; then
 
-  source ${WEBSTACKUP_SCRIPT_DIR}nginx/install.sh
-
-  ## Create self-signed, bogus certificates (so that we can disable plain-HTTP completely)
-  source "${WEBSTACKUP_SCRIPT_DIR}https/self-sign-generate.sh" localhost
+  bash ${WEBSTACKUP_SCRIPT_DIR}nginx/install.sh
 
   fxMessage "Upgrade all to HTTPS..."
   ln -s "${WEBSTACKUP_INSTALL_DIR}config/nginx/00_global_https_upgrade_all.conf" /etc/nginx/conf.d/
 
-  fxMessage "Disable the default website..."
-  ln -s "${WEBSTACKUP_INSTALL_DIR}config/nginx/05_global_default_vhost_disable.conf" /etc/nginx/conf.d/
-  
-  fxMessage "Enabling the http-block level functionality"
-  ln -s "${WEBSTACKUP_INSTALL_DIR}config/nginx/02_global_http_level.conf" /etc/nginx/conf.d/
-  
+  nginx -t
   service nginx restart
   systemctl --no-pager status nginx
-  nginx -t
   
 else
   
