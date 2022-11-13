@@ -97,7 +97,6 @@ fxTitle "apt install nginx..."
 apt update -qq
 apt install nginx -y
 
-
 if [ ! -z "${FLAG_CHANGE_HOME}" ]; then
 
   fxTitle "Changing www-data user home..."
@@ -106,6 +105,9 @@ if [ ! -z "${FLAG_CHANGE_HOME}" ]; then
   chmod ug=rwx,o= /home/www-data -R
   usermod -d /home/www-data www-data
   fxOK "www-data home is now: $(echo ~www-data)"
+  
+  fxTitle "Assigning the nginx user to the www-data group..."
+  usermod -aG www-data nginx
 fi
 
 
