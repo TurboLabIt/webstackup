@@ -15,7 +15,7 @@ WIDTH=65
 CHOICE_HEIGHT=25
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
-MENU="Choose one of the options:"
+MENU="Choose one task:"
 
 OPTIONS=(
      1 "🚀  Git clone an existing app"
@@ -25,7 +25,7 @@ OPTIONS=(
      5 "🔄  Web service reload"
      6 "🔄  Web service restart"
      7 "🔑  Webpermissions a directory"
-     8 "↗️  Show webstackup SSH public key"
+     8 "↗️  Show webstackup SSH pub key"
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
      11 "🎚️ MySQL Tuner"
