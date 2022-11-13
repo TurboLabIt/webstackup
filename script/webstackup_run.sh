@@ -28,7 +28,7 @@ OPTIONS=(
      8 "↗️  Show webstackup SSH pub key"
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
-     11 "MySQL Tuner"
+     11 "🏁 MySQL Tuner"
      12 "🤦 MySQL password reset"
      13 "🐫 my-app-template")
 
