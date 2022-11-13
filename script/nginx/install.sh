@@ -19,6 +19,7 @@ rootCheck
 
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove nginx* -y
+rm -rf /etc/nginx
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
