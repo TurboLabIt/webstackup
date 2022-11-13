@@ -11,7 +11,7 @@ fi
 
 
 HEIGHT=20
-WIDTH=65
+WIDTH=75
 CHOICE_HEIGHT=25
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
@@ -28,7 +28,7 @@ OPTIONS=(
      8 "↗️  Show webstackup SSH pub key"
      9 "✔️  Self-update"
      10 "🔧 MySQL maintenance"
-     11 "🎚️ MySQL Tuner"
+     11 "MySQL Tuner"
      12 "🤦 MySQL password reset"
      13 "🐫 my-app-template")
 
