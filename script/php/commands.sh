@@ -105,7 +105,14 @@ function wsuSymfony()
 
     fxTitle "symfony-cli is not installed. Installing it now..."
     bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh"
-
+  fi
+  
+  
+  if [ -z $(command -v unbuffer) ]; then
+  
+    fxTitle "unbuffer is not installed. Installing it now..."
+    sudo apt update
+    sudo apt install expect -y
   fi
 
   local CURR_DIR_BACKUP=$(pwd)
