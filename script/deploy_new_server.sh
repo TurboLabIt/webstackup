@@ -93,6 +93,20 @@ else
 fi
 
 
+fxTitle "Changing hostname..."
+if [ ! -z "$INSTALL_HOSTNAME" ]; then
+
+  fxTitle "Setting hostname to ${INSTALL_HOSTNAME}..."
+  hostnamectl set-hostname ${INSTALL_HOSTNAME}
+  hostnamectl set-hostname ${INSTALL_HOSTNAME} --static
+  echo "127.0.0.1   ${INSTALL_HOSTNAME}" >> /etc/hosts
+  
+else
+  
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing cron..."
 if [ "$INSTALL_CRON" = 1 ]; then
 
