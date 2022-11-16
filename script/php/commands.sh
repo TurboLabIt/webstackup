@@ -40,7 +40,7 @@ function wsuComposer()
   fi
 
   local SYMFONY_FLEX="$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/flex/src/Command/DumpEnvCommand.php"
-  
+
   if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX_DUMP_ENV_COMMAND}" ]; then
     fxTitle "📦 dump-env ${APP_ENV}..."
     ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
@@ -111,7 +111,7 @@ function wsuSymfony()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${PROJECT_DIR}"
-  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${SYMFONY_FILE_PATH} "$@"
+  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off unbuffer ${SYMFONY_FILE_PATH} "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
