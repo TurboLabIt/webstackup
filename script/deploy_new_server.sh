@@ -1,11 +1,9 @@
 #!/bin/bash
 
-source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+source "$(dirname "$(readlink -f "$0")")/base.sh"
 
 fxHeader "📚 DEPLOY NEW SERVER"
 rootCheck
-
-source "$(dirname "$(readlink -f "$0")")/base.sh"
 
 fxTitle "Loading default config..."
 source ${WEBSTACKUP_INSTALL_DIR}webstackup.default.conf
