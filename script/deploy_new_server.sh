@@ -133,7 +133,7 @@ fi
 
 fxTitle "Installing PHP..."
 if [ "$INSTALL_PHP" = 1 ]; then
-  bash PHP_VER=${PHP_VER} ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
+  PHP_VER=${PHP_VER} bash ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
 else
   fxInfo "Skipped (disabled in config)"
 fi
