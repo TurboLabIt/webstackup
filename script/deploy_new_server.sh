@@ -131,9 +131,9 @@ else
 fi
 
 
-fxTitle "Installing PHP-CLI and PHP-FPM..."
+fxTitle "Installing PHP..."
 if [ "$INSTALL_PHP" = 1 ]; then
-  source ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
+  bash PHP_VER=${PHP_VER} ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
 else
   fxInfo "Skipped (disabled in config)"
 fi
