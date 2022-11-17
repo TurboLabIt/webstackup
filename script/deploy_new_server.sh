@@ -96,7 +96,7 @@ if [ ! -z "$INSTALL_HOSTNAME" ]; then
   hostnamectl set-hostname ${INSTALL_HOSTNAME}
   hostnamectl set-hostname ${INSTALL_HOSTNAME} --static
   echo "127.0.0.1   ${INSTALL_HOSTNAME}" >> /etc/hosts
-  fxMessage "$(hostname)"
+  fxOK "Hostname is now: $(hostname)"
   
 else
   
@@ -372,7 +372,7 @@ fi
 
 fxTitle "Running Poweroff disabler..."
 if [ "$INSTALL_DISABLE_POWEROFF" = 1 ]; then
-  bash ${WEBSTACKUP_SCRIPT_DIR}system/poweroff-disabler.sh
+  bash ${WEBSTACKUP_SCRIPT_DIR}power/poweroff-disabler.sh
 else
   fxInfo "Skipped (disabled in config)"
 fi
