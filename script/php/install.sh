@@ -36,6 +36,11 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 
+fxTitle "Installing prerequisites..."
+apt update -qq
+apt install software-properties-common -y
+
+
 fxTitle "Setting up ondrej/php..."
 LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 apt update -qq
