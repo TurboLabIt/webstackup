@@ -34,7 +34,7 @@ apt update -qq
 apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 
 fxTitle "Installing additional utilities..."
-apt install openssl zip unzip nano -y
+apt install software-properties-common openssl zip unzip nano -y
 
 fxTitle "Import an official nginx signing key..."
 curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
