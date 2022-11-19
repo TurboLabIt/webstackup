@@ -19,6 +19,7 @@ rootCheck
 
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove mysql* -y
+rm -rf /etc/mysql
 
 fxTitle "Import an official signing key..."
 curl https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/mysql/mysql.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-mysql.gpg > /dev/null
