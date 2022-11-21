@@ -16,6 +16,10 @@ fi
 fxHeader "💿 Pure-FTPd installer "
 rootCheck
 
+fxTitle "Removing any old previous instance..."
+apt purge --auto-remove pure-ftpd* -y
+rm -rf /etc/pure-ftpd
+
 
 fxTitle "Installing Pure-FTPd..."
 apt update
