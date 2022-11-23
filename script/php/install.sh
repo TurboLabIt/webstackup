@@ -58,8 +58,8 @@ apt install -y \
 fxTitle "Config path"
 FPM_CONF_FILE=/etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-
 CLI_CONF_FILE=/etc/php/${PHP_VER}/cli/conf.d/30-webstackup-
-echo "FPM file(s): ${FPM_CONFIG_FILE}"
-echo "CLI file(s): ${CLI_CONFIG_FILE}"
+echo "FPM file(s): ${FPM_CONF_FILE}"
+echo "CLI file(s): ${CLI_CONF_FILE}"
 
 
 wsuMkAutogenDir
