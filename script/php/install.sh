@@ -33,7 +33,9 @@ if [ ! -f "${WSU_DIR}setup.sh" ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
 fi
 
+PHP_VER_REQUESTED=${PHP_VER}
 source "${WSU_DIR}script/base.sh"
+PHP_VER=${PHP_VER_REQUESTED}
 
 
 fxTitle "Installing prerequisites..."
