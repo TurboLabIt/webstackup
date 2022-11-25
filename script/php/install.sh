@@ -94,15 +94,16 @@ fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/opcache.ini" ${FPM_CONF_FILE}opcache
 
 
 fxTitle "Activating custom php-fpm pool settings..."
+POOL_LINK=/etc/php/${PHP_VER}/fpm/pool.d/zz_webstackup-fpm-pool.conf
 if [ "$INSTALLED_RAM" -gt "6000" ]; then
 
-  echo "RAM: ${INSTALLED_RAM}: using fpm-pool-32GB.conf"
-  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-32GB.conf" /etc/php/${PHP_VER}/fpm/pool.d/webstackup-fpm-pool-32GB.conf
+  echo "RAM: ${INSTALLED_RAM} MB: using fpm-pool-32GB.conf"
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-32GB.conf ${POOL_LINK}
 
 else
 
-  echo "RAM: ${INSTALLED_RAM}: this is a small server! Using fpm-pool-1GB.conf"
-  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-1GB.conf" /etc/php/${PHP_VER}/fpm/pool.d/webstackup-fpm-pool-1GB.conf
+  echo "RAM: ${INSTALLED_RAM} MB: this is a small server! Using fpm-pool-1GB.conf"
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-1GB.conf" ${POOL_LINK}
 fi
 
 
