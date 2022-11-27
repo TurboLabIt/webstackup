@@ -98,7 +98,7 @@ POOL_LINK=/etc/php/${PHP_VER}/fpm/pool.d/zz_webstackup-fpm-pool.conf
 if [ "$INSTALLED_RAM" -gt "6000" ]; then
 
   echo "RAM: ${INSTALLED_RAM} MB: using fpm-pool-32GB.conf"
-  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-32GB.conf ${POOL_LINK}
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-32GB.conf" ${POOL_LINK}
 
 else
 
