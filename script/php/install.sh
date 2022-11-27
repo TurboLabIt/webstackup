@@ -92,6 +92,11 @@ fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" ${FPM_CONF_
 fxTitle "Enable OPcache..."
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/opcache.ini" ${FPM_CONF_FILE}opcache.ini
 
+fxMessage "Pre-activating custom xdebug config..."
+ln -s "${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-xdebug.ini
+ln -s "${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini /etc/php/${PHP_VER}/cli/conf.d/30-webstackup-xdebug.ini
+fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install php${PHP_VER}-xdebug install -y"
+
 
 fxTitle "Activating custom php-fpm pool settings..."
 POOL_LINK=/etc/php/${PHP_VER}/fpm/pool.d/zz_webstackup-fpm-pool.conf
