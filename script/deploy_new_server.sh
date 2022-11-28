@@ -232,11 +232,6 @@ if [ "$INSTALL_XDEBUG" = 1 ]; then
   fxMessage "Installing..."
   apt install php-xdebug -y -qq
   
-  fxMessage "Activating custom xdebug config..."
-  XDEBUG_CONFIG_FILE_FULLPATH="${WEBSTACKUP_INSTALL_DIR}config/php/xdebug.ini"  
-  ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/fpm/conf.d/30-webstackup-xdebug.ini
-  ln -s "$XDEBUG_CONFIG_FILE_FULLPATH" /etc/php/${PHP_VER}/cli/conf.d/30-webstackup-xdebug.ini
-  
   service php${PHP_VER}-fpm restart
 
 else
