@@ -1,50 +1,59 @@
 #!/usr/bin/env bash
-### AUTOMATIC ELASTICSEARCH INSTALL BY WEBSTACK.UP
+### AUTOMATIC ELASTICSEARCH INSTALLER BY WEBSTACK.UP
+# https://github.com/TurboLabIt/webstackup/tree/master/script/elasticsearch/install.sh
+#
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/elasticsearch/install.sh?$(date +%s) | sudo bash
+#
+# Based on: 
 
-echo ""
-echo -e "\e[1;46m ===================== \e[0m"
-echo -e "\e[1;46m ELASTICSEARCH INSTALL \e[0m"
-echo -e "\e[1;46m ===================== \e[0m"
-
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
-fi
-
-echo ""
-echo -e "\e[1;45m Removing previous version (if any) \e[0m"
-apt purge --auto-remove elasticsearch* -y -qq
-
-echo ""
-echo -e "\e[1;45m Setting up the repo... \e[0m"
-curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -
-ES_APT_SOURCE_FILE=/etc/apt/sources.list.d/elastic-7.x.list
-rm -f ${ES_APT_SOURCE_FILE}
-echo "deb https://artifacts.elastic.co/packages/7.x/apt stable main" | sudo tee -a ${ES_APT_SOURCE_FILE}
-
-echo ""
-echo -e "\e[1;45m Installing... \e[0m"
-apt update -qq
-apt install elasticsearch -y -qq
-
-echo ""
-echo -e "\e[1;45m Linking a base config... \e[0m"
-if [ ! -f "/etc/elasticsearch/jvm.options.d/jvm.options" ]; then
-  ln -s "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" "/etc/elasticsearch/jvm.options.d/"
+## bash-fx
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
 else
-  printMessage "Skipping! Config file already exists!"
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
+fi
+## bash-fx is ready
+
+fxHeader "💿 ElasticSearch installer"
+rootCheck
+
+fxTitle "Removing any old previous instance..."
+apt purge --auto-remove elasticsearch* -y
+rm -rf /etc/elasticsearch
+
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ ! -f "${WSU_DIR}setup.sh" ]; then
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
 fi
 
-echo ""
-echo -e "\e[1;45m Service management... \e[0m"
+source "${WSU_DIR}script/base.sh"
+
+fxTitle "Importing the signing key..."
+curl https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor | sudo tee /usr/share/keyrings/elasticearch-keyring.gpg >/dev/null
+
+fxTitle "Adding the repo to APT..."
+echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elasticsearch.list
+
+fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
+echo -e "Package: *\nPin: origin artifacts.elastic.co\nPin: release o=elasticsearch\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99elasticsearch
+
+fxTitle "apt install elasticsearch..."
+apt update -qq
+apt install elasticsearch -y
+
+fxTitle "Linking a base config..."
+fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/elasticsearch/jvm.options.d/
+
+fxTitle "Service management..."
 systemctl enable elasticsearch
 service elasticsearch restart
 systemctl --no-pager status elasticsearch
 
-echo ""
-echo -e "\e[1;45m Testing... \e[0m"
+fxTitle "Testing..."
 curl -X GET 'http://localhost:9200'
 
-echo ""
-echo -e "\e[1;45m Netstat... \e[0m"
+fxTitle "Netstat..."
 ss -lpt | grep -i 'java\|elastic'
+
+fxEndFooter
