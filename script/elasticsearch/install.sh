@@ -6,8 +6,6 @@
 #
 # Based on: 
 
-ELASTICSEARCH_VER=8
-
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
@@ -18,6 +16,16 @@ fi
 
 fxHeader "💿 ElasticSearch installer"
 rootCheck
+
+fxTitle "Selecting the version..."
+if [ -z "${ELASTICSEARCH_VER}" ]; then
+
+  ## ES 8 introduces some major changes (HTTPS, auth, ...)
+  # here we use a more conservative, older version by default
+  ELASTICSEARCH_VER=7
+fi
+
+fxInfo "ElasticSearch ${ELASTICSEARCH_VER} selected"
 
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove elasticsearch* -y
