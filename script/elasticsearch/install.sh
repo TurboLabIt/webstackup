@@ -6,6 +6,8 @@
 #
 # Based on: 
 
+ELASTICSEARCH_VER=8
+
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
@@ -30,10 +32,11 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 fxTitle "Importing the signing key..."
-curl https://artifacts.elastic.co/GPG-KEY-elasticsearch | gpg --dearmor | sudo tee /usr/share/keyrings/elasticearch-keyring.gpg >/dev/null
+curl -fsSL https://artifacts.elastic.co/GPG-KEY-elasticsearch | sudo gpg --dearmor -o /usr/share/keyrings/elasticsearch.gpg
 
 fxTitle "Adding the repo to APT..."
-echo "deb https://artifacts.elastic.co/packages/8.x/apt stable main" | sudo tee /etc/apt/sources.list.d/elasticsearch.list
+echo "deb [signed-by=/usr/share/keyrings/elasticsearch.gpg] https://artifacts.elastic.co/packages/${ELASTICSEARCH_VER}.x/apt stable main" \
+  | sudo tee /etc/apt/sources.list.d/elasticsearch.list
 
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin artifacts.elastic.co\nPin: release o=elasticsearch\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99elasticsearch
