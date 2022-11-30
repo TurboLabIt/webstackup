@@ -360,6 +360,13 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && 
 fi
 
 
+## phpbb-upgrader
+if [ -f "${PROJECT_DIR}config/custom/phpbb-upgrader.conf" ] && [ ! -f "/etc/turbolab.it/phpbb-upgrader-${APP_NAME}.conf" ]; then
+  printTitle "🤼 Linking phpBB Upgrader ${APP_NAME} config..."
+  ln -s "${PROJECT_DIR}config/custom/phpbb-upgrader.conf" "/etc/turbolab.it/phpbb-upgrader-${APP_NAME}.conf"
+fi
+
+
 ## nginx-allow-deny-list
 if [ -f "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}.conf" ]; then
   printTitle "🚪 Linking nginx-allow-deny-list..."
