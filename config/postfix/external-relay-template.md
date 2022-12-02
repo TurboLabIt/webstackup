@@ -25,5 +25,9 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 ````
 
 ## /etc/postfix/sasl_passwd
+
+````
 [smtp.gmail.com]:587 username@gmail.com:password
 #[smtp-out.mailserver.it]:25 username@mailserver.it:password
+
+````
