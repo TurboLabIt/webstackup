@@ -32,11 +32,13 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🧹 Removing Symfony cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
+  
+  fxTitle "🚚 Migrating..."
+  wsuSymfony console doctrine:migrations:migrate --no-interaction
 
 else
 
   fxTitle "📐 Symfony cache folder NOT removed (fast mode)"
-
 fi
 
 fxTitle "🌊 Symfony cache:clear..."
@@ -51,5 +53,4 @@ else
 
   fxTitle "🌊 PHP OPcache clear..."
   wsuOpcacheClear
-
 fi

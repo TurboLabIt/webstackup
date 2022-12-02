@@ -9,8 +9,8 @@ fxHeader "🧰 Maintenance"
 
 fxCatastrophicError "maintenance.sh is not ready!" dont-stop
 
-echo "🧙 for Magento: https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/maintenance.sh"
-echo "📐 for any project: https://github.com/TurboLabIt/webstackup/blob/master/script/nginx/maintenance.sh"
+echo "🧙 for Magento: replace this file with the one from https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/maintenance.sh"
+echo "📐 for any project: replace this file with the one from https://github.com/TurboLabIt/webstackup/blob/master/script/nginx/maintenance.sh"
 
 fxEndFooter failure
 exit
