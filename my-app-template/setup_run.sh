@@ -1,5 +1,14 @@
 #!/usr/bin/env bash
 
+### MANAGED VARIABLES ###
+#########################
+
+# WSU_MAP_NAME="My Amazing Shop On-Line"
+# WSU_MAP_DOMAIN=my-shop.com
+# WSU_MAP_APP_NAME=my-shop
+# WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
+
+
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
@@ -11,6 +20,11 @@ fi
 
 fxHeader "🐫 my-app-template"
 rootCheck
+
+WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
+if [ ! -d "${WSU_MAP_ORIGIN}" ]; then
+  fxCatastrophicError "Webstackup not detected! Please install it locally: https://github.com/TurboLabIt/webstackup"
+fi
 
 fxTitle "👤 Group and user check"
 if ! getent group "www-data" &>/dev/null; then
@@ -85,18 +99,18 @@ fxOK "Got it, APP_NAME is ##$WSU_MAP_APP_NAME##"
 fxTitle "📂 Choose the root path"
 WSU_MAP_DEPLOY_TO_PATH_DEFAULT=/var/www/${WSU_MAP_APP_NAME}
 fxWarning "You should really accept the default 😉"
-while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ] || [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]
+while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]
 do
   echo "🤖 Provide the path (use TAB!) or hit Enter for ##${WSU_MAP_DEPLOY_TO_PATH_DEFAULT}##"
   read -ep ">> " WSU_MAP_DEPLOY_TO_PATH  < /dev/tty
   if [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     WSU_MAP_DEPLOY_TO_PATH=$WSU_MAP_DEPLOY_TO_PATH_DEFAULT
   fi
-  
+
   if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ] && [ -d "$(dirname "$WSU_MAP_DEPLOY_TO_PATH")" ]; then
     mkdir -p "$WSU_MAP_DEPLOY_TO_PATH"
   fi
-  
+
   if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     fxWarning "Directory ##${WSU_MAP_DEPLOY_TO_PATH}## doesn't exist!" "proceed"
     WSU_MAP_DEPLOY_TO_PATH=
@@ -110,43 +124,47 @@ fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 function wsuMapReplace()
 {
-  find /tmp/my-app-template \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
+  find $WSU_MAP_TMP_DIR \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
 }
 
 
-fxTitle "⏬ Downloading my-app-template..."
-WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
-if [ -d "${WSU_MAP_ORIGIN}" ]; then
+fxTitle "🚀 I'm 'bout to rock the show..."
+fxMessage "Name:      ##$WSU_MAP_NAME##"
+fxMessage "Domain:    ##$WSU_MAP_DOMAIN##"
+fxMessage "App Name:  ##$WSU_MAP_APP_NAME##"
+fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
+fxCountdown
+echo ""
 
-  mkdir /tmp/my-app-template
-  cp -r ${WSU_MAP_ORIGIN}. /tmp/my-app-template/
-  
-  ## log directory
-  mkdir -p /tmp/my-app-template/var/log
-  
-  rm -f /tmp/my-app-template/setup*.sh
-  
-  wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
-  wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
-  wsuMapReplace "my-app" "${WSU_MAP_APP_NAME}"
-  wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
-  
-  ## oops..
-  wsuMapReplace "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
-  
-  curl -Lo "/tmp/my-app-template/.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
-  
-  chown webstackup:www-data /tmp/my-app-template -R
-  chmod u=rwx,go=rX /tmp/my-app-template -R
-  chmod u=rwx,go=rx /tmp/my-app-template/scripts/*.sh -R
-  chmod u=rwx,go=rwX /tmp/my-app-template/var -R
-  
-  cp -a /tmp/my-app-template/. "${WSU_MAP_DEPLOY_TO_PATH}"
-  rm -rf /tmp/my-app-template/
-  
-else
 
-  fxCatastrophicError "Sorry, this is not implemented yet!"
-fi
+fxTitle "👷 ... so here I go"
+WSU_MAP_TMP_DIR=/tmp/my-app-template/
+rm -rf $WSU_MAP_TMP_DIR
+mkdir $WSU_MAP_TMP_DIR
+cp -r ${WSU_MAP_ORIGIN} /tmp/
+
+## log directory
+mkdir -p ${WSU_MAP_TMP_DIR}var/log
+
+rm -f ${WSU_MAP_TMP_DIR}setup*.sh
+
+wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
+wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
+wsuMapReplace "my-app" "${WSU_MAP_APP_NAME}"
+wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
+
+## oops..
+wsuMapReplace "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
+
+curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+
+chown webstackup:www-data /tmp/my-app-template -R
+chmod u=rwx,go=rX /tmp/my-app-template -R
+chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
+chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
+
+fxTitle "🚚 Final merge to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
+rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
+rm -rf ${WSU_MAP_TMP_DIR}
 
 fxEndFooter
