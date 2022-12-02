@@ -9,8 +9,8 @@ fxHeader "🧹 cache-clear"
 
 fxCatastrophicError "cache-clear.sh is not ready!" dont-stop
 
-echo "🧙 for Magento: https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/cache-clear.sh"
-echo "📐 for Symfony: https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/symfony/cache-clear.sh"
+echo "🧙 for Magento: replace this file with the one from https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/magento/cache-clear.sh"
+echo "📐 for Symfony: replace this file with the one from https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/symfony/cache-clear.sh"
 
 fxEndFooter failure
 exit
