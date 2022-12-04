@@ -40,6 +40,8 @@ fxTitle "👨‍🏭 Generating webstackup (the user)..."
 if ! id "webstackup" &>/dev/null; then
 
   useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
+  
+  fxTitle "🔐 Generating SSH key for webstackup..."
   mkdir /home/webstackup/.ssh
   chown webstackup:www-data /home/webstackup/.ssh
   chmod u=rwx,go= /home/webstackup/.ssh
