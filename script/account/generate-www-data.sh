@@ -18,7 +18,7 @@ fi
 
 fxTitle "👨‍🏭 Generating www-data (the user)..."
 if ! id "www-data" &>/dev/null; then
-  useradd -G www-data www-data --shell=/bin/false --create-home --system
+  useradd -G www-data www-data --shell=/usr/sbin/nologin --create-home --system
 else
   fxInfo "www-data already exists, skipping"  
 fi
