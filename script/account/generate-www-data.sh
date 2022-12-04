@@ -38,8 +38,12 @@ grep -i www-data /etc/passwd
 
 fxTitle "👨‍🏭 Generating webstackup (the user)..."
 if ! id "webstackup" &>/dev/null; then
+
   useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
+  sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh"
+  
 else
+
   fxInfo "webstackup already exists, skipping"  
 fi
 
@@ -61,12 +65,14 @@ function wwwdataOwner()
 
 fxTitle "🏡 Creating /home/www-data/..."
 if [ ! -d /home/www-data ]; then
+
   mkdir -p /home/www-data
+  wwwdataOwner /home/www-data
+  
 else
+
   fxInfo " /home/www-data/ already exists, skipping"
 fi
-
-ls -lah /home/www-data/
 
 
 fxTitle "📂 Creating /var/www/..."
@@ -113,31 +119,7 @@ wwwdataFileMover .profile
 wwwdataFileMover .ssh
 wwwdataFileMover .sudo_as_admin_successful
 
-
-fxTitle "🏢 Generating .ssh for www-data..."
-if [ ! -d /home/www-data/.ssh ]; then
-
-  mkdir /home/www-data/.ssh
-  ssh-keygen -t rsa -N "" -C "www-data key generated on $(hostname) by generate-www-data.sh" -f /home/www-data/.ssh/id_rsa
-  
-else
-
-  fxInfo "/home/www-data/.ssh already exists, skipping"
-fi
-
-
 wwwdataOwner /home/www-data/
-
-
-fxTitle "🩹 Ensuring .ssh has the right permissions..."
-# https://superuser.com/a/215506/129204
-chmod u=rwx,go= /home/www-data/.ssh -R
-chmod u=rw,go=r /home/www-data/.ssh/id_rsa.pub
-chmod u=rw,go= /home/www-data/.ssh/id_rsa
-
-
-fxTitle "🔐 Removing authorized_keys from www-data..."
-rm -f /home/www-data/.ssh/authorized_keys
 
 
 fxEndFooter
