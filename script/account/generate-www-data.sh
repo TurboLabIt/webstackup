@@ -72,11 +72,14 @@ fxTitle "🏡 Creating /home/www-data/..."
 if [ ! -d /home/www-data ]; then
 
   mkdir -p /home/www-data
+  wwwdataOwner /home/www-data/
   
 else
 
-  fxInfo " /home/www-data/ already exists, skipping"
+  fxInfo "/home/www-data/ already exists, skipping"
 fi
+
+ls -lah /home/www-data
 
 
 fxTitle "📂 Creating /var/www/..."
