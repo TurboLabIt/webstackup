@@ -41,6 +41,7 @@ if ! id "webstackup" &>/dev/null; then
 
   useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
   mkdir /home/webstackup/.ssh
+  chown webstackup:www-data /home/webstackup/.ssh
   chmod u=rwx,go= /home/webstackup/.ssh
   sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh" -f /home/webstackup/.ssh/id_rsa
   
