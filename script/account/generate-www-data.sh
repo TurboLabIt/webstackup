@@ -31,8 +31,8 @@ else
   fxInfo "www-data already exists, skipping"  
 fi
 
-id www-data
 groups www-data
+id www-data
 grep -i www-data /etc/passwd
 
 
@@ -43,8 +43,8 @@ else
   fxInfo "webstackup already exists, skipping"  
 fi
 
-id webstackup
 groups webstackup
+id webstackup
 grep -i webstackup /etc/passwd
 
 
@@ -73,12 +73,11 @@ fxTitle "📂 Creating /var/www/..."
 if [ ! -d /var/www ]; then
 
   mkdir -p /var/www
-  fxTitle "Setting the owner to webstackup:www-data on /var/www..."
-  chown webstackup:www-data "$1" -R
-  chmod ugo= "$1" -R
-  chmod u=rwX,g=rX,o= "$1" -R
+  chown webstackup:www-data /var/www/ -R
+  chmod ugo= /var/www/ -R
+  chmod u=rwX,g=rX,o= /var/www/ -R
   # SetGID - Any new file will have its group set to www-data
-  chmod g+s "$1"
+  chmod g+s /var/www/
   
 else
 
@@ -118,6 +117,7 @@ wwwdataFileMover .sudo_as_admin_successful
 fxTitle "🏢 Generating .ssh for www-data..."
 if [ ! -d /home/www-data/.ssh ]; then
 
+  mkdir /home/www-data/.ssh
   ssh-keygen -t rsa -N "" -C "www-data key generated on $(hostname) by generate-www-data.sh" -f /home/www-data/.ssh/id_rsa
   
 else
