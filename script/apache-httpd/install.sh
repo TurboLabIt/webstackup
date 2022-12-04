@@ -1,8 +1,6 @@
 #!/usr/bin/env bash
 ### AUTOMATIC APACHE HTTP SERVER INSTALLER BY WEBSTACK.UP
-# https://github.com/TurboLabIt/webstackup/tree/master/script/
-apache-httpd
-/install.sh
+# https://github.com/TurboLabIt/webstackup/tree/master/script/apache-httpd/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh?$(date +%s) | sudo bash
 #
