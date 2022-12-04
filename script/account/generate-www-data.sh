@@ -70,16 +70,11 @@ function wwwdataOwner()
 
 fxTitle "🏡 Creating /home/www-data/..."
 if [ ! -d /home/www-data ]; then
-
   mkdir -p /home/www-data
-  wwwdataOwner /home/www-data/
-  
 else
 
   fxInfo "/home/www-data/ already exists, skipping"
 fi
-
-ls -lah /home/www-data
 
 
 fxTitle "📂 Creating /var/www/..."
@@ -126,7 +121,17 @@ wwwdataFileMover .profile
 wwwdataFileMover .ssh
 wwwdataFileMover .sudo_as_admin_successful
 
+
+fxTitle "🚚 Assigning www-data to its new home..."
+usermod -d /home/www-data www-data
 wwwdataOwner /home/www-data/
+
+groups www-data
+id www-data
+grep -i www-data /etc/passwd
+
+fxTitle "📁 Current /home/www-data status..."
+ls -lah /home/www-data
 
 
 fxEndFooter
