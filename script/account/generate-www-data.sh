@@ -26,7 +26,7 @@ fi
 
 fxTitle "👨‍🏭 Generating www-data (the user)..."
 if ! id "www-data" &>/dev/null; then
-  useradd -G www-data www-data --shell=/usr/sbin/nologin --create-home --system
+  useradd www-data -g www-data --shell=/usr/sbin/nologin --create-home --system
 else
   fxInfo "www-data already exists, skipping"  
 fi
@@ -38,7 +38,7 @@ grep -i www-data /etc/passwd
 
 fxTitle "👨‍🏭 Generating webstackup (the user)..."
 if ! id "webstackup" &>/dev/null; then
-  useradd -G www-data webstackup --shell=/usr/sbin/nologin --create-home --system
+  useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
 else
   fxInfo "webstackup already exists, skipping"  
 fi
