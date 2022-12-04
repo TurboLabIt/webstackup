@@ -49,27 +49,7 @@ http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /e
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
 
-
-WWW_DIR=/var/www/
-if [ ! -d "${WWW_DIR}" ]; then
-
-  fxTitle "Creating ${WWW_DIR}..."
-  mkdir -p "${WWW_DIR}"
-
-  fxTitle "Setting the owner to www-data:www-data..."
-  chown www-data:www-data "${WWW_DIR}" -R
-  chmod u=rwX,g=rX,o= "${WWW_DIR}" -R
-
-  fxTitle "SetGID - Any new file will have its group set to www-data"
-  chmod g+s "${WWW_DIR}"
-  FLAG_CHANGE_HOME=1
-
-else
-
-  fxInfo "${WWW_DIR} already exists, skipping"
-fi
-
-ls -lh "${WWW_DIR}"
+bash "${WEBSTACKUP_SCRIPT_DIR}account/generate-www-data.sh"
 
 wsuMkAutogenDir
 
@@ -96,18 +76,8 @@ fxTitle "apt install nginx..."
 apt update -qq
 apt install nginx -y
 
-if [ ! -z "${FLAG_CHANGE_HOME}" ]; then
-
-  fxTitle "Changing www-data user home..."
-  mkdir -p /home/www-data
-  chown www-data:www-data /home/www-data -R
-  chmod ug=rwx,o= /home/www-data -R
-  usermod -d /home/www-data www-data
-  fxOK "www-data home is now: $(echo ~www-data)"
-  
-  fxTitle "Assigning the nginx user to the www-data group..."
-  usermod -aG www-data nginx
-fi
+fxTitle "Assigning the nginx user to the www-data group..."
+usermod -aG www-data nginx
 
 
 ## Create a self-signed, bogus certificate
