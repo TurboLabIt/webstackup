@@ -40,7 +40,9 @@ fxTitle "👨‍🏭 Generating webstackup (the user)..."
 if ! id "webstackup" &>/dev/null; then
 
   useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
-  sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh"
+  mkdir /home/webstackup/.ssh
+  chmod u=rwx,go= /home/www-data/.ssh
+  sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh" -f /home/webstackup/.ssh/id_rsa
   
 else
 
