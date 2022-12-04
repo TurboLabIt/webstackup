@@ -69,7 +69,6 @@ fxTitle "🏡 Creating /home/www-data/..."
 if [ ! -d /home/www-data ]; then
 
   mkdir -p /home/www-data
-  wwwdataOwner /home/www-data
   
 else
 
