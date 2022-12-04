@@ -109,7 +109,7 @@ function wwwdataFileMover()
   fxMessage "##${ORIG_PATH}## ✈ ##${DEST_PATH}##"
   if [ -e "${ORIG_PATH}" ]; then
   
-    rm -rf "${DEST_PATH}"
+    rm -rf "${DEST_PATH}$1"
     mv "${ORIG_PATH}" "${DEST_PATH}"
     
   else
