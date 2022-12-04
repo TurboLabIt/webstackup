@@ -32,16 +32,27 @@ else
 fi
 
 id www-data
-echo "---"
 groups www-data
-echo "---"
 grep -i www-data /etc/passwd
+
+
+fxTitle "👨‍🏭 Generating webstackup (the user)..."
+if ! id "webstackup" &>/dev/null; then
+  useradd -G www-data webstackup --shell=/usr/sbin/nologin --create-home --system
+else
+  fxInfo "webstackup already exists, skipping"  
+fi
+
+id webstackup
+groups webstackup
+grep -i webstackup /etc/passwd
 
 
 function wwwdataOwner()
 {
-  fxTitle "Setting the owner to www-data:www-data..."
+  fxTitle "Setting the owner to www-data on ##$1##..."
   chown www-data:www-data "$1" -R
+  chmod ugo= "$1" -R
   chmod u=rwX,g=rX,o= "$1" -R
   # SetGID - Any new file will have its group set to www-data
   chmod g+s "$1"
@@ -50,42 +61,44 @@ function wwwdataOwner()
 
 fxTitle "🏡 Creating /home/www-data/..."
 if [ ! -d /home/www-data ]; then
-
   mkdir -p /home/www-data
-  wwwdataOwner /home/www-data
-  
 else
   fxInfo " /home/www-data/ already exists, skipping"
 fi
 
-ls -lh /home/www-data/
+ls -lah /home/www-data/
 
 
 fxTitle "📂 Creating /var/www/..."
 if [ ! -d /var/www ]; then
 
   mkdir -p /var/www
-  wwwdataOwner /var/www
+  fxTitle "Setting the owner to webstackup:www-data on /var/www..."
+  chown webstackup:www-data "$1" -R
+  chmod ugo= "$1" -R
+  chmod u=rwX,g=rX,o= "$1" -R
+  # SetGID - Any new file will have its group set to www-data
+  chmod g+s "$1"
   
 else
 
   fxInfo "/var/www/ already exists, skipping"
 fi
 
-ls -lh /var/www/
+ls -lah /var/www/
 
 
-fxTitle "🚛 Moving www-data stuff to the new home..."
+fxTitle "🚛 Moving www-data stuff from /var/www the home..."
 function wwwdataFileMover()
 {
-  local FILE_TO_MOVE=$1
-  fxMessage "##${ORIG_PATH}## ✈ ##${DEST_PATH}##"
-  if [ -e "/var/www/$FILE_TO_MOVE" ]; then
+  local ORIG_PATH=/var/www/$1
+  local DEST_PATH=/home/www-data/
   
-    rm -rf "/home/www-data/$FILE_TO_MOVE"
-    mv "/var/www/$FILE_TO_MOVE" "/home/www-data/"
-    wwwdataOwner "/home/www-data/$FILE_TO_MOVE"
-    fxOK "Done"
+  fxMessage "##${ORIG_PATH}## ✈ ##${DEST_PATH}##"
+  if [ -e "${ORIG_PATH}" ]; then
+  
+    rm -rf "${DEST_PATH}"
+    mv "${ORIG_PATH}" "${DEST_PATH}"
     
   else
   
@@ -93,19 +106,13 @@ function wwwdataFileMover()
   fi
 }
 
-wwwdataFileMover bash_history
+wwwdataFileMover .bash_history
 wwwdataFileMover .bash_logout
 wwwdataFileMover .bashrc
 wwwdataFileMover .cache
 wwwdataFileMover .profile
 wwwdataFileMover .ssh
 wwwdataFileMover .sudo_as_admin_successful
-
-
-fxTitle "👮‍♂️ Resetting permissions on /home/www-data/..."
-chown www-data:www-data /home/www-data/ -R
-chmod ugo= /home/www-data -R
-chmod u=rwx,g=rX,o= /home/www-data -R
 
 
 fxTitle "🏢 Generating .ssh for www-data..."
@@ -117,6 +124,9 @@ else
 
   fxInfo "/home/www-data/.ssh already exists, skipping"
 fi
+
+
+wwwdataOwner /home/www-data/
 
 
 fxTitle "🩹 Ensuring .ssh has the right permissions..."
