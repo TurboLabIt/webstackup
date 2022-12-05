@@ -42,6 +42,19 @@ fxTitle "apt install apache..."
 apt update -qq
 apt install apache2 -y
 
+
+fxTitle "Disable the default Apache vhost configuration..."
+a2dissite 000-default
+
+fxTitle "Disable Apache Prefork module..."
+a2dismod mpm_prefork
+
+fxTitle "Enable Apache Event module..."
+a2enmod mpm_event proxy_fcgi setenvif
+
+fxTitle "Enable HTTP/2 support...."
+a2enmod http2
+
 ## ... TO BE CONTINUED ...
 
 fxTitle "Final restart..."
