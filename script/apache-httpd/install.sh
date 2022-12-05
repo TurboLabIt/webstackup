@@ -60,7 +60,7 @@ fxTitle "Enable Apache FastCGI module (for PHP)..."
 a2enmod proxy_fcgi setenvif
 
 fxTitle "Enabling ${PHP_FPM} support..."
-if [ ! -z "${PHP_FPM}" ]; then
+if [ ! -z "${PHP_VER}" ] && [ ! -z "${PHP_FPM}" ]; then
   echo "a2enconf ${PHP_FPM}"
 else
   fxInfo "PHP not found, skipping"  
