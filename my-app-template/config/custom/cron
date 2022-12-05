@@ -24,3 +24,7 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 
 ## Magento cron file (every minute)
 #* * * * * www-data /bin/php ${PROJECT_DIR}shop/bin/magento cron:run 2>&1 | grep -v "Ran jobs by schedule" >> ${LOG_PATH}magento.cron.log
+
+
+## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+

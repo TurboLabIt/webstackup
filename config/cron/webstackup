@@ -3,3 +3,9 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 WSU_CRON_SCRIPT_DIR=/usr/local/turbolab.it/webstackup/script/
 WSU_CRON_LOG_DIR=/var/log/webstackup_cron_
 
+
+
+
+
+## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+
