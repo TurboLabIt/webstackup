@@ -45,7 +45,15 @@ if ! id "webstackup" &>/dev/null; then
   mkdir /home/webstackup/.ssh
   chown webstackup:www-data /home/webstackup/.ssh
   chmod u=rwx,go= /home/webstackup/.ssh
+  
   sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh" -f /home/webstackup/.ssh/id_rsa
+  
+  sudo -u webstackup -H ssh-keyscan -t rsa github.com > /home/webstackup/.ssh/known_hosts
+  sudo -u webstackup -H ssh-keyscan -t rsa ssh-keyscan -t rsa bitbucket.org >> /home/webstackup/.ssh/known_hosts
+  chmod u=rw,go= /home/webstackup/.ssh/known_hosts
+  
+  sudo -u webstackup -H git config --global user.name "webstackup"
+  sudo -u webstackup -H git config --global user.email "info@webstackup"
   
 else
 
