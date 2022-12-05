@@ -53,7 +53,17 @@ fxTitle "Disable Prefork and Worker MPMs..."
 a2dismod mpm_prefork mpm_worker
 
 fxTitle "Enable Apache Event module..."
-a2enmod mpm_event proxy_fcgi setenvif
+a2enmod mpm_event
+
+fxTitle "Enable Apache FastCGI module (for PHP)..."
+a2enmod proxy_fcgi setenvif
+
+fxTitle "Enabling PHP support..."
+if [ ! -z "${PHP_FPM}" ]; then
+  a2enconf ${PHP_FPM}
+else
+  fxInfo "PHP not found, skipping"  
+fi
 
 fxTitle "Enable HTTP/2 support...."
 a2enmod http2
