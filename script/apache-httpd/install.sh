@@ -44,30 +44,32 @@ apt update -qq
 apt install apache2 libapache2-mod-fcgid -y
 
 
-fxTitle "Disable the default Apache vhost configuration..."
-a2dissite 000-default
-
-fxTitle "Disable mod_php (if any)..."
-a2dismod php*
-
 fxTitle "Disable Prefork and Worker MPMs..."
 a2dismod mpm_prefork mpm_worker
 
 fxTitle "Enable Apache Event module..."
 a2enmod mpm_event
 
+fxTitle "Enable HTTP/2 support...."
+a2enmod http2
+
+
+fxTitle "Disable mod_php (if any)..."
+a2dismod php*
+
 fxTitle "Enable Apache FastCGI module (for PHP)..."
 a2enmod proxy_fcgi setenvif
 
 fxTitle "Enabling ${PHP_FPM} support..."
-if [ ! -z "${PHP_VER}" ] && [ ! -z "${PHP_FPM}" ]; then
-  echo "a2enconf ${PHP_FPM}"
+## enabling PHP globally is not desirable, b/c it forces the same version for every vhost
+if [ ! -z "${APACHE_PHP_GLOBAL_ENABLE}" ] && [ ! -z "${PHP_VER}" ] && [ ! -z "${PHP_FPM}" ]; then
+  a2enconf ${PHP_FPM}
 else
-  fxInfo "PHP not found, skipping"  
+  fxInfo "Function disabled or PHP not found, skipping"  
 fi
 
-fxTitle "Enable HTTP/2 support...."
-a2enmod http2
+fxTitle "Disable the default Apache vhost configuration..."
+a2dissite 000-default
 
 ## ... TO BE CONTINUED ...
 
