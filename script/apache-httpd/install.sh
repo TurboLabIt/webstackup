@@ -46,8 +46,11 @@ apt install apache2 -y
 fxTitle "Disable the default Apache vhost configuration..."
 a2dissite 000-default
 
-fxTitle "Disable Apache Prefork module..."
-a2dismod mpm_prefork
+fxTitle "Disable mod_php (if any)..."
+a2dismod php*
+
+fxTitle "Disable Prefork and Worker MPMs..."
+a2dismod mpm_prefork mpm_worker
 
 fxTitle "Enable Apache Event module..."
 a2enmod mpm_event proxy_fcgi setenvif
