@@ -112,18 +112,6 @@ else
 fi
 
 
-fxTitle "Assigning the nginx user to www-data group..."
-if id "nginx" &>/dev/null; then
-
-  usermod -a -G www-data nginx
-  nginx -t && service nginx restart
-
-else
-
-  fxInfo "nginx user doesn't exist"
-fi
-
-
 fxTitle "Create the socket directory..."
 mkdir -p /run/php/
 
