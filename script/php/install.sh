@@ -133,4 +133,16 @@ else
 fi
 
 
+fxTitle "Enabling PHP integration with Apache HTTP Server..."
+if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
+
+  a2enconf ${PHP_FPM}
+  apachectl configtest && service apache2 restart
+  
+else
+
+  fxInfo "Apache HTTP Server is not installed, skipping"  
+fi
+
+
 fxEndFooter
