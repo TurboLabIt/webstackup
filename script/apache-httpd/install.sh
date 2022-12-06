@@ -55,7 +55,7 @@ a2enmod http2
 
 
 fxTitle "Disable mod_php (if any)..."
-a2dismod php*
+a2dismod php* -f
 
 fxTitle "Enable Apache FastCGI module (for PHP)..."
 a2enmod proxy_fcgi setenvif
