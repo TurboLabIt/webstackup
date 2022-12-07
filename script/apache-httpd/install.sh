@@ -79,14 +79,14 @@ fi
 bash "${WEBSTACKUP_SCRIPT_DIR}https/self-sign-generate.sh" localhost
 
 fxTitle "Disable HTTP: upgrade all connections to HTTPS..."
-fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/global_https_upgrade_all.conf" /etc/apache2/sites-enabled/00_global_https_upgrade_all.conf
+fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/global_https_upgrade_all.conf" /etc/apache2/sites-available/00_global_https_upgrade_all.conf
 a2dissite 00_global_https_upgrade_all
 
 fxTitle "Disable the default Apache vhost configuration..."
 a2dissite 000-default
 
 fxTitle "Return 400 to requests for undefined websites..."
-fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/05_global_default_vhost_disable.conf" /etc/apache2/sites-available/05_global_default_vhost_disable.conf
+fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/global_default_vhost_disable.conf" /etc/apache2/sites-available/05_global_default_vhost_disable.conf
 a2dissite 05_global_default_vhost_disable
 
 ## ... TO BE CONTINUED ...
