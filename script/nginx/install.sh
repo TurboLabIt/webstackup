@@ -14,7 +14,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "💿 Nginx installer"
+fxHeader "💿 NGINX installer"
 rootCheck
 
 fxTitle "Removing any old previous instance..."
