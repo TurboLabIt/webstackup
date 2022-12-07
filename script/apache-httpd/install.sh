@@ -47,7 +47,6 @@ bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-http-basic-auth.sh
 
 
 fxTitle "apt install apache..."
-apt update -qq
 apt install apache2 libapache2-mod-fcgid -y
 
 
