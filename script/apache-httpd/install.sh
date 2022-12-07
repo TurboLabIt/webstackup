@@ -56,6 +56,9 @@ a2enmod http2
 fxTitle "Enable mod_rewrite...."
 a2enmod rewrite
 
+fxTitle "Enable mod_ssl..."
+a2enmod ssl
+
 
 fxTitle "Disable and remove mod_php (if any)..."
 a2dismod php* -f
