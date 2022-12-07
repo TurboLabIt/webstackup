@@ -57,8 +57,10 @@ fxTitle "Enable mod_rewrite...."
 a2enmod rewrite
 
 
-fxTitle "Disable mod_php (if any)..."
+fxTitle "Disable and remove mod_php (if any)..."
 a2dismod php* -f
+apt purge libapache2-mod-php* -y
+
 
 fxTitle "Enable Apache FastCGI module (for PHP)..."
 a2enmod proxy_fcgi setenvif
