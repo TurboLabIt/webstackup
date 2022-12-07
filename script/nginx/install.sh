@@ -78,6 +78,7 @@ if [ -f "/etc/nginx/conf.d/default.conf" ]; then
   mv /etc/nginx/conf.d/default.conf /etc/nginx/conf.d_default_original_backup.conf
 fi
 
+fxTitle "Return 400 to requests for undefined websites..."
 fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/05_global_default_vhost_disable.conf" /etc/nginx/conf.d/
 
 fxTitle "Activate the status_page..."
