@@ -67,6 +67,12 @@ fxTitle "Enable mod_ssl..."
 a2enmod ssl
 
 
+fxTitle "Set the ServerName directive..."
+fxInfo "Prevents 'Could not reliably determine the server's fully qualified domain name' on restarts"
+echo "ServerName $(hostname)" > /etc/apache2/conf-available/server-name.conf
+a2enconf server-name
+
+
 fxTitle "Disable and remove mod_php (if any)..."
 a2dismod php* -f
 apt purge libapache2-mod-php* -y
@@ -81,6 +87,7 @@ if [ ! -z "${APACHE_PHP_GLOBAL_ENABLE}" ] && [ ! -z "${PHP_VER}" ] && [ ! -z "${
 else
   fxInfo "Function disabled or PHP not found, skipping"  
 fi
+
 
 ## Create a self-signed, bogus certificate
 bash "${WEBSTACKUP_SCRIPT_DIR}https/self-sign-generate.sh" localhost
