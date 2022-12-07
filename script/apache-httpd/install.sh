@@ -64,7 +64,6 @@ fxTitle "Disable and remove mod_php (if any)..."
 a2dismod php* -f
 apt purge libapache2-mod-php* -y
 
-
 fxTitle "Enable Apache FastCGI module (for PHP)..."
 a2enmod proxy_fcgi setenvif
 
@@ -76,8 +75,19 @@ else
   fxInfo "Function disabled or PHP not found, skipping"  
 fi
 
+## Create a self-signed, bogus certificate
+bash "${WEBSTACKUP_SCRIPT_DIR}https/self-sign-generate.sh" localhost
+
+fxTitle "Disable HTTP: upgrade all connections to HTTPS..."
+fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/global_https_upgrade_all.conf" /etc/apache2/sites-enabled/00_global_https_upgrade_all.conf
+a2dissite 00_global_https_upgrade_all
+
 fxTitle "Disable the default Apache vhost configuration..."
 a2dissite 000-default
+
+fxTitle "Return 400 to requests for undefined websites..."
+fxLink "${WEBSTACKUP_CONFIG_DIR}apache-httpd/05_global_default_vhost_disable.conf" /etc/apache2/sites-available/05_global_default_vhost_disable.conf
+a2dissite 05_global_default_vhost_disable
 
 ## ... TO BE CONTINUED ...
 
