@@ -46,6 +46,32 @@ fxTitle "Activate alternative-ports..."
 a2enconf alternative-ports
 
 
+function wsuApacheAltPortFileManager()
+{
+  local FILE=$1
+  
+  fxTitle "Replacing symlink $(basename $FILE) with a copy..."
+  if [ -e "${FILE}" ]; then
+  
+    fxReplaceLinkWithCopy "${FILE}"
+    
+  else
+  
+    fxWarning "##${FILE}## doesn't exist! Skipping..."
+    return 1
+    
+  fi
+
+
+  fxTitle "Replacing listening ports in $(basename $FILE)..."
+  sed -i "s|80|${APACHE_HTTPD_ALT_HTTP_PORT}|" "${FILE}"
+  sed -i "s|443|${APACHE_HTTPD_ALT_HTTPS_PORT}|" "${FILE}"
+}
+
+wsuApacheAltPortFileManager /etc/apache2/sites-available/00_global_https_upgrade_all.conf
+wsuApacheAltPortFileManager /etc/apache2/sites-available/05_global_default_vhost_disable.conf
+
+
 fxTitle "Final restart..."
 apachectl configtest
 service apache2 restart
