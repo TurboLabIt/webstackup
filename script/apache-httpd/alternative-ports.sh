@@ -51,6 +51,6 @@ apachectl configtest
 service apache2 restart
 
 fxTitle "Status..."
-ss -lpt | grep -i apache -B1 -A1 
+ss -lpt | grep -i apache
 
 fxEndFooter
