@@ -33,7 +33,7 @@ else
   fxWarning "The backup file already exists! Overwrite prevented"
 fi
 
-fxTitle "Replacing ports.conf"
+fxTitle "Replacing ports.conf..."
 echo "## 🚪 Nulled by WSU alternative-ports.sh" > /etc/apache2/ports.conf
 echo "# The original file was backed up into ##${HTTPD_PORTS_BACKUP_FILE}##" >> /etc/apache2/ports.conf
 
@@ -44,5 +44,13 @@ echo "Listen ${APACHE_HTTPD_ALT_HTTPS_PORT}" >> /etc/apache2/conf-available/alte
 
 fxTitle "Activate config file..."
 a2enconf alternative-ports
+
+
+fxTitle "Final restart..."
+apachectl configtest
+service apache2 restart
+
+fxTitle "Status..."
+ss -lpt | grep -i apache -B1 -A1 
 
 fxEndFooter
