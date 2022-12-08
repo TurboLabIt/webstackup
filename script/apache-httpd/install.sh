@@ -2,7 +2,7 @@
 ### AUTOMATIC APACHE HTTP SERVER INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/apache-httpd/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh?$(date +%s) | sudo ALTERNATIVE_PORTS=0 bash
 #
 # Based on: https://turbolab.it/1379
 
@@ -104,13 +104,20 @@ a2ensite 05_global_default_vhost_disable
 
 ## ... TO BE CONTINUED ...
 
-fxTitle "Final restart..."
-apachectl configtest
-service apache2 restart
+fxTitle "Moving to alternative ports..."
+if [ "${ALTERNATIVE_PORTS}" = 1 ]; then
 
+  bash ${WEBSTACKUP_SCRIPT_DIR}apache-httpd/alternative-ports.sh
+  
+else
 
-fxTitle "🚪 Do you want to change ports?"
-fxMessage "Run this: ##sudo bash ${WEBSTACKUP_SCRIPT_DIR}apache-httpd/alternative-ports.sh##"
+  fxInfo "Alt. ports not requested, skipping"
+  
+  fxTitle "Final restart..."
+  apachectl configtest
+  service apache2 restart
+  
+fi
 
 
 fxEndFooter
