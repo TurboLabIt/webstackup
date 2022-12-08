@@ -39,6 +39,10 @@ disableExec /etc/update-motd.d/60-unminimize
 disableExec /etc/update-motd.d/90-updates-available
 
 ## Add hostname
+if [ -z "$(command -v figlet)" ] || [ ! -f "/usr/games/lolcat" ]; then
+  sudo apt install figlet lolcat -y -qq
+fi
+
 if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh ]; then
 
  ln -s /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh /etc/update-motd.d/00-webstackup-hostname
