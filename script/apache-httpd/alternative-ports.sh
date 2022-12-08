@@ -38,11 +38,11 @@ echo "## 🚪 Nulled by WSU alternative-ports.sh" > /etc/apache2/ports.conf
 echo "# The original file was backed up into ##${HTTPD_PORTS_BACKUP_FILE}##" >> /etc/apache2/ports.conf
 
 
-fxTitle "Setup change port config file..."
+fxTitle "Generating alternative-ports.conf..."
 echo "Listen ${APACHE_HTTPD_ALT_HTTP_PORT}" > /etc/apache2/conf-available/alternative-ports.conf
 echo "Listen ${APACHE_HTTPD_ALT_HTTPS_PORT}" >> /etc/apache2/conf-available/alternative-ports.conf
 
-fxTitle "Activate config file..."
+fxTitle "Activate alternative-ports..."
 a2enconf alternative-ports
 
 
