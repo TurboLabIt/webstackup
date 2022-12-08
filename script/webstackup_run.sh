@@ -72,6 +72,7 @@ case $CHOICE in
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     nginx -t && service nginx restart
     /usr/sbin/php-fpm${PHP_VER} -t && service ${PHP_FPM} restart
+    apachectl configtest && service apache2 restart
     ;;
   10)
     bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
