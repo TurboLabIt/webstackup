@@ -122,6 +122,14 @@ else
 fi
 
 
+fxTitle "Installing Apache HTTP Server alternative ports..."
+if [ "$INSTALL_APACHE_HTTPD_ALT_PORTS" = 1 ]; then
+  bash ${WEBSTACKUP_SCRIPT_DIR}apache-httpd/alternative-ports.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing PHP..."
 if [ "$INSTALL_PHP" = 1 ]; then
   PHP_VER=${PHP_VER} bash ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
