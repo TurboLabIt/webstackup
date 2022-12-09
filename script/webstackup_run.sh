@@ -18,15 +18,15 @@ TITLE="Web service management GUI"
 MENU="Choose one task:"
 
 OPTIONS=(
-     1 "🚀  Git clone an existing app"
-     2 "🧺  New database user access"
-     3 "📧  DKIM a domain"
-     4 "🔒  Let's Encrypt a domain"
-     5 "🔄  Web service reload"
-     6 "🔄  Web service restart"
-     7 "🔑  Webpermissions a directory"
-     8 "↗️  Show webstackup SSH pub key"
-     9 "✔️  Self-update"
+     1 "🔄 Web services turbo-restart"
+     2 "♻️  Web services safe restart"
+     3 "✔️  Self-update"
+     4 "🚀  Git clone an existing app"
+     5 "🧺  New database user access"
+     6 "📧  DKIM a domain"
+     7 "🔒  Let's Encrypt a domain"
+     8 "🔑  Webpermissions a directory"
+     9 "↗️  Show webstackup SSH pub key"
      10 "🔧 MySQL maintenance"
      11 "🏁 MySQL Tuner"
      12 "🤦 MySQL password reset"
@@ -41,38 +41,48 @@ CHOICE=$(dialog --clear \
         2>&1 >/dev/tty)
 
 clear
+
+
+function wsuzzws()
+{
+  if [ -f "${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh" ]; then
+    sudo bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh $1
+  else
+    curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/zzws.sh?$(date +%s) | sudo bash
+  fi
+}
+
+
 case $CHOICE in
   1)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
+    wsuzzws
     ;;
   2)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
+    wsuzzws restart
     ;;
   3)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
-    ;;
-  4)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
-    ;;
-  5)
-    zzws reload
-    ;;
-  6)
-    zzws restart
-    ;;
-  7)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
-    ;;
-  8)
-    printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
-    ;;
-  9)
     git -C "${WEBSTACKUP_INSTALL_DIR}" reset --hard
     git -C "${WEBSTACKUP_INSTALL_DIR}" pull
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
-    nginx -t && service nginx restart
-    /usr/sbin/php-fpm${PHP_VER} -t && service ${PHP_FPM} restart
-    apachectl configtest && service apache2 restart
+    wsuzzws
+    ;;
+  4)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
+    ;;
+  5)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
+    ;;
+  6)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
+    ;;
+  7)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
+    ;;
+  8)
+    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
+    ;;
+  9)
+    printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
     ;;
   10)
     bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
