@@ -12,7 +12,7 @@
 #
 # You can now `scripts/maintenance.sh on` and `scripts/maintenance.sh off`
 #
-# Tip: after the first `deploy.sh`, you can ``zzmaintenance on` and `zzmaintenance off` directly
+# Tip: after the first `deploy.sh`, you can `zzmaintenance on` and `zzmaintenance off` directly
 
 SCRIPT_NAME=maintenance
 
