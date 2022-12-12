@@ -61,8 +61,8 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
   ## webstackup user + SSH keys
   bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-www-data.sh
   
-  fxMessage "Keep SSH alive..."
-  cp "${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf" /etc/ssh/sshd_config.d/
+  fxMessage "Keep SSH alive..." 
+  ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf /etc/ssh/sshd_config.d/
   
   fxMessage "Updating MOTD"
   source "${WEBSTACKUP_SCRIPT_DIR}motd/setup.sh"
