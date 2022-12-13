@@ -23,7 +23,8 @@ fxMessage "$DB_DUMP_SQL"
 rm -f "${DB_DUMP_SQL}"
 wsuN98MageRun db:dump --strip="@stripped" --no-tablespaces "${DB_DUMP_SQL}"
 rm -f "${DB_DUMP_SQL}.gz"
-gzip "${DB_DUMP_SQL}" --best &
+## please don't add --best to gzip. It's super-slow+ineffective (4.3 GB -> 594 MB vs 607 MB)
+gzip "${DB_DUMP_SQL}" &
 
 fxTitle "Replace fastcgi_backend (prevents naming conflicts)..."
 sed -i 's| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g' ${MAGENTO_DIR}nginx.conf.sample
