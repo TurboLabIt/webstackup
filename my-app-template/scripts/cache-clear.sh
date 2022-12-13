@@ -5,9 +5,9 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 WSU_MAP_FRAMEWORK_CACHECLEAR="${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/cache-clear.sh"
-if [ -f "" ]; then
+if [ -f "${WSU_MAP_FRAMEWORK_CACHECLEAR}" ]; then
   source "${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/cache-clear.sh"
   source "${SCRIPT_DIR}/script_end.sh"
 else
-  fxInfo "No clear-cache defined for your ##${PROJECT_FRAMEWORK}## framework"
+  fxInfo "No clear-cache script available for your ##${PROJECT_FRAMEWORK}## framework"
 fi
