@@ -1,10 +1,7 @@
 #!/usr/bin/env bash
 ## Complete deploy script for every project. Customizable via events.
 #
-# ⚠️ Don't run this script directly! Run https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh istead!
-
-SCRIPT_NAME=deploy
-source $(dirname $(readlink -f $0))/script_begin.sh
+# ⚠️ Don't run this script directly! Run https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh instead!
 
 fxHeader "🤖 ${APP_NAME} deploy script"
 fxTitle "Running on ${APP_ENV} ($HOSTNAME)"
