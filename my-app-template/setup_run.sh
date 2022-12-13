@@ -241,7 +241,8 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}config/custom "${WSU_MAP_DEPLOY_TO_PATH}var" "${WSU_MAP_DEPLOY_TO_PATH}shop/var"
 
-  rm -f ${WSU_MAP_TMP_DIR}config/custom/*zzmysqldump*
+  rm -f ${WSU_MAP_TMP_DIR}config/custom/*zzmysqldump* \
+    ${WSU_MAP_TMP_DIR}config/custom/dev/*zzmysqldump* ${WSU_MAP_TMP_DIR}config/custom/staging/*zzmysqldump* ${WSU_MAP_TMP_DIR}config/custom/prod/*zzmysqldump*
 
 fi
 
