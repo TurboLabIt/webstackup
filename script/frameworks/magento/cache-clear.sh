@@ -15,7 +15,6 @@
 #
 # Tip: after the first `deploy.sh`, you can `zzcache` directly
 
-SCRIPT_NAME=magento-cache-clear
 fxHeader "🧙🧹 Magento cache-clear"
 
 showPHPVer
