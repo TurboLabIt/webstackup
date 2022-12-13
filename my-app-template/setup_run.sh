@@ -133,7 +133,7 @@ fxTitle "🪶 Do you need Apache HTTP Server?"
 if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ]; then
 
   PS3="🤖 Remove config files for Apache HTTPD Server? #"
-  select WSU_MAP_NEED_APACHE_HTTPD in "yes no"; do
+  select WSU_MAP_NEED_APACHE_HTTPD in "yes" "no"; do
    break
   done
 fi
