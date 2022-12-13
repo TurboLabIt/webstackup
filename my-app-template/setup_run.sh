@@ -21,8 +21,10 @@ else
 fi
 ## bash-fx is ready
 
+
 fxHeader "🐫 my-app-template"
 rootCheck
+
 
 WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
 if [ ! -d "${WSU_MAP_ORIGIN}" ]; then
@@ -84,13 +86,14 @@ fxOK "Acknowledged, domain is ##$WSU_MAP_DOMAIN##"
 fxTitle "🖥️ Choose the APP_NAME"
 fxInfo "For example: \"turboLab_it\" or \"my-amazing-shop\""
 fxWarning "Lowercase letters [a-z] and numbers [0-9] only!"
-while [ -z "$WSU_MAP_APP_NAME" ]
-do
+while [ -z "$WSU_MAP_APP_NAME" ]; do
+
   echo "🤖 Provide the APP_NAME or hit Enter for ##${WSU_MAP_APP_NAME_DEFAULT}##"
   read -p ">> " WSU_MAP_APP_NAME  < /dev/tty
   if [ -z "$WSU_MAP_APP_NAME" ]; then
     WSU_MAP_APP_NAME=$WSU_MAP_APP_NAME_DEFAULT
   fi
+
 done
 
 WSU_MAP_APP_NAME=$(echo "$WSU_MAP_APP_NAME" | tr '[:upper:]' '[:lower:]')
@@ -102,8 +105,8 @@ fxOK "Got it, APP_NAME is ##$WSU_MAP_APP_NAME##"
 fxTitle "📂 Choose the root path"
 WSU_MAP_DEPLOY_TO_PATH_DEFAULT=/var/www/${WSU_MAP_APP_NAME}
 fxWarning "You should really accept the default 😉"
-while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]
-do
+while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; do
+
   echo "🤖 Provide the path (use TAB!) or hit Enter for ##${WSU_MAP_DEPLOY_TO_PATH_DEFAULT}##"
   read -ep ">> " WSU_MAP_DEPLOY_TO_PATH  < /dev/tty
   if [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; then
@@ -119,6 +122,7 @@ do
     WSU_MAP_DEPLOY_TO_PATH=
     echo ""
   fi
+
 done
 
 WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
@@ -126,7 +130,7 @@ fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
 fxTitle "🪶 Do you need Apache HTTP Server?"
-if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ];
+if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ]; then
 
   PS3="🤖 Remove config files for Apache HTTPD Server? #"
   select WSU_MAP_NEED_APACHE_HTTPD in "yes no"; do
@@ -138,9 +142,9 @@ if [ "${WSU_MAP_NEED_APACHE_HTTPD}" = "yes" ] || [ "${WSU_MAP_NEED_APACHE_HTTPD}
 
   WSU_MAP_NEED_APACHE_HTTPD=1
   fxOK "You're th boss! I'll keep them!"
-  
+
 else
-  
+
   WSU_MAP_NEED_APACHE_HTTPD=0
   fxOK "Good choice, I'll crush them!"
 fi
@@ -153,7 +157,6 @@ if [ -z "$WSU_MAP_FRAMEWORK" ]; then
   select WSU_MAP_FRAMEWORK in "${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}"; do
    break
   done
-  
 fi
 
 if [ "${WSU_MAP_FRAMEWORK}" = "none" ] || [ "${WSU_MAP_FRAMEWORK}" = "symfony" ]; then
@@ -170,7 +173,7 @@ for i in "${!WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
 done
 
 echo ""
-echo "I'm gonna remove every script related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
+echo "I'm gonna remove every file related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
 
 
 
@@ -223,9 +226,9 @@ if [ "${WSU_MAP_NEED_APACHE_HTTPD}" != "1" ]; then
   rm -f ${WSU_MAP_TMP_DIR}scripts/*apache-httpd* \
     ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* \
     ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/prod/*apache-httpd* 
-  
+
 else
-  
+
   fxOK "Files kept"
 fi
 
@@ -235,22 +238,23 @@ for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
   rm -f ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
 done
 
-if [ "${WSU_MAP_FRAMEWORK}" = "magento" ] || [ "${WSU_MAP_FRAMEWORK}" = "pimcore" ]; then
-
-  rm -rf ${WSU_MAP_TMP_DIR}public
-  mkdir 
-fi
 
 if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 
   rm -rf ${WSU_MAP_TMP_DIR}public
   mkdir ${WSU_MAP_TMP_DIR}shop
-  
+
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
-  
-  rm -f ${WSU_MAP_TMP_DIR}config/zzmysqldump.conf
+
+  rm -f ${WSU_MAP_TMP_DIR}config/*zzmysqldump*
 
 fi
+
+
+if [ "${WSU_MAP_FRAMEWORK}" != "none" ] && [ "${WSU_MAP_FRAMEWORK}" != "symfony" ]; then
+  rm -f ${WSU_MAP_TMP_DIR}scripts/*phpbb*
+fi
+
 
 ls -l ${WSU_MAP_TMP_DIR}scripts/
 
@@ -261,8 +265,8 @@ chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
 chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
 
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
-#rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
-#rm -rf ${WSU_MAP_TMP_DIR}
+rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
+rm -rf ${WSU_MAP_TMP_DIR}
 
 fxEndFooter
 
