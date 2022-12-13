@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## This script is executed during the deploy. See: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh
+## This script is sourced by `deploy_run.sh` See: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_moment_030.sh
 
