@@ -34,8 +34,8 @@ fi
 if [ "$APP_ENV" = "prod" ]; then
 
   fxTitle '⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡'
-  local options=("OK" "Cancel")
-  select opt in "${options[@]}"
+  WSU_DEPLOY_RUN_OPTIONS=("OK" "Cancel")
+  select opt in "${WSU_DEPLOY_RUN_OPTIONS[@]}"
   do
     case $opt in
 
@@ -77,9 +77,9 @@ if [ -f "${SCRIPT_DIR}deploy_moment_030.sh" ]; then
   source "${SCRIPT_DIR}deploy_moment_030.sh"
 fi
 
-if [ "${PROJECT_FRAMEWORK}" = "magento" ];
+if [ "${PROJECT_FRAMEWORK}" = "magento" ]; then
   source "${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/pre-deploy.sh"
-then
+fi
 
 if [ -f "${SCRIPT_DIR}deploy_moment_050.sh" ]; then
   source "${SCRIPT_DIR}deploy_moment_050.sh"
