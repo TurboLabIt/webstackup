@@ -7,6 +7,7 @@
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
+# WSU_MAP_FRAMEWORK=none|symfony|wordpress|magento|pimcore
 
 
 ## bash-fx
@@ -122,6 +123,24 @@ WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
+# WSU_MAP_FRAMEWORK=none|symfony|wordpress|magento|pimcore
+fxTitle "🦹 Choose the framework"
+if [ -z "$WSU_MAP_FRAMEWORK" ]; then
+
+  PS3="🤖 Choose your framework: #"
+  select WSU_MAP_FRAMEWORK in "none" "symfony" "wordpress" "magento" "pimcore"; do
+   break
+  done
+  
+fi
+
+if [ "${WSU_MAP_FRAMEWORK}" = "none" ] || [ "${WSU_MAP_FRAMEWORK}" = "symfony" ]; then
+  fxOK "Outstanding, you rock 🥳! Working with ##$WSU_MAP_FRAMEWORK##"
+else
+  fxOK "Whatever suits you.. Working with ##$WSU_MAP_FRAMEWORK##"
+fi
+
+
 function wsuMapReplace()
 {
   find $WSU_MAP_TMP_DIR \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
@@ -133,6 +152,7 @@ fxMessage "Name:      ##$WSU_MAP_NAME##"
 fxMessage "Domain:    ##$WSU_MAP_DOMAIN##"
 fxMessage "App Name:  ##$WSU_MAP_APP_NAME##"
 fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
+fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
 fxCountdown
 echo ""
 
