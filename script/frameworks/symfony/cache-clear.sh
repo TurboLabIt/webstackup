@@ -3,8 +3,10 @@
 #
 # How to:
 #
+# 1. set `PROJECT_FRAMEWORK=symfony` in your project `script_begin.sh`
+#
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/symfony/cache-clear-starter.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
 #
 # 1. You should now git commit your copy
 #
