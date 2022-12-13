@@ -7,7 +7,8 @@
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
-# WSU_MAP_FRAMEWORK=none|symfony|wordpress|magento|pimcore
+WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
+# WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 
 
 ## bash-fx
@@ -123,22 +124,31 @@ WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
-# WSU_MAP_FRAMEWORK=none|symfony|wordpress|magento|pimcore
 fxTitle "🦹 Choose the framework"
 if [ -z "$WSU_MAP_FRAMEWORK" ]; then
 
   PS3="🤖 Choose your framework: #"
-  select WSU_MAP_FRAMEWORK in "none" "symfony" "wordpress" "magento" "pimcore"; do
+  select WSU_MAP_FRAMEWORK in "${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}"; do
    break
   done
   
 fi
 
 if [ "${WSU_MAP_FRAMEWORK}" = "none" ] || [ "${WSU_MAP_FRAMEWORK}" = "symfony" ]; then
-  fxOK "Outstanding, you rock 🥳! Working with ##$WSU_MAP_FRAMEWORK##"
+  fxOK "Outstanding, you're gonna build great things 🥳! Working with ##$WSU_MAP_FRAMEWORK##"
 else
   fxOK "Whatever suits you.. Working with ##$WSU_MAP_FRAMEWORK##"
 fi
+
+WSU_MAP_UNCHOSEN_FRAMEWORKS=("${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}")
+for i in "${!WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
+  if [[ ${WSU_MAP_UNCHOSEN_FRAMEWORKS[i]} = $WSU_MAP_FRAMEWORK ]]; then
+    unset 'WSU_MAP_UNCHOSEN_FRAMEWORKS[i]'
+  fi
+done
+
+echo ""
+echo "I'm gonna remove every script related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
 
 
 function wsuMapReplace()
@@ -157,7 +167,7 @@ fxCountdown
 echo ""
 
 
-fxTitle "👷 ... so here I go"
+fxTitle "📂 Building the temporary directory..."
 WSU_MAP_TMP_DIR=/tmp/my-app-template/
 rm -rf $WSU_MAP_TMP_DIR
 mkdir $WSU_MAP_TMP_DIR
@@ -166,25 +176,42 @@ cp -r ${WSU_MAP_ORIGIN} /tmp/
 ## log directory
 mkdir -p ${WSU_MAP_TMP_DIR}var/log
 
+## removing this script
 rm -f ${WSU_MAP_TMP_DIR}setup*.sh
 
+fxTitle "💱 Replacing placeholder with project values..."
 wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
 wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
+wsuMapReplace "my-app-framework" "${WSU_MAP_FRAMEWORK}"
 wsuMapReplace "my-app" "${WSU_MAP_APP_NAME}"
 wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
 
 ## oops..
 wsuMapReplace "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
 
+fxTitle "👓 Acquiring gitignore..."
 curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
 
+fxTitle "👮 Setting permissions..."
 chown webstackup:www-data /tmp/my-app-template -R
 chmod u=rwx,go=rX /tmp/my-app-template -R
 chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
 chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
 
-fxTitle "🚚 Final merge to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
+fxTitle "🦹 Applying customization for ##${WSU_MAP_FRAMEWORK}## framework..."
+for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
+  rm -f ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
+done
+
+if [ "${WSU_MAP_FRAMEWORK}" = "magento" ] || [ "${WSU_MAP_FRAMEWORK}" = "pimcore" ]; then
+  rm -f ${WSU_MAP_TMP_DIR}scripts/*phpbb* ${WSU_MAP_TMP_DIR}scripts/*test-runner*
+fi
+
+ls -l ${WSU_MAP_TMP_DIR}scripts/
+
+fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
 
 fxEndFooter
+
