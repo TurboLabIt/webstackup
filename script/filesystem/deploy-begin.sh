@@ -2,13 +2,21 @@ fxHeader "🤖 ${APP_NAME} deploy script"
 fxTitle "Running on ${APP_ENV} ($HOSTNAME)"
 rootCheck
 
-if [ -z "$PROJECT_DIR" ] || [ ! -d "$PROJECT_DIR" ]; then
-  fxCatastrophicError "PROJECT_DIR is undefined. This deploy can't proceed! Aborting!"
+
+if [ -z "${PROJECT_DIR}" ] || [ -z "${APP_ENV}" ] || [ -z "${APP_NAME}" ]; then
+
+  catastrophicError "Deploy can't run with these variables undefined:
+  PROJECT_DIR:    ##${PROJECT_DIR}##
+  APP_ENV:        ##${APP_ENV}##
+  APP_NAME:       ##${APP_NAME}##"
+  exit
 fi
 
-if [ -z "$APP_ENV" ]; then
-  fxCatastrophicError "APP_ENV is undefined! This deploy can't proceed! Aborting!"
+
+if [ ! -d "$PROJECT_DIR" ]; then
+  fxCatastrophicError "PROJECT_DIR ##${PROJECT_DIR}## doesn't exist!"
 fi
+
 
 if [ "$1" = "fast" ]; then
   fxTitle "🐇 Fast mode"
@@ -44,7 +52,7 @@ if [ "$APP_ENV" = "prod" ]; then
 fi
 
 if [ -z "${LOCKFILE}" ]; then
-  LOCKFILE=${PROJECT_DIR}var/deploy
+  LOCKFILE=/tmp/deploy-${APP_ENV}
 fi
 
 lockCheck "${LOCKFILE}"
