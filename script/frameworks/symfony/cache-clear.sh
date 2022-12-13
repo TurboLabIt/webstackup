@@ -12,7 +12,6 @@
 #
 # Tip: after the first `deploy.sh`, you can `zzcache` directly
 
-SCRIPT_NAME=symfony-cache-clear
 fxHeader "📐🧹 Symfony cache-clear"
 
 showPHPVer
