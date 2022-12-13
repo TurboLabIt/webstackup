@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Complete deploy script for every project. Customizable via events.
+## Complete deploy script for every project. Hookable via "moments".
 #
 # ⚠️ Don't run this script directly! Run https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh instead!
 
