@@ -77,8 +77,9 @@ if [ -f "${SCRIPT_DIR}deploy_moment_030.sh" ]; then
   source "${SCRIPT_DIR}deploy_moment_030.sh"
 fi
 
-if [ "${PROJECT_FRAMEWORK}" = "magento" ]; then
-  source "${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/pre-deploy.sh"
+WSU_FRAMEWORK_PREDEPLOY=${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/pre-deploy.sh
+if [ -f "${WSU_FRAMEWORK_PREDEPLOY}" ]; then
+  source "${WSU_FRAMEWORK_PREDEPLOY}"
 fi
 
 if [ -f "${SCRIPT_DIR}deploy_moment_050.sh" ]; then
