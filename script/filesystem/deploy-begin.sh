@@ -52,7 +52,7 @@ if [ "$APP_ENV" = "prod" ]; then
 fi
 
 if [ -z "${LOCKFILE}" ]; then
-  LOCKFILE=/tmp/deploy-${APP_ENV}
+  LOCKFILE=/tmp/deploy-${APP_NAME}
 fi
 
 lockCheck "${LOCKFILE}"
