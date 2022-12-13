@@ -175,13 +175,7 @@ done
 echo ""
 echo "I'm gonna remove every file related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
 
-
-
-function wsuMapReplace()
-{
-  find $WSU_MAP_TMP_DIR \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
-}
-
+#### HERE WE GO ####
 
 fxTitle "🚀 I'm 'bout to rock the show..."
 fxMessage "Name:      ##$WSU_MAP_NAME##"
@@ -207,14 +201,14 @@ mkdir -p ${WSU_MAP_TMP_DIR}var/log
 rm -f ${WSU_MAP_TMP_DIR}setup*.sh
 
 fxTitle "💱 Replacing placeholder with project values..."
-wsuMapReplace "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
-wsuMapReplace "my-app.com" "${WSU_MAP_DOMAIN}"
-wsuMapReplace "my-app-framework" "${WSU_MAP_FRAMEWORK}"
-wsuMapReplace "my-app" "${WSU_MAP_APP_NAME}"
-wsuMapReplace "My App Name" "${WSU_MAP_NAME}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app.com" "${WSU_MAP_DOMAIN}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-framework" "${WSU_MAP_FRAMEWORK}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app" "${WSU_MAP_APP_NAME}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 
 ## oops..
-wsuMapReplace "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
 
 fxTitle "👓 Acquiring gitignore..."
 curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
@@ -224,8 +218,8 @@ fxTitle "🪶 Dealing with Apache HTTP Server config files..."
 if [ "${WSU_MAP_NEED_APACHE_HTTPD}" != "1" ]; then
 
   rm -f ${WSU_MAP_TMP_DIR}scripts/*apache-httpd* \
-    ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* \
-    ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/prod/*apache-httpd* 
+    ${WSU_MAP_TMP_DIR}config/custom/*apache-httpd* \
+    ${WSU_MAP_TMP_DIR}config/custom/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/prod/*apache-httpd* 
 
 else
 
@@ -245,8 +239,9 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
   mkdir ${WSU_MAP_TMP_DIR}shop
 
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
+  fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}config/custom "${WSU_MAP_DEPLOY_TO_PATH}var" "${WSU_MAP_DEPLOY_TO_PATH}shop/var"
 
-  rm -f ${WSU_MAP_TMP_DIR}config/*zzmysqldump*
+  rm -f ${WSU_MAP_TMP_DIR}config/custom/*zzmysqldump*
 
 fi
 
