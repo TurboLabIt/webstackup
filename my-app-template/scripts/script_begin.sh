@@ -14,7 +14,7 @@ APP_NAME="my-app"
 PRIVGEN_DIR="/var/www/private_generics/"
 USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
 ZZ_CMD_SUFFIX=0
-PROJECT_FRAMEWORK="my-app-framework"
+PROJECT_FRAMEWORK=my-app-framework
 MAGENTO_STATIC_CONTENT_DEPLOY="MyCompany/my-app en_US it_IT fr_FR de_DE en_GB es_ES"
 
 
