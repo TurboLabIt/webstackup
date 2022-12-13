@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Framework-based clear-cache by WEBSTACKUP
+## Framework-based maintenance handler by WEBSTACKUP
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/maintenance.sh
 
