@@ -6,14 +6,15 @@
 # 1. Set your theme and language(s) in your project `script_begin.sh`:
 #  MAGENTO_STATIC_CONTENT_DEPLOY="MyCompany/myTheme en_US it_IT fr_FR de_DE es_ES"
 #
+# 1. set `PROJECT_FRAMEWORK=magento` in your project `script_begin.sh`
+#
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/cache-clear-starter.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
 #
 # 1. You should now git commit your copy
 #
 # Tip: after the first `deploy.sh`, you can `zzcache` directly
 
-SCRIPT_NAME=magento-cache-clear
 fxHeader "🧙🧹 Magento cache-clear"
 
 showPHPVer

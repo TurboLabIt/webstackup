@@ -3,8 +3,10 @@
 #
 # How to:
 #
+# 1. set `PROJECT_FRAMEWORK=magento` in your project `script_begin.sh`
+#
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/maintenance-starter.sh && sudo chmod u=rwx,go=rx scripts/maintenance.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/maintenance.sh && sudo chmod u=rwx,go=rx scripts/maintenance.sh
 #
 # 1. git commit your copy
 #
@@ -12,9 +14,6 @@
 #
 # Tip: after the first `deploy.sh`, you can `zzmaintenance on` and `zzmaintenance off` directly
 
-SCRIPT_NAME=maintenance
-
-source $(dirname $(readlink -f $0))/script_begin.sh
 fxHeader "🧰 Magento maintenance page manager"
 
 if [ "$1" = "on" ]; then
