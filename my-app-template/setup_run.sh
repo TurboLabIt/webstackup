@@ -9,6 +9,7 @@
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
 WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
+# WSU_MAP_NEED_APACHE_HTTPD=yes|no
 
 
 ## bash-fx
@@ -124,6 +125,27 @@ WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
+fxTitle "🪶 Do you need Apache HTTP Server?"
+if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ];
+
+  PS3="🤖 Remove config files for Apache HTTPD Server? #"
+  select WSU_MAP_NEED_APACHE_HTTPD in "yes no"; do
+   break
+  done
+fi
+
+if [ "${WSU_MAP_NEED_APACHE_HTTPD}" = "yes" ] || [ "${WSU_MAP_NEED_APACHE_HTTPD}" = "1" ]; then
+
+  WSU_MAP_NEED_APACHE_HTTPD=1
+  fxOK "You're th boss! I'll keep them!"
+  
+else
+  
+  WSU_MAP_NEED_APACHE_HTTPD=0
+  fxOK "Good choice, I'll crush them!"
+fi
+
+
 fxTitle "🦹 Choose the framework"
 if [ -z "$WSU_MAP_FRAMEWORK" ]; then
 
@@ -151,6 +173,7 @@ echo ""
 echo "I'm gonna remove every script related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
 
 
+
 function wsuMapReplace()
 {
   find $WSU_MAP_TMP_DIR \( -type d -name .git -prune \) -o -type f -print0 | xargs -0 sed -i "s|${1}|${2}|g"
@@ -162,6 +185,7 @@ fxMessage "Name:      ##$WSU_MAP_NAME##"
 fxMessage "Domain:    ##$WSU_MAP_DOMAIN##"
 fxMessage "App Name:  ##$WSU_MAP_APP_NAME##"
 fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
+fxMessage "Apache:    ##${WSU_MAP_NEED_APACHE_HTTPD}##"
 fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
 fxCountdown
 echo ""
@@ -192,11 +216,19 @@ wsuMapReplace "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/mast
 fxTitle "👓 Acquiring gitignore..."
 curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
 
-fxTitle "👮 Setting permissions..."
-chown webstackup:www-data /tmp/my-app-template -R
-chmod u=rwx,go=rX /tmp/my-app-template -R
-chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
-chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
+
+fxTitle "🪶 Dealing with Apache HTTP Server config files..."
+if [ "${WSU_MAP_NEED_APACHE_HTTPD}" != "1" ]; then
+
+  rm -f ${WSU_MAP_TMP_DIR}scripts/*apache-httpd* \
+    ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* \
+    ${WSU_MAP_TMP_DIR}config/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/prod/*apache-httpd* 
+  
+else
+  
+  fxOK "Files kept"
+fi
+
 
 fxTitle "🦹 Applying customization for ##${WSU_MAP_FRAMEWORK}## framework..."
 for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
@@ -204,14 +236,33 @@ for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
 done
 
 if [ "${WSU_MAP_FRAMEWORK}" = "magento" ] || [ "${WSU_MAP_FRAMEWORK}" = "pimcore" ]; then
-  rm -f ${WSU_MAP_TMP_DIR}scripts/*phpbb* ${WSU_MAP_TMP_DIR}scripts/*test-runner*
+
+  rm -rf ${WSU_MAP_TMP_DIR}public
+  mkdir 
+fi
+
+if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
+
+  rm -rf ${WSU_MAP_TMP_DIR}public
+  mkdir ${WSU_MAP_TMP_DIR}shop
+  
+  fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
+  
+  rm -f ${WSU_MAP_TMP_DIR}config/zzmysqldump.conf
+
 fi
 
 ls -l ${WSU_MAP_TMP_DIR}scripts/
 
+fxTitle "👮 Setting permissions..."
+chown webstackup:www-data /tmp/my-app-template -R
+chmod u=rwx,go=rX /tmp/my-app-template -R
+chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
+chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
+
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
-rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
-rm -rf ${WSU_MAP_TMP_DIR}
+#rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
+#rm -rf ${WSU_MAP_TMP_DIR}
 
 fxEndFooter
 
