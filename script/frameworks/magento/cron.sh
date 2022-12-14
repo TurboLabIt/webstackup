@@ -14,4 +14,6 @@
 
 fxHeader "🧙🕰️ Magento cron"
 showPHPVer
+
+fxTitle "Magento cron:run"
 wsuMage cron:run
