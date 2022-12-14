@@ -17,9 +17,6 @@
 
 set $APP_NAME my-app;
 
-## 🛣️ Reverse proxy to Apache HTTP Server on 44344 (delete everything else)
-#include /usr/local/turbolab.it/webstackup/config/nginx/25_reverse-proxy.conf;
-
 ## 🔏 Enable HTTPS
 include /usr/local/turbolab.it/webstackup/config/nginx/20_https_enable.conf;
 
