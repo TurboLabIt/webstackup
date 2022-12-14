@@ -1,5 +1,8 @@
-## https://github.com/ZaneCEO/webdev-gitignore/
-
 *
 !readme.md
 !.gitignore
+
+## this is required to include generated classes (Pimcore)
+!classes/
+!classes/*
+!classes/**/*
