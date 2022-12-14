@@ -209,6 +209,7 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 
 ## oops..
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "www.www." ''
 
 fxTitle "👓 Acquiring gitignore..."
 curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
