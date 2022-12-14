@@ -229,7 +229,10 @@ fi
 
 fxTitle "🦹 Applying customization for ##${WSU_MAP_FRAMEWORK}## framework..."
 for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
-  rm -f ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
+  rm -f \
+    ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* \
+    ${WSU_MAP_TMP_DIR}config/custom/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* \
+    ${WSU_MAP_TMP_DIR}config/custom/dev/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/staging/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/prod/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* 
 done
 
 mv ${WSU_MAP_TMP_DIR}config/custom/nginx-${WSU_MAP_FRAMEWORK}.conf ${WSU_MAP_TMP_DIR}config/custom/nginx.conf
