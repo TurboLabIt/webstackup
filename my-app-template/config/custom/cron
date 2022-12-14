@@ -22,7 +22,7 @@ SCRIPT_DIR=/var/www/my-app/scripts/
 LOG_PATH=/var/www/my-app/var/log/cron_
 
 ## my-app-framework cron job
-* * * * * root ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
+* * * * * root bash ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
 
 
 
