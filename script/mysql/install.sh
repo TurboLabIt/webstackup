@@ -85,7 +85,8 @@ WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/webstackup.cnf
 
 if [ ! -z "${WEBSTACKUP_INSTALL_DIR}" ] && [ -f "WSU_MYSQL_SOURCE_CONFIG" ]; then
 
-  cp "${WSU_MYSQL_SOURCE_CONFIG}" "${WSU_MYSQL_DEST_CONFIG}"
+  ## this must be an HARD link to work
+  ln "${WSU_MYSQL_SOURCE_CONFIG}" "${WSU_MYSQL_DEST_CONFIG}"
 
 else
   
