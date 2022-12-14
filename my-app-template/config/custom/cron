@@ -21,7 +21,6 @@ PROJECT_DIR=/var/www/my-app/
 SCRIPT_DIR=/var/www/my-app/scripts/
 LOG_PATH=/var/www/my-app/var/log/cron_
 
-
 ## Main framework cron job
 * * * * * root ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
 
