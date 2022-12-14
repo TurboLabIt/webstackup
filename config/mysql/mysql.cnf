@@ -1,5 +1,6 @@
 ### VARIOUS MYSQL OPTIMIZATION BY WEBSTACK.UP
 ## for a 32GB RAM server with nginx+mysql
+## PLEASE NOTE: the file in /etc/mysql/ in an HARD LINK to WEBSTACKUP. DO NOT EDIT DIRECTLY. Overwrite in a custom file instead.
 
 [mysqld]
 
