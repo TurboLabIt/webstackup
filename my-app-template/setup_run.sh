@@ -232,6 +232,8 @@ for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
   rm -f ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
 done
 
+mv ${WSU_MAP_TMP_DIR}config/custom/nginx-${WSU_MAP_FRAMEWORK}.conf ${WSU_MAP_TMP_DIR}config/custom/nginx.conf
+
 
 if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 
@@ -243,7 +245,6 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 
   rm -f ${WSU_MAP_TMP_DIR}config/custom/*zzmysqldump* \
     ${WSU_MAP_TMP_DIR}config/custom/dev/*zzmysqldump* ${WSU_MAP_TMP_DIR}config/custom/staging/*zzmysqldump* ${WSU_MAP_TMP_DIR}config/custom/prod/*zzmysqldump*
-
 fi
 
 
@@ -252,13 +253,19 @@ if [ "${WSU_MAP_FRAMEWORK}" != "none" ] && [ "${WSU_MAP_FRAMEWORK}" != "symfony"
 fi
 
 
-ls -l ${WSU_MAP_TMP_DIR}scripts/
-
 fxTitle "👮 Setting permissions..."
 chown webstackup:www-data /tmp/my-app-template -R
 chmod u=rwx,go=rX /tmp/my-app-template -R
 chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
 chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
+
+
+fxTitle "📂 Listing scripts..."
+ls -l ${WSU_MAP_TMP_DIR}scripts/
+
+fxTitle "📂 Listing config..."
+ls -l ${WSU_MAP_TMP_DIR}config/custom/
+
 
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
