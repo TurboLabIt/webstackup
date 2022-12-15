@@ -10,7 +10,7 @@
 WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
-
+# WSU_MAP_PHP_VERSION=8.2
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
@@ -53,10 +53,11 @@ fxOK "webstackup:www-data OK"
 
 fxTitle "📛 Enter the name of the project"
 fxInfo "For example: \"TurboLab.it\" or \"My Amazing Shop\" - YES, you can use spaces here!"
-while [ -z "$WSU_MAP_NAME" ]
-do
-  echo "🤖 Provide the name of of the project"
+while [ -z "$WSU_MAP_NAME" ]; do
+
+  echo "🤖 Provide the name of the project"
   read -p ">> " WSU_MAP_NAME  < /dev/tty
+
 done
 
 fxOK "OK, working on ##$WSU_MAP_NAME##"
@@ -71,13 +72,14 @@ fxTitle "🌎 Enter the domain"
 fxInfo "For example: \"turbolab.it\" or \"www.turbolab.it\" or \"my-shop.com\""
 fxWarning "Please use the PRODUCTION domain"
 WSU_MAP_DOMAIN_DEFAULT=${WSU_MAP_APP_NAME_DEFAULT}.com
-while [ -z "$WSU_MAP_DOMAIN" ]
-do
+while [ -z "$WSU_MAP_DOMAIN" ]; do
+
   echo "🤖 Provide the domain or hit Enter for ##${WSU_MAP_DOMAIN_DEFAULT}##"
   read -p ">> " WSU_MAP_DOMAIN  < /dev/tty
   if [ -z "$WSU_MAP_DOMAIN" ]; then
     WSU_MAP_DOMAIN=$WSU_MAP_DOMAIN_DEFAULT
   fi
+
 done
 
 fxOK "Acknowledged, domain is ##$WSU_MAP_DOMAIN##"
@@ -129,6 +131,27 @@ WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
 fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
+fxTitle "🔢 Enter the PHP version"
+fxInfo "For example: \"7.4\" or \"8.2\""
+while [ -z "$WSU_MAP_PHP_VERSION" ]; do
+
+  if [ ! -z ${PHP_VER} ]; then
+    echo "🤖 Provide the PHP version to use or hit Enter for ##${PHP_VER}##"
+  else
+    echo "🤖 Provide the PHP version to use"
+  fi
+
+  read -p ">> " WSU_MAP_PHP_VERSION  < /dev/tty
+
+  if [ ! -z ${PHP_VER} ] && [ -z "$WSU_MAP_PHP_VERSION" ]; then
+    WSU_MAP_PHP_VERSION=$PHP_VER
+  fi
+
+done
+
+fxOK "Sounds good, the project will use PHP ##$WSU_MAP_PHP_VERSION##"
+
+
 fxTitle "🪶 Do you need Apache HTTP Server?"
 if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ]; then
 
@@ -167,9 +190,11 @@ fi
 
 WSU_MAP_UNCHOSEN_FRAMEWORKS=("${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}")
 for i in "${!WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
+
   if [[ ${WSU_MAP_UNCHOSEN_FRAMEWORKS[i]} = $WSU_MAP_FRAMEWORK ]]; then
     unset 'WSU_MAP_UNCHOSEN_FRAMEWORKS[i]'
   fi
+
 done
 
 echo ""
@@ -182,7 +207,8 @@ fxMessage "Name:      ##$WSU_MAP_NAME##"
 fxMessage "Domain:    ##$WSU_MAP_DOMAIN##"
 fxMessage "App Name:  ##$WSU_MAP_APP_NAME##"
 fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
-fxMessage "Apache:    ##${WSU_MAP_NEED_APACHE_HTTPD}##"
+fxMessage "PHP:       ##$WSU_MAP_PHP_VERSION##"
+fxMessage "Apache:    ##$WSU_MAP_NEED_APACHE_HTTPD##"
 fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
 fxCountdown
 echo ""
@@ -203,6 +229,7 @@ rm -f ${WSU_MAP_TMP_DIR}setup*.sh
 fxTitle "💱 Replacing placeholder with project values..."
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "/var/www/my-app" "${WSU_MAP_DEPLOY_TO_PATH%*/}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app.com" "${WSU_MAP_DOMAIN}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-php-version" "${WSU_MAP_PHP_VERSION}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-framework" "${WSU_MAP_FRAMEWORK}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app" "${WSU_MAP_APP_NAME}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
@@ -258,7 +285,7 @@ fi
 
 
 fxTitle "👮 Setting permissions..."
-chown webstackup:www-data /tmp/my-app-template -R
+#chown webstackup:www-data /tmp/my-app-template -R
 chmod u=rwx,go=rX /tmp/my-app-template -R
 chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
 chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
