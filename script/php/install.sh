@@ -93,8 +93,8 @@ fxTitle "Enable OPcache..."
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/opcache.ini" ${FPM_CONF_FILE}opcache.ini
 
 fxMessage "Configuring Xdebug..."
-ln -s "${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${FPM_CONF_FILE}xdebug.ini
-ln -s "${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${FPM_CONF_FILE}xdebug.ini
+ln -s ${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${FPM_CONF_FILE}xdebug.ini
+ln -s ${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${FPM_CONF_FILE}xdebug.ini
 fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install php${PHP_VER}-xdebug install -y"
 
 
