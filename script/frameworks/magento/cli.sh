@@ -40,6 +40,7 @@ else
 fi
 
 
+fxTitle "🌋 bin/magento"
 if [ "$EXPECTED_USER" = "$(whoami)" ]; then
   /bin/php${PHP_VER} bin/magento "$@"
 else
