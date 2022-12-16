@@ -32,11 +32,12 @@ if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
   export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
   export XDEBUG_MODE="develop,debug"
   fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
+  fxInfo "To disable: export XDEBUG_PORT="
   
 else
 
   export XDEBUG_MODE="off"
-  fxInfo "Xdebug disabled"
+  fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999"
 fi
 
 
