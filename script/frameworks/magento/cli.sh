@@ -27,7 +27,7 @@ showPHPVer
 
 
 fxTitle "🐛 Xdebug"
-if [ ! -z "$XDEBUG_PORT" ]; then
+if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
 
   export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
   export XDEBUG_MODE="develop,debug"
