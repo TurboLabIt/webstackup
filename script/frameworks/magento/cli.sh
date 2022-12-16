@@ -26,11 +26,12 @@ fi
 showPHPVer
 
 
+fxTitle "🐛 Xdebug"
 if [ ! -z "$XDEBUG_PORT" ]; then
 
   export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
   export XDEBUG_MODE="develop,debug"
-  fxInfo "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting! 🐛"
+  fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
   
 else
 
@@ -44,6 +45,3 @@ if [ "$EXPECTED_USER" = "$(whoami)" ]; then
 else
   sudo -u "$EXPECTED_USER" -H ${PHP_CLI} bin/magento "$@"
 fi
-
-
-fxEndFooter
