@@ -37,7 +37,7 @@ if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
 else
 
   export XDEBUG_MODE="off"
-  fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999"
+  fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
 fi
 
 
