@@ -29,7 +29,7 @@ fi
 
 cd "$MAGENTO_DIR"
 
-if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" ! = "dev" ]; then
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Entering maintenance mode..."
   wsuMage maintenance:enable
@@ -124,7 +124,7 @@ fxTitle "🐧 Setting permissions..."
 sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 
-if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" ! = "dev" ]; then
+if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Exiting maintenance mode..."
   wsuMage maintenance:disable
