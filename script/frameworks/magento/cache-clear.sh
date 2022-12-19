@@ -29,7 +29,7 @@ fi
 
 cd "$MAGENTO_DIR"
 
-if [ -z "${FAST_CACHE_CLEAR}" ]; then
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" ! = "dev" ]; then
 
   fxTitle "⚙️ Entering maintenance mode..."
   wsuMage maintenance:enable
@@ -41,14 +41,20 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
   fxTitle "🧑‍💻 Setting developer mode..."
   rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
+  
+  fxTitle "🛍️ Current mode..."
+  wsuMage deploy:mode:show
 
   fxTitle "🧑‍💻 Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 31536000
 
-elif [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${APP_ENV}" ]; then
+elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🛍️ Setting PRODUCTION mode..."
   wsuMage deploy:mode:set production --skip-compilation
+  
+  fxTitle "🛍️ Current mode..."
+  wsuMage deploy:mode:show
 
   fxTitle "🛍️ Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 86400
@@ -61,9 +67,6 @@ wsuMage config:set admin/security/password_lifetime ''
 wsuMage config:set system/security/max_session_size_admin 512000
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
-
-  fxTitle "🛍️ Current mode..."
-  wsuMage deploy:mode:show
 
   fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
@@ -121,7 +124,7 @@ fxTitle "🐧 Setting permissions..."
 sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} +
 sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} +
 
-if [ -z "${FAST_CACHE_CLEAR}" ]; then
+if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" ! = "dev" ]; then
 
   fxTitle "⚙️ Exiting maintenance mode..."
   wsuMage maintenance:disable
