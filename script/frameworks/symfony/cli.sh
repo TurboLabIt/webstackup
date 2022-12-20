@@ -43,7 +43,7 @@ fi
 
 fxTitle "🌋 symfony console"
 if [ "$EXPECTED_USER" = "$(whoami)" ]; then
-  /bin/php${PHP_VER} /usr/local/bin/symfony console "$@"
+  symfony console "$@"
 else
-  sudo -u "$EXPECTED_USER" -H ${PHP_CLI} /usr/local/bin/symfony console "$@"
+  sudo -u "$EXPECTED_USER" -H symfony console "$@"
 fi
