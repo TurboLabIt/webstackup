@@ -41,9 +41,9 @@ else
 fi
 
 
-fxTitle "🌋 symfony bin/console"
+fxTitle "🌋 symfony console"
 if [ "$EXPECTED_USER" = "$(whoami)" ]; then
-  /bin/php${PHP_VER} /usr/local/bin/symfony bin/console "$@"
+  /bin/php${PHP_VER} /usr/local/bin/symfony console "$@"
 else
-  sudo -u "$EXPECTED_USER" -H ${PHP_CLI} /usr/local/bin/symfony bin/console "$@"
+  sudo -u "$EXPECTED_USER" -H ${PHP_CLI} /usr/local/bin/symfony console "$@"
 fi
