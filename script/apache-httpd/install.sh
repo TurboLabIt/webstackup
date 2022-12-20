@@ -65,6 +65,9 @@ a2enmod rewrite
 fxTitle "Enable mod_ssl..."
 a2enmod ssl
 
+fxTitle "Enable HTTP Basic Auth support..."
+a2enmod authz_groupfile
+
 
 fxTitle "Set the ServerName directive..."
 fxInfo "Prevents 'Could not reliably determine the server's fully qualified domain name' on restarts"
