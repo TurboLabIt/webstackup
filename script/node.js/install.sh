@@ -23,9 +23,24 @@ if [ -z "${NODEJS_VER}" ]; then
   fxCatastrophicError "NODEJS_VER is undefined! Cannot determine which version of Node.js to install"
 fi
 
-curl -s https://deb.nodesource.com/setup_${NODEJS_VER}.x | bash
+
+fxTitle "Removing any old previous instance of Node.js..."
+apt purge --auto-remove nodejs* nvm* npm* -y
+
+
+NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_${NODEJS_VER}.x
+fxTitle "Installing via sh from ${NODEJS_INSTALL_URL}..."
+curl -s  "${NODEJS_INSTALL_URL}" | bash
 apt update
+
+## the NodeSource package contains both the node binary and npm
 apt install -y nodejs
+
+
+fxTitle "Current Node.js version..."
+apt policy nodejs
+node -v
+
 
 
 
