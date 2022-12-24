@@ -25,14 +25,17 @@ fi
 
 
 fxTitle "Removing any old previous instance of Node.js..."
-apt purge --auto-remove nodejs* nvm* npm* -y
+apt purge --auto-remove nodejs* npm* -y
+rm -f /etc/apt/sources.list.d/nodesource*
+apt update
 
 
 NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_${NODEJS_VER}.x
-fxTitle "Installing via sh from ${NODEJS_INSTALL_URL}..."
+fxTitle "Running ${NODEJS_INSTALL_URL}..."
 curl -s  "${NODEJS_INSTALL_URL}" | bash
-apt update
 
+
+fxTitle "Installing..."
 ## the NodeSource package contains both the node binary and npm
 apt install -y nodejs
 
