@@ -19,8 +19,7 @@ rootCheck
 
 
 fxTitle "Removing any old previous instance of Node.js..."
-if [ -z "$(command -v n)" ]; then
-
+if [ ! -z "$(command -v n)" ]; then
   n prune
   echo "y" | n uninstall
 fi
