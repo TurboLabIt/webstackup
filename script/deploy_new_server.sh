@@ -146,6 +146,14 @@ else
 fi
 
 
+fxTitle "Installing Node.js..."
+if [ "$INSTALL_NODEJS" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}node.js/install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing ELASTICSEARCH..."
 if [ "$INSTALL_ELASTICSEARCH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}elasticsearch/install.sh
