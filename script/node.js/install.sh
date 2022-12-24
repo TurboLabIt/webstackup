@@ -19,6 +19,12 @@ rootCheck
 
 
 fxTitle "Removing any old previous instance of Node.js..."
+if [ -z "$(command -v n)" ]; then
+
+  n prune
+  n uninstall  
+fi
+
 apt purge --auto-remove nodejs* npm* -y
 rm -f /etc/apt/sources.list.d/nodesource*
 apt update
