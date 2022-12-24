@@ -23,8 +23,9 @@ if [ -z "${NODEJS_VER}" ]; then
   fxCatastrophicError "NODEJS_VER is undefined! Cannot determine which version of Node.js to install"
 fi
 
-curl -fsSL https://deb.nodesource.com/setup_${NODEJS_VER}.x | sudo -E bash - &&\
-sudo apt-get install -y nodejs
+curl -s https://deb.nodesource.com/setup_${NODEJS_VER}.x | bash
+apt update
+apt install -y nodejs
 
 
 
