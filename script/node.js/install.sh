@@ -2,9 +2,7 @@
 ### AUTOMATIC NODE.JS INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
 #
-# Get the newest version of node here: https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-#
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh?$(date +%s) | sudo NODEJS_VER=19 bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh?$(date +%s) | sudo NODEJS_VER=19.3.0 bash
 #
 # Based on: https://turbolab.it/
 
@@ -19,18 +17,16 @@ fi
 fxHeader "💿 Node.js installer"
 rootCheck
 
-if [ -z "${NODEJS_VER}" ]; then
-  fxCatastrophicError "NODEJS_VER is undefined! Cannot determine which version of Node.js to install"
-fi
-
 
 fxTitle "Removing any old previous instance of Node.js..."
 apt purge --auto-remove nodejs* npm* -y
 rm -f /etc/apt/sources.list.d/nodesource*
 apt update
+rm -f /usr/bin/node
+rm -f /usr/local/bin/node
 
 
-NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_${NODEJS_VER}.x
+NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_19.x
 fxTitle "Running ${NODEJS_INSTALL_URL}..."
 curl -s  "${NODEJS_INSTALL_URL}" | bash
 
@@ -55,8 +51,25 @@ n --version
 
 
 fxTitle "Listing available Node.js version"
-fxMessage "n ls-remote --all"
 n ls-remote --all
+
+
+fxTitle "Installing the requested version..."
+if [ -z "${NODEJS_VER}" ]; then
+  fxInfo "No specific version of Node.js requested"
+else
+  n ${NODEJS_VER}
+fi
+
+
+fxTitle "Current Node.js version..."
+hash -r 
+node --version
+
+
+fxTitle "📃 To install other versions..."
+echo "To list all the available versions: n ls-remote --all"
+echo "To install/use another version: sudo n 10.15.0 && hash -r"
 
 
 fxEndFooter
