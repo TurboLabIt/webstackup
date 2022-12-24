@@ -22,15 +22,17 @@ fxTitle "Removing any old previous instance of Node.js..."
 if [ -z "$(command -v n)" ]; then
 
   n prune
-  n uninstall  
+  echo "y" | n uninstall
 fi
 
 apt purge --auto-remove nodejs* npm* -y
 rm -f /etc/apt/sources.list.d/nodesource*
 apt update
-rm -f /usr/bin/node
-rm -f /usr/local/bin/node
-rm -f /usr/lib/node_modules
+rm -rf /usr/bin/node
+rm -rf /usr/local/bin/node
+rm -rf /usr/lib/node_modules
+rm -rf /usr/local/lib/node_modules
+rm -rf /usr/local/n/
 
 
 NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_19.x
