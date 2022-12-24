@@ -42,9 +42,21 @@ apt install -y nodejs
 
 fxTitle "Current Node.js version..."
 apt policy nodejs
-node -v
+node --version
 
 
+fxTitle "Installing the n package..."
+## https://github.com/tj/n#installation
+npm install -g n
+
+
+fxTitle "Current n version..."
+n --version
+
+
+fxTitle "Listing available Node.js version"
+fxMessage "n ls-remote --all"
+n ls-remote --all
 
 
 fxEndFooter
