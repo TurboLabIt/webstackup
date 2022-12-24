@@ -24,10 +24,13 @@ rm -f /etc/apt/sources.list.d/nodesource*
 apt update
 rm -f /usr/bin/node
 rm -f /usr/local/bin/node
+rm -f /usr/lib/node_modules
 
 
 NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_19.x
 fxTitle "Running ${NODEJS_INSTALL_URL}..."
+fxInfo "Don't freak out if this is not the version you requested!"
+fxInfo "The version you requested will be installed later on"
 curl -s  "${NODEJS_INSTALL_URL}" | bash
 
 
@@ -44,14 +47,7 @@ node --version
 fxTitle "Installing the n package..."
 ## https://github.com/tj/n#installation
 npm install -g n
-
-
-fxTitle "Current n version..."
 n --version
-
-
-fxTitle "Listing available Node.js version"
-n ls-remote --all
 
 
 fxTitle "Installing the requested version..."
@@ -65,11 +61,15 @@ fi
 fxTitle "Current Node.js version..."
 hash -r 
 node --version
+fxInfo "☝ this should be the version you requested"
 
 
-fxTitle "📃 To install other versions..."
-echo "To list all the available versions: n ls-remote --all"
-echo "To install/use another version: sudo n 10.15.0 && hash -r"
+fxTitle "📃 To install additional version(s)..."
+echo "To list the available versions:"
+fxMessage "n ls-remote --all"
+echo "To install/use another version(s)"
+fxMessage "sudo n 10.15.0 && hash -r"
+fxInfo "☝ put this at the top of your deploy script"
 
 
 fxEndFooter
