@@ -75,7 +75,7 @@ fxTitle "📃 To install additional version(s)..."
 echo "To list the available versions:"
 fxMessage "n ls-remote --all"
 echo "To install/use another version(s)"
-fxMessage "sudo n 10.15.0 && hash -r"
+fxMessage "sudo n 10.15.0 && hash -r && node --version"
 fxInfo "☝ put this at the top of your deploy script"
 
 
