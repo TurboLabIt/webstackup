@@ -63,8 +63,13 @@ n --version
 
 fxTitle "Installing the requested version..."
 if [ -z "${NODEJS_VER}" ]; then
+
   fxInfo "No specific version of Node.js requested"
+  n ${NODEJS_LATEST_VERSION}
+  
 else
+  
+  fxInfo "Installing your requested version ##${NODEJS_VER}##"
   n ${NODEJS_VER}
 fi
 
@@ -72,14 +77,17 @@ fi
 fxTitle "Current Node.js version..."
 hash -r 
 node --version
-fxInfo "☝ this should be the version you requested"
+
+if [ ! -z "${NODEJS_VER}" ]; then
+  fxInfo "☝ this should be the version ##${NODEJS_VER}## you requested"
+fi
 
 
 fxTitle "📃 To install additional version(s)..."
 echo "To list the available versions:"
 fxMessage "n ls-remote --all"
 echo "To install/use another version(s)"
-fxMessage "sudo n 10.15.0 && hash -r && node --version"
+fxMessage "sudo n 10.15.0 && node --version"
 fxInfo "☝ put this at the top of your deploy script"
 
 
