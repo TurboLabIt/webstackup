@@ -32,6 +32,7 @@ rm -rf /usr/local/bin/node
 rm -rf /usr/lib/node_modules
 rm -rf /usr/local/lib/node_modules
 rm -rf /usr/local/n/
+rm -rf "$(getent passwd $SUDO_USER | cut -d: -f6)/.nvm"
 
 
 NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_19.x
