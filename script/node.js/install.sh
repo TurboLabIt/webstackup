@@ -6,6 +6,9 @@
 #
 # Based on: https://turbolab.it/
 
+## https://github.com/nodesource/distributions/blob/master/README.md#debinstall
+NODEJS_LATEST_VERSION=19
+
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
@@ -35,7 +38,7 @@ rm -rf /usr/local/n/
 rm -rf "$(getent passwd $SUDO_USER | cut -d: -f6)/.nvm"
 
 
-NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_19.x
+NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_${NODEJS_LATEST_VERSION}.x
 fxTitle "Running ${NODEJS_INSTALL_URL}..."
 fxInfo "Don't freak out if this is not the version you requested!"
 fxInfo "The version you requested will be installed later on"
