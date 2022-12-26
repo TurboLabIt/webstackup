@@ -55,6 +55,19 @@ apt policy nodejs
 node --version
 
 
+fxTitle "Enabling corepack..."
+corepack enable
+
+
+fxTitle "Installing yarn via corepack..."
+## https://yarnpkg.com/getting-started/install
+corepack prepare yarn@stable --activate
+
+
+fxTitle "Current yarn version..."
+yarn --version
+
+
 fxTitle "Installing the n package..."
 ## https://github.com/tj/n#installation
 npm install -g n
