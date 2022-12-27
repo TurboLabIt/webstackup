@@ -33,6 +33,13 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Entering maintenance mode..."
   wsuMage maintenance:enable
+
+  fxTitle "Enable merge and minify..."
+  wsuMage config:set dev/js/merge_files 1
+  wsuMage config:set dev/js/enable_js_bundling 0
+  wsuMage config:set dev/js/minify_files 1
+  wsuMage config:set dev/css/merge_css_files 1
+  wsuMage config:set dev/css/minify_files 1
 fi
 
 
@@ -47,6 +54,13 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   fxTitle "🧑‍💻 Change admin settings..."
   wsuMage config:set admin/security/session_lifetime 31536000
+  
+  fxTitle "Enable merge and minify..."
+  wsuMage config:set dev/js/merge_files 0
+  wsuMage config:set dev/js/enable_js_bundling 0
+  wsuMage config:set dev/js/minify_files 0
+  wsuMage config:set dev/css/merge_css_files 0
+  wsuMage config:set dev/css/minify_files 0
 
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
