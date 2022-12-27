@@ -39,7 +39,7 @@ fi
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   fxTitle "🧑‍💻 Setting developer mode..."
-  rm -rf "${MAGENTO_DIR}generated/metadata/"*
+  sudo rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
   
   fxTitle "🛍️ Current mode..."
