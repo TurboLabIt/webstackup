@@ -3,6 +3,6 @@
 ## with at least 8 GB of RAM (16 GB strongly recommended)
 
 ## Memory limit
-# https://www.elastic.co/guide/en/elasticsearch/reference/current/heap-size.html
--Xms2g
--Xmx6g
+# https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings
+-Xms4g
+-Xmx4g
