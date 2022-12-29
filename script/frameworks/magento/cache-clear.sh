@@ -131,12 +131,14 @@ fi
 fxTitle "🌊 Magento cache:flush..."
 wsuMage cache:flush
 
-fxTitle "🐧 Setting the owner (async)..."
-sudo chown ${EXPECTED_USER}:www-data . -R &
+fxTitle "🐧 Setting the owner..."
+fxInfo "Running async"
+sudo -b chown ${EXPECTED_USER}:www-data . -R > /dev/null 2>&1
 
-fxTitle "🐧 Setting permissions (async)..."
-sudo find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + &
-sudo find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + &
+fxTitle "🐧 Setting permissions..."
+fxInfo "Running async"
+sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + > /dev/null 2>&1
+sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + > /dev/null 2>&1
 
 if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
 
