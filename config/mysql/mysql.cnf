@@ -1,6 +1,6 @@
 ### VARIOUS MYSQL OPTIMIZATION BY WEBSTACK.UP
 ## for a 32GB RAM server with nginx+mysql
-## PLEASE NOTE: the file in /etc/mysql/ in an HARD LINK to WEBSTACKUP. DO NOT EDIT DIRECTLY. Overwrite in a custom file instead.
+## PLEASE NOTE: the file in /etc/mysql/ is an HARD LINK to WEBSTACKUP. DO NOT EDIT DIRECTLY. Overwrite in a custom file instead.
 
 [mysqld]
 
@@ -34,7 +34,7 @@ default_authentication_plugin=mysql_native_password
 # Total buffers: 168.0M global + 65.1M per thread (250 max threads)
 # Maximum possible memory usage: 16.1G (51.38% of installed RAM)
 # 
-# Check: select @@max_connections;
+# Check: select @@GLOBAL.max_connections;
 max_connections = 250
 
 
@@ -75,7 +75,7 @@ join_buffer_size = 512kb
 
 ## 
 # https://dev.mysql.com/doc/refman/8.0/en/stored-programs-logging.html
-# Check: SELECT @@log_bin_trust_function_creators
+# Check: SELECT @@GLOBAL.log_bin_trust_function_creators
 log_bin_trust_function_creators = 1
 
 
