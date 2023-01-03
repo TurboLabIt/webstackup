@@ -9,5 +9,6 @@ REMOTE_SERVER=my-app.com
 REMOTE_SSH_USERNAME=
 REMOTE_PROJECT_DIR=/var/www/my-app/
 REMOTE_APP_ENV=prod
+DISABLE_SSH_TEST=0
 
 wsuSourceFrameworkScript db-download
