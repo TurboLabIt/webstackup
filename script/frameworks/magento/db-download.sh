@@ -6,4 +6,4 @@
 #
 # 1. You should now git commit your copy
 
-source "${WEBSTACKUP_SCRIPT_DIR}mysql/db-download.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}frameworks/db-download.sh"
