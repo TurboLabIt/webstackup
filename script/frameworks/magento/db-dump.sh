@@ -16,6 +16,10 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
+DB_DUMPS_DIR=${PROJECT_DIR}backup/db-dumps/
+sudo -u ${EXPECTED_USER} -H mkdir "${DB_DUMPS_DIR}"
+
 cd "${MAGENTO_DIR}"
-wsuN98MageRun db:dump ../backup/db-dump_${APP_NAME}_${APP_ENV}.sql.gz --compression=gzip \
+
+wsuN98MageRun db:dump "${DB_DUMPS_DIR}db-dump_${APP_NAME}_${APP_ENV}.sql.gz --compression=gzip \
   --strip="@aggregated @dotmailer @ee_changelog @oauth @replica @search @stripped @temp"
