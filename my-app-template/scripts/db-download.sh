@@ -4,4 +4,10 @@
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/db-download.sh
 
 source $(dirname $(readlink -f $0))/script_begin.sh
+
+REMOTE_SERVER=my-app.com
+REMOTE_SSH_USERNAME=
+REMOTE_PROJECT_DIR=/var/www/my-app/
+REMOTE_APP_ENV=prod
+
 wsuSourceFrameworkScript db-download
