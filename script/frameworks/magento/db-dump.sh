@@ -17,7 +17,7 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
 fi
 
 ## create $DB_DUMP_DIR
-wsuMkAutogenDir
+wsuMkDbDumpDir
 
 cd "${MAGENTO_DIR}"
 
