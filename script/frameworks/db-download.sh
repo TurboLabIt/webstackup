@@ -22,7 +22,7 @@ else
   USER_AT_HOST=${REMOTE_SSH_USERNAME}@${REMOTE_SERVER}
 fi
 
-fxInfo "OK, SSH is about to run as ##${USER_AT_HOST}##"
+fxInfo "SSH is about to run as ##${USER_AT_HOST}##"
 
 
 if [ "${DISABLE_SSH_TEST}" != 1 ] ; then
