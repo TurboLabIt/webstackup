@@ -21,5 +21,9 @@ wsuMkAutogenDir
 
 cd "${MAGENTO_DIR}"
 
-wsuN98MageRun db:dump "${DB_DUMP_DIR}db_${APP_NAME}-${APP_ENV}_db-dump-sh.sql.gz" --compression=gzip \
+DB_DUMP_FILE_PATH=${DB_DUMP_DIR}db_${APP_NAME}-${APP_ENV}_db-dump-sh.sql.gz
+
+wsuN98MageRun db:dump "${MAGENTO_DB_DUMP_FILE_PATH}" --compression=gzip \
   --strip="@aggregated @dotmailer @ee_changelog @oauth @replica @search @stripped @temp"
+  
+fxMessage "##$DB_DUMP_FILE_PATH##"
