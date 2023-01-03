@@ -17,4 +17,4 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
 fi
 
 cd "${MAGENTO_DIR}"
-wsuMageN98 db:dump ../backup/db-dump_${APP_NAME}_${APP_ENV}.sql.gz --compression=gzip --strip="@stripped @emails @ee_changelog @search"
+wsuN98MageRun db:dump ../backup/db-dump_${APP_NAME}_${APP_ENV}.sql.gz --compression=gzip --strip="@stripped @emails @ee_changelog @search"
