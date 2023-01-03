@@ -39,6 +39,8 @@ function wsuMkDbDumpDir()
 {
   fxTitle "📂 Creating the DB_DUMP_DIR folder..."
   mkdir -p "${DB_DUMP_DIR}"
+  chown --reference="${DB_DUMP_DIR}.." "${DB_DUMP_DIR}"
+  chmod --reference="${DB_DUMP_DIR}.." "${DB_DUMP_DIR}"
 }
 
 ##
