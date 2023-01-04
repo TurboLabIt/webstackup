@@ -14,7 +14,6 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
-echo "🌳 APP_ENV:              ##${APP_ENV}##"
 echo "🗄️ DB_DUMP_FILE_PATH:    ##${DB_DUMP_FILE_PATH}##"
 echo "⚙️ SKIP_POST_LOAD_QUERY:  ##${SKIP_POST_LOAD_QUERY}#"
 
