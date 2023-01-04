@@ -8,76 +8,31 @@ source $(dirname $(readlink -f $0))/script_begin.sh
 fxHeader "🧑‍💻 DEV cli"
 fxTitle "Running on ${APP_ENV} ($HOSTNAME)"
 devOnlyCheck
-fxCatastrophicError "dev_cli.sh is not ready! Please customize it and remove this line when done"
+
 #fxTitle "Changing permissions..."
 #sudo chmod ugo=rwx "${PROJECT_DIR}" -R
 
-
-## for db:...
-DB_SERVER=my-app.com
-DB_SERVER_HOSTNAME=my-app-hostname
-DB_NAME=my-app
-if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ]; then
-  source "${PROJECT_DIR}config/custom/zzmysqldump.conf"
-else
-  MYSQL_BACKUP_DIR=/var/www/my-app/backup/dbdumps
-fi
-FILENAME=${DB_SERVER_HOSTNAME}_${DB_NAME}_$(date +'%u').sql.7z
-
-
-if [ "$1" != "db:refresh" ] && [ "$1" != "db:download" ] && [ "$1" != "db:import" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
-  bash "${SCRIPT_DIR}migrate.sh"
-fi
-
 if [ "$1" = "cache" ]; then
 
-  bash "${PROJECT_DIR}scripts/cache-clear.sh" $2
-  
+  bash "${SCRIPT_DIR}cache-clear.sh" $2
+
 elif [ "$1" = "composer" ]; then
 
   wsuComposer "${@:2}"
 
 elif [ "$1" = "db:refresh" ]; then
 
-  bash ${SCRIPT_DIR}dev_cli.sh "db:download"
-  bash ${SCRIPT_DIR}dev_cli.sh "db:import"
+  bash "${SCRIPT_DIR}db-download.sh"
+  bash "${SCRIPT_DIR}db-load.sh"
 
-elif [ "$1" = "db:download" ]; then
+elif [ "$1" = "example" ]; then
 
-  ssh -t ${DB_SERVER} "sudo zzmysqldump ${APP_NAME}"
-  rsync --archive --compress --partial --progress --verbose ${DB_SERVER}:${MYSQL_BACKUP_DIR}/${FILENAME} ${PROJECT_DIR}backup/dbdumps-remote/
-
-elif [ "$1" = "db:import" ]; then
-
-  ## for Magento only (remove if this is NOT a Magento-based app)
-  wsuN98MageRun db:import ../backup/dbdump_dev.sql.gz --drop --compression=gzip
-  
-  ## for zzmysqldump
-  zzmysqlimp ${PROJECT_DIR}backup/dbdumps-remote/${FILENAME}
-
-  ## post-import fixup
-  if [ -f "${PROJECT_DIR}config/custom/staging/db-post-import.sql" ]; then
-    wsuMysql < ${PROJECT_DIR}config/custom/staging/db-post-import.sql
-  fi
-  if [ -f "${PROJECT_DIR}config/custom/dev/db-post-import.sql" ]; then
-     wsuMysql < ${PROJECT_DIR}config/custom/dev/db-post-import.sql
-  fi
-  
-  ## migrating
-  if [ -f "${SCRIPT_DIR}migrate" ]; then
-    bash ${SCRIPT_DIR}migrate.sh
-  fi
-
-  bash "${PROJECT_DIR}scripts/cache-clear.sh"
-
-elif [ "$1" = "cmd" ]; then
-
-  cd ${MAGENTO_DIR}
-  XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=9001" /bin/php${PHP_VER} bin/magento my:mage:cmd "${@:2}"
+  clear
+  bash "${SCRIPT_DIR}cli.sh" orders:export "${@:2}"
 
 else
 
-  fxCatastrophicError "Please provide a defined input procedure!"
+  fxCatastrophicError "Please provide a defined procedure"
 fi
 
 #fxTitle "Changing permissions..."
