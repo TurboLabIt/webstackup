@@ -9,6 +9,21 @@ fi
 
 function wsuMysql()
 {
+  fxTitle "🗄️ wsuMysql"
+  
+  if [ ! -z "$MYSQL_PASSWORD" ]; then
+    MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
+  fi
+  
+  echo "👤 User:    ##${MYSQL_USER}##"
+  echo "🔑 Pass:    ##${MYSQL_PASSWORD_HIDDEN}##"
+  echo "🖥️ Host:    ##${MYSQL_HOST}##"
+  echo "🔨 Command: ##$@##"
+
+  if [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] ||  [ -z "$@" ]; then
+    fxCatastrophicError "wsuMysql error. Some required parameters are empty"
+  fi
+
   mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" "$@"
 }
 
