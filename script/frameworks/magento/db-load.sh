@@ -26,7 +26,6 @@ cd "${MAGENTO_DIR}"
 wsuN98MageRun db:import "${DB_DUMP_FILE_PATH}" --drop --compression=gzip
 
 
-fxTitle "⚙️ Running db-post-load SQL queries..."
 if [ "${SKIP_POST_LOAD_QUERY}" != 1 ]; then
 
   fxTitle "⚙️ Running SQL query for staging..."
@@ -58,6 +57,7 @@ if [ "${SKIP_POST_LOAD_QUERY}" != 1 ]; then
 
 else 
 
+  fxTitle "⚙️ Running db-post-load SQL queries..."
   fxInfo "SKIP_POST_LOAD_QUERY is set, skipping"
 fi
 
