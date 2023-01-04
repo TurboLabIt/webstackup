@@ -46,7 +46,7 @@ function wsuMysql()
   echo "🖥️ Host:    ##${MYSQL_HOST}##"
   echo "🔨 Command: ##$@##"
 
-  if [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] ||  [ -z "$@" ]; then
+  if [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ]; then
     fxCatastrophicError "wsuMysql error. Some required parameters are empty"
   fi
 
