@@ -182,8 +182,10 @@ fi
 printTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
 
-printTitle "🔃️ Restarting cron..."
-service cron restart
+printTitle "🔃️ Reloading cron..."
+## cron shouldn't be restarted, or you'll get:
+# `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
+service cron reload
 
 function deployPhpLinker()
 {
