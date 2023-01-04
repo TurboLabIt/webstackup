@@ -1,15 +1,7 @@
-## 🚨 WARNING 🚨
+## Post-database load queries
 #
-# This file is under version control!
-# DO NOT EDIT DIRECTLY - If you do, you'll loose your changes!
-#
-# The original file is in `/var/www/my-app/config/custom/dev/`
-#
-# You MUST:
-#
-# 1. edit the original file on you PC
-# 2. Git-commit+push the changes
-# 3. run `sudo bash /var/www/my-app/scripts/db-load.sh`
+# The following queries are executed automatically by `scripts/db-load.sh`
+# after the database dump is loaded.
 #
 # ⚠️ This file is for the DEV env only ⚠️
 #
