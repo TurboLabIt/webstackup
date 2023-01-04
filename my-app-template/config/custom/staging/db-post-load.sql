@@ -9,7 +9,7 @@
 #
 # 1. edit the original file on you PC
 # 2. Git-commit+push the changes
-# 3. run `sudo bash /var/www/my-app/scripts/deploy.sh`
+# 3. run `sudo bash /var/www/my-app/scripts/db-load.sh`
 #
 # ⚠️ This file is for the STAGING env only ⚠️
 #
