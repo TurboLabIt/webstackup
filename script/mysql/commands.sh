@@ -1,16 +1,42 @@
 #!/usr/bin/env bash
 ### READY-TO-RUN, FULLY CUSTOMIZED MYSQL COMMANDS BY WEBSTACK.UP
 
-if [ -r "/etc/turbolab.it/mysql.conf" ]; then
-  MYSQL_HOST=127.0.0.1
-  source "/etc/turbolab.it/mysql.conf"
-fi
+
+function wsuMysqlReadConfig()
+{
+  if [ -r "/etc/turbolab.it/mysql.conf" ]; then
+    MYSQL_HOST=127.0.0.1
+    source "/etc/turbolab.it/mysql.conf"
+  fi
+}
+
+wsuMysqlReadConfig
 
 
 function wsuMysql()
 {
   fxTitle "🗄️ wsuMysql"
   
+  if [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ]; then
+  
+    if [ -r "/etc/turbolab.it/mysql.conf" ]; then
+    
+       wsuMysqlReadConfig
+      
+    elif [ ! -r "/etc/turbolab.it/mysql.conf" ] && [ -f "/etc/turbolab.it/mysql.conf" ]; then
+    
+      sudo cp -a "/etc/turbolab.it/mysql.conf" "/etc/turbolab.it/mysql_wsuMysql_temp.conf"
+      sudo chmod ugo+r "/etc/turbolab.it/mysql.conf"
+      
+      wsuMysqlReadConfig
+      
+      sudo rm -f "/etc/turbolab.it/mysql.conf"
+      sudo mv "/etc/turbolab.it/mysql_wsuMysql_temp.conf" "/etc/turbolab.it/mysql.conf"
+
+    fi
+
+  fi
+
   if [ ! -z "$MYSQL_PASSWORD" ]; then
     MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
   fi
