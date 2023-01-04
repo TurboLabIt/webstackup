@@ -45,7 +45,7 @@ if [ "${SKIP_POST_LOAD_QUERY}" != 1 ]; then
   if [ "${APP_ENV}" = "dev" ] && [ ! -f "${SQL_DEV}" ]; then
     fxWarning "##$SQL_DEV## not found, skipping"
   elif [ "${APP_ENV}" = "dev" ] && [ -f "${SQL_DEV}" ]; then
-    wsuMysql < "${fxTitle}"
+    wsuMysql < "${SQL_DEV}"
   else
     fxInfo "APP_ENV is ##${APP_ENV}##, skipping"
   fi
