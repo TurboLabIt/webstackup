@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 ## Play sounds via terminal
 # 😢 It doesn't work via SSH, even if you install `alsa-utils` remotely
+# possible solution: https://unix.stackexchange.com/a/34781/104537
 
 PLAY_SOUND_CMD="/usr/bin/aplay"
 if [ ! -x "${PLAY_SOUND_CMD}" ]; then
