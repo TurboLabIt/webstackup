@@ -17,6 +17,9 @@
 
 fxHeader "🧙🧹 Magento cache-clear"
 
+## kill the whole script on Ctrl+C
+trap "exit" INT
+
 showPHPVer
 
 if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
