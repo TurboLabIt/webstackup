@@ -23,6 +23,14 @@ function wsuComposer()
   elif [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${WEBROOT_DIR}composer.json" ]; then
 
     COMPOSER_JSON_FULLPATH=${WEBROOT_DIR}composer.json
+
+  elif [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "composer.json" ]; then
+
+    COMPOSER_JSON_FULLPATH=$(pwd)/composer.json
+  fi
+
+  if [ -z "${COMPOSER_JSON_FULLPATH}" ]; then
+    fxCatastrophicError "composer.json not found"
   fi
 
   if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
@@ -36,12 +44,12 @@ function wsuComposer()
     fxMessage "Using ##${COMPOSER_JSON_FULLPATH}##"
     rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
     ${FULL_COMPOSER_CMD} "$@"
-
   fi
 
   local SYMFONY_FLEX="$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/flex/src/Command/DumpEnvCommand.php"
 
-  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX_DUMP_ENV_COMMAND}" ]; then
+  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX}" ]; then
+
     fxTitle "📦 dump-env ${APP_ENV}..."
     ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
   fi
