@@ -370,14 +370,14 @@ fi
 
 
 ## nginx-allow-deny-list
-if [ -f "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}.conf" ]; then
+if [ -f "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}.conf" ]; then
   printTitle "🚪 Linking nginx-allow-deny-list..."
-  ln -s "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}.conf"
+  ln -s "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}.conf"
 fi
 
-if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf" ]; then
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf" ]; then
   printTitle "🚪 Linking ${APP_ENV} nginx-allow-deny-list..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" "/etc/turbolab.it/nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf"
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf"
 fi
 
 
