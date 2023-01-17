@@ -200,6 +200,7 @@ done
 echo ""
 echo "I'm gonna remove every file related to ##${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}##"
 
+
 #### HERE WE GO ####
 
 fxTitle "🚀 I'm 'bout to rock the show..."
@@ -302,5 +303,48 @@ fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
 
-fxEndFooter
 
+fxTitle "🗃 Do you need a database?"
+while [ -z "$WSU_MAP_NEW_DATABASE" ]; do
+
+  PS3="🤖 Start the database+credentials wizard ? #"
+  select WSU_MAP_NEW_DATABASE in "yes" "no"; do
+    break
+  done
+
+done
+
+if [ "${WSU_MAP_NEW_DATABASE}" = "yes" ] || [ "${WSU_MAP_NEW_DATABASE}" = "1" ]; then
+  source "/usr/local/turbolab.it/webstackup/script/mysql/new.sh"
+else
+  fxOK "One less thing to backup, right?"
+fi
+
+
+fxTitle "🧙‍ Do you want to run your framework install script?"
+while [ -z "$WSU_MAP_RUN_FRAMEWORK_INSTALLER" ]; do
+
+  PS3="🤖 Run ${WSU_MAP_FRAMEWORK}-install.sh #"
+  select WSU_MAP_RUN_FRAMEWORK_INSTALLER in "yes" "no"; do
+    break
+  done
+
+done
+
+
+if [ "${WSU_MAP_RUN_FRAMEWORK_INSTALLER}" != "yes" ] && [ "${WSU_MAP_RUN_FRAMEWORK_INSTALLER}" != "1" ]; then
+
+  fxOK "Well, well... Good luck setting up that thing on your own!"
+
+elif [ ! -f "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh" ]; then
+
+  fxWarning "Sorry, I've not built ##${WSU_MAP_FRAMEWORK}-install.sh## just yet. Ping me NOW about it please!"
+
+else
+
+  nano "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
+  source "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
+
+fi
+
+fxEndFooter
