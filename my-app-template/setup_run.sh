@@ -11,6 +11,8 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.2
+# WSU_MAP_NEW_DATABASE=yes
+# WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
@@ -155,7 +157,7 @@ fxOK "Sounds good, the project will use PHP ##$WSU_MAP_PHP_VERSION##"
 fxTitle "🪶 Do you need Apache HTTP Server?"
 if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ]; then
 
-  PS3="🤖 Remove config files for Apache HTTPD Server? #"
+  PS3="🤖 Keep the Apache HTTPD Server config files? #"
   select WSU_MAP_NEED_APACHE_HTTPD in "yes" "no"; do
    break
   done
