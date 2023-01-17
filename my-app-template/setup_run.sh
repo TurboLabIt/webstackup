@@ -11,6 +11,8 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.2
+# WSU_MAP_NEW_DATABASE=yes
+# WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
