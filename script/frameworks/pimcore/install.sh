@@ -20,6 +20,10 @@
 fxHeader "💿 Pimcore installer"
 rootCheck
 
+if [ ! -z "$MYSQL_PASSWORD" ]; then
+  MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
+fi  
+
 if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ] || \
    [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
    [ -z "${SITE_URL}" ] ||  [ -z "${PIMCORE_SITE_NAME}" ] || \
@@ -33,7 +37,7 @@ if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ]
   MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
   MYSQL_USER:              ##${MYSQL_USER}##
   MYSQL_HOST:              ##${MYSQL_HOST}##
-  MYSQL_PASSWORD:          ##${MYSQL_PASSWORD}##
+  MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
   SITE_URL:                ##${SITE_URL}##
   PIMCORE_SITE_NAME:       ##${PIMCORE_SITE_NAME}##
   PIMCORE_ADMIN_USERNAME:  ##${PIMCORE_ADMIN_USERNAME}##
@@ -47,22 +51,30 @@ PCINST_FIRST_ADMIN_PASSWORD=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 1
 PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
+
+function wsuPimcoreInstallComposer()
+{
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
+    /usr/local/bin/composer "$@" --working-dir "/tmp/${APP_NAME}" --no-interaction
+}
+
 cd /tmp
 rm -rf /tmp/${APP_NAME}
-XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer create-project pimcore/skeleton /tmp/${APP_NAME} --no-interaction
+wsuPimcoreInstallComposer create-project pimcore/skeleton
+
+fxTitle "Adding Symfony bundles..."
+wsuPimcoreInstallComposer require symfony/maker-bundle --dev
 
 shopt -s dotglob
 cp -r /tmp/${APP_NAME}/. ${PROJECT_DIR}
 rm -rf /tmp/${APP_NAME}
 
 cd ${PROJECT_DIR}
-XDEBUG_MODE=off ${PHP_CLI} vendor/bin/pimcore-install \
-  --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PCINST_FIRST_ADMIN_PASSWORD}" \
-  --mysql-host-socket "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
-  --no-interaction
-  
- fxTitle "Adding Symfony bundles..."
- XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer req symfony/maker-bundle --dev
+sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
+  vendor/bin/pimcore-install \
+    --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PCINST_FIRST_ADMIN_PASSWORD}" \
+    --mysql-host-socket "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
+    --no-interaction
 
 #fxTitle "Downloading .gitignore"
 #curl -o "${PCINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_pimcore?$(date +%s)
