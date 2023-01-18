@@ -51,6 +51,7 @@ if ! id "webstackup" &>/dev/null; then
   sudo -u webstackup -H ssh-keyscan -t rsa github.com > /home/webstackup/.ssh/known_hosts
   sudo -u webstackup -H ssh-keyscan -t rsa ssh-keyscan -t rsa bitbucket.org >> /home/webstackup/.ssh/known_hosts
   chmod u=rw,go= /home/webstackup/.ssh/known_hosts
+  chown webstackup:www-data /home/webstackup/.ssh/known_hosts
   
   sudo -u webstackup -H git config --global user.name "webstackup"
   sudo -u webstackup -H git config --global user.email "info@webstackup"
