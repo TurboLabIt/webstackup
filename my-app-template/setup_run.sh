@@ -3,7 +3,7 @@
 ### MANAGED VARIABLES ###
 #########################
 
-# WSU_MAP_REPO_URL=git@github.com:TurboLabIt/html-pages.git | no
+# WSU_MAP_REPO_CLONE=yes|no
 # WSU_MAP_NAME="My Amazing Shop On-Line"
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
@@ -29,12 +29,14 @@ fxHeader "🐫 my-app-template"
 rootCheck
 
 
+fxTitle "✨ Webstackup check...."
 WSU_MAP_ORIGIN=/usr/local/turbolab.it/webstackup/my-app-template/
 if [ ! -d "${WSU_MAP_ORIGIN}" ]; then
   fxCatastrophicError "Webstackup not detected! Please install it locally: https://github.com/TurboLabIt/webstackup"
 fi
 
 source /usr/local/turbolab.it/webstackup/script/base.sh
+fxOK "Webstackup is installed"
 
 fxTitle "👤 Group and user check"
 if ! getent group "www-data" &>/dev/null; then
@@ -59,6 +61,24 @@ fxOK "webstackup:www-data OK"
 fxTitle "🐑 Clone a Git repository"
 fxInfo "Make sure your SSH key can access the repo you want"
 fxMessage "$(cat /home/$(logname)/.ssh/id_rsa.pub)"
+while [ -z "$WSU_MAP_REPO_CLONE" ]; do
+
+  PS3="🤖 Start the clone repo wizard ? #"
+  select WSU_MAP_REPO_CLONE in "yes" "no"; do
+    break
+  done
+
+done
+
+if [ "${WSU_MAP_REPO_CLONE}" = "yes" ] || [ "${WSU_MAP_REPO_CLONE}" = "1" ]; then
+
+  # https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/git-clone.sh
+  source "${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh"
+  
+else
+
+  fxWarning "Please note that this is not standard procedure"
+fi
 
 
 fxTitle "📛 Enter the name of the project"
@@ -325,7 +345,7 @@ while [ -z "$WSU_MAP_NEW_DATABASE" ]; do
 done
 
 if [ "${WSU_MAP_NEW_DATABASE}" = "yes" ] || [ "${WSU_MAP_NEW_DATABASE}" = "1" ]; then
-  source "/usr/local/turbolab.it/webstackup/script/mysql/new.sh"
+  source "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh"
 else
   fxOK "One less thing to backup, right?"
 fi
