@@ -3,6 +3,7 @@
 ### MANAGED VARIABLES ###
 #########################
 
+# WSU_MAP_REPO_URL=git@github.com:TurboLabIt/html-pages.git | no
 # WSU_MAP_NAME="My Amazing Shop On-Line"
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
@@ -31,6 +32,8 @@ if [ ! -d "${WSU_MAP_ORIGIN}" ]; then
   fxCatastrophicError "Webstackup not detected! Please install it locally: https://github.com/TurboLabIt/webstackup"
 fi
 
+source /usr/local/turbolab.it/webstackup/script/base.sh
+
 fxTitle "👤 Group and user check"
 if ! getent group "www-data" &>/dev/null; then
   fxWarning "www-data group NOT found!"
@@ -49,6 +52,11 @@ if [ ! -z "${USER_FAILURE}" ]; then
 fi
 
 fxOK "webstackup:www-data OK"
+
+
+fxTitle "🐑 Clone a Git repository"
+fxInfo "Make sure your SSH key can access the repo you want"
+fxMessage "$(cat /home/$(logname)/.ssh/id_rsa.pub)"
 
 
 fxTitle "📛 Enter the name of the project"
