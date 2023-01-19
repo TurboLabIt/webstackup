@@ -67,7 +67,7 @@ fxOK "$(pwd)"
 
 fxTitle "Composering pimcore/skeleton..."
 wsuPimcoreInstallComposer create-project pimcore/skeleton downloaded-pimcore
-rsync -a "${PROJECT_DIR}downloaded-pimcore/" "${WSU_MAP_DEPLOY_TO_PATH}/"
+rsync -a "${PROJECT_DIR}downloaded-pimcore/" "${PROJECT_DIR}/"
 rm -rf "${PROJECT_DIR}downloaded-pimcore/"
 
 
@@ -76,15 +76,15 @@ wsuPimcoreInstallComposer require symfony/maker-bundle --dev
 
 
 fxTitle "Running the downloaded Pimcore installer from vendor..."
-sudo -u $EXPECTED_USER -H \
-  XDEBUG_MODE=off \ 
-  PIMCORE_INSTALL_ADMIN_USERNAME=${PIMCORE_ADMIN_USERNAME} \
-  PIMCORE_INSTALL_ADMIN_PASSWORD=${PCINST_FIRST_ADMIN_PASSWORD} \
-  PIMCORE_INSTALL_MYSQL_USERNAME=${MYSQL_USER} \
-  PIMCORE_INSTALL_MYSQL_PASSWORD=${MYSQL_PASSWORD} \
+sudo -u $EXPECTED_USER -H "###$(whoami)##"
+sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \ 
+  PIMCORE_INSTALL_ADMIN_USERNAME="${PIMCORE_ADMIN_USERNAME}" \
+  PIMCORE_INSTALL_ADMIN_PASSWORD="${PCINST_FIRST_ADMIN_PASSWORD}" \
+  PIMCORE_INSTALL_MYSQL_USERNAME="${MYSQL_USER}" \
+  PIMCORE_INSTALL_MYSQL_PASSWORD="${MYSQL_PASSWORD}" \
   ${PHP_CLI} vendor/bin/pimcore-install \
-    --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
-    --no-interaction
+  --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
+  --no-interaction
 
 #fxTitle "Downloading .gitignore"
 #curl -o "${PCINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_pimcore?$(date +%s)
