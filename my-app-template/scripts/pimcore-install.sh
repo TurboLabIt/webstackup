@@ -12,6 +12,7 @@ PIMCORE_ADMIN_EMAIL=admin@my-app.com
 PIMCORE_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 
 MYSQL_USER=my-app
+MYSQL_DB_NAME=my-app
 ## ☠️☠️ DON'T GIT COMMIT THE PASSWORD ☠️☠️ ##
 MYSQL_PASSWORD=
 MYSQL_HOST=localhost
