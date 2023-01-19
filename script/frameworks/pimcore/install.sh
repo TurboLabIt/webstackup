@@ -24,7 +24,7 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
   MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
 fi  
 
-if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ] || \
+if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ] || \
    [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
    [ -z "${SITE_URL}" ] ||  [ -z "${PIMCORE_SITE_NAME}" ] || \
    [ -z "${PIMCORE_ADMIN_USERNAME}" ] || [ -z "${PIMCORE_ADMIN_NEW_SLUG}" ] \
@@ -32,7 +32,7 @@ if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ]
 
   catastrophicError "Pimcore installer can't run with these variables undefined:
   APP_NAME:                ##${APP_NAME}##
-  WEBROOT_DIR:             ##${WEBROOT_DIR}##
+  PROJECT_DIR:             ##${PROJECT_DIR}##
   PIMCORE_LOCALE:          ##${PIMCORE_LOCALE}##
   MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
   MYSQL_USER:              ##${MYSQL_USER}##
@@ -46,8 +46,7 @@ if [ -z "${APP_NAME}" ] || [ -z "${WEBROOT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ]
 fi
 
 
-PCINST_WEBROOT_DIR=${WEBROOT_DIR%*/}/
-PCINST_FIRST_ADMIN_PASSWORD=$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)
+PCINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
@@ -55,21 +54,24 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 function wsuPimcoreInstallComposer()
 {
   sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
-    /usr/local/bin/composer "$@" --working-dir "/tmp/${APP_NAME}" --no-interaction
+    /usr/local/bin/composer "$@" --working-dir "${PROJECT_DIR}" --no-interaction
 }
 
-cd /tmp
-rm -rf /tmp/${APP_NAME}
+
+fxTitle "Switching to ${PROJECT_DIR}..."
+cd ${PROJECT_DIR}
+fxOK "$(pwd)"
+
+
+fxTitle "Composering pimcore/skeleton..."
 wsuPimcoreInstallComposer create-project pimcore/skeleton
+
 
 fxTitle "Adding Symfony bundles..."
 wsuPimcoreInstallComposer require symfony/maker-bundle --dev
 
-shopt -s dotglob
-cp -r /tmp/${APP_NAME}/. ${PROJECT_DIR}
-rm -rf /tmp/${APP_NAME}
 
-cd ${PROJECT_DIR}
+fxTitle "Running the downloaded Pimcore installer from vendor..."
 sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
   vendor/bin/pimcore-install \
     --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PCINST_FIRST_ADMIN_PASSWORD}" \
@@ -80,8 +82,13 @@ sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
 #curl -o "${PCINST_WEBROOT_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore_pimcore?$(date +%s)
 #sed -i "s|my-app|${APP_NAME}|g" "${PCINST_WEBROOT_DIR}.gitignore"
 
-fxTitle "Set the permissions"
-chown webstackup:www-data ${PCINST_WEBROOT_DIR} -R
-chmod u=rwx,g=rwX,o=rX ${PCINST_WEBROOT_DIR} -R
+#fxTitle "Set the permissions"
+#chown webstackup:www-data ${PCINST_WEBROOT_DIR} -R
+#chmod u=rwx,g=rwX,o=rX ${PCINST_WEBROOT_DIR} -R
 
-fxMessage "Your admin password is: $PCINST_FIRST_ADMIN_PASSWORD"
+fxTitle "The Pimcore instance is ready"
+fxMessage "Your admin username is: ${PIMCORE_ADMIN_USERNAME}"
+fxMessage "Your admin password is: ${PCINST_FIRST_ADMIN_PASSWORD}"
+echo ""
+echo "Please login at https://${PCINST_SITE_DOMAIN}/${PIMCORE_ADMIN_NEW_SLUG}"
+
