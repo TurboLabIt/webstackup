@@ -76,7 +76,6 @@ wsuPimcoreInstallComposer require symfony/maker-bundle --dev
 
 
 fxTitle "Running the downloaded Pimcore installer from vendor..."
-sudo -u $EXPECTED_USER -H "###$(whoami)##"
 sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \ 
   PIMCORE_INSTALL_ADMIN_USERNAME="${PIMCORE_ADMIN_USERNAME}" \
   PIMCORE_INSTALL_ADMIN_PASSWORD="${PCINST_FIRST_ADMIN_PASSWORD}" \
