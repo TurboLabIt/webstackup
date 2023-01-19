@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-### MANAGED VARIABLES ###
-#########################
-
+# Variables
+# ---------
 # WSU_MAP_REPO_CLONE=yes|no
 # WSU_MAP_NAME="My Amazing Shop On-Line"
 # WSU_MAP_DOMAIN=my-shop.com
@@ -58,23 +57,31 @@ fi
 fxOK "webstackup:www-data OK"
 
 
+fxTitle "📂 Defining the temporary directory..."
+WSU_MAP_TMP_DIR=/tmp/my-app-template/
+rm -rf $WSU_MAP_TMP_DIR
+fxOK "Temporary directory set to ##$WSU_MAP_TMP_DIR##"
+
+
 fxTitle "🐑 Clone a Git repository"
-fxInfo "Make sure your SSH key can access the repo you want"
-fxMessage "$(cat /home/$(logname)/.ssh/id_rsa.pub)"
 while [ -z "$WSU_MAP_REPO_CLONE" ]; do
 
-  PS3="🤖 Start the clone repo wizard ? #"
-  select WSU_MAP_REPO_CLONE in "yes" "no"; do
-    break
-  done
+  echo "🤖 Start the clone repo wizard? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_REPO_CLONE=yes
+  else
+    WSU_MAP_REPO_CLONE=no
+  fi
 
 done
 
 if [ "${WSU_MAP_REPO_CLONE}" = "yes" ] || [ "${WSU_MAP_REPO_CLONE}" = "1" ]; then
 
   # https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/git-clone.sh
+  GIT_CLONE_TARGET_FOLDER=${WSU_MAP_TMP_DIR}
   source "${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh"
-  
+
 else
 
   fxWarning "Please note that this is not standard procedure"
@@ -145,16 +152,6 @@ while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; do
     WSU_MAP_DEPLOY_TO_PATH=$WSU_MAP_DEPLOY_TO_PATH_DEFAULT
   fi
 
-  if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ] && [ -d "$(dirname "$WSU_MAP_DEPLOY_TO_PATH")" ]; then
-    mkdir -p "$WSU_MAP_DEPLOY_TO_PATH"
-  fi
-
-  if [ ! -d "$WSU_MAP_DEPLOY_TO_PATH" ]; then
-    fxWarning "Directory ##${WSU_MAP_DEPLOY_TO_PATH}## doesn't exist!" "proceed"
-    WSU_MAP_DEPLOY_TO_PATH=
-    echo ""
-  fi
-
 done
 
 WSU_MAP_DEPLOY_TO_PATH=${WSU_MAP_DEPLOY_TO_PATH%*/}/
@@ -165,16 +162,12 @@ fxTitle "🔢 Enter the PHP version"
 fxInfo "For example: \"7.4\" or \"8.2\""
 while [ -z "$WSU_MAP_PHP_VERSION" ]; do
 
-  if [ ! -z ${PHP_VER} ]; then
-    echo "🤖 Provide the PHP version to use or hit Enter for ##${PHP_VER}##"
-  else
-    echo "🤖 Provide the PHP version to use"
-  fi
-
+  WSU_MAP_DEFAULT_PHP_VERSION=8.2
+  echo "🤖 Provide the PHP version to use or hit Enter for ##${WSU_MAP_DEFAULT_PHP_VERSION}##"
   read -p ">> " WSU_MAP_PHP_VERSION  < /dev/tty
 
-  if [ ! -z ${PHP_VER} ] && [ -z "$WSU_MAP_PHP_VERSION" ]; then
-    WSU_MAP_PHP_VERSION=$PHP_VER
+  if [ -z "$WSU_MAP_PHP_VERSION" ]; then
+    WSU_MAP_PHP_VERSION=${WSU_MAP_DEFAULT_PHP_VERSION}
   fi
 
 done
@@ -185,10 +178,14 @@ fxOK "Sounds good, the project will use PHP ##$WSU_MAP_PHP_VERSION##"
 fxTitle "🪶 Do you need Apache HTTP Server?"
 if [ -z "${WSU_MAP_NEED_APACHE_HTTPD}" ]; then
 
-  PS3="🤖 Keep the Apache HTTPD Server config files? #"
-  select WSU_MAP_NEED_APACHE_HTTPD in "yes" "no"; do
-   break
-  done
+  echo "🤖 Keep the Apache HTTPD Server config files? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_NEED_APACHE_HTTPD=yes
+  else
+    WSU_MAP_NEED_APACHE_HTTPD=no
+  fi
+
 fi
 
 if [ "${WSU_MAP_NEED_APACHE_HTTPD}" = "yes" ] || [ "${WSU_MAP_NEED_APACHE_HTTPD}" = "1" ]; then
@@ -245,10 +242,8 @@ fxCountdown
 echo ""
 
 
-fxTitle "📂 Building the temporary directory..."
-WSU_MAP_TMP_DIR=/tmp/my-app-template/
-rm -rf $WSU_MAP_TMP_DIR
-mkdir $WSU_MAP_TMP_DIR
+fxTitle "📂 Copying the template data to the temporary directory..."
+mkdir -p $WSU_MAP_TMP_DIR
 cp -r ${WSU_MAP_ORIGIN} /tmp/
 
 ## log directory
@@ -337,16 +332,23 @@ rm -rf ${WSU_MAP_TMP_DIR}
 fxTitle "🗃 Do you need a database?"
 while [ -z "$WSU_MAP_NEW_DATABASE" ]; do
 
-  PS3="🤖 Start the database+credentials wizard ? #"
-  select WSU_MAP_NEW_DATABASE in "yes" "no"; do
-    break
-  done
+  echo "🤖 Start the database+credentials wizard? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_NEW_DATABASE=yes
+  else
+    WSU_MAP_NEW_DATABASE=no
+  fi
 
 done
 
 if [ "${WSU_MAP_NEW_DATABASE}" = "yes" ] || [ "${WSU_MAP_NEW_DATABASE}" = "1" ]; then
-  source "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh"
+
+  NEW_MYSQL_PASSWORD=auto
+  bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh" "" "auto"
+
 else
+
   fxOK "One less thing to backup, right?"
 fi
 
@@ -354,10 +356,13 @@ fi
 fxTitle "🧙‍ Do you want to run your framework install script?"
 while [ -z "$WSU_MAP_RUN_FRAMEWORK_INSTALLER" ]; do
 
-  PS3="🤖 Run ${WSU_MAP_FRAMEWORK}-install.sh #"
-  select WSU_MAP_RUN_FRAMEWORK_INSTALLER in "yes" "no"; do
-    break
-  done
+  echo "🤖 Run ${WSU_MAP_FRAMEWORK}-install.sh? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
+  else
+    WSU_MAP_RUN_FRAMEWORK_INSTALLER=no
+  fi
 
 done
 
@@ -378,3 +383,4 @@ else
 fi
 
 fxEndFooter
+

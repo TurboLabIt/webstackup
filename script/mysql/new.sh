@@ -12,15 +12,13 @@ if [ ! -e "${MYSQL_CREDENTIALS_FILE}" ]; then
   fxCatastrophicError "Credentials file ${MYSQL_CREDENTIALS_FILE} not found!"
 fi
 
-
 NEW_MYSQL_USER=$1
 NEW_MYSQL_PASSWORD=$2
 NEW_MYSQL_DB_NAME=$3
 
 
 fxTitle "🧔 Username"
-while [ -z "$NEW_MYSQL_USER" ]
-do
+while [ -z "$NEW_MYSQL_USER" ]; do
   read -p "🤖 Provide the username: " NEW_MYSQL_USER  < /dev/tty
 done
 
@@ -28,24 +26,30 @@ fxOK "OK, $NEW_MYSQL_USER"
 
 
 fxTitle "🔑 Password"
-while [ -z "$NEW_MYSQL_PASSWORD" ]
-do
+if [ "$NEW_MYSQL_PASSWORD" = "auto" ]; then
+  NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
+fi
+
+while [ -z "$NEW_MYSQL_PASSWORD" ]; do
+
   read -p "🤖 Provide the password (leave blank for autogeneration): " NEW_MYSQL_PASSWORD  < /dev/tty
   if [ -z "$NEW_MYSQL_PASSWORD" ]; then
-    NEW_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
+    NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
   fi
+  
 done
 
 fxOK "OK, $NEW_MYSQL_PASSWORD"
 
 
 fxTitle "🧺 DB name"
-while [ -z "$NEW_MYSQL_DB_NAME" ]
-do
-  read -p "🤖 Provide the name of the database to create (leave blank if same as username): " NEW_MYSQL_DB_NAME  < /dev/tty
+while [ -z "$NEW_MYSQL_DB_NAME" ]; do
+
+  read -p "🤖 Provide the name of the database (leave blank if it's the same as the username): " NEW_MYSQL_DB_NAME  < /dev/tty
   if [ -z "$NEW_MYSQL_DB_NAME" ]; then
     NEW_MYSQL_DB_NAME=$NEW_MYSQL_USER
   fi
+  
 done
 
 fxOK "OK, $NEW_MYSQL_DB_NAME"
@@ -78,3 +82,4 @@ wsuMysql -e "FLUSH PRIVILEGES;"
 wsuMysqlStoreCredentials "$NEW_MYSQL_USER" "$NEW_MYSQL_PASSWORD" "$MYSQL_HOST" "$NEW_MYSQL_DB_NAME"
 
 fxEndFooter
+
