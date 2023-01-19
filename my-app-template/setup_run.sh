@@ -12,6 +12,8 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.2
 # WSU_MAP_NEW_DATABASE=yes
+# WSU_MAP_NEW_DATABASE_USER=usr_${WSU_MAP_APP_NAME}
+# WSU_MAP_NEW_DATABASE_NAME=${WSU_MAP_APP_NAME}
 # WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
 
 ## bash-fx
@@ -311,7 +313,6 @@ fi
 
 
 fxTitle "👮 Setting permissions..."
-#chown webstackup:www-data /tmp/my-app-template -R
 chmod u=rwx,go=rX /tmp/my-app-template -R
 chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
 chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
@@ -320,6 +321,22 @@ chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
+
+
+function wsuMapSetPermissions()
+{
+  fxTitle "👮 Setting the owner..."
+  if [ -d "${WSU_MAP_DEPLOY_TO_PATH}.git" ]; then
+    local DIR_OWNER=$(fxGetFileOwner "${WSU_MAP_DEPLOY_TO_PATH}.git")
+  else
+    local DIR_OWNER=$(whoami)
+  fi
+  
+  chown ${DIR_OWNER}:www-data "${WSU_MAP_DEPLOY_TO_PATH}" -R
+  ls -la "${WSU_MAP_DEPLOY_TO_PATH}"
+}
+
+wsuMapSetPermissions
 
 
 fxTitle "🗃 Do you need a database?"
@@ -338,7 +355,7 @@ done
 if [ "${WSU_MAP_NEW_DATABASE}" = "yes" ] || [ "${WSU_MAP_NEW_DATABASE}" = "1" ]; then
 
   NEW_MYSQL_PASSWORD=auto
-  bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh" "" "auto"
+  bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh" "${WSU_MAP_NEW_DATABASE_USER}" "auto" "${WSU_MAP_NEW_DATABASE_NAME}"
 
 else
 
