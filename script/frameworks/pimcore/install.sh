@@ -1,5 +1,7 @@
 ### AUTOMATIC PIMCORE SETUP BY WEBSTACK.UP
 ## This script must be sourced! Example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/pimcore-install.sh
+##
+## Based on: https://pimcore.com/docs/pimcore/current/Development_Documentation/Getting_Started/Installation.html
 
 ### Variables:
 # WEBROOT_DIR=
@@ -53,8 +55,8 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 function wsuPimcoreInstallComposer()
 {
-  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
-    /usr/local/bin/composer "$@" --working-dir "${PROJECT_DIR}" --no-interaction
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 \
+    ${PHP_CLI} /usr/local/bin/composer "$@" --working-dir "${PROJECT_DIR}" --no-interaction
 }
 
 
@@ -64,7 +66,9 @@ fxOK "$(pwd)"
 
 
 fxTitle "Composering pimcore/skeleton..."
-wsuPimcoreInstallComposer create-project pimcore/skeleton
+wsuPimcoreInstallComposer create-project pimcore/skeleton downloaded-pimcore
+rsync -a "${PROJECT_DIR}downloaded-pimcore/" "${WSU_MAP_DEPLOY_TO_PATH}/"
+rm -rf "${PROJECT_DIR}downloaded-pimcore/"
 
 
 fxTitle "Adding Symfony bundles..."
@@ -72,10 +76,14 @@ wsuPimcoreInstallComposer require symfony/maker-bundle --dev
 
 
 fxTitle "Running the downloaded Pimcore installer from vendor..."
-sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} \
-  vendor/bin/pimcore-install \
-    --admin-username "${PIMCORE_ADMIN_USERNAME}" --admin-password "${PCINST_FIRST_ADMIN_PASSWORD}" \
-    --mysql-host-socket "${MYSQL_HOST}" --mysql-username "${MYSQL_USER}" --mysql-password "${MYSQL_PASSWORD}" --mysql-database "${MYSQL_DB_NAME}" \
+sudo -u $EXPECTED_USER -H \
+  XDEBUG_MODE=off \ 
+  PIMCORE_INSTALL_ADMIN_USERNAME=${PIMCORE_ADMIN_USERNAME} \
+  PIMCORE_INSTALL_ADMIN_PASSWORD=${PCINST_FIRST_ADMIN_PASSWORD} \
+  PIMCORE_INSTALL_MYSQL_USERNAME=${MYSQL_USER} \
+  PIMCORE_INSTALL_MYSQL_PASSWORD=${MYSQL_PASSWORD} \
+  ${PHP_CLI} vendor/bin/pimcore-install \
+    --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
     --no-interaction
 
 #fxTitle "Downloading .gitignore"
