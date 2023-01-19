@@ -85,7 +85,7 @@ function wsuMysqlStoreCredentials()
 
   fxTitle "💾 Storing MySQL credentials to ${FILENAME}..."
   echo "MYSQL_USER=$MYSQL_USER" > "$FILENAME"
-  echo "MYSQL_PASSWORD=$MYSQL_PASS" >> "$FILENAME"
+  echo "MYSQL_PASSWORD='$MYSQL_PASS'" >> "$FILENAME"
   echo "MYSQL_HOST=$MYSQL_HOST" >> "$FILENAME"
   
   if [ "$FILENAME" != "/etc/turbolab.it/mysql.conf" ] && [ ! -z "MYSQL_DB_NAME" ]; then

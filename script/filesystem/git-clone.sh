@@ -162,7 +162,7 @@ gitCloneGitCmd config --global --add safe.directory "${GIT_CLONE_TARGET_FOLDER%*
 git config --global --add safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}"
 
 fxTitle "🌿 Switching branch..."
-gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} switch ${GIT_CLONE_BRANCH}
+gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} switch -c ${GIT_CLONE_BRANCH}
 
 fxTitle "👮 Setting Git filemode to false..."
 gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config core.fileMode false
