@@ -1,0 +1,27 @@
+## 🚨 WARNING 🚨
+#
+# This file is under version control!
+# DO NOT EDIT DIRECTLY - If you do, you'll loose your changes!
+#
+# The original file is in `/var/www/dev0/my-app/config/custom/dev/`
+#
+# You MUST:
+#
+# 1. edit the original file on you PC
+# 2. Git-commit+push the changes
+# 3. run `sudo cp /var/www/dev0/my-app/config/custom/dev/cron /etc/cron.d/my-app_dev`
+#
+# ⚠️ This file is for the DEV env only ⚠️
+#
+# 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/dev/cron
+
+SHELL=/usr/bin/bash
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+PROJECT_DIR=/var/www/dev0/my-app/
+SCRIPT_DIR=/var/www/dev0/my-app/scripts/
+LOG_PATH=/var/www/dev0/my-app/var/log/cron_
+
+## my-app-framework cron job
+* * * * * root bash ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
+
+## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
