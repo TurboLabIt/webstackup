@@ -77,6 +77,7 @@ wsuMysql -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\` CHARACTER SET utf8mb4 COLLAT
 
 fxTitle "🔑 Granting privileges..."
 wsuMysql -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
+wsuMysql -e "GRANT RELOAD, PROCESS ON *.* TO '$NEW_MYSQL_USER'@'%';"
 wsuMysql -e "FLUSH PRIVILEGES;"
 
 wsuMysqlStoreCredentials "$NEW_MYSQL_USER" "$NEW_MYSQL_PASSWORD" "$MYSQL_HOST" "$NEW_MYSQL_DB_NAME"
