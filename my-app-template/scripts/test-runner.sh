@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
-## test-runner placeholder
+## Run phpunit tests of the project
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh
 
 source $(dirname $(readlink -f $0))/script_begin.sh
+# if you're testing a package, just set this instead:
+#APP_NAME=MyPackageName
 
-fxHeader "🧪 Test runner"
+# https://github.com/TurboLabIt/webstackup/tree/master/script/php/test-runner-package.sh
+source "/usr/local/turbolab.it/webstackup/script/php/test-runner-package.sh"
 
-fxCatastrophicError "test-runner.sh is not ready!" dont-stop
+fxTitle "🧹 Cleaning up..."
+#rm -rf /tmp/any-temp-dir
 
-## work in progress! Check https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh !
-
-fxEndFooter failure
-exit
+fxEndFooter
