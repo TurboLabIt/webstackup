@@ -4,7 +4,8 @@
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh
 
 source $(dirname $(readlink -f $0))/script_begin.sh
-# if you're testing a package, just set this instead:
+# if you're testing a package, just use this instead:
+#source "/usr/local/turbolab.it/webstackup/script/base.sh"
 #APP_NAME=MyPackageName
 
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/test-runner-package.sh
