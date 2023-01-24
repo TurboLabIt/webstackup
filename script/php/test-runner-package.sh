@@ -1,6 +1,12 @@
-## Run phpunit tests of your package
+## Run phpunit tests of your package by WEBSTACKUP
+# https://github.com/TurboLabIt/webstackup/blob/master/script/php/test-runner-package.sh
 #
-# Usage example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh
+# How to:
+#
+# 1. Copy the "starter" script to your project directory with:
+#   curl -Lo scripts/test-runner.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/test-runner.sh && sudo chmod u=rwx,go=rx scripts/test-runner.sh
+#
+# 1. You should now git commit your copy
 
 cd "$PROJECT_DIR"
 
