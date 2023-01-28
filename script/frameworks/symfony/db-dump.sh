@@ -8,4 +8,4 @@
 #
 # 1. You should now git commit your copy
 
-zzmysqldump "${APP_NAME}"
+sudo zzmysqldump "${APP_NAME}"
