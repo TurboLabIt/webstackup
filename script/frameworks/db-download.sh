@@ -46,4 +46,4 @@ wsuMkDbDumpDir
 
 
 fxTitle "⬇️ Downloading..."
-rsync --archive --compress --partial --progress --verbose ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dump/ ${DB_DUMP_DIR}
+rsync --archive --compress --partial --progress --verbose ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dumps/ ${DB_DUMP_DIR}
