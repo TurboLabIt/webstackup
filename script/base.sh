@@ -33,7 +33,7 @@ SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
 INITIAL_DIR=$(pwd)
 PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
 WEBROOT_DIR=${PROJECT_DIR}public/
-DB_DUMP_DIR=${PROJECT_DIR}backup/db-dump/
+DB_DUMP_DIR=${PROJECT_DIR}backup/db-dumps/
 
 function wsuMkDbDumpDir()
 {
