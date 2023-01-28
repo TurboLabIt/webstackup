@@ -12,3 +12,6 @@ REMOTE_APP_ENV=prod
 DISABLE_SSH_TEST=0
 
 wsuSourceFrameworkScript db-download
+
+source "${SCRIPT_DIR}script_end.sh"
+

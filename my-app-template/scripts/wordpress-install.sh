@@ -18,3 +18,4 @@ fxCatastrophicError "wordpress-install.sh is not ready!"
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
+

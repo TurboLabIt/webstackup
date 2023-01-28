@@ -22,3 +22,4 @@ ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
   "/var/log/nginx/" "Go"
   "/var/www/" "Go"
   "/etc/nginx/conf.d" "Go")
+

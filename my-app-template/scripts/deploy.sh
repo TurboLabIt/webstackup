@@ -9,3 +9,4 @@ SCRIPT_NAME=deploy
 source $(dirname $(readlink -f $0))/script_begin.sh
 
 sudo bash ${SCRIPT_DIR}deploy_run.sh $1 2>&1 | sudo tee ${PROJECT_DIR}var/log/deploy.sh.log
+

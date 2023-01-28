@@ -5,3 +5,5 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 wsuSourceFrameworkScript db-dump
+source "${SCRIPT_DIR}script_end.sh"
+

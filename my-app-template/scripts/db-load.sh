@@ -9,3 +9,6 @@ DB_DUMP_FILE_PATH=${DB_DUMP_DIR}db_${APP_NAME}-prod_db-dump-sh.sql.gz
 SKIP_POST_LOAD_QUERY=0
 
 wsuSourceFrameworkScript db-load
+
+source "${SCRIPT_DIR}script_end.sh"
+

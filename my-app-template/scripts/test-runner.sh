@@ -26,3 +26,4 @@ if [ -f "${TESTR_SCRIPT_END}" ]; then
 else
   fxEndFooter
 fi
+

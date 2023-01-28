@@ -22,3 +22,4 @@ MYSQL_HOST=localhost
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/pimcore/install.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
+
