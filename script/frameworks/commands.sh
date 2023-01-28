@@ -16,11 +16,10 @@ function wsuSourceFrameworkScript()
     ## shift down the arguments to handle `wsuSourceFrameworkScript maintenance on`
     shift
     source ${RUNNABLE}
-    source ${SCRIPT_DIR}/script_end.sh
     
   else
   
     fxInfo "No $(basename ${RUNNABLE} .sh) script available for your ##${PROJECT_FRAMEWORK}## framework"
-
   fi
 }
+
