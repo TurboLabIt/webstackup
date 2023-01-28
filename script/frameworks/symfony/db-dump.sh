@@ -8,4 +8,4 @@
 #
 # 1. You should now git commit your copy
 
-sudo zzmysqldump "${APP_NAME}"
+source "${WEBSTACKUP_SCRIPT_DIR}frameworks/db-dump.sh"
