@@ -27,6 +27,7 @@ fxTitle "pimcore:maintenance"
 # it fills the message queue with the necessary tasks, which are then processed by messenger:consume
 wsuSymfony console pimcore:maintenance --async
 
+
 fxTitle "messenger:consume"
 # it's recommended to run the following command using a process control system like Supervisor
 # please follow the Symfony Messenger guide for a best practice production setup:
@@ -46,6 +47,7 @@ fxTitle "Action trigger queue"
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Action-trigger-queue
 wsuSymfony console cmf:process-actiontrigger-queue -v
 
+
 fxTitle "Cron Trigger"
 # This cronjob is needed if cron triggers are used in ActionTrigger rules.
 # Important: this needs to run once per minute!
@@ -57,17 +59,20 @@ fxTitle "Calculate potential duplicates"
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Calculate-potential-duplicates
 wsuSymfony console cmf:duplicates-index -c -v
 
+
 fxTitle "CMF Maintenance"
 # This cronjob should be configured to be executed on a regular basis. 
 # It performs various tasks configured in services.yml and tagged with cmf.maintenance.serviceCalls.
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_CMF-Maintenance
 wsuSymfony console cmf:maintenance -v
 
+
 fxTitle "Newsletter Queue"
 # Processes the newsletter queue. 
 # This job should run once every x minutes (e.g. every 5 minutes) when the newsletter/mailchimp sync feature is needed.
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
 wsuSymfony console cmf:newsletter-sync -c
+
 
 fxTitle "Mailchimp status sync"
 # Should run as a night job. Synchronizes status updates from Mailchimp to Pimcore if webhook calls failed. 
