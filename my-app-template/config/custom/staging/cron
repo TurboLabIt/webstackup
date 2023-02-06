@@ -28,5 +28,5 @@ AUTODEPLOY_FILENAME_TO_CHECK=async-runner-request-my-app-autodeploy-staging-1234
 * * * * * root bash /usr/local/turbolab.it/webstackup/script/filesystem/async-runner.sh "${AUTODEPLOY_FILENAME_TO_CHECK}" "${SCRIPT_DIR}deploy.sh" fast >> ${LOG_PATH}autodeploy-async.log 2>&1
 
 
-## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
 
