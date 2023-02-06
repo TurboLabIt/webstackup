@@ -24,4 +24,5 @@ LOG_PATH=/var/www/dev0/my-app/var/log/cron_
 ## my-app-framework cron job
 * * * * * root bash ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
 
-## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
+
