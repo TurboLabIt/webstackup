@@ -26,5 +26,5 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 
 
 
-## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
 
