@@ -9,4 +9,3 @@ SCRIPT_NAME=deploy
 source $(dirname $(readlink -f $0))/script_begin.sh
 source "${WEBSTACKUP_SCRIPT_DIR}filesystem/deploy_run.sh"
 source "${SCRIPT_DIR}script_end.sh"
-
