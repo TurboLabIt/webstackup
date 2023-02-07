@@ -7,4 +7,3 @@
 source $(dirname $(readlink -f $0))/script_begin.sh
 wsuSourceFrameworkScript cron "$@"
 source "${SCRIPT_DIR}script_end.sh"
-
