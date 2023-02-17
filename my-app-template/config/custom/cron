@@ -24,7 +24,8 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 ## my-app-framework cron job
 * * * * * root bash ${SCRIPT_DIR}cron.sh 2>&1 >> ${LOG_PATH}my-app-framework.log
 
+## Disk cleaner
+7 0,12 * * * root bash ${DIR_SCRIPT}cleaner.sh >> ${LOG_PATH}cleaner.log 2>&1
 
 
 ## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
-
