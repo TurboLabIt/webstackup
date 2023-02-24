@@ -86,7 +86,7 @@ if [ "${WSU_MAP_REPO_CLONE}" = "yes" ] || [ "${WSU_MAP_REPO_CLONE}" = "1" ]; the
 
 else
 
-  fxWarning "Please note that this is not standard procedure"
+  fxWarning "Please note that this is not standard procedure! The shell env will be set via the 'env' file"
 fi
 
 
@@ -246,7 +246,7 @@ echo ""
 
 fxTitle "📂 Copying the template data to the temporary directory..."
 mkdir -p $WSU_MAP_TMP_DIR
-cp -r ${WSU_MAP_ORIGIN} /tmp/
+rsync -a --exclude='/env' ${WSU_MAP_ORIGIN} /tmp/
 
 ## log directory
 mkdir -p ${WSU_MAP_TMP_DIR}var/log
@@ -268,6 +268,11 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "www.www." ''
 
 fxTitle "👓 Acquiring gitignore..."
 curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+
+fxTitle "🌳 Dealing with the env file"
+if [ ! -d "${WSU_MAP_TMP_DIR}.git" ] && [ ! -f "${WSU_MAP_TMP_DIR}env" ]; then
+  cp ${WSU_MAP_ORIGIN}env ${WSU_MAP_TMP_DIR}env
+fi
 
 
 fxTitle "🪶 Dealing with Apache HTTP Server config files..."
