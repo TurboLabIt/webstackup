@@ -38,6 +38,10 @@ disableExec /etc/update-motd.d/60-unminimize
 ## Disable "XX updates can be applied immediately"
 disableExec /etc/update-motd.d/90-updates-available
 
+## Disable "Introducing Expanded Security Maintenance for Applications"
+disableExec 88-esm-announce
+disableExec 91-contract-ua-esm-status
+
 ## Add hostname
 if [ -z "$(command -v figlet)" ] || [ ! -f "/usr/games/lolcat" ]; then
   sudo apt install figlet lolcat -y -qq
