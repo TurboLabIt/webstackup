@@ -39,8 +39,8 @@ disableExec /etc/update-motd.d/60-unminimize
 disableExec /etc/update-motd.d/90-updates-available
 
 ## Disable "Introducing Expanded Security Maintenance for Applications"
-disableExec 88-esm-announce
-disableExec 91-contract-ua-esm-status
+disableExec /etc/update-motd.d/88-esm-announce
+disableExec /etc/update-motd.d/91-contract-ua-esm-status
 
 ## Add hostname
 if [ -z "$(command -v figlet)" ] || [ ! -f "/usr/games/lolcat" ]; then
