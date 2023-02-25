@@ -4,6 +4,16 @@
 fxHeader "💿 symfony new"
 rootCheck
 
+
+if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
+
+  catastrophicError "Symfony new can't run with these variables undefined:
+  APP_NAME:                ##${APP_NAME}##
+  PROJECT_DIR:             ##${PROJECT_DIR}##"
+  exit
+fi
+
+
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
 
