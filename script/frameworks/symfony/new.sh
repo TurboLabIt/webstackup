@@ -90,6 +90,6 @@ rm -rf "${WSU_TMP_DIR}"
 
 
 fxTitle "📂 Result"
-fxInfo "Listing PROJECT_DIR ##${PROJECT_DIR}##""
+fxInfo "Listing PROJECT_DIR ##${PROJECT_DIR}##"
 
 cd "${CURRENT_DIR_BACKUP}"
