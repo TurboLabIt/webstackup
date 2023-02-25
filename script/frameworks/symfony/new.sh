@@ -4,10 +4,14 @@
 fxHeader "💿 Symfony installer"
 rootCheck
 
-WSU_TMP_DIR=/tmp/wsu-symfony-installer/
+PROJECT_DIR_BACKUP=${PROJECT_DIR}
+
+WSU_TMP_DIR=/tmp/wsu-symfony-new/
 rm -rf "${WSU_TMP_DIR}"
 mkdir -p "${WSU_TMP_DIR}"
 cd "${WSU_TMP_DIR}"
+
+PROJECT_DIR=${WSU_TMP_DIR}
 
 wsuSymfony new ${APP_NAME}
 cd ${APP_NAME}
@@ -45,5 +49,7 @@ wsuSymfony composer config repositories.TurboLabIt/BaseCommand git https://githu
 wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
 
 rm -rf .git
+
+PROJECT_DIR=${PROJECT_DIR_BACKUP}
 
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
