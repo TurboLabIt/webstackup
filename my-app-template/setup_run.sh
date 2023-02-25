@@ -268,7 +268,7 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "www.www." ''
 
 fxTitle "👓 Managing the .gitignore..."
 if [ ! -f "${WSU_MAP_TMP_DIR}.gitignore" ]; then
-  curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+  curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 else
   fxInfo "A .gitignore already exists, skipping"
 fi
