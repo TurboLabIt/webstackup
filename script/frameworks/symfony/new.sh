@@ -6,6 +6,7 @@ rootCheck
 
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 
+fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
 rm -rf "${WSU_TMP_DIR}"
 mkdir -p "${WSU_TMP_DIR}"
@@ -13,20 +14,27 @@ chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
 PROJECT_DIR=${WSU_TMP_DIR}
+fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
+
+fxTitle "Running symfony new..."
 wsuSymfony new ${APP_NAME} --no-git
 cd ${APP_NAME}
 
+
+fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
+
+fxTitle "Adding Symfony components..."
 wsuSymfony composer require \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
   stof/doctrine-extensions-bundle
   
-wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
-
+ 
+fxTitle "Setting up doctrine-extensions..."
 echo "
 stof_doctrine_extensions:
    orm:
@@ -35,6 +43,12 @@ stof_doctrine_extensions:
 " > /dev/null
 #config/packages/stof_doctrine_extensions.yml
 
+
+fxTitle "Adding Symfony dev components..."
+wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+
+
+fxTitle "Adding TurboLab.it packages..."
 # https://github.com/TurboLabIt/php-foreachable
 wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
 wsuSymfony composer require turbolabit/php-foreachable:dev-main
@@ -55,7 +69,10 @@ wsuSymfony composer require turbolabit/php-encryptor:dev-main
 wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
 wsuSymfony composer require turbolabit/php-dev-pack:dev-master
 
+
+fxTitle "Restoring PROJECT_DIR"
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
+fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
 fxTitle "👮 Setting permissions..."
 chmod u=rwx,go=rX "${WSU_TMP_DIR}" -R
@@ -65,4 +82,8 @@ fxTitle "👮 Setting the owner..."
 DIR_OWNER=$(fxGetFileOwner "${PROJECT_DIR}")
 chown ${DIR_OWNER}:www-data "${WSU_TMP_DIR}" -R
 
+
+fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
+rm -rf "${WSU_TMP_DIR}"
+
