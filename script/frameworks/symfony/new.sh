@@ -89,7 +89,7 @@ rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
 
 
-fxTitle "📂 Result"
-fxInfo "Listing PROJECT_DIR ##${PROJECT_DIR}##"
+fxTitle "📂 Listing PROJECT_DIR ##${PROJECT_DIR}#"
+ls -la "${PROJECT_DIR}"
 
 cd "${CURRENT_DIR_BACKUP}"
