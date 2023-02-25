@@ -1,7 +1,6 @@
 #!/bin/bash
-clear
-
 sudo bash /usr/local/turbolab.it/webstackup/setup.sh
+clear
 
 export WSU_MAP_REPO_CLONE=no
 export GIT_CLONE_RUN_AS=$(logname)
