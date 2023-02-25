@@ -245,8 +245,7 @@ echo ""
 
 
 fxTitle "📂 Copying the template data to the temporary directory..."
-mkdir -p $WSU_MAP_TMP_DIR
-rsync -a --exclude='/env' ${WSU_MAP_ORIGIN} /tmp/
+rsync -a --exclude='/env' ${WSU_MAP_ORIGIN} "${WSU_MAP_TMP_DIR}"
 
 ## log directory
 mkdir -p ${WSU_MAP_TMP_DIR}var/log
