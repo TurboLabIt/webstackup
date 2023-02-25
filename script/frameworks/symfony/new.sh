@@ -1,7 +1,7 @@
-### AUTOMATIC SYMFONY SETUP BY WEBSTACK.UP
+### Create a new Symfony project automatically by WEBSTACKUP
 ## This script must be sourced! Example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/symfony-install.sh
 
-fxHeader "💿 Symfony installer"
+fxHeader "💿 symfony new"
 rootCheck
 
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
