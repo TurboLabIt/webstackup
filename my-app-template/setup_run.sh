@@ -265,12 +265,20 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "www.www." ''
 
-fxTitle "👓 Acquiring gitignore..."
-curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+
+fxTitle "👓 Managing the .gitignore..."
+if [ ! -f "${WSU_MAP_TMP_DIR}.gitignore" ]; then
+  curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/ZaneCEO/webdev-gitignore/master/.gitignore?$(date +%s)
+else
+  fxInfo "A .gitignore already exists, skipping"
+fi
+
 
 fxTitle "🌳 Dealing with the env file"
 if [ ! -d "${WSU_MAP_TMP_DIR}.git" ] && [ ! -f "${WSU_MAP_TMP_DIR}env" ]; then
   cp ${WSU_MAP_ORIGIN}env ${WSU_MAP_TMP_DIR}env
+else
+  fxOK "Good! Either a .git folder or an 'env' file exists, skipping"
 fi
 
 
