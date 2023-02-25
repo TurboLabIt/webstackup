@@ -84,7 +84,7 @@ rm -rf "${WSU_TMP_DIR}"
 fxTitle "👮 Setting permissions..."
 chmod ugo= "${PROJECT_DIR}" -R
 chmod u=rwx,go=rX "${PROJECT_DIR}" -R
-chmod go=rwX "$PROJECT_DIR}var" -R
+chmod go=rwX "${PROJECT_DIR}var" -R
 
 fxTitle "👮 Setting the owner..."
 chown ${EXPECTED_USER}:www-data "${PROJECT_DIR}" -R
