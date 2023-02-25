@@ -14,7 +14,7 @@ cd "${WSU_TMP_DIR}"
 
 PROJECT_DIR=${WSU_TMP_DIR}
 
-wsuSymfony new ${APP_NAME}
+wsuSymfony new ${APP_NAME} --no-git
 cd ${APP_NAME}
 
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
@@ -48,8 +48,6 @@ wsuSymfony require turbolabit/php-doctrine-runtime-manager:dev-main
 
 wsuSymfony composer config repositories.TurboLabIt/BaseCommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
-
-rm -rf .git
 
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
 
