@@ -5,6 +5,7 @@ fxHeader "💿 Symfony installer"
 rootCheck
 
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
+CURRENT_DIR_BACKUP=$(pwd)
 
 fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
@@ -87,3 +88,8 @@ fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
 
+
+fxTitle "📂 Result"
+fxInfo "Listing PROJECT_DIR ##${PROJECT_DIR}##""
+
+cd "${CURRENT_DIR_BACKUP}"
