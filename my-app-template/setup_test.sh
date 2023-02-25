@@ -1,6 +1,8 @@
 #!/bin/bash
 clear
 
+sudo bash /usr/local/turbolab.it/webstackup/my-app-template/setup.sh
+
 export WSU_MAP_REPO_CLONE=no
 export GIT_CLONE_RUN_AS=$(logname)
 export GIT_CLONE_REPO_URL=git@github.com:TurboLabIt/null.git
