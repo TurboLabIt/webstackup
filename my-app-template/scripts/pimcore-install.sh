@@ -19,7 +19,6 @@ MYSQL_PASSWORD=
 MYSQL_HOST=localhost
 ## ☠️☠️ DON'T GIT COMMIT THE PASSWORD ☠️☠️ ##
 
-source ${WEBSTACKUP_SCRIPT_DIR}frameworks/pimcore/install.sh
+source ${WEBSTACKUP_SCRIPT_DIR}frameworks/pimcore/new.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
-
