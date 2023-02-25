@@ -10,9 +10,9 @@ if [ -z "$(command -v dialog)" ]; then
 fi
 
 
-HEIGHT=20
+HEIGHT=25
 WIDTH=75
-CHOICE_HEIGHT=25
+CHOICE_HEIGHT=30
 BACKTITLE="WEBSTACK.UP - TurboLab.it"
 TITLE="Web service management GUI"
 MENU="Choose one task:"
@@ -30,7 +30,8 @@ OPTIONS=(
      10 "🔧 MySQL maintenance"
      11 "🏁 MySQL Tuner"
      12 "🤦 MySQL password reset"
-     13 "🐫 my-app-template")
+     13 "🧪 WSU Dev (MAP test)"
+     14 "🐫 my-app-template")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -94,6 +95,9 @@ case $CHOICE in
     bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/password-reset.sh"
     ;;
   13)
+    bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh"
+    ;;
+  14)
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
     ;;
 esac  
