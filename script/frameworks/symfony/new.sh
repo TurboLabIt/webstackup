@@ -36,7 +36,14 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
+wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
+wsuSymfony composer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
+wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
+
 wsuSymfony composer require turbolabit/php-dev-pack:dev-master
+wsuSymfony composer require turbolabit/php-foreachable:dev-main
+wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
+wsuSymfony composer require turbolabit/php-doctrine-runtime-manager:dev-main
 
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
 
