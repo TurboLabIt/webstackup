@@ -90,6 +90,6 @@ rm -rf "${WSU_TMP_DIR}"
 
 
 fxTitle "📂 Listing PROJECT_DIR ##${PROJECT_DIR}#"
-ls -la "${PROJECT_DIR}"
+ls -la --color=always "${PROJECT_DIR}"
 
 cd "${CURRENT_DIR_BACKUP}"
