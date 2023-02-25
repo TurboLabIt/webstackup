@@ -9,6 +9,7 @@ PROJECT_DIR_BACKUP=${PROJECT_DIR}
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
 rm -rf "${WSU_TMP_DIR}"
 mkdir -p "${WSU_TMP_DIR}"
+chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
 PROJECT_DIR=${WSU_TMP_DIR}
@@ -51,5 +52,13 @@ wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
 rm -rf .git
 
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
+
+fxTitle "👮 Setting permissions..."
+chmod u=rwx,go=rX "${WSU_TMP_DIR}" -R
+chmod u=rwx,go=rwX "${WSU_TMP_DIR}${APP_NAME}/var" -R
+
+fxTitle "👮 Setting the owner..."
+DIR_OWNER=$(fxGetFileOwner "${PROJECT_DIR}")
+chown ${DIR_OWNER}:www-data "${WSU_TMP_DIR}" -R
 
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
