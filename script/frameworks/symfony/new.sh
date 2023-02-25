@@ -35,18 +35,23 @@ stof_doctrine_extensions:
 " > /dev/null
 #config/packages/stof_doctrine_extensions.yml
 
+# https://github.com/TurboLabIt/php-foreachable
 wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
 wsuSymfony composer require turbolabit/php-foreachable:dev-main
 
+# https://github.com/TurboLabIt/php-symfony-basecommand
 wsuSymfony composer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
 
+# https://github.com/TurboLabIt/php-doctrine-runtime-manager
 wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
 wsuSymfony composer require turbolabit/php-doctrine-runtime-manager:dev-main
 
+# https://github.com/TurboLabIt/php-encryptor
 wsuSymfony composer config repositories.turbolabit/php-encryptor git https://github.com/TurboLabIt/php-encryptor.git
 wsuSymfony composer require turbolabit/php-encryptor:dev-main
 
+# https://github.com/TurboLabIt/php-dev-pack
 wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
 wsuSymfony composer require turbolabit/php-dev-pack:dev-master
 
