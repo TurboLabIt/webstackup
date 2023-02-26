@@ -74,7 +74,7 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 
-wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+#wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
 
 
 fxTitle "Adding .gitignore..."
