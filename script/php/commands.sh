@@ -16,6 +16,7 @@ function wsuComposer()
   fxTitle "📦 Running composer $@..."
   expectedUserSetCheck
 
+
   if [ -z "${COMPOSER_JSON_FULLPATH}" ] && [ -f "${PROJECT_DIR}composer.json" ]; then
 
     COMPOSER_JSON_FULLPATH=${PROJECT_DIR}composer.json
@@ -29,30 +30,25 @@ function wsuComposer()
     COMPOSER_JSON_FULLPATH=$(pwd)/composer.json
   fi
 
-  if [ -z "${COMPOSER_JSON_FULLPATH}" ]; then
-    fxCatastrophicError "composer.json not found"
-  fi
 
   if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
     local NO_DEV="--no-dev"
   fi
-
-  local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction ${NO_DEV}"
-
-  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
-
+  
+  
+  if [ -z "${COMPOSER_JSON_FULLPATH}" ]; then
+  
+    fxInfo "composer.json not found"
+    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer"
+  
+  else
+  
     fxMessage "Using ##${COMPOSER_JSON_FULLPATH}##"
-    rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
-    ${FULL_COMPOSER_CMD} "$@"
+    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})""
   fi
 
-  local SYMFONY_FLEX="$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/flex/src/Command/DumpEnvCommand.php"
 
-  if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ ! -z "${APP_ENV}" ] && [ -f "${SYMFONY_FLEX}" ]; then
-
-    fxTitle "📦 dump-env ${APP_ENV}..."
-    ${FULL_COMPOSER_CMD} dump-env ${APP_ENV}
-  fi
+  ${FULL_COMPOSER_CMD} "$@" --no-interaction ${NO_DEV}
 }
 
 
