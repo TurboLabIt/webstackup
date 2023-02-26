@@ -383,7 +383,7 @@ else
 fi
 
 
-fxSetWebPermissions "$(logname)" "${PROJECT_DIR}"
+fxSetWebPermissions "$(logname)" "${WSU_MAP_DEPLOY_TO_PATH}"
 
 
 fxTitle "🔗 Activate your website"
