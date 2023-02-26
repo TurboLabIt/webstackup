@@ -71,7 +71,7 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 fxTitle "Composering pimcore/skeleton..."
 export COMPOSER_MEMORY_LIMIT=-1
-wsuSymfony composer create-project pimcore/skeleton ${APP_NAME} --no-interaction
+wsuComposer create-project pimcore/skeleton ${APP_NAME}
 
 
 fxTitle "Adding .gitignore..."
@@ -79,18 +79,14 @@ curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gi
 
 
 fxTitle "Adding Symfony dev components..."
-wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
 
 
 fxTitle "Adding TurboLab.it packages..."
 # https://github.com/TurboLabIt/php-foreachable
-wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
-wsuSymfony composer require turbolabit/php-foreachable:dev-main
+wsuComposer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
+wsuComposer require turbolabit/php-foreachable:dev-main
 
 # https://github.com/TurboLabIt/php-symfony-basecommand
-wsuSymfony composer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
-wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
-
-
-
-
+wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
+wsuComposer require turbolabit/php-symfony-basecommand:dev-main
