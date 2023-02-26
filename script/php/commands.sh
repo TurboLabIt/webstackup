@@ -109,12 +109,9 @@ function wsuSymfony()
   local SYMFONY_FILE_PATH=/usr/bin/symfony
 
   if [ ! -f "${SYMFONY_FILE_PATH}" ]; then
-
-    fxTitle "symfony-cli is not installed. Installing it now..."
     bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh"
   fi
-  
-  
+
   if [ -z $(command -v unbuffer) ]; then
   
     fxTitle "unbuffer is not installed. Installing it now..."
