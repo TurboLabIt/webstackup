@@ -37,12 +37,32 @@ fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
 
-fxTitle "Adding Symfony components..."
+fxTitle "Adding repositories for TurboLab.it packages..."
+# https://github.com/TurboLabIt/php-foreachable
+wsuComposer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
+
+# https://github.com/TurboLabIt/php-symfony-basecommand
+wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
+
+# https://github.com/TurboLabIt/php-doctrine-runtime-manager
+wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
+
+# https://github.com/TurboLabIt/php-encryptor
+wsuSymfony composer config repositories.turbolabit/php-encryptor git https://github.com/TurboLabIt/php-encryptor.git
+
+# https://github.com/TurboLabIt/php-dev-pack
+wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
+
+
+fxTitle "Adding bundles and packages..."
 wsuSymfony composer require \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
-  stof/doctrine-extensions-bundle
+  stof/doctrine-extensions-bundle \
+  turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main \
+  turbolabit/php-doctrine-runtime-manager:dev-main turbolabit/php-encryptor:dev-main \
+  turbolabit/php-dev-pack:dev-master
   
  
 fxTitle "Setting up doctrine-extensions..."
@@ -57,28 +77,6 @@ stof_doctrine_extensions:
 
 fxTitle "Adding Symfony dev components..."
 wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
-
-
-fxTitle "Adding TurboLab.it packages..."
-# https://github.com/TurboLabIt/php-foreachable
-wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
-wsuSymfony composer require turbolabit/php-foreachable:dev-main
-
-# https://github.com/TurboLabIt/php-symfony-basecommand
-wsuSymfony composer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
-wsuSymfony composer require turbolabit/php-symfony-basecommand:dev-main
-
-# https://github.com/TurboLabIt/php-doctrine-runtime-manager
-wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
-wsuSymfony composer require turbolabit/php-doctrine-runtime-manager:dev-main
-
-# https://github.com/TurboLabIt/php-encryptor
-wsuSymfony composer config repositories.turbolabit/php-encryptor git https://github.com/TurboLabIt/php-encryptor.git
-wsuSymfony composer require turbolabit/php-encryptor:dev-main
-
-# https://github.com/TurboLabIt/php-dev-pack
-wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
-wsuSymfony composer require turbolabit/php-dev-pack:dev-master
 
 
 fxTitle "Restoring PROJECT_DIR"
