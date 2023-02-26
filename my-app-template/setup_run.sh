@@ -379,7 +379,10 @@ elif [ ! -f "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh" ]
 
 else
 
-  nano "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
+  if [ "${WSU_MAP_FRAMEWORK}" != "symfony" ]; then
+    nano "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
+  fi
+
   bash "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
 fi
 
