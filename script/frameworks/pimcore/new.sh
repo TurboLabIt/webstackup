@@ -74,6 +74,7 @@ wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
 fxTitle "Adding repositories for TurboLab.it packages..."
 # https://github.com/TurboLabIt/php-foreachable
 wsuComposer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
+
 # https://github.com/TurboLabIt/php-symfony-basecommand
 wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 
