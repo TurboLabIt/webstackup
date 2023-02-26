@@ -408,7 +408,7 @@ if [ "${WSU_MAP_ACTIVATE_SITE}" != "yes" ] && [ "${WSU_MAP_ACTIVATE_SITE}" != "1
 else
   
   DIR_ABOVE_PATH=$(dirname "${WSU_MAP_DEPLOY_TO_PATH}")
-  DIR_ABOVE_NAME=$(basename "${DIR_ABOVE_NAME}")
+  DIR_ABOVE_NAME=$(basename "${DIR_ABOVE_PATH}")
   
   fxInfo "Dev name: ##${DIR_ABOVE_NAME}##"
   
