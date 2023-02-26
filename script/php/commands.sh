@@ -98,6 +98,7 @@ function wsuN98MageRun()
 ## Symfony executable
 function wsuSymfony()
 {
+  fxTitle "🎼 Running symfony..."
   expectedUserSetCheck
 
   if [ -z "${PROJECT_DIR}" ] || [ ! -d "${PROJECT_DIR}" ]; then
@@ -122,6 +123,11 @@ function wsuSymfony()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${PROJECT_DIR}"
+  
+  fxInfo "$(pwd)"
+  echo "symfony $@"
+  echo ""
+  
   sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off unbuffer ${SYMFONY_FILE_PATH} "$@"
 
   cd "${CURR_DIR_BACKUP}"
