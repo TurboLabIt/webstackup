@@ -410,11 +410,15 @@ else
   DIR_ABOVE_PATH=$(dirname "${WSU_MAP_DEPLOY_TO_PATH}")
   DIR_ABOVE_NAME=$(basename "${DIR_ABOVE_NAME}")
   
+  fxInfo "Dev name: ##${DIR_ABOVE_NAME}##"
+  
   sed -i "s/dev0/${DIR_ABOVE_NAME}/g" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf"
   mv "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DIR_ABOVE_NAME}.conf"
   
   ln -s "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DIR_ABOVE_NAME}.conf" /etc/nginx/conf.d/${WSU_MAP_APP_NAME}_${DIR_ABOVE_NAME}.conf
   bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh
+  
+  ls -la /etc/nginx/conf.d/ | grep ${WSU_MAP_APP_NAME}
   
 fi
 
