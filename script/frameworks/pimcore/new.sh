@@ -70,7 +70,6 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 
 fxTitle "Composering pimcore/skeleton..."
-export COMPOSER_MEMORY_LIMIT=-1
 wsuComposer create-project pimcore/skeleton ${APP_NAME}
 
 
