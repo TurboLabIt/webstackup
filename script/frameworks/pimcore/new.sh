@@ -72,10 +72,6 @@ PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 wsuComposer create-project pimcore/skeleton ${APP_NAME}
 
 
-fxTitle "Adding .gitignore..."
-curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
-
-
 wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
 
 
@@ -87,3 +83,50 @@ wsuComposer require turbolabit/php-foreachable:dev-main
 # https://github.com/TurboLabIt/php-symfony-basecommand
 wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 wsuComposer require turbolabit/php-symfony-basecommand:dev-main
+
+
+fxTitle "Running the downloaded Pimcore installer from vendor..."
+sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \ 
+  PIMCORE_INSTALL_ADMIN_USERNAME="${PIMCORE_ADMIN_USERNAME}" \
+  PIMCORE_INSTALL_ADMIN_PASSWORD="${PCINST_FIRST_ADMIN_PASSWORD}" \
+  PIMCORE_INSTALL_MYSQL_USERNAME="${MYSQL_USER}" \
+  PIMCORE_INSTALL_MYSQL_PASSWORD="${MYSQL_PASSWORD}" \
+  ${PHP_CLI} vendor/bin/pimcore-install \
+  --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
+  --no-interaction
+
+
+fxTitle "Adding .gitignore..."
+curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+
+
+fxTitle "Restoring PROJECT_DIR"
+PROJECT_DIR=${PROJECT_DIR_BACKUP}
+fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
+
+
+fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
+rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
+rm -rf "${WSU_TMP_DIR}"
+
+
+fxTitle "👮 Setting permissions..."
+chmod ugo= "${PROJECT_DIR}" -R
+chmod u=rwx,go=rX "${PROJECT_DIR}" -R
+chmod go=rwX "${PROJECT_DIR}var" -R
+
+fxTitle "👮 Setting the owner..."
+chown ${EXPECTED_USER}:www-data "${PROJECT_DIR}" -R
+
+
+fxTitle "📂 Listing PROJECT_DIR ##${PROJECT_DIR}#"
+ls -la --color=always "${PROJECT_DIR}"
+
+
+fxTitle "The Pimcore instance is ready"
+fxMessage "Your admin username is: ${PIMCORE_ADMIN_USERNAME}"
+fxMessage "Your admin password is: ${PCINST_FIRST_ADMIN_PASSWORD}"
+echo ""
+echo "Please login at https://${PCINST_SITE_DOMAIN}/${PIMCORE_ADMIN_NEW_SLUG}"
+
+cd "${CURRENT_DIR_BACKUP}"
