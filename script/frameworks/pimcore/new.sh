@@ -19,7 +19,6 @@
 # PIMCORE_ADMIN_USERNAME=
 # PIMCORE_ADMIN_NEW_SLUG=
 
-
 fxHeader "🆕 pimcore create-project"
 rootCheck
 
