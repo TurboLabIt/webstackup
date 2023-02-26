@@ -414,6 +414,7 @@ else
   
   find "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev" -type f -exec sed -i "s/dev0/${DEVELOPER_NAME}/g" {} \;
   mv "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf"
+  nano "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf"
   
   ln -s "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf" /etc/nginx/conf.d/${WSU_MAP_APP_NAME}_${DEVELOPER_NAME}.conf
   bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh
