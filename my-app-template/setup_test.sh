@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo bash /usr/local/turbolab.it/webstackup/setup.sh
 clear
 
 export WSU_MAP_REPO_CLONE=no
