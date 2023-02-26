@@ -15,6 +15,7 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_NEW_DATABASE_USER=usr_${WSU_MAP_APP_NAME}
 # WSU_MAP_NEW_DATABASE_NAME=${WSU_MAP_APP_NAME}
 # WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
+# WSU_MAP_ACTIVATE_SITE=yes
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
@@ -324,31 +325,9 @@ if [ "${WSU_MAP_FRAMEWORK}" != "none" ] && [ "${WSU_MAP_FRAMEWORK}" != "symfony"
 fi
 
 
-fxTitle "👮 Setting permissions..."
-chmod u=rwx,go=rX /tmp/my-app-template -R
-chmod u=rwx,go=rx ${WSU_MAP_TMP_DIR}scripts/*.sh -R
-chmod u=rwx,go=rwX ${WSU_MAP_TMP_DIR}var -R
-
-
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
-
-
-function wsuMapSetPermissions()
-{
-  fxTitle "👮 Setting the owner..."
-  if [ -d "${WSU_MAP_DEPLOY_TO_PATH}.git" ]; then
-    local DIR_OWNER=$(fxGetFileOwner "${WSU_MAP_DEPLOY_TO_PATH}.git")
-  else
-    local DIR_OWNER=$(whoami)
-  fi
-  
-  chown ${DIR_OWNER}:www-data "${WSU_MAP_DEPLOY_TO_PATH}" -R
-  ls -la "${WSU_MAP_DEPLOY_TO_PATH}"
-}
-
-wsuMapSetPermissions
 
 
 fxTitle "🗃 Do you need a database?"
@@ -401,8 +380,34 @@ else
 
   nano "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
   bash "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
-
 fi
 
-fxEndFooter
 
+fxSetWebPermissions "$(logname)" "${PROJECT_DIR}"
+
+
+fxTitle "🔗 Activate your website"
+while [ -z "$WSU_MAP_ACTIVATE_SITE" ]; do
+
+  echo "🤖 Link your dev/nginx.conf in Nginx? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_ACTIVATE_SITE=yes
+  else
+    WSU_MAP_ACTIVATE_SITE=no
+  fi
+
+done
+
+
+if [ "${WSU_MAP_ACTIVATE_SITE}" != "yes" ] && [ "${WSU_MAP_ACTIVATE_SITE}" != "1" ]; then
+
+  fxOK "Got it, you're on your own now"
+
+else
+
+  fxWarning "Sorry, I've not built this part just yet."
+fi
+
+
+fxEndFooter
