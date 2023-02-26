@@ -90,18 +90,7 @@ fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
 
-
-fxTitle "👮 Setting permissions..."
-chmod ugo= "${PROJECT_DIR}" -R
-chmod u=rwx,go=rX "${PROJECT_DIR}" -R
-chmod go=rwX "${PROJECT_DIR}var" -R
-
-fxTitle "👮 Setting the owner..."
-chown ${EXPECTED_USER}:www-data "${PROJECT_DIR}" -R
-
-
-fxTitle "📂 Listing PROJECT_DIR ##${PROJECT_DIR}#"
-ls -la --color=always "${PROJECT_DIR}"
+fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 
 
 cd "${CURRENT_DIR_BACKUP}"
