@@ -30,3 +30,6 @@ sudo apt update && sudo apt install ca-certificates apt-transport-https -y
 fxTitle "Installing Symfony from cloudsmith.io..."
 curl -1sLf 'https://dl.cloudsmith.io/public/symfony/stable/setup.deb.sh' | sudo -E bash
 sudo apt install symfony-cli -y
+
+
+fxEndFooter
