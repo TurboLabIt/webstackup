@@ -137,12 +137,19 @@ function wsuSymfony()
 ## WordPress CLI
 function wsuWordPress()
 {
+  fxTitle "📰 Running wp-cli..."
   expectedUserSetCheck
 
   if [ -z "${WEBROOT_DIR}" ] || [ ! -d "${WEBROOT_DIR}" ]; then
     fxCatastrophicError "📁 WEBROOT_DIR not set"
   fi
+  
+  local WPCLI_FILE_PATH=/usr/local/bin/wp-cli
 
+  if [ ! -f "${WPCLI_FILE_PATH}" ]; then
+    bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh"
+  fi
+  
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${WEBROOT_DIR}"
