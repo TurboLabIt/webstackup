@@ -408,14 +408,14 @@ if [ "${WSU_MAP_ACTIVATE_SITE}" != "yes" ] && [ "${WSU_MAP_ACTIVATE_SITE}" != "1
 else
   
   DIR_ABOVE_PATH=$(dirname "${WSU_MAP_DEPLOY_TO_PATH}")
-  DIR_ABOVE_NAME=$(basename "${DIR_ABOVE_PATH}")
+  DEVELOPER_NAME=$(basename "${DIR_ABOVE_PATH}")
   
-  fxInfo "Dev name: ##${DIR_ABOVE_NAME}##"
+  fxInfo "dev name (inferred from path): ##${DEVELOPER_NAME}##"
   
-  sed -i "s/dev0/${DIR_ABOVE_NAME}/g" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf"
-  mv "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DIR_ABOVE_NAME}.conf"
+  sed -i "s/dev0/${DEVELOPER_NAME}/g" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf"
+  mv "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf"
   
-  ln -s "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DIR_ABOVE_NAME}.conf" /etc/nginx/conf.d/${WSU_MAP_APP_NAME}_${DIR_ABOVE_NAME}.conf
+  ln -s "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf" /etc/nginx/conf.d/${WSU_MAP_APP_NAME}_${DEVELOPER_NAME}.conf
   bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh
   
   ls -la /etc/nginx/conf.d/ | grep ${WSU_MAP_APP_NAME}
