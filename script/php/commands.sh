@@ -14,6 +14,8 @@ source $(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/version-variables.sh
 function wsuComposer()
 {
   fxTitle "📦 Running composer $@ ..."
+  echo "$@"
+  return 1
   expectedUserSetCheck
 
 
