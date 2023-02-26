@@ -52,27 +52,23 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${WORDPRESS_LOCALE}"
   exit
 fi
 
-
-if [ ! -f /usr/local/bin/wp-cli ]; then
-
-  fxTitle "💿 Installing wp-cli..."
-  curl -o /usr/local/bin/wp-cli  https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-  chmod u=rwx,go=rx /usr/local/bin/wp-cli
-fi
-
-
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
+WEBROOT_DIR_BACKUP=${WEBROOT_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
 
 fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-wordpress-new/
 rm -rf "${WSU_TMP_DIR}"
-mkdir -p "${WSU_TMP_DIR}${APP_NAME}"
-chmod ugo=rwx "${WSU_TMP_DIR}" -R
 
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
-cd "${PROJECT_DIR}"
+
+WEBROOT_DIR=${PROJECT_DIR}public/
+fxOK "WEBROOT_DIR is now ##${WEBROOT_DIR}##"
+
+mkdir -p "${WEBROOT_DIR}"
+chmod ugo=rwx "${WSU_TMP_DIR}" -R
+cd "${WEBROOT_DIR}"
 
 
 fxTitle "Downloading WordPress..."
@@ -97,10 +93,10 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 
-echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${PROJECT_DIR}wp-config.php"
-echo "define('FS_METHOD', 'direct');" >> "${PROJECT_DIR}wp-config.php"
-echo "/** Webstackup -- Auto-update: security and minor only */" >> "${PROJECT_DIR}wp-config.php"
-echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${PROJECT_DIR}wp-config.php"
+echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WEBROOT_DIR}wp-config.php"
+echo "define('FS_METHOD', 'direct');" >> "${WEBROOT_DIR}wp-config.php"
+echo "/** Webstackup -- Auto-update: security and minor only */" >> "${WEBROOT_DIR}wp-config.php"
+echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${WEBROOT_DIR}wp-config.php"
 
 
 if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
@@ -163,24 +159,27 @@ wsuWordPress option update \
   --skip-plugins --skip-themes
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
-mkdir -p "${PROJECT_DIR}wp-content/themes/${APP_NAME}"
-echo "Put your own theme here. It will be Git-commitable" > "${PROJECT_DIR}wp-content/themes/${APP_NAME}/readme.md"
+mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
+echo "Put your own theme here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/readme.md"
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
-mkdir -p "${PROJECT_DIR}wp-content/plugins/${APP_NAME}"
-echo "Put your own plugin here. It will be Git-commitable" > "${PROJECT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
+mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
+echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
 fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
 
-fxTitle "Restoring PROJECT_DIR"
+fxTitle "Restoring PROJECT_DIR..."
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
+WEBROOT_DIR=${WEBROOT_DIR_BACKUP}
+fxOK "WEBROOT_DIR is now ##${WEBROOT_DIR}##"
+
 
 fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
-rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}public/"
+rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
