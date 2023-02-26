@@ -24,13 +24,13 @@ mkdir -p "${WSU_TMP_DIR}"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
-PROJECT_DIR=${WSU_TMP_DIR}
-fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
-
 
 fxTitle "Running symfony new..."
 wsuSymfony new ${APP_NAME} --no-git
-cd ${APP_NAME}
+
+PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
+fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
+cd ${PROJECT_DIR}
 
 
 fxTitle "Adding .gitignore..."
