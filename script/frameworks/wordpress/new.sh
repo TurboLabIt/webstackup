@@ -60,7 +60,7 @@ fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-wordpress-new/
 rm -rf "${WSU_TMP_DIR}"
 
-PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}
+PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
 WEBROOT_DIR=${PROJECT_DIR}public/
