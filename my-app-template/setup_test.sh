@@ -11,7 +11,7 @@ export WSU_MAP_APP_NAME=wsu-map-test-$(date +%s)
 export WSU_MAP_DOMAIN=${WSU_MAP_APP_NAME}.io
 export WSU_MAP_DEPLOY_TO_PATH=/var/www/zane/$WSU_MAP_APP_NAME
 
-export WSU_MAP_FRAMEWORK=symfony
+export WSU_MAP_FRAMEWORK=pimcore
 export WSU_MAP_RUN_FRAMEWORK_INSTALLER=yes
 
 export WSU_MAP_NEED_APACHE_HTTPD=no
