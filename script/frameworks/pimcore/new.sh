@@ -113,8 +113,7 @@ rm -rf "${WSU_TMP_DIR}"
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 
 ## activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)
-find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//'
- {} \;
+find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
 
 fxTitle "The Pimcore instance is ready"
 fxMessage "Your admin username is: ${PIMCORE_ADMIN_USERNAME}"
