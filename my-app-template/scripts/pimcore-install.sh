@@ -12,7 +12,7 @@ PIMCORE_ADMIN_USERNAME=my-name
 PIMCORE_ADMIN_EMAIL=admin@my-app.com
 PIMCORE_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 
-## 💡 You can get these 👇🏻 from the app-specific /etc/turbolab.it/mysql-my-app.conf file
+## 💡 You can get these 👇🏻 from the app-specific /etc/turbolab.it/mysql-*.conf file
 MYSQL_USER=my-app
 MYSQL_DB_NAME=my-app
 MYSQL_PASSWORD=
