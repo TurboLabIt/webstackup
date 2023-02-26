@@ -147,7 +147,6 @@ fxOK "Got it, APP_NAME is ##$WSU_MAP_APP_NAME##"
 
 fxTitle "📂 Choose the root path"
 WSU_MAP_DEPLOY_TO_PATH_DEFAULT=/var/www/${WSU_MAP_APP_NAME}
-fxWarning "You should really accept the default 😉"
 while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; do
 
   echo "🤖 Provide the path (use TAB!) or hit Enter for ##${WSU_MAP_DEPLOY_TO_PATH_DEFAULT}##"
