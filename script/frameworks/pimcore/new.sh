@@ -69,7 +69,6 @@ PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 
-fxTitle "Composering pimcore/skeleton..."
 wsuComposer create-project pimcore/skeleton ${APP_NAME}
 
 
@@ -77,7 +76,6 @@ fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
 
-fxTitle "Adding Symfony dev components..."
 wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
 
 
