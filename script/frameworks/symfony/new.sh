@@ -14,8 +14,8 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
 fi
 
 
-PROJECT_DIR_BACKUP=${PROJECT_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
+
 
 fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
@@ -24,20 +24,18 @@ mkdir -p "${WSU_TMP_DIR}"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
-
-fxTitle "Running symfony new..."
-wsuSymfony new ${APP_NAME} --no-git
-
-PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
+PROJECT_DIR_BACKUP=${PROJECT_DIR}
+PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 cd ${PROJECT_DIR}
 
 
-fxTitle "Adding .gitignore..."
-curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+wsuSymfony new ${APP_NAME} --no-git
 
 
-fxTitle "Adding repositories for TurboLab.it packages..."
+PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
+
+
 # https://github.com/TurboLabIt/php-foreachable
 wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
 
@@ -54,7 +52,6 @@ wsuSymfony composer config repositories.turbolabit/php-encryptor git https://git
 wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
 
 
-fxTitle "Adding bundles and packages..."
 wsuSymfony composer require \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
@@ -75,8 +72,11 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 
-fxTitle "Adding Symfony dev components..."
 wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+
+
+fxTitle "Adding .gitignore..."
+curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
 
 fxTitle "Restoring PROJECT_DIR"
