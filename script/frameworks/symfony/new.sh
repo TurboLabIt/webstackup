@@ -4,7 +4,6 @@
 fxHeader "🆕 symfony new"
 rootCheck
 
-
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
 
   catastrophicError "Symfony new can't run with these variables undefined:
@@ -12,7 +11,6 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
   PROJECT_DIR:             ##${PROJECT_DIR}##"
   exit
 fi
-
 
 CURRENT_DIR_BACKUP=$(pwd)
 
@@ -74,7 +72,7 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 
-#wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
 
 
 fxTitle "Adding .gitignore..."
