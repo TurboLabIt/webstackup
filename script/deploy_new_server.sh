@@ -203,16 +203,8 @@ fi
 
 fxTitle "Installing SYMFONY"
 if [ "$INSTALL_SYMFONY" = 1 ]; then
-
-  fxMessage "Installing..."
-  wget https://get.symfony.com/cli/installer -O - | bash
-  mv /root/.symfony5/bin/symfony /usr/local/bin/symfony
-  rm -rf "/root/.symfony5"
-
-  fxMessage "$(symfony -V)"
-
+  source ${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh
 else
-
   fxInfo "Skipped (disabled in config)"
 fi
 
