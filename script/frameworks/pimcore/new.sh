@@ -64,12 +64,8 @@ PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
 
-PCINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
-PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
-PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
-
-
 wsuComposer create-project pimcore/skeleton ${APP_NAME}
+cd "${APP_NAME}"
 
 
 wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
@@ -83,6 +79,11 @@ wsuComposer require turbolabit/php-foreachable:dev-main
 # https://github.com/TurboLabIt/php-symfony-basecommand
 wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 wsuComposer require turbolabit/php-symfony-basecommand:dev-main
+
+
+PCINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
+PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
+PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 
 fxTitle "Running the downloaded Pimcore installer from vendor..."
