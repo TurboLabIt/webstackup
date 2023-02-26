@@ -153,7 +153,12 @@ function wsuWordPress()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${WEBROOT_DIR}"
-  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} /usr/local/bin/wp-cli --path="${WEBROOT_DIR%*/}/" "$@"
+  
+  fxInfo "$(pwd)"
+  echo "wp-cli $@"
+  echo ""
+  
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} ${WPCLI_FILE_PATH} --path="${WEBROOT_DIR%*/}/" "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
