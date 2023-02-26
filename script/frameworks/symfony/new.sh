@@ -39,12 +39,10 @@ curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gi
 
 fxTitle "Adding repositories for TurboLab.it packages..."
 # https://github.com/TurboLabIt/php-foreachable
-wsuComposer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
+wsuSymfony composer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
 
 # https://github.com/TurboLabIt/php-symfony-basecommand
-wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
-
-exit
+wsuSymfony composer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 
 # https://github.com/TurboLabIt/php-doctrine-runtime-manager
 wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
