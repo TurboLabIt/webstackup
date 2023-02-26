@@ -35,6 +35,7 @@ wsuSymfony new ${APP_NAME} --no-git
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 
 wsuSymfony composer config extra.symfony.allow-contrib true
+wsuSymfony composer config extra.symfony.docker true
 
 
 # https://github.com/TurboLabIt/php-foreachable
