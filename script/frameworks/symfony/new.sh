@@ -44,6 +44,8 @@ wsuComposer config repositories.turbolabit/php-foreachable git https://github.co
 # https://github.com/TurboLabIt/php-symfony-basecommand
 wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
 
+exit
+
 # https://github.com/TurboLabIt/php-doctrine-runtime-manager
 wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
 
