@@ -11,6 +11,7 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.2
+# WSU_MAP_PRE_EXEC_PAUSE_SEC=
 # WSU_MAP_NEW_DATABASE=yes
 # WSU_MAP_NEW_DATABASE_USER=usr_${WSU_MAP_APP_NAME}
 # WSU_MAP_NEW_DATABASE_NAME=${WSU_MAP_APP_NAME}
@@ -241,7 +242,7 @@ fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
 fxMessage "PHP:       ##$WSU_MAP_PHP_VERSION##"
 fxMessage "Apache:    ##$WSU_MAP_NEED_APACHE_HTTPD##"
 fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
-fxCountdown
+fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
 echo ""
 
 
