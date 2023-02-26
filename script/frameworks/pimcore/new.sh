@@ -86,16 +86,7 @@ PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
 
 
-fxTitle "Running the downloaded Pimcore installer from vendor..."
-echo "sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \ 
-  PIMCORE_INSTALL_ADMIN_USERNAME="${PIMCORE_ADMIN_USERNAME}" \
-  PIMCORE_INSTALL_ADMIN_PASSWORD="${PCINST_FIRST_ADMIN_PASSWORD}" \
-  PIMCORE_INSTALL_MYSQL_USERNAME="${MYSQL_USER}" \
-  PIMCORE_INSTALL_MYSQL_PASSWORD="${MYSQL_PASSWORD}" \
-  ${PHP_CLI} vendor/bin/pimcore-install \
-  --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
-  --no-interaction"
-  
+fxTitle "Running the downloaded Pimcore installer from vendor..." 
 sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \ 
   PIMCORE_INSTALL_ADMIN_USERNAME="${PIMCORE_ADMIN_USERNAME}" \
   PIMCORE_INSTALL_ADMIN_PASSWORD="${PCINST_FIRST_ADMIN_PASSWORD}" \
@@ -104,7 +95,6 @@ sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \
   ${PHP_CLI} vendor/bin/pimcore-install \
   --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
   --no-interaction
-exit
 
 
 fxTitle "Adding .gitignore..."
