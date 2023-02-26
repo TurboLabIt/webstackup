@@ -326,6 +326,7 @@ fi
 
 
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
+mkdir -p "${WSU_MAP_DEPLOY_TO_PATH}"
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
 
