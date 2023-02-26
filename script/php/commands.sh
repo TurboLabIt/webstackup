@@ -15,6 +15,8 @@ function wsuComposer()
 {
   fxTitle "📦 Running composer..."
   echo "composer $@"
+  echo ""
+  
   expectedUserSetCheck
 
 
