@@ -99,7 +99,7 @@ wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAG
 wsuComposer config http-basic.composer.amasty.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
 wsuComposer config http-basic.magefan.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
 
-## fix errore laminas
+## workaround laminas
 rm -f "${MAGENTO_DIR}composer.lock"
 wsuComposer update
 
