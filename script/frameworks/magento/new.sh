@@ -80,7 +80,7 @@ MAGENTO_DIR=${PROJECT_DIR}shop/
 fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 
 fxMessage "Composer: $(cat composer.json)"
-fxMessage "Composer path: $(COMPOSER_JSON_FULLPATH)"
+fxMessage "Composer path: $COMPOSER_JSON_FULLPATH"
 
 wsuComposer create-project magento/project-community-edition shop \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
