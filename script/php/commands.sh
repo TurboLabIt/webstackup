@@ -13,10 +13,7 @@ source $(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/version-variables.sh
 ## composer
 function wsuComposer()
 {
-  fxTitle "📦 Running composer..."
-  echo "composer $@"
-  echo ""
-  
+  fxTitle "📦 Running composer..."  
   expectedUserSetCheck
 
 
@@ -37,11 +34,13 @@ function wsuComposer()
   if [ -z "${COMPOSER_JSON_FULLPATH}" ] || [ ! -f "${COMPOSER_JSON_FULLPATH}" ]; then
   
     fxInfo "composer.json not found"
+    fxInfo "$(pwd)"
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer"
   
   else
   
     fxInfo "Using ##${COMPOSER_JSON_FULLPATH}##"
+    fxInfo "$(dirname ${COMPOSER_JSON_FULLPATH})"
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})""
   fi
 
@@ -49,6 +48,9 @@ function wsuComposer()
   if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
     local NO_DEV="--no-dev"
   fi
+  
+  echo "composer $@"
+  echo ""
 
   ${FULL_COMPOSER_CMD} "$@" --no-interaction ${NO_DEV}
 }
