@@ -5,11 +5,39 @@
 
 ### Variables:
 
-fxHeader "🆕 pimcore create-project"
+fxHeader "🆕 Magento create-project"
 rootCheck
 
 
+if [ ! -z "$MYSQL_PASSWORD" ]; then
+  MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
+fi  
 
+if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
+   [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_DB_NAME}" ] || \
+   [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_EMAIL}" ] || [ -z "${MAGENTO_ADMIN_NEW_SLUG}" ] || \
+   [ -z "${MAGENTO_LOCALE}" ] || [ -z "${MAGENTO_CURRENCY}" ] || [ -z "${MAGENTO_TIMEZONE}" ] \
+   ; then
+
+  catastrophicError "Pimcore installer can't run with these variables undefined:
+  APP_NAME:                ##${APP_NAME}##
+  PROJECT_DIR:             ##${PROJECT_DIR}##
+  SITE_URL:                ##${SITE_URL}##
+  
+  MYSQL_USER:              ##${MYSQL_USER}##
+  MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
+  MYSQL_HOST:              ##${MYSQL_HOST}##
+  MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
+  
+  MAGENTO_ADMIN_USERNAME:  ##${MAGENTO_ADMIN_USERNAME}##
+  MAGENTO_ADMIN_EMAIL:     ##${MAGENTO_ADMIN_EMAIL}##
+  MAGENTO_ADMIN_NEW_SLUG:  ##${MAGENTO_ADMIN_NEW_SLUG}##
+  
+  MAGENTO_LOCALE:          ##${MAGENTO_LOCALE}##
+  MAGENTO_CURRENCY:        ##${MAGENTO_CURRENCY}##
+  MAGENTO_TIMEZONE:        ##${MAGENTO_TIMEZONE}##"
+  exit
+fi
 
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 MAGENTO_DIR_BACKUP=${MAGENTO_DIR}
@@ -49,7 +77,7 @@ wsuMage setup:install \
   --search-engine=elasticsearch7 \
   --elasticsearch-host=localhost \
   --elasticsearch-port=9200 \
-  --backend-frontname="${WORDPRESS_ADMIN_NEW_SLUG}"
+  --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
 
 
 fxTitle "Restoring PROJECT_DIR"
