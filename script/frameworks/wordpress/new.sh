@@ -85,8 +85,8 @@ wsuWordPress config create \
 
 fxTitle "Adding extra configs to wp-config.php"
 WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
-WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
-WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
+#WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
+#WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 
 echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WEBROOT_DIR}wp-config.php"
 echo "define('FS_METHOD', 'direct');" >> "${WEBROOT_DIR}wp-config.php"
@@ -113,7 +113,7 @@ fi
 
 
 wsuWordPress core $WPINST_WORDPRESS_INSTALL_MODE $WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT \
-  --url="${WPINST_SITE_DOMAIN}" \
+  --url="${SITE_URL}" \
   --title="${WORDPRESS_SITE_NAME}" \
   --admin_user="${WORDPRESS_ADMIN_USERNAME}" \
   --admin_email="${WORDPRESS_ADMIN_EMAIL}" \
@@ -188,6 +188,6 @@ fxTitle "The WordPress instance is ready"
 fxMessage "Your admin username is: ${WORDPRESS_ADMIN_USERNAME}"
 fxMessage "Your admin password is: ${WPINST_FIRST_ADMIN_PASSWORD}"
 echo ""
-echo "Please login at https://${WPINST_SITE_DOMAIN}/${WORDPRESS_ADMIN_NEW_SLUG}"
+echo "Please login at ${SITE_URL}${WORDPRESS_ADMIN_NEW_SLUG}"
 
 cd "${CURRENT_DIR_BACKUP}"
