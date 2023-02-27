@@ -100,7 +100,7 @@ sed -i "s| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g" ${MAGENTO_DIR}nginx
 fxTitle "Generating admin password..."
 MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 
-
+MAGENTO_ADMIN_NEW_SLUG=test
 wsuMage setup:install \
   --base-url=${SITE_URL} \
   --db-host=${MYSQL_HOST} \
@@ -129,7 +129,7 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 MAGENTO_DIR=${MAGENTO_DIR_BACKUP}
 fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 
-fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
+fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}shop/##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}shop"
 rm -rf "${WSU_TMP_DIR}"
 
