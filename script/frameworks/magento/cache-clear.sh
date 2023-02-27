@@ -97,7 +97,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/session/" \
     "var/di/"
 
-  wsuComposer install
+  wsuComposer install --no-plugins
   wsuMage setup:upgrade
 
   fxTitle "Disabling module(s)..."
