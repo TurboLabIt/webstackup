@@ -369,6 +369,9 @@ while [ -z "$WSU_MAP_RUN_FRAMEWORK_INSTALLER" ]; do
 done
 
 
+fxSetWebPermissions "$(logname)" "${WSU_MAP_DEPLOY_TO_PATH}"
+
+
 if [ "${WSU_MAP_RUN_FRAMEWORK_INSTALLER}" != "yes" ] && [ "${WSU_MAP_RUN_FRAMEWORK_INSTALLER}" != "1" ]; then
 
   fxOK "Well, well... Good luck setting up that thing on your own!"
@@ -385,9 +388,6 @@ else
 
   bash "${WSU_MAP_DEPLOY_TO_PATH}scripts/${WSU_MAP_FRAMEWORK}-install.sh"
 fi
-
-
-fxSetWebPermissions "$(logname)" "${WSU_MAP_DEPLOY_TO_PATH}"
 
 
 fxTitle "🔗 Activate your website"
