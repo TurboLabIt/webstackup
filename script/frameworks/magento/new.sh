@@ -4,6 +4,22 @@
 ## Based on: https://experienceleague.adobe.com/docs/commerce-operations/installation-guide/composer.html#get-the-metapackage
 
 ### Variables:
+# APP_NAME=
+# PROJECT_DIR=
+# SITE_URL=
+#
+# MYSQL_USER=
+# MYSQL_PASSWORD=
+# MYSQL_HOST=
+# MYSQL_DB_NAME=
+#
+# MAGENTO_ADMIN_USERNAME=
+# MAGENTO_ADMIN_EMAIL=
+# MAGENTO_ADMIN_NEW_SLUG=
+#
+# MAGENTO_LOCALE=
+# MAGENTO_CURRENCY=
+# MAGENTO_TIMEZONE=
 
 fxHeader "🆕 Magento create-project"
 rootCheck
