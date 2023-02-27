@@ -58,18 +58,32 @@ function wsuComposer()
 ## Magento bin/console
 function wsuMage()
 {
+  fxTitle "🧙‍♂️ Running Magento..."
   expectedUserSetCheck
 
   if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
     fxCatastrophicError "📁 MAGENTO_DIR not set"
   fi
-
-  sudo rm -rf "/tmp/magento"
+  
+  local CONSOLE_FILE_PATH=${MAGENTO_DIR}bin/console
+  
+  if [ ! -f "${CONSOLE_FILE_PATH}" ]; then
+    fxCatastrophicError "##${CONSOLE_FILE_PATH}## not found"
+  fi
+  
+  if [ -d "/tmp/magento" ]; then
+    sudo rm -rf "/tmp/magento"
+  fi
 
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
-  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} bin/magento "$@"
+  
+  fxInfo "$(pwd)"
+  echo "bin/console $@"
+  echo ""
+  
+  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} ${CONSOLE_FILE_PATH} "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
