@@ -76,6 +76,8 @@ cd "${WSU_TMP_DIR}"
 PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
+wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAGENTO_MARKET_PRIVKEY}"
+
 wsuComposer create-project magento/project-community-edition shop --repository-url=https://repo.magento.com/
 MAGENTO_DIR=${PROJECT_DIR}shop/
 cd "${MAGENTO_DIR}"
