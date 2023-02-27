@@ -32,14 +32,9 @@ function wsuComposer()
 
     COMPOSER_JSON_FULLPATH=$(pwd)/composer.json
   fi
-
-
-  if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
-    local NO_DEV="--no-dev"
-  fi
   
   
-  if [ -z "${COMPOSER_JSON_FULLPATH}" ]; then
+  if [ -z "${COMPOSER_JSON_FULLPATH}" ] || [ ! -f "${COMPOSER_JSON_FULLPATH}" ]; then
   
     fxInfo "composer.json not found"
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer"
@@ -50,6 +45,10 @@ function wsuComposer()
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})""
   fi
 
+
+  if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
+    local NO_DEV="--no-dev"
+  fi
 
   ${FULL_COMPOSER_CMD} "$@" --no-interaction ${NO_DEV}
 }
