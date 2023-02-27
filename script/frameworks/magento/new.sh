@@ -80,7 +80,7 @@ wsuComposer create-project magento/project-community-edition ${APP_NAME} \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
   --ignore-platform-reqs
 
-MAGENTO_DIR=${PROJECT_DIR}}${APP_NAME}/
+MAGENTO_DIR=${PROJECT_DIR}${APP_NAME}/
 fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 cd "${MAGENTO_DIR}"
 
