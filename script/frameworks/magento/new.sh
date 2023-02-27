@@ -100,7 +100,7 @@ sed -i "s| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g" ${MAGENTO_DIR}nginx
 fxTitle "Generating admin password..."
 MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 
-MAGENTO_ADMIN_NEW_SLUG=test
+MAGENTO_ADMIN_NEW_SLUG=test111
 wsuMage setup:install \
   --base-url=${SITE_URL} \
   --db-host=${MYSQL_HOST} \
