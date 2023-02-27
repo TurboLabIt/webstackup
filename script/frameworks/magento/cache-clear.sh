@@ -26,11 +26,17 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
+cd "$MAGENTO_DIR"
+
+
 if [ "$1" = "fast" ]; then
   FAST_CACHE_CLEAR=1
 fi
 
-cd "$MAGENTO_DIR"
+
+fxTitle "Removing the composer dump-autoload classmap..."
+rm -f "${MAGENTO_DIR}vendor/composer/autoload_classmap.php"
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
@@ -97,7 +103,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/session/" \
     "var/di/"
 
-  wsuComposer install --no-plugins
+  wsuComposer install
   wsuMage setup:upgrade
 
   fxTitle "Disabling module(s)..."
@@ -137,6 +143,19 @@ fxTitle "🐧 Setting permissions..."
 fxInfo "Running async"
 sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + > /dev/null 2>&1
 sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + > /dev/null 2>&1
+
+
+fxTitle "Generating composer dump-autoload classmap"
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "devv" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 2 ]; then
+
+  ## https://getcomposer.org/doc/articles/autoloader-optimization.md
+  wsuComposer dump-autoload --optimize
+  
+else
+
+  fxInfo "Skipped"
+fi
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
   wsuMage maintenance:disable
