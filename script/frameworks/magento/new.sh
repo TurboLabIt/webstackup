@@ -42,7 +42,7 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
    [ -z "${MAGENTO_LOCALE}" ] || [ -z "${MAGENTO_CURRENCY}" ] || [ -z "${MAGENTO_TIMEZONE}" ] \
    ; then
 
-  catastrophicError "Pimcore installer can't run with these variables undefined:
+  catastrophicError "Magento installer can't run with these variables undefined:
   APP_NAME:                ##${APP_NAME}##
   PROJECT_DIR:             ##${PROJECT_DIR}##
   SITE_URL:                ##${SITE_URL}##
@@ -170,6 +170,6 @@ fxTitle "The Magento instance is ready"
 fxMessage "Your admin username is: ${MAGENTO_ADMIN_USERNAME}"
 fxMessage "Your admin password is: ${MAGEINST_FIRST_ADMIN_PASSWORD}"
 echo ""
-echo "Please login at ${SITE_URL}${PIMCORE_ADMIN_NEW_SLUG}"
+echo "Please login at ${SITE_URL}${MAGENTO_ADMIN_NEW_SLUG}"
 
 cd "${CURRENT_DIR_BACKUP}"
