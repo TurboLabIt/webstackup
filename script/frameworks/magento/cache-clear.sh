@@ -29,11 +29,6 @@ fi
 cd "$MAGENTO_DIR"
 
 
-fxTitle "Restoring the standard, unoptimized composer autoload files..."
-rm -f "${MAGENTO_DIR}vendor/composer/autoload_*.php"
-wsuComposer dump-autoload
-
-
 if [ "$1" = "fast" ]; then
   FAST_CACHE_CLEAR=1
 fi
@@ -50,6 +45,14 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   wsuMage config:set dev/js/minify_files 1
   wsuMage config:set dev/css/merge_css_files 1
   wsuMage config:set dev/css/minify_files 1
+fi
+
+
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
+
+  fxTitle "Restoring the standard, unoptimized composer autoload files..."
+  rm -f "${MAGENTO_DIR}vendor/composer/autoload_*.php"
+  wsuComposer dump-autoload
 fi
 
 
@@ -80,16 +83,16 @@ elif [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuMage config:set admin/security/session_lifetime 86400
 fi
 
-## Passwords should never expire
-wsuMage config:set admin/security/password_lifetime ''
-
-
-## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
-# https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
-wsuMage config:set system/security/max_session_size_admin 512000
-
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
+
+  ## Passwords should never expire
+  wsuMage config:set admin/security/password_lifetime ''
+
+  ## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
+  # https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
+  wsuMage config:set system/security/max_session_size_admin 512000
+
 
   fxTitle "🧹 Removing Magento folders..."
   sudo rm -rf \
@@ -134,27 +137,21 @@ else
   fxInfo "Build phase skipped (fast mode)"
 fi
 
+
 wsuMage cache:flush
 
-fxTitle "🐧 Setting the owner..."
-fxInfo "Running async"
-sudo -b chown ${EXPECTED_USER}:www-data . -R > /dev/null 2>&1
 
-fxTitle "🐧 Setting permissions..."
-fxInfo "Running async"
+#fxTitle "🐧 Setting permissions..."
+fxSetWebPermissions "${EXPECTED_USER}" "${MAGENTO_DIR}"
 sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + > /dev/null 2>&1
 sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + > /dev/null 2>&1
 
 
-fxTitle "Generating composer dump-autoload classmap"
-if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "devv" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 2 ]; then
+## Generating composer dump-autoload classmap
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "devvvvvv" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 1 ]; then
 
   ## https://getcomposer.org/doc/articles/autoloader-optimization.md
   wsuComposer dump-autoload --optimize
-  
-else
-
-  fxInfo "Skipped"
 fi
 
 
