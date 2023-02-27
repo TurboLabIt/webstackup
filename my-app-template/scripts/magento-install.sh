@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-## Pimcore installer
+## Magento installer
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/magento-install.sh
 
@@ -9,7 +9,7 @@ SITE_URL=https://my-app.com/
 MAGENTO_MARKET_PUBKEY=9f7e8b6fe7fe586fe1541551d07c28e6
 MAGENTO_MARKET_PRIVKEY=dd1549a69f7681cc21e26bb461efd387
 ELASTICSEARCH_HOST=localhost
-MAGENTO_ADMIN_USERNAME=my-name
+MAGENTO_ADMIN_USERNAME="$(logname)"
 MAGENTO_ADMIN_EMAIL=admin@my-app.com
 MAGENTO_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 MAGENTO_LOCALE=it_IT
