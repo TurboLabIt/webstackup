@@ -112,6 +112,14 @@ MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 MAGENTO_ADMIN_NEW_SLUG=$(fxAlphanumOnly "${MAGENTO_ADMIN_NEW_SLUG}")
 
 
+fxTitle "Restarting ElasticSearch..."
+if [ "${ELASTICSEARCH_HOST}" = "localhost" ] || [ "${ELASTICSEARCH_HOST}" = "localhost" ]; then
+  service elasticsearch restart
+else
+  fxWarning "ElasticSearch is not on localhost, skipping"
+fi
+
+
 wsuMage setup:install \
   --base-url=${SITE_URL} \
   --db-host=${MYSQL_HOST} \
