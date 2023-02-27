@@ -146,6 +146,7 @@ fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}shop"
 fxTitle "Activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)..."
 find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
 
+cd ${PROJECT_DIR}
 rm -rf "${PROJECT_DIR}shop/var/di/"*
 wsuMage setup:upgrade
 wsuMage setup:di:compile
