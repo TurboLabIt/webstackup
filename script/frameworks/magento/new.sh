@@ -91,6 +91,8 @@ fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 cd "${MAGENTO_DIR}"
 
 wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAGENTO_MARKET_PRIVKEY}"
+wsuComposer config http-basic.composer.amasty.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
+wsuComposer config http-basic.magefan.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
 
 
 fxTitle "Rename fastcgi_backend in nginx.conf.sample..."
@@ -139,6 +141,9 @@ rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}shop"
 rm -rf "${WSU_TMP_DIR}"
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
+
+fxTitle "Activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)..."
+find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
 
 
 fxTitle "The Magento instance is ready"
