@@ -6,7 +6,7 @@
 source $(dirname $(readlink -f $0))/script_begin.sh
 
 SITE_URL=https://my-app.com/
-PIMCORE_ADMIN_USERNAME=my-name
+PIMCORE_ADMIN_USERNAME="$(logname)"
 PIMCORE_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 PIMCORE_LOCALE=it_IT
 
