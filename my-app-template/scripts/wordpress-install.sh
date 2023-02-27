@@ -6,7 +6,7 @@
 source $(dirname $(readlink -f $0))/script_begin.sh
 
 WORDPRESS_SITE_NAME="My App Name"
-SITE_URL=https://my-app.com
+SITE_URL=https://my-app.com/
 WORDPRESS_LOCALE=it_IT
 WORDPRESS_ADMIN_USERNAME=my-name
 WORDPRESS_ADMIN_EMAIL=admin@my-app.com
