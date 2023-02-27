@@ -4,20 +4,18 @@
 ## Based on: https://pimcore.com/docs/pimcore/current/Development_Documentation/Getting_Started/Installation.html
 
 ### Variables:
-# WEBROOT_DIR=
-# EXPECTED_USER=
-
-# MYSQL_DB_NAME=
-# MYSQL_USER=
-# MYSQL_HOST=
-# MYSQL_PASSWORD=
-# 
-# SITE_URL=
-# PIMCORE_SITE_NAME="🚀 Pimcore"
-# PIMCORE_LOCALE=it_IT
-
-# PIMCORE_ADMIN_USERNAME=
-# PIMCORE_ADMIN_NEW_SLUG=
+# APP_NAME
+# PROJECT_DIR
+# SITE_URL
+#
+# MYSQL_USER
+# MYSQL_PASSWORD
+# MYSQL_HOST
+# MYSQL_DB_NAME
+#
+# PIMCORE_ADMIN_USERNAME
+# PIMCORE_ADMIN_NEW_SLUG
+# PIMCORE_LOCALE
 
 fxHeader "🆕 pimcore create-project"
 rootCheck
@@ -27,24 +25,24 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
   MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
 fi  
 
-if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${PIMCORE_LOCALE}" ] || \
-   [ -z "${MYSQL_DB_NAME}" ] || [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
-   [ -z "${SITE_URL}" ] ||  [ -z "${PIMCORE_SITE_NAME}" ] || \
-   [ -z "${PIMCORE_ADMIN_USERNAME}" ] || [ -z "${PIMCORE_ADMIN_NEW_SLUG}" ] \
+if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
+   [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_DB_NAME}" ] || \
+   [ -z "${PIMCORE_ADMIN_USERNAME}" ] || [ -z "${PIMCORE_ADMIN_NEW_SLUG}" ] || [ -z "${PIMCORE_LOCALE}" ] \
    ; then
 
   catastrophicError "Pimcore installer can't run with these variables undefined:
   APP_NAME:                ##${APP_NAME}##
   PROJECT_DIR:             ##${PROJECT_DIR}##
-  PIMCORE_LOCALE:          ##${PIMCORE_LOCALE}##
-  MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
-  MYSQL_USER:              ##${MYSQL_USER}##
-  MYSQL_HOST:              ##${MYSQL_HOST}##
-  MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
   SITE_URL:                ##${SITE_URL}##
-  PIMCORE_SITE_NAME:       ##${PIMCORE_SITE_NAME}##
+
+  MYSQL_USER:              ##${MYSQL_USER}##
+  MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
+  MYSQL_HOST:              ##${MYSQL_HOST}##
+  MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
+
   PIMCORE_ADMIN_USERNAME:  ##${PIMCORE_ADMIN_USERNAME}##
   PIMCORE_ADMIN_NEW_SLUG:  ##${PIMCORE_ADMIN_NEW_SLUG}##"
+  PIMCORE_LOCALE:          ##${PIMCORE_LOCALE}##
   exit
 fi
 
@@ -81,9 +79,6 @@ wsuComposer require turbolabit/php-foreachable:dev-main turbolabit/php-symfony-b
 
 
 PCINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
-PCINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
-PCINST_SITE_DOMAIN=${PCINST_SITE_DOMAIN%*/}
-
 
 fxTitle "Running the downloaded Pimcore installer from vendor..."
 sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \
@@ -118,6 +113,6 @@ fxTitle "The Pimcore instance is ready"
 fxMessage "Your admin username is: ${PIMCORE_ADMIN_USERNAME}"
 fxMessage "Your admin password is: ${PCINST_FIRST_ADMIN_PASSWORD}"
 echo ""
-echo "Please login at https://${PCINST_SITE_DOMAIN}/${PIMCORE_ADMIN_NEW_SLUG}"
+echo "Please login at ${SITE_URL}${PIMCORE_ADMIN_NEW_SLUG}"
 
 cd "${CURRENT_DIR_BACKUP}"
