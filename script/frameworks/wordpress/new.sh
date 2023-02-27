@@ -179,7 +179,9 @@ fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
 
+
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
+chmod g+w "${WEBROOT_DIR}" -R
 
 
 fxTitle "The WordPress instance is ready"
