@@ -107,6 +107,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
     
     for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
+    
+      ## trim the last element (?!?)
+      MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
       wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
     done
   
