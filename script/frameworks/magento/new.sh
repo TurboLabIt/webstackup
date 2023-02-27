@@ -146,6 +146,11 @@ fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}shop"
 fxTitle "Activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)..."
 find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
 
+rm -rf "${PROJECT_DIR}shop/var/di/"*
+wsuMage setup:upgrade
+wsuMage setup:di:compile
+bash "${PROJECT_DIR}scripts/cache-clear.sh"
+
 
 fxTitle "The Magento instance is ready"
 fxMessage "Your admin username is: ${MAGENTO_ADMIN_USERNAME}"
