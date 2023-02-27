@@ -77,7 +77,7 @@ PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
 MAGENTO_DIR=${PROJECT_DIR}shop/
-fxOK "PROJECT_DIR is now ##${MAGENTO_DIR}##"
+fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 
 wsuComposer create-project magento/project-community-edition shop \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
