@@ -31,7 +31,7 @@ cd "$MAGENTO_DIR"
 
 fxTitle "Restoring the standard, unoptimized composer autoload files..."
 rm -f "${MAGENTO_DIR}vendor/composer/autoload_*.php"
-wsuMage dump-autoload
+wsuComposer dump-autoload
 
 
 if [ "$1" = "fast" ]; then
