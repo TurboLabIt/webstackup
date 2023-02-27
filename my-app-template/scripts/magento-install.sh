@@ -6,6 +6,8 @@
 source $(dirname $(readlink -f $0))/script_begin.sh
 
 SITE_URL=https://my-app.com/
+MAGENTO_MARKET_PUBKEY=9f7e8b6fe7fe586fe1541551d07c28e6
+MAGENTO_MARKET_PRIVKEY=dd1549a69f7681cc21e26bb461efd387
 MAGENTO_ADMIN_USERNAME=my-name
 MAGENTO_ADMIN_EMAIL=admin@my-app.com
 MAGENTO_ADMIN_NEW_SLUG=my-app$(date +"%Y")
