@@ -3,7 +3,7 @@
 ## with at least 16 GB of RAM
 #
 # To enable:
-# sudo rm -f /etc/elasticsearch/jvm.options.d/jvm.options && sudo ln -s /usr/local/turbolab.it/webstackup/config/elasticsearch/jvm.options_small /etc/elasticsearch/jvm.options.d/jvm.options && sudo service elasticsearch restart && sudo service elasticsearch status
+# sudo rm -f /etc/elasticsearch/jvm.options.d/jvm.options && sudo ln -s /usr/local/turbolab.it/webstackup/config/elasticsearch/jvm.options /etc/elasticsearch/jvm.options.d/jvm.options && sudo service elasticsearch restart && sudo service elasticsearch status
 #
 
 ## Memory limit
