@@ -76,16 +76,12 @@ cd "${WSU_TMP_DIR}"
 PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
-MAGENTO_DIR=${PROJECT_DIR}shop/
-fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
-
-fxMessage "Composer: $(cat composer.json)"
-fxMessage "Composer path: $COMPOSER_JSON_FULLPATH"
-
-wsuComposer create-project magento/project-community-edition shop \
+wsuComposer create-project magento/project-community-edition ${APP_NAME} \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
   --ignore-platform-reqs
 
+MAGENTO_DIR=${PROJECT_DIR}}${APP_NAME}/
+fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 cd "${MAGENTO_DIR}"
 
 wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAGENTO_MARKET_PRIVKEY}"
@@ -113,6 +109,10 @@ wsuMage setup:install \
   --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
 
 
+fxTitle "Rename fastcgi_backend in nginx.conf.sample..."
+sed -i "s| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g" ${MAGENTO_DIR}nginx.conf.sample
+
+
 fxTitle "Restoring PROJECT_DIR"
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
@@ -120,15 +120,12 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 MAGENTO_DIR=${MAGENTO_DIR_BACKUP}
 fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
 
-
 fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
-rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
+rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}shop"
 rm -rf "${WSU_TMP_DIR}"
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 
-#fxTitle "Activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)..."
-#find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
 
 fxTitle "The Magento instance is ready"
 fxMessage "Your admin username is: ${MAGENTO_ADMIN_USERNAME}"
