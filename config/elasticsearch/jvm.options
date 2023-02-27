@@ -1,6 +1,10 @@
 ### BASIC ELASTICSEARCH CONFIG BY WEBSTACK.UP
 ## This is mostly best suited for a shared host (web+es)
 ## with at least 16 GB of RAM
+#
+# To enable:
+# sudo rm -f /etc/elasticsearch/jvm.options.d/jvm.options && sudo ln -s /usr/local/turbolab.it/webstackup/config/elasticsearch/jvm.options_small /etc/elasticsearch/jvm.options.d/jvm.options && sudo service elasticsearch restart
+#
 
 ## Memory limit
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings
