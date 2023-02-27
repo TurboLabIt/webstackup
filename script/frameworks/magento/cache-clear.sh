@@ -100,19 +100,16 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuComposer install
   wsuMage setup:upgrade
 
-  fxTitle "Disable module(s)..."
+  fxTitle "Disabling module(s)..."
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
   
     ## explode string to array 
     readarray -d : -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
     
     for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
-      echo "${MOD_TO_DISABLE}"
+      wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
     done
   
-  
-    #fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
-    #wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
   else
     
     fxWarning "No modules to disable defined"
