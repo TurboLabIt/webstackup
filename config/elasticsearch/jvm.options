@@ -1,6 +1,6 @@
 ### BASIC ELASTICSEARCH CONFIG BY WEBSTACK.UP
 ## This is mostly best suited for a shared host (web+es)
-## with at least 8 GB of RAM (16 GB strongly recommended)
+## with at least 16 GB of RAM
 
 ## Memory limit
 # https://www.elastic.co/guide/en/elasticsearch/reference/current/important-settings.html#heap-size-settings
