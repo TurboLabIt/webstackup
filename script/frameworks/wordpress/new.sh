@@ -70,15 +70,10 @@ mkdir -p "${WEBROOT_DIR}"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WEBROOT_DIR}"
 
-
-fxTitle "Downloading WordPress..."
 # https://developer.wordpress.org/cli/commands/core/download/
 wsuWordPress core download --locale="${WORDPRESS_LOCALE}"
-
-fxTitle "Checking WordPress version..."
 wsuWordPress core version
 
-fxTitle "Creating wp-config.php..."
 ## https://developer.wordpress.org/cli/commands/config/create/
 wsuWordPress config create \
   --dbname="${MYSQL_DB_NAME}" \
@@ -147,16 +142,17 @@ wsuWordPress plugin install \
   google-authenticator autoptimize classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   --activate-network --activate
-  
-fxTitle "Enable plugin auto-update..."
+
+
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
 wsuWordPress plugin auto-updates enable --all
 
-fxTitle "Setting some options..."
+
 ## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
 wsuWordPress option update \
   whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
   --skip-plugins --skip-themes
+ 
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
@@ -165,6 +161,7 @@ echo "Put your own theme here. It will be Git-commitable" > "${WEBROOT_DIR}wp-co
 fxTitle "Preparing ${APP_NAME} plugin directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
+
 
 fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
