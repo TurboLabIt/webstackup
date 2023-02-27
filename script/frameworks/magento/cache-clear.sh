@@ -34,10 +34,10 @@ cd "$MAGENTO_DIR"
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
-  fxTitle "⚙️ Entering maintenance mode..."
+  ## Entering maintenance mode
   wsuMage maintenance:enable
 
-  fxTitle "🗜️ Enable merge and minify..."
+  ## Enable merge and minify
   wsuMage config:set dev/js/merge_files 1
   wsuMage config:set dev/js/enable_js_bundling 0
   wsuMage config:set dev/js/minify_files 1
@@ -48,17 +48,15 @@ fi
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
-  fxTitle "🧑‍💻 Setting developer mode..."
+  ## Setting developer mode
   sudo rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
-  
-  fxTitle "🛍️ Current mode..."
   wsuMage deploy:mode:show
 
-  fxTitle "🧑‍💻 Change admin settings..."
+  ## Extending session life
   wsuMage config:set admin/security/session_lifetime 31536000
   
-  fxTitle "🦅 Disable merge and minify..."
+  ## Disable merge and minify
   wsuMage config:set dev/js/merge_files 0
   wsuMage config:set dev/js/enable_js_bundling 0
   wsuMage config:set dev/js/minify_files 0
@@ -67,21 +65,22 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
-  fxTitle "🛍️ Setting PRODUCTION mode..."
+  ## Setting PRODUCTION mode
   wsuMage deploy:mode:set production --skip-compilation
-  
-  fxTitle "🛍️ Current mode..."
   wsuMage deploy:mode:show
 
-  fxTitle "🛍️ Change admin settings..."
+  ## Extending session life
   wsuMage config:set admin/security/session_lifetime 86400
 fi
 
+## Passwords should never expire
 wsuMage config:set admin/security/password_lifetime ''
+
 
 ## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
 # https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
 wsuMage config:set system/security/max_session_size_admin 512000
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
@@ -99,39 +98,35 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
     "var/di/"
 
   wsuComposer install
-
-  fxTitle "🧙🏗️ setup:upgrade..."
   wsuMage setup:upgrade
 
+  fxTitle "Disable module(s)..."
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
-    fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
-    wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
+  
+    ## explode string to array 
+    readarray -d : -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
+    
+    for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
+      echo "${MOD_TO_DISABLE}"
+    done
+  
+  
+    #fxTitle "⚙️ Disabling modules ${MAGENTO_MODULE_DISABLE}..."
+    #wsuMage module:disable --clear-static-content ${MAGENTO_MODULE_DISABLE}
+  else
+    
+    fxWarning "No modules to disable defined"
   fi
 
-  fxTitle "🧙🏗️ setup:di:compile..."
+
   wsuMage setup:di:compile
-
-  ## legacy implementation
-  #fxTitle "🧙🏗️ static-content:deploy admin"
-  #wsuMage setup:static-content:deploy --area adminhtml it_IT en_US -f
-
-  #if [ ! -z "${MAGENTO_STATIC_CONTENT_DEPLOY}" ]; then
-
-    #fxTitle "🧙🏗️ static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY}"
-    #wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} -f
-
-  #fi
-  ## ############################
-
-  fxTitle "🧙🏗️ static-content:deploy"
   wsuMage setup:static-content:deploy --jobs 8 -s standard -f
 
 else
 
-  fxTitle "🧙🏗️ di:compile and static-content:deploy skipped (fast mode)"
+  fxInfo "Build phase skipped (fast mode)"
 fi
 
-fxTitle "🌊 Magento cache:flush..."
 wsuMage cache:flush
 
 fxTitle "🐧 Setting the owner..."
@@ -144,12 +139,7 @@ sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chm
 sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + > /dev/null 2>&1
 
 if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
-
-  fxTitle "⚙️ Exiting maintenance mode..."
   wsuMage maintenance:disable
-
 else
-
-  fxTitle "🌊 PHP OPcache clear..."
   wsuOpcacheClear
 fi
