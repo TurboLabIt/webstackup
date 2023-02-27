@@ -33,7 +33,7 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
 fi  
 
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
-   [ -z "${MAGENTO_MARKET_PUBKEY}" ] || [ -z "${MAGENTO_MARKET_PRIVKEY}" ] \
+   [ -z "${MAGENTO_MARKET_PUBKEY}" ] || [ -z "${MAGENTO_MARKET_PRIVKEY}" ] || \
    [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_DB_NAME}" ] || \
    [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_EMAIL}" ] || [ -z "${MAGENTO_ADMIN_NEW_SLUG}" ] || \
    [ -z "${MAGENTO_LOCALE}" ] || [ -z "${MAGENTO_CURRENCY}" ] || [ -z "${MAGENTO_TIMEZONE}" ] \
