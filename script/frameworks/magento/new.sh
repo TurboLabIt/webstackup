@@ -141,6 +141,7 @@ rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}shop"
 rm -rf "${WSU_TMP_DIR}"
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
+fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}shop"
 
 fxTitle "Activate custom/nginx-php-fpm.conf (upstream fastcgi_backend_my-app)..."
 find "${PROJECT_DIR}config/custom" -type f -exec sed -i '/^#include .*\/config\/custom\/nginx-php-fpm.conf/ s/^#//' {} \;
