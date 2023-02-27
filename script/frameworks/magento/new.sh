@@ -102,7 +102,7 @@ MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 
 
 ## workaround for "Invalid backend frontname"
-MAGENTO_ADMIN_NEW_SLUG=$(echo "${MAGENTO_ADMIN_NEW_SLUG}" | tr -cd '[:alnum:]')
+MAGENTO_ADMIN_NEW_SLUG=$(fxAlphanumOnly "${MAGENTO_ADMIN_NEW_SLUG}")
 
 
 wsuMage setup:install \
