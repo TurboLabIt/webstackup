@@ -104,7 +104,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
   
     ## explode string to array 
-    readarray -d : -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
+    readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
     
     for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
       wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
