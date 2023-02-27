@@ -62,6 +62,12 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
   exit
 fi
 
+
+fxTitle "Installing additional, required PHP extensions.."
+apt update
+apt install php${PHP_VER}-soap php${PHP_VER}-bcmath -y
+
+
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 MAGENTO_DIR_BACKUP=${MAGENTO_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
@@ -86,7 +92,14 @@ cd "${MAGENTO_DIR}"
 
 wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAGENTO_MARKET_PRIVKEY}"
 
+
+fxTitle "Rename fastcgi_backend in nginx.conf.sample..."
+sed -i "s| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g" ${MAGENTO_DIR}nginx.conf.sample
+
+
+fxTitle "Generating admin password..."
 MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
+
 
 wsuMage setup:install \
   --base-url=${SITE_URL} \
@@ -94,8 +107,8 @@ wsuMage setup:install \
   --db-name=${MYSQL_DB_NAME} \
   --db-user=${MYSQL_USER} \
   --db-password=${MYSQL_PASSWORD} \
-  #--admin-firstname=Admin \
-  #--admin-lastname=Admin \
+  --admin-firstname=$(logname) \
+  --admin-lastname=$(logname) \
   --admin-email="${MAGENTO_ADMIN_EMAIL}" \
   --admin-user="${MAGENTO_ADMIN_USERNAME}" \
   --admin-password=${MAGEINST_FIRST_ADMIN_PASSWORD} \
@@ -107,10 +120,6 @@ wsuMage setup:install \
   --elasticsearch-host=localhost \
   --elasticsearch-port=9200 \
   --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
-
-
-fxTitle "Rename fastcgi_backend in nginx.conf.sample..."
-sed -i "s| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g" ${MAGENTO_DIR}nginx.conf.sample
 
 
 fxTitle "Restoring PROJECT_DIR"
