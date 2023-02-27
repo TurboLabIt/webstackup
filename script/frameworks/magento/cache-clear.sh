@@ -29,13 +29,14 @@ fi
 cd "$MAGENTO_DIR"
 
 
+fxTitle "Restoring the standard, unoptimized composer autoload files..."
+rm -f "${MAGENTO_DIR}vendor/composer/autoload_*.php"
+wsuMage dump-autoload
+
+
 if [ "$1" = "fast" ]; then
   FAST_CACHE_CLEAR=1
 fi
-
-
-#fxTitle "Removing the composer dump-autoload classmap..."
-#rm -f "${MAGENTO_DIR}vendor/composer/autoload_classmap.php"
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
@@ -149,7 +150,7 @@ fxTitle "Generating composer dump-autoload classmap"
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "devv" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 2 ]; then
 
   ## https://getcomposer.org/doc/articles/autoloader-optimization.md
-  echo "#wsuComposer dump-autoload --optimize"
+  wsuComposer dump-autoload --optimize
   
 else
 
