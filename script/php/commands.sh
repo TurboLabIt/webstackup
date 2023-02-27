@@ -66,7 +66,7 @@ function wsuMage()
     fxCatastrophicError "📁 MAGENTO_DIR not set"
   fi
   
-  local CONSOLE_FILE_PATH=${MAGENTO_DIR}bin/console
+  local CONSOLE_FILE_PATH=${MAGENTO_DIR}bin/magento
   
   if [ ! -f "${CONSOLE_FILE_PATH}" ]; then
     fxCatastrophicError "##${CONSOLE_FILE_PATH}## not found"
@@ -81,7 +81,7 @@ function wsuMage()
   cd "${MAGENTO_DIR}"
   
   fxInfo "$(pwd)"
-  echo "bin/console $@"
+  echo "bin/magento $@"
   echo ""
   
   sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} ${CONSOLE_FILE_PATH} "$@"
