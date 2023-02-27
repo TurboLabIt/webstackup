@@ -16,6 +16,8 @@
 # MYSQL_HOST=
 # MYSQL_DB_NAME=
 #
+# ELASTICSEARCH_HOST=
+#
 # MAGENTO_ADMIN_USERNAME=
 # MAGENTO_ADMIN_EMAIL=
 # MAGENTO_ADMIN_NEW_SLUG=
@@ -35,6 +37,7 @@ fi
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
    [ -z "${MAGENTO_MARKET_PUBKEY}" ] || [ -z "${MAGENTO_MARKET_PRIVKEY}" ] || \
    [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_DB_NAME}" ] || \
+   [ -z "${ELASTICSEARCH_HOST}" ] ||
    [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_EMAIL}" ] || [ -z "${MAGENTO_ADMIN_NEW_SLUG}" ] || \
    [ -z "${MAGENTO_LOCALE}" ] || [ -z "${MAGENTO_CURRENCY}" ] || [ -z "${MAGENTO_TIMEZONE}" ] \
    ; then
@@ -51,6 +54,8 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
   MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
   MYSQL_HOST:              ##${MYSQL_HOST}##
   MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
+  
+  ELASTICSEARCH_HOST:      ##${ELASTICSEARCH_HOST}##
   
   MAGENTO_ADMIN_USERNAME:  ##${MAGENTO_ADMIN_USERNAME}##
   MAGENTO_ADMIN_EMAIL:     ##${MAGENTO_ADMIN_EMAIL}##
@@ -123,7 +128,7 @@ wsuMage setup:install \
   --timezone="${MAGENTO_TIMEZONE}" \
   --use-rewrites=1 \
   --search-engine=elasticsearch7 \
-  --elasticsearch-host=localhost \
+  --elasticsearch-host=${ELASTICSEARCH_HOST} \
   --elasticsearch-port=9200 \
   --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
 
