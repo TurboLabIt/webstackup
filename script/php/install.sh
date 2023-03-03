@@ -50,9 +50,12 @@ apt update -qq
 
 fxTitle "Installing..."
 apt install -y \
-  php${PHP_VER}-fpm php${PHP_VER}-cli php${PHP_VER}-common \
-  php${PHP_VER}-mbstring php${PHP_VER}-gd php${PHP_VER}-intl \
-  php${PHP_VER}-xml php${PHP_VER}-mysql php${PHP_VER}-zip php${PHP_VER}-curl
+  php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-fpm \
+  php${PHP_VER}-bcmath \
+  php${PHP_VER}-curl php${PHP_VER}-gd php${PHP_VER}-intl \
+  php${PHP_VER}-mbstring php${PHP_VER}-mysql \
+  php${PHP_VER}-soap \
+  php${PHP_VER}-xml php${PHP_VER}-zip
 
 
 fxTitle "Config path"
