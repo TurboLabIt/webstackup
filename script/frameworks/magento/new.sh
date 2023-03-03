@@ -68,11 +68,6 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
 fi
 
 
-fxTitle "Installing additional, required PHP extensions.."
-apt update
-apt install php${PHP_VER}-soap php${PHP_VER}-bcmath -y
-
-
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 MAGENTO_DIR_BACKUP=${MAGENTO_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
