@@ -33,4 +33,8 @@ rm -rf /var/lib/letsencrypt/
 rm -rf /var/log/letsencrypt/
 
 
+fxTitle "Restarting nginx..."
+nginx -t && service nginx restart
+
+
 fxEndFooter
