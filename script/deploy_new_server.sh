@@ -47,6 +47,7 @@ else
   done
 fi
 
+fxRequireCompatbileUbuntuVersion "${COMPATIBLE_OS_VERSIONS}"
 
 fxTitle "Installing WEBSTACK.UP..."
 if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
