@@ -47,7 +47,12 @@ else
   done
 fi
 
-fxRequireCompatbileUbuntuVersion "${COMPATIBLE_OS_VERSIONS}"
+
+if [ "$INSTALL_PHP" = 1 ]; then
+  ## https://github.com/TurboLabIt/webstackup/issues/15
+  fxRequireCompatbileUbuntuVersion "${COMPATIBLE_OS_VERSIONS}"
+fi
+
 
 fxTitle "Installing WEBSTACK.UP..."
 if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
