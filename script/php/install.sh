@@ -17,9 +17,18 @@ fi
 fxHeader "💿 PHP installer"
 rootCheck
 
+
 if [ -z "${PHP_VER}" ]; then
   fxCatastrophicError "PHP_VER is undefined! Cannot determine which version of PHP to install"
 fi
+
+
+## checking compatibility
+# https://github.com/TurboLabIt/webstackup/issues/15
+local PHP_VER_CLI="${PHP_VER}"
+source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.default.conf)
+fxRequireCompatbileUbuntuVersion "${COMPATIBLE_OS_VERSIONS}"
+PHP_VER="${PHP_VER_CLI}"
 
 
 fxTitle "Removing any old previous instance of PHP ${PHP_VER}..."
