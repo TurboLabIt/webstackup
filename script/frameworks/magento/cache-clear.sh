@@ -130,7 +130,8 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
 
   wsuMage setup:di:compile
-  wsuMage setup:static-content:deploy --jobs 8 -s standard -f
+  wsuMage setup:static-content:deploy --area adminhtml ${MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN} --jobs 8 -f
+  wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} --jobs 8 -f
 
 else
 
