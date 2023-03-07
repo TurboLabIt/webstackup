@@ -17,6 +17,6 @@ MYSQL_DB_NAME=${APP_NAME}_shared
 ## options
 SKIP_POST_LOAD_QUERY=0
 
-wsuSourceFrameworkScript db-load
+wsuSourceFrameworkScript db-restore
 
 source "${SCRIPT_DIR}script_end.sh"
