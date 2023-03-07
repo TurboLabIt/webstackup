@@ -33,7 +33,7 @@ fi
 
 if [ "$APP_ENV" = "prod" ]; then
 
-  fxTitle '⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡'
+  fxTitle "⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡"
   WSU_DEPLOY_RUN_OPTIONS=("OK" "Cancel")
   select opt in "${WSU_DEPLOY_RUN_OPTIONS[@]}"
   do
