@@ -1,13 +1,13 @@
-if [ "${SKIP_POST_LOAD_QUERY}" != 0 ]; then
+if [ "${SKIP_POST_RESTORE_QUERY}" != 0 ]; then
 
-  fxTitle "⚙️ Running db-post-load SQL queries..."
-  fxInfo "SKIP_POST_LOAD_QUERY is set, skipping"
+  fxTitle "⚙️ Running db-post-restore SQL queries..."
+  fxInfo "SKIP_POST_RESTORE_QUERY is set, skipping"
   return
 fi
 
 
 fxTitle "⚙️ Running SQL query for staging..."
-SQL_STAGING=${PROJECT_DIR}config/custom/staging/db-post-load.sql
+SQL_STAGING=${PROJECT_DIR}config/custom/staging/db-post-restore.sql
 if [ -f "${SQL_STAGING}" ]; then
   wsuN98MageRun db:import "${SQL_STAGING}"
 else
@@ -16,7 +16,7 @@ fi
 
 
 fxTitle "⚙️ Running SQL query for dev..."
-SQL_DEV=${PROJECT_DIR}config/custom/dev/db-post-load.sql
+SQL_DEV=${PROJECT_DIR}config/custom/dev/db-post-restore.sql
 if [ "${APP_ENV}" = "dev" ] && [ ! -f "${SQL_DEV}" ]; then
   fxWarning "##$SQL_DEV## not found, skipping"
 elif [ "${APP_ENV}" = "dev" ] && [ -f "${SQL_DEV}" ]; then
