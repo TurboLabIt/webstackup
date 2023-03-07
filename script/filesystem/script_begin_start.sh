@@ -1,7 +1,3 @@
-#!/usr/bin/env bash
-## env init script.
-#
-# 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/script_begin.sh
 echo ""
 
 ## Fix path (for cron)
