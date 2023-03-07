@@ -340,15 +340,6 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf" ] && [ ! -f "/
   ln -s "${PROJECT_DIR}config/${APP_ENV}/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf"
 fi
 
-if [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf" ]; then
-
-  zzmysqldump ${APP_NAME}-${APP_ENV}
-  
-elif [ -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
-
-  zzmysqldump ${APP_NAME}
-fi
-
 
 ## zzfirewall
 if [ -f "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf" ]; then
