@@ -121,7 +121,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
       ## trim the last element (?!?)
       MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
       fxWarning "Disabling ##${MOD_TO_DISABLE}##"
-      wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
+      if [ ! -z "${MOD_TO_DISABLE}" ]; then
+        wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
+      else
+        fxInfo "SKIP"
+      fi
+
     done
   
   else
