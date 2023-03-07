@@ -6,14 +6,12 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/base.sh
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 
-PRIVGEN_DIR="/var/www/private_generics/"
 ZZ_CMD_SUFFIX=0
 
 WSU_FRAMEWORK_BEGIN=${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/script_begin.sh
 if [ -f "${WSU_FRAMEWORK_BEGIN}" ]; then
   source "${WSU_FRAMEWORK_BEGIN}"
 fi
-
 
 ## Enviroment variables and checks
 if [ "$APP_ENV" = "prod" ]; then
