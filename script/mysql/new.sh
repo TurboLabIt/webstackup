@@ -12,17 +12,45 @@ if [ ! -e "${MYSQL_CREDENTIALS_FILE}" ]; then
   fxCatastrophicError "Credentials file ${MYSQL_CREDENTIALS_FILE} not found!"
 fi
 
+NEW_MYSQL_APP_NAME=$1
 NEW_MYSQL_USER=$1
 NEW_MYSQL_PASSWORD=$2
 NEW_MYSQL_DB_NAME=$3
 
 
-fxTitle "🧔 Username"
-while [ -z "$NEW_MYSQL_USER" ]; do
-  read -p "🤖 Provide the username: " NEW_MYSQL_USER  < /dev/tty
+fxTitle "🖥️ APP_NAME"
+fxInfo "For example: \"turbolab_it\" or \"my-amazing-shop\""
+fxWarning "Lowercase letters [a-z] and numbers [0-9] only!"
+while [ -z "$NEW_MYSQL_APP_NAME" ]; do
+
+  echo "🤖 Provide the APP_NAME"
+  read -p ">> " NEW_MYSQL_APP_NAME  < /dev/tty
+
 done
 
-fxOK "OK, $NEW_MYSQL_USER"
+NEW_MYSQL_APP_NAME=$(echo "$NEW_MYSQL_APP_NAME" | tr '[:upper:]' '[:lower:]')
+NEW_MYSQL_APP_NAME=${NEW_MYSQL_APP_NAME// /-}
+
+fxOK "Got it, APP_NAME is ##$NEW_MYSQL_APP_NAME##"
+
+
+## auto-generating a candidate USER_NAME and DB_NAME
+NEW_MYSQL_USER_DEFAULT=${NEW_MYSQL_APP_NAME}_usr
+NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
+
+
+fxTitle "🧔 Username"
+while [ -z "$NEW_MYSQL_USER" ]; do
+
+  echo "🤖 Provide the new MySQL username or hit Enter for ##${NEW_MYSQL_USER_DEFAULT}##"
+  read -p ">> " NEW_MYSQL_USER  < /dev/tty
+  if [ -z "$NEW_MYSQL_USER" ]; then
+    NEW_MYSQL_USER=$NEW_MYSQL_USER_DEFAULT
+  fi
+
+done
+
+fxOK "Ack, the new MySQL username is ##$NEW_MYSQL_USER##"
 
 
 fxTitle "🔑 Password"
@@ -32,7 +60,9 @@ fi
 
 while [ -z "$NEW_MYSQL_PASSWORD" ]; do
 
-  read -p "🤖 Provide the password (leave blank for autogeneration): " NEW_MYSQL_PASSWORD  < /dev/tty
+  echo "🤖 Provide the password (leave blank for autogeneration)"
+  read -p ">> " NEW_MYSQL_PASSWORD  < /dev/tty
+
   if [ -z "$NEW_MYSQL_PASSWORD" ]; then
     NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
   fi
@@ -42,30 +72,34 @@ done
 fxOK "OK, $NEW_MYSQL_PASSWORD"
 
 
-fxTitle "🧺 DB name"
+fxTitle "🧺 Database name"
 while [ -z "$NEW_MYSQL_DB_NAME" ]; do
 
-  read -p "🤖 Provide the name of the database (leave blank if it's the same as the username): " NEW_MYSQL_DB_NAME  < /dev/tty
+  echo "🤖 Provide the new database name or hit Enter for ##${NEW_MYSQL_DB_NAME_DEFAULT}##"
+  read -p ">> " NEW_MYSQL_DB_NAME  < /dev/tty
   if [ -z "$NEW_MYSQL_DB_NAME" ]; then
-    NEW_MYSQL_DB_NAME=$NEW_MYSQL_USER
+    NEW_MYSQL_DB_NAME=$NEW_MYSQL_DB_NAME_DEFAULT
   fi
-  
+
 done
 
-fxOK "OK, $NEW_MYSQL_DB_NAME"
+fxOK "Swell, the new database will be named ##$NEW_MYSQL_USER##"
 
 
-fxTitle "Preview"
-echo "User:  ##${NEW_MYSQL_USER}##@%"
-echo "Pass:  ##${NEW_MYSQL_PASSWORD}##"
-echo "DB:    ##${NEW_MYSQL_DB_NAME}##"
+fxTitle "🚀 Preview..."
+fxMessage "AppName:     ##$NEW_MYSQL_APP_NAME##"
+fxMessage "User:        ##$NEW_MYSQL_USER##"
+fxMessage "Password:    ##$NEW_MYSQL_PASSWORD##"
+fxMessage "DB Name:     ##$NEW_MYSQL_DB_NAME##"
+fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
+echo ""
 
 
 fxTitle "📦 Installing prerequisites..."
 if [ -z "$(command -v mysql)" ]; then
   apt update && apt install mysql-client -y
 else
-   fxInfo "prerequisite(s) already installed"
+  fxInfo "prerequisite(s) already installed"
 fi
 
 
@@ -80,7 +114,6 @@ wsuMysql -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW
 wsuMysql -e "GRANT RELOAD, PROCESS ON *.* TO '$NEW_MYSQL_USER'@'%';"
 wsuMysql -e "FLUSH PRIVILEGES;"
 
-wsuMysqlStoreCredentials "$NEW_MYSQL_USER" "$NEW_MYSQL_PASSWORD" "$MYSQL_HOST" "$NEW_MYSQL_DB_NAME"
+wsuMysqlStoreCredentials "${NEW_MYSQL_APP_NAME}" "${NEW_MYSQL_USER}" "${NEW_MYSQL_PASSWORD}" "${MYSQL_HOST}" "${NEW_MYSQL_DB_NAME}"
 
 fxEndFooter
-
