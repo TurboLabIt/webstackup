@@ -95,6 +95,7 @@ function wsuMysqlStoreCredentials()
   fi
   
   fxOK "ℹ Credentials saved to $FILENAME"
+  cat "$FILENAME"
   
   if [ "$FILENAME" = "/etc/turbolab.it/mysql.conf" ]; then
   
