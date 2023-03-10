@@ -55,3 +55,17 @@ while [ -z "$NEW_MYSQL_PASSWORD" ]; do
 done
 
 fxOK "OK, $NEW_MYSQL_PASSWORD"
+
+
+fxTitle "🎯 Host"
+while [ -z "$NEW_MYSQL_HOST" ]; do
+
+  echo "🤖 Provide the host or hit Enter for localhost"
+  read -p ">> " NEW_MYSQL_HOST  < /dev/tty
+  if [ -z "$NEW_MYSQL_HOST" ]; then
+    NEW_MYSQL_HOST="localhost"
+  fi
+  
+done
+
+fxOK "Database host: $NEW_MYSQL_HOST"
