@@ -56,6 +56,7 @@ fxTitle "🧺 Creating the database..."
 wsuMysql -e "CREATE DATABASE \`$NEW_MYSQL_DB_NAME\` CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;"
 
 fxTitle "🔑 Granting privileges..."
+wsuMysql -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_APP_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
 wsuMysql -e "GRANT ALL PRIVILEGES ON \`${NEW_MYSQL_DB_NAME//_/\\_}%\`.* TO '$NEW_MYSQL_USER'@'%';"
 wsuMysql -e "GRANT RELOAD, PROCESS ON *.* TO '$NEW_MYSQL_USER'@'%';"
 wsuMysql -e "FLUSH PRIVILEGES;"
