@@ -56,23 +56,24 @@ function wsuMysql()
 
 function wsuMysqlStoreCredentials()
 {
-  local MYSQL_USER=$1
-  local MYSQL_INPUT_PASS=$2
-  local MYSQL_INPUT_HOST=$3
-  local MYSQL_INPUT_DB_NAME=$4
+  local MYSQL_APP_NAME=$1
+  local MYSQL_USER=$2
+  local MYSQL_INPUT_PASSWORD=$3
+  local MYSQL_INPUT_HOST=$4
+  local MYSQL_INPUT_DB_NAME=$5
   
   if [ "${MYSQL_USER}" = "root" ]; then
     local FILENAME=/etc/turbolab.it/mysql.conf
   else
-    local FILENAME=/etc/turbolab.it/mysql-${MYSQL_USER}.conf
+    local FILENAME=/etc/turbolab.it/mysql-${MYSQL_APP_NAME}.conf
   fi
   
   if [ -e "${FILENAME}" ]; then
     source "${FILENAME}"
   fi
   
-  if [ ! -z "${MYSQL_INPUT_PASS}" ]; then
-    MYSQL_PASS=${MYSQL_INPUT_PASS}
+  if [ ! -z "${MYSQL_INPUT_PASSWORD}" ]; then
+    MYSQL_PASSWORD=${MYSQL_INPUT_PASSWORD}
   fi
   
   if [ ! -z "${MYSQL_INPUT_HOST}" ]; then
@@ -83,9 +84,10 @@ function wsuMysqlStoreCredentials()
     MYSQL_DB_NAME=${MYSQL_INPUT_DB_NAME}
   fi
 
+
   fxTitle "💾 Storing MySQL credentials to ${FILENAME}..."
   echo "MYSQL_USER=$MYSQL_USER" > "$FILENAME"
-  echo "MYSQL_PASSWORD='$MYSQL_PASS'" >> "$FILENAME"
+  echo "MYSQL_PASSWORD='$MYSQL_PASSWORD'" >> "$FILENAME"
   echo "MYSQL_HOST=$MYSQL_HOST" >> "$FILENAME"
   
   if [ "$FILENAME" != "/etc/turbolab.it/mysql.conf" ] && [ ! -z "MYSQL_DB_NAME" ]; then
@@ -95,11 +97,12 @@ function wsuMysqlStoreCredentials()
   fxOK "ℹ Credentials saved to $FILENAME"
   
   if [ "$FILENAME" = "/etc/turbolab.it/mysql.conf" ]; then
+  
     fxTitle "🔒 Restricting access to root only..."
     chown root:root "$FILENAME"
     chmod u=rw,go= "$FILENAME"
   fi
   
   fxTitle "🧪 Testing..."
-  mysql -u${MYSQL_USER} -p"${MYSQL_PASS}" -h ${MYSQL_HOST} -e "SHOW DATABASES;"
+  mysql -u${MYSQL_USER} -p"${MYSQL_PASSWORD}" -h ${MYSQL_HOST} -e "SHOW DATABASES;"
 }
