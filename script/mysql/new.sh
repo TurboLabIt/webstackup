@@ -62,7 +62,6 @@ while [ -z "$NEW_MYSQL_PASSWORD" ]; do
 
   echo "🤖 Provide the password (leave blank for autogeneration)"
   read -p ">> " NEW_MYSQL_PASSWORD  < /dev/tty
-
   if [ -z "$NEW_MYSQL_PASSWORD" ]; then
     NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
   fi
@@ -91,7 +90,7 @@ fxMessage "AppName:     ##$NEW_MYSQL_APP_NAME##"
 fxMessage "User:        ##$NEW_MYSQL_USER##"
 fxMessage "Password:    ##$NEW_MYSQL_PASSWORD##"
 fxMessage "DB Name:     ##$NEW_MYSQL_DB_NAME##"
-fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
+fxCountdown 5
 echo ""
 
 
