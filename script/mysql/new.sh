@@ -34,6 +34,7 @@ fxTitle "🚀 Preview..."
 fxMessage "AppName:     ##$NEW_MYSQL_APP_NAME##"
 fxMessage "User:        ##$NEW_MYSQL_USER##"
 fxMessage "Password:    ##$NEW_MYSQL_PASSWORD##"
+fxMessage "Host:        ##$NEW_MYSQL_HOST##"
 fxMessage "DB Name:     ##$NEW_MYSQL_DB_NAME##"
 fxCountdown 5
 echo ""
