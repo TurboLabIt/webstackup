@@ -89,7 +89,7 @@ while [ -z "$NEW_MYSQL_PASSWORD" ]; do
   
 done
 
-fxOK "OK, $NEW_MYSQL_PASSWORD"
+fxOK "OK, ##$NEW_MYSQL_PASSWORD##"
 
 
 fxTitle "🎯 MySQL host"
