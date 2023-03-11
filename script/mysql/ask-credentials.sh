@@ -3,6 +3,7 @@ NEW_MYSQL_USER=$1
 NEW_MYSQL_PASSWORD=$2
 NEW_MYSQL_DB_NAME=$3
 NEW_MYSQL_HOST=$4
+NEW_MYSQL_USER_FROM_HOST=$5
 
 
 fxTitle "🖥️ APP_NAME"
@@ -58,10 +59,10 @@ done
 fxOK "OK, $NEW_MYSQL_PASSWORD"
 
 
-fxTitle "🎯 Host"
+fxTitle "🎯 MySQL server host"
 while [ -z "$NEW_MYSQL_HOST" ]; do
 
-  echo "🤖 Provide the host or hit Enter for localhost"
+  echo "🤖 Provide the host where MySQL is running or hit Enter for localhost"
   read -p ">> " NEW_MYSQL_HOST  < /dev/tty
   if [ -z "$NEW_MYSQL_HOST" ]; then
     NEW_MYSQL_HOST="localhost"
@@ -70,3 +71,41 @@ while [ -z "$NEW_MYSQL_HOST" ]; do
 done
 
 fxOK "Database host: $NEW_MYSQL_HOST"
+
+
+if [ "${NEW_MYSQL_USER}" == "" ]; then
+  NEW_MYSQL_DEFAULT_USER_FROM_HOST=localhost
+else
+  NEW_MYSQL_DEFAULT_USER_FROM_HOST='%'
+fi
+
+
+fxTitle "🗺 ${NEW_MYSQL_USER}@????"
+while [ -z "$NEW_MYSQL_USER_FROM_HOST" ]; do
+
+  echo "🤖 Enter the origin host (where this user will be connecting ⭐⭐FROM⭐⭐)"
+  echo "This will be used to create the user as ##${NEW_MYSQL_USER}@....##"
+  echo ""
+  echo "Examples:"
+  echo "- % (every host)"
+  echo "- localhost"
+  echo "- 172.10.15.20"
+  echo ""
+  echo "Hit Enter for ##${NEW_MYSQL_DEFAULT_USER_FROM_HOST}##"
+  read -p ">> " NEW_MYSQL_USER_FROM_HOST  < /dev/tty
+  if [ -z "$NEW_MYSQL_USER_FROM_HOST" ]; then
+    NEW_MYSQL_USER_FROM_HOST=$NEW_MYSQL_DEFAULT_USER_FROM_HOST
+  fi
+
+done
+
+fxOK "OK, ##$NEW_MYSQL_USER_FROM_HOST##"
+
+
+fxTitle "🚀 Preview..."
+fxMessage "AppName:       ##$NEW_MYSQL_APP_NAME##"
+fxMessage "User:          ##$NEW_MYSQL_USER##@##${NEW_MYSQL_USER_FROM_HOST}##"
+fxMessage "Password:      ##$NEW_MYSQL_PASSWORD##"
+fxMessage "MySQL server:  ##$NEW_MYSQL_HOST##"
+fxCountdown 5
+echo ""
