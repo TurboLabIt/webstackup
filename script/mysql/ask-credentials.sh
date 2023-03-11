@@ -1,9 +1,9 @@
 NEW_MYSQL_APP_NAME=$1
 NEW_MYSQL_USER=$2
-NEW_MYSQL_PASSWORD=$3
-NEW_MYSQL_DB_NAME=$4
+NEW_MYSQL_USER_FROM_HOST=$3
+NEW_MYSQL_PASSWORD=$4
 NEW_MYSQL_HOST=$5
-NEW_MYSQL_USER_FROM_HOST=$6
+NEW_MYSQL_DB_NAME=$6
 
 
 fxTitle "🖥️ APP_NAME"
@@ -22,12 +22,11 @@ NEW_MYSQL_APP_NAME=${NEW_MYSQL_APP_NAME// /-}
 fxOK "Got it, APP_NAME is ##$NEW_MYSQL_APP_NAME##"
 
 
-## auto-generating a candidate USER_NAME and DB_NAME
-NEW_MYSQL_USER_DEFAULT=${NEW_MYSQL_APP_NAME}_usr
-NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
-
-
 fxTitle "🧔 Username"
+
+## generating a candidate USER_NAME
+NEW_MYSQL_USER_DEFAULT=${NEW_MYSQL_APP_NAME}_usr
+
 while [ -z "$NEW_MYSQL_USER" ]; do
 
   echo "🤖 Provide the MySQL username or hit Enter for ##${NEW_MYSQL_USER_DEFAULT}##"
@@ -41,50 +40,19 @@ done
 fxOK "Ack, the MySQL username is ##$NEW_MYSQL_USER##"
 
 
-fxTitle "🔑 Password"
-if [ "$NEW_MYSQL_PASSWORD" = "auto" ]; then
-  NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
-fi
+fxTitle "🗺 ${NEW_MYSQL_USER}@...."
 
-while [ -z "$NEW_MYSQL_PASSWORD" ]; do
-
-  echo "🤖 Provide the password (leave blank for autogeneration)"
-  read -p ">> " NEW_MYSQL_PASSWORD  < /dev/tty
-  if [ -z "$NEW_MYSQL_PASSWORD" ]; then
-    NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
-  fi
-  
-done
-
-fxOK "OK, $NEW_MYSQL_PASSWORD"
-
-
-fxTitle "🎯 MySQL server host"
-while [ -z "$NEW_MYSQL_HOST" ]; do
-
-  echo "🤖 Provide the host where MySQL is running or hit Enter for localhost"
-  read -p ">> " NEW_MYSQL_HOST  < /dev/tty
-  if [ -z "$NEW_MYSQL_HOST" ]; then
-    NEW_MYSQL_HOST="localhost"
-  fi
-  
-done
-
-fxOK "Database host: $NEW_MYSQL_HOST"
-
-
-if [ "${NEW_MYSQL_USER}" == "" ]; then
+## generating a candidate host
+if [ "${NEW_MYSQL_USER}" == "root" ]; then
   NEW_MYSQL_DEFAULT_USER_FROM_HOST=localhost
 else
   NEW_MYSQL_DEFAULT_USER_FROM_HOST='%'
 fi
 
-
-fxTitle "🗺 ${NEW_MYSQL_USER}@????"
 while [ -z "$NEW_MYSQL_USER_FROM_HOST" ]; do
 
-  echo "🤖 Enter the origin host (where this user will be connecting ⭐⭐FROM⭐⭐)"
-  echo "This will be used to create the user as ##${NEW_MYSQL_USER}@....##"
+  echo "🤖 Enter the origin host (where the user will be connecting ⭐⭐FROM⭐⭐)"
+  echo "It will be used to create the user as ##${NEW_MYSQL_USER}##@xxxxx"
   echo ""
   echo "Examples:"
   echo "- % (every host)"
@@ -102,7 +70,45 @@ done
 fxOK "OK, ##$NEW_MYSQL_USER_FROM_HOST##"
 
 
+fxTitle "🔑 Password"
+
+## generating a candidate password
+if [ "$NEW_MYSQL_PASSWORD" = "auto" ]; then
+  NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
+fi
+
+while [ -z "$NEW_MYSQL_PASSWORD" ]; do
+
+  echo "🤖 Provide the password (leave blank for autogeneration)"
+  read -p ">> " NEW_MYSQL_PASSWORD  < /dev/tty
+  if [ -z "$NEW_MYSQL_PASSWORD" ]; then
+    NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
+  fi
+  
+done
+
+fxOK "OK, $NEW_MYSQL_PASSWORD"
+
+
+fxTitle "🎯 MySQL host"
+while [ -z "$NEW_MYSQL_HOST" ]; do
+
+  echo "🤖 Provide the server hostname/IP addrss or hit Enter for ##localhost##"
+  read -p ">> " NEW_MYSQL_HOST  < /dev/tty
+  if [ -z "$NEW_MYSQL_HOST" ]; then
+    NEW_MYSQL_HOST="localhost"
+  fi
+  
+done
+
+fxOK "MySQL host: $NEW_MYSQL_HOST"
+
+
 fxTitle "🧺 Database name"
+
+## generating a candidate DBNAME
+NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
+
 while [ -z "$NEW_MYSQL_DB_NAME" ]; do
 
   echo "🤖 Provide the database name or hit Enter for ##${NEW_MYSQL_DB_NAME_DEFAULT}##"
