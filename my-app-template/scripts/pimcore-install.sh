@@ -10,7 +10,7 @@ PIMCORE_ADMIN_USERNAME="$(logname)"
 PIMCORE_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 PIMCORE_LOCALE=it_IT
 
-source "/etc/turbolab.it/mysql-usr_my-app.conf"
+source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
 
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/pimcore/new.sh
 
