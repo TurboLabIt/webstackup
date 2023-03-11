@@ -311,6 +311,7 @@ mv ${WSU_MAP_TMP_DIR}config/custom/nginx-${WSU_MAP_FRAMEWORK}.conf ${WSU_MAP_TMP
 if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 
   rm -rf ${WSU_MAP_TMP_DIR}public
+  rm -rf ${WSU_MAP_TMP_DIR}var
   mkdir ${WSU_MAP_TMP_DIR}shop
 
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
