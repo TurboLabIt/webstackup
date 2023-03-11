@@ -16,7 +16,7 @@ MAGENTO_LOCALE=it_IT
 MAGENTO_CURRENCY=EUR
 MAGENTO_TIMEZONE=Europe/Rome
 
-source "/etc/turbolab.it/mysql-usr_my-app.conf"
+source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
 
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/new.sh
 
