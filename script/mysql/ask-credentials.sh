@@ -93,7 +93,7 @@ fxOK "OK, $NEW_MYSQL_PASSWORD"
 fxTitle "🎯 MySQL host"
 while [ -z "$NEW_MYSQL_HOST" ]; do
 
-  echo "🤖 Provide the server hostname/IP addrss or hit Enter for ##localhost##"
+  echo "🤖 Provide the server hostname/IP address or hit Enter for ##localhost##"
   read -p ">> " NEW_MYSQL_HOST  < /dev/tty
   if [ -z "$NEW_MYSQL_HOST" ]; then
     NEW_MYSQL_HOST="localhost"
@@ -101,7 +101,7 @@ while [ -z "$NEW_MYSQL_HOST" ]; do
   
 done
 
-fxOK "MySQL host: $NEW_MYSQL_HOST"
+fxOK "MySQL host: ##$NEW_MYSQL_HOST##"
 
 
 fxTitle "🧺 Database name"
@@ -119,7 +119,7 @@ while [ -z "$NEW_MYSQL_DB_NAME" ]; do
 
 done
 
-fxOK "Sounds good! The database will be named ##$NEW_MYSQL_USER##"
+fxOK "Sounds good! The database will be named ##$NEW_MYSQL_DB_NAME##"
 
 
 fxTitle "🚀 Preview..."
