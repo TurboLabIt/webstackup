@@ -102,10 +102,25 @@ done
 fxOK "OK, ##$NEW_MYSQL_USER_FROM_HOST##"
 
 
+fxTitle "🧺 Database name"
+while [ -z "$NEW_MYSQL_DB_NAME" ]; do
+
+  echo "🤖 Provide the database name or hit Enter for ##${NEW_MYSQL_DB_NAME_DEFAULT}##"
+  read -p ">> " NEW_MYSQL_DB_NAME  < /dev/tty
+  if [ -z "$NEW_MYSQL_DB_NAME" ]; then
+    NEW_MYSQL_DB_NAME=$NEW_MYSQL_DB_NAME_DEFAULT
+  fi
+
+done
+
+fxOK "Sounds good! The database will be named ##$NEW_MYSQL_USER##"
+
+
 fxTitle "🚀 Preview..."
 fxMessage "AppName:       ##$NEW_MYSQL_APP_NAME##"
 fxMessage "User:          ##$NEW_MYSQL_USER##@##${NEW_MYSQL_USER_FROM_HOST}##"
 fxMessage "Password:      ##$NEW_MYSQL_PASSWORD##"
 fxMessage "MySQL server:  ##$NEW_MYSQL_HOST##"
+fxMessage "DB Name:       ##$NEW_MYSQL_DB_NAME##"
 fxCountdown 5
 echo ""
