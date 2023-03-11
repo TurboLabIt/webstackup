@@ -124,3 +124,11 @@ fxMessage "MySQL server:  ##$NEW_MYSQL_HOST##"
 fxMessage "DB Name:       ##$NEW_MYSQL_DB_NAME##"
 fxCountdown 5
 echo ""
+
+
+fxTitle "📦 Installing prerequisites..."
+if [ -z "$(command -v mysql)" ]; then
+  apt update && apt install mysql-client -y
+else
+  fxInfo "prerequisite(s) already installed"
+fi
