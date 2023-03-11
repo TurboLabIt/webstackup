@@ -94,13 +94,11 @@ wsuComposer config http-basic.repo.magento.com "${MAGENTO_MARKET_PUBKEY}" "${MAG
 wsuComposer config http-basic.composer.amasty.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
 wsuComposer config http-basic.magefan.com "wsuMapReplaceWithPubKey" "wsuMapReplaceWithPRivKey"
 
-##
-wsuComposer require magento/quality-patches
-
-
 ## workaround laminas
 rm -f "${MAGENTO_DIR}composer.lock"
 wsuComposer update
+
+wsuComposer require magento/quality-patches
 
 
 fxTitle "Rename fastcgi_backend in nginx.conf.sample..."
