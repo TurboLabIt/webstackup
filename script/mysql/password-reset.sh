@@ -17,75 +17,43 @@ fi
 fxHeader "🤦‍MySQL password reset"
 rootCheck
 
+## this script can run only on the same host as MySQL
+NEW_MYSQL_HOST=localhost
+
+
 WSU_BASE="/usr/local/turbolab.it/webstackup/script/base.sh"
 if [ -f "${WSU_BASE}" ]; then
+
   source "$WSU_BASE"
+  source "${WEBSTACKUP_SCRIPT_DIR}mysql/ask-credentials.sh"
+
+else
+
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/ask-credentials.sh)
 fi
 
 
-TARGET_MYSQL_USER=$1
-TARGET_MYSQL_PASSWORD=$2
-TARGET_MYSQL_USER_HOST=$3
-
-
-fxTitle "🧔 Username"
-while [ -z "$TARGET_MYSQL_USER" ]
-do
-  read -p "🤖 Provide the username (leave blank for root): " TARGET_MYSQL_USER  < /dev/tty
-  if [ -z "$TARGET_MYSQL_USER" ]; then
-    TARGET_MYSQL_USER=root
-  fi
-done
-
-fxOK "OK, $TARGET_MYSQL_USER"
-
-
-fxTitle "🔑 Password"
-while [ -z "$TARGET_MYSQL_PASSWORD" ]
-do
-  read -p "🤖 Provide the password (leave blank for autogeneration): " TARGET_MYSQL_PASSWORD  < /dev/tty
-  if [ -z "$TARGET_MYSQL_PASSWORD" ]; then
-    TARGET_MYSQL_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
-  fi
-done
-
-fxOK "OK, $TARGET_MYSQL_PASSWORD"
-
-
-fxTitle "${TARGET_MYSQL_USER}@ host"
-while [ -z "$TARGET_MYSQL_USER_HOST" ]
-do
-  read -p "🤖 Provide the host (leave blank for @localhost): " TARGET_MYSQL_USER_HOST  < /dev/tty
-  if [ -z "$TARGET_MYSQL_USER_HOST" ]; then
-    TARGET_MYSQL_USER_HOST=localhost
-  fi
-done
-
-fxOK "OK, $TARGET_MYSQL_USER_HOST"
-
-
-fxTitle "Preview"
-echo "User:  ##${TARGET_MYSQL_USER}##@##${TARGET_MYSQL_USER_HOST}##"
-echo "Pass:  ##${TARGET_MYSQL_PASSWORD}##"
-
-
-fxTitle "Creating MySQL init file..."
+fxTitle "📜 Creating the MySQL init file..."
 MYSQL_PASSWD_RESET_FILE=/tmp/mysql_password_reset.sql
 rm -f "${MYSQL_PASSWD_RESET_FILE}"
+touch "$MYSQL_PASSWD_RESET_FILE"
+fxOK "MySQL init file ##$MYSQL_PASSWD_RESET_FILE## created"
+
+
+fxTitle "👮‍♂️ Changing file permissions..."
+chown root:root "${MYSQL_PASSWD_RESET_FILE}"
+chmod u=rwx,go= "${MYSQL_PASSWD_RESET_FILE}"
+
+
+fxTitle "📜 Adding content to the MySQL init file..."
 echo \
-  "ALTER USER '${TARGET_MYSQL_USER}'@'${TARGET_MYSQL_USER_HOST}' IDENTIFIED BY '${TARGET_MYSQL_PASSWORD}';" \
+  "ALTER USER '${NEW_MYSQL_USER}'@'${NEW_MYSQL_USER_FROM_HOST}' IDENTIFIED BY '${NEW_MYSQL_PASSWORD}';" \
   > "${MYSQL_PASSWD_RESET_FILE}"
 
 fxMessage "$(cat ${MYSQL_PASSWD_RESET_FILE})"
 
 
-fxTitle "Securing the init file..."
-chown mysql:root "${MYSQL_PASSWD_RESET_FILE}"
-chmod ug=rw,o= "${MYSQL_PASSWD_RESET_FILE}"
-ls -l "${MYSQL_PASSWD_RESET_FILE}"
-
-
-fxTitle "Stopping nginx..."
+fxTitle "🌐 Stopping nginx..."
 systemctl is-active --quiet nginx
 if [ "$?" = "0" ]; then
   NGINX_RESTART_NEEDED=1
@@ -95,35 +63,40 @@ else
 fi
 
 
-fxTitle "Stopping MySQL..."
+fxTitle "🗄 Stopping MySQL..."
 service mysql stop
 
 
-fxTitle "Starting MySQL as application..."
+fxTitle "👮‍♂️ Changing file permissions..."
+chown mysql:root "${MYSQL_PASSWD_RESET_FILE}"
+chmod u=rwx,go= "${MYSQL_PASSWD_RESET_FILE}"
+
+
+fxTitle "🎡 Starting MySQL as application..."
 sudo -u mysql -H mysqld --skip-networking --init-file="${MYSQL_PASSWD_RESET_FILE}" &
-sleep 15
+fxCountdown 15
 
 
-fxTitle "Removing the init file..."
+fxTitle "🧹 Removing the MySQL init file..."
 rm -f "${MYSQL_PASSWD_RESET_FILE}"
 
 
-fxTitle "Display MySQL error log..."
+fxTitle "👓 Display MySQL error log..."
 tail -n 10 /var/log/mysql/error.log
 
 
-fxTitle "Stopping MySQL as application..."
+fxTitle "🗄 Stopping MySQL as application..."
 while pkill mysqld; do
-  echo "Waiting..."
-  sleep 15
+  echo "Waiting for MySQL to stop..."
+  fxCountdown 15
 done
 
 
-fxTitle "Starting MySQL..."
+fxTitle "✳ Starting MySQL..."
 service mysql start
 
 
-fxTitle "Restarting nginx..."
+fxTitle "🌐 Restarting nginx..."
 if [ ! -z "$NGINX_RESTART_NEEDED" ]; then
   service nginx restart
 else
@@ -132,10 +105,13 @@ fi
 
 
 if [ -f "${WSU_BASE}" ]; then
-  wsuMysqlStoreCredentials "$TARGET_MYSQL_USER" "$TARGET_MYSQL_PASSWORD"
+
+  wsuMysqlStoreCredentials "$NEW_MYSQL_APP_NAME" "$NEW_MYSQL_USER" "$NEW_MYSQL_PASSWORD" "$NEW_MYSQL_HOST" "$NEW_MYSQL_DB_NAME"
+
 else
+
   fxTitle "🧪 Testing..."
-  mysql -u${MYSQL_USER} -p"${MYSQL_PASS}" -h localhost -e "SHOW DATABASES;"
+  mysql -u${NEW_MYSQL_USER} -p"${NEW_MYSQL_PASSWORD}" -h localhost -e "SHOW DATABASES;"
 fi
 
 fxEndFooter
