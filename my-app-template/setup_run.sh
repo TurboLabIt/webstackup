@@ -348,7 +348,7 @@ done
 if [ "${WSU_MAP_NEW_DATABASE}" = "yes" ] || [ "${WSU_MAP_NEW_DATABASE}" = "1" ]; then
 
   NEW_MYSQL_PASSWORD=auto
-  bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh" "${WSU_MAP_APP_NAME}" "${WSU_MAP_NEW_DATABASE_USER}" "auto" "${WSU_MAP_NEW_DATABASE_NAME}"
+  bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh" "${WSU_MAP_APP_NAME}" "${WSU_MAP_NEW_DATABASE_USER}" "%" "auto" "${WSU_MAP_NEW_DATABASE_NAME}"
 
 else
 

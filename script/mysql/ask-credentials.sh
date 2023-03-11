@@ -7,6 +7,30 @@
 # NEW_MYSQL_HOST=localhost
 # NEW_MYSQL_DB_NAME=my-app_db
 
+if [ ! -z "$1" ]; then
+  NEW_MYSQL_APP_NAME=$1
+fi
+
+if [ ! -z "$2" ]; then
+  NEW_MYSQL_USER=$2
+fi
+
+if [ ! -z "$3" ]; then
+  NEW_MYSQL_USER_FROM_HOST=$3
+fi
+
+if [ ! -z "$4" ]; then
+  NEW_MYSQL_PASSWORD=$4
+fi
+
+if [ ! -z "$5" ]; then
+  NEW_MYSQL_HOST=$5
+fi
+
+if [ ! -z "$6" ]; then
+  NEW_MYSQL_DB_NAME=$6
+fi
+
 
 fxTitle "🖥️ APP_NAME"
 fxInfo "For example: \"turbolab_it\" or \"my-amazing-shop\""
@@ -106,22 +130,26 @@ done
 fxOK "MySQL host: ##$NEW_MYSQL_HOST##"
 
 
-fxTitle "🧺 Database name"
+if [ "${NEW_MYSQL_USER}" != "root" ]; then
 
-## generating a candidate DBNAME
-NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
+  fxTitle "🧺 Database name"
 
-while [ -z "$NEW_MYSQL_DB_NAME" ]; do
+  ## generating a candidate DBNAME
+  NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
 
-  echo "🤖 Provide the database name or hit Enter for ##${NEW_MYSQL_DB_NAME_DEFAULT}##"
-  read -p ">> " NEW_MYSQL_DB_NAME  < /dev/tty
-  if [ -z "$NEW_MYSQL_DB_NAME" ]; then
-    NEW_MYSQL_DB_NAME=$NEW_MYSQL_DB_NAME_DEFAULT
-  fi
+  while [ -z "$NEW_MYSQL_DB_NAME" ]; do
 
-done
+    echo "🤖 Provide the database name or hit Enter for ##${NEW_MYSQL_DB_NAME_DEFAULT}##"
+    read -p ">> " NEW_MYSQL_DB_NAME  < /dev/tty
+    if [ -z "$NEW_MYSQL_DB_NAME" ]; then
+      NEW_MYSQL_DB_NAME=$NEW_MYSQL_DB_NAME_DEFAULT
+    fi
 
-fxOK "Sounds good! The database will be named ##$NEW_MYSQL_DB_NAME##"
+  done
+
+  fxOK "Sounds good! The database will be named ##$NEW_MYSQL_DB_NAME##"
+
+fi
 
 
 fxTitle "🚀 Preview..."
@@ -129,7 +157,11 @@ fxMessage "AppName:       ##$NEW_MYSQL_APP_NAME##"
 fxMessage "User:          ##$NEW_MYSQL_USER##@##${NEW_MYSQL_USER_FROM_HOST}##"
 fxMessage "Password:      ##$NEW_MYSQL_PASSWORD##"
 fxMessage "MySQL server:  ##$NEW_MYSQL_HOST##"
-fxMessage "DB Name:       ##$NEW_MYSQL_DB_NAME##"
+
+if [ "${NEW_MYSQL_USER}" != "root" ]; then
+  fxMessage "DB Name:       ##$NEW_MYSQL_DB_NAME##"
+fi
+
 fxCountdown 5
 echo ""
 
