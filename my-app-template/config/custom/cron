@@ -24,6 +24,9 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 ## my-app-framework cron job
 * * * * * root bash ${SCRIPT_DIR}cron.sh >> ${LOG_PATH}my-app-framework.log 2>&1
 
+## database auto-backup
+0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh 2>&1 >> ${LOG_PATH}db-dump.log
+
 ## Disk cleaner
 7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.log 2>&1
 
