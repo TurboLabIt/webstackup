@@ -20,21 +20,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   
-  fxTitle "Set the recommended permissions"
-  
-  
-  sudo -b chmod 777  -R > /dev/null 2>&1
-  
-  
-  
-  
   fxTitle "🐧 Setting permissions..."
   ## https://pimcore.com/docs/pimcore/current/Development_Documentation/Installation_and_Upgrade/System_Setup_and_Hosting/File_Permissions.html
   sudo -b chown -R www-data:www-data ${PROJECT_DIR}var/admin ${PROJECT_DIR}public/var > /dev/null 2>&1
   sudo -b chmod ug+x ${PROJECT_DIR}bin/* > /dev/null 2>&1
-  sudo -b find ${PROJECT_DIR}var ${PROJECT_DIR}public/var -type f -exec chmod ug=rw {} + > /dev/null 2>&1
-  sudo -b find ${PROJECT_DIR}var ${PROJECT_DIR}public/var -type d -exec chmod ug=rws {} + > /dev/null 2>&1
-  
+  sudo -b chmod 777 ${PROJECT_DIR}var ${PROJECT_DIR}public/var -R > /dev/null 2>&1
+
   if [ ! -f "${SCRIPT_DIR}migrate.sh" ]; then
   
     fxTitle "🚚 Migrating..."
