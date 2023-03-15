@@ -17,9 +17,6 @@ cd "$PROJECT_DIR"
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
-  fxTitle "⚙️ Stopping services.."
-  sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
-
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   
@@ -44,25 +41,20 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuSymfony console pimcore:deployment:classes-rebuild --create-classes
   wsuSymfony console pimcore:deployment:classes-rebuild
 
-  fxTitle "🌊 Pimcore cache:clear..."
-  # https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html#page_Potentially-useful-commands
-  wsuSymfony console pimcore:cache:clear
-  wsuSymfony console cache:clear
-
 else
 
   fxTitle "📐 Symfony cache folder NOT removed (fast mode)"
 fi
 
 
+fxTitle "🌊 Pimcore cache:clear..."
+# https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html#page_Potentially-useful-commands
+wsuSymfony console pimcore:cache:clear
+wsuSymfony console cache:clear
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Restarting services.."
-  sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
-
-else
-
-  fxTitle "🌊 PHP OPcache clear..."
-  wsuOpcacheClear
+  sudo service ${PHP_FPM} restart
 fi
