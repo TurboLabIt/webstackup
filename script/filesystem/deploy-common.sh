@@ -7,7 +7,6 @@
 # ${SCRIPT_DIR}deploy.sh
 # ${SCRIPT_DIR}cache-clear.sh
 # ${SCRIPT_DIR}test-runner.sh
-# ${SCRIPT_DIR}migrate.sh
 # ${SCRIPT_DIR}maintenance.sh
 
 # user accounts - https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/ssh-accounts/readme.md
@@ -299,11 +298,6 @@ fi
 if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
   printTitle "🤖 Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/autodeploy-async.php" "${WEBROOT_DIR}"
-fi
-
-## migrations
-if [ -f "${SCRIPT_DIR}migrate.sh" ]; then
-  bash "${SCRIPT_DIR}migrate.sh"
 fi
 
 
