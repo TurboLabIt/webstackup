@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-## Run the project tests and check the result
-#
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/test-runner.sh
 
 TESTR_SCRIPT_BEGIN=$(dirname $(readlink -f $0))/script_begin.sh
@@ -26,4 +24,3 @@ if [ -f "${TESTR_SCRIPT_END}" ]; then
 else
   fxEndFooter
 fi
-
