@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-## Commands for the dev env
-#
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/dev_cli.sh
 
 SCRIPT_NAME=dev_cli
