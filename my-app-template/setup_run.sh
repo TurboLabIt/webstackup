@@ -267,6 +267,11 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "webstackup/blob/master/${WSU_MAP_APP_NAME}" "webstackup/blob/master/my-app"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "www.www." ''
 
+## the current redirect map name could be wsuRedirectToMap_something-something => wsuRedirectToMapSomethingsomething
+WSU_MAP_REDIRECT_MAP_FROM_NAME=wsuRedirectToMap_${WSU_MAP_APP_NAME}
+WSU_MAP_REDIRECT_MAP_TO_NAME=wsuRedirectToMap$(fxAlphanumOnly ${WSU_MAP_APP_NAME^})
+echo "${WSU_MAP_REDIRECT_MAP_TO_NAME}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "${WSU_MAP_REDIRECT_MAP_FROM_NAME}" "${WSU_MAP_REDIRECT_MAP_TO_NAME}"
 
 fxTitle "👓 Managing the .gitignore..."
 if [ ! -f "${WSU_MAP_TMP_DIR}.gitignore" ]; then
