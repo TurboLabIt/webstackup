@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-## Main deploy script.
-#
 # ⚠️ Don't run this script directly! Use `bash deploy.sh` instead.
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh
