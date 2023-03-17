@@ -1,6 +1,4 @@
 #!/usr/bin/env bash
-## WordPress installer
-#
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/wordpress-install.sh
 
 source $(dirname $(readlink -f $0))/script_begin.sh
