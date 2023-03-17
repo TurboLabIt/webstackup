@@ -21,7 +21,9 @@ if [ -z "${PROJECT_DIR}" ] || [ ! -d "${PROJECT_DIR}" ]; then
 fi
 
 if [ "$1" = "fast" ]; then
+
   FAST_CACHE_CLEAR=1
+  CACHE_CLEAR_PARAMS=--no-optional-warmers
 fi
 
 cd "$PROJECT_DIR"
@@ -43,7 +45,7 @@ else
 fi
 
 fxTitle "🌊 Symfony cache:clear..."
-wsuSymfony console cache:clear
+wsuSymfony console cache:clear ${CACHE_CLEAR_PARAMS}
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
