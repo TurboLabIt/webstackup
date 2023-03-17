@@ -28,11 +28,11 @@ cd "$PROJECT_DIR"
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
-  fxTitle "⚙️ Stopping services.."
-  sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
+  #fxTitle "⚙️ Stopping services.."
+  #sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
-  fxTitle "🧹 Removing Symfony cache folder..."
-  sudo rm -rf "${PROJECT_DIR}var/cache"
+  #fxTitle "🧹 Removing Symfony cache folder..."
+  #sudo rm -rf "${PROJECT_DIR}var/cache"
   
   fxTitle "🚚 Migrating..."
   wsuSymfony console doctrine:migrations:migrate --no-interaction
@@ -48,7 +48,7 @@ wsuSymfony console cache:clear
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "⚙️ Restarting services.."
-  sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
+  #sudo nginx -t && sudo service ${PHP_FPM} restart && sudo service nginx restart
 
 else
 
