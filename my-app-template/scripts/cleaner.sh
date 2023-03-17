@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/cleaner.sh
 
 SCRIPT_NAME=cleaner
 source $(dirname $(readlink -f $0))/script_begin.sh
