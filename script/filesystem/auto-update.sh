@@ -27,7 +27,7 @@ AUTOUPD_NEED_UPDATE=$?
 
 if [ "${AUTOUPD_NEED_UPDATE}" == "1" ] && [ -f "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh" ]; then
 
-  bash "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
+  echo "1" | bash "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
 
 elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]; then
 
