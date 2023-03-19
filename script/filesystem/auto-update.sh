@@ -29,7 +29,7 @@ if [ "${AUTOUPD_NEED_UPDATE}" == "1" ] && [ -f "${AUTOUPD_PROJECT_DIR}scripts/de
 
   echo "bash ${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
 
-elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]
+elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]; then
 
   echo "fxGit ${AUTOUPD_PROJECT_DIR} pull"
 fi
