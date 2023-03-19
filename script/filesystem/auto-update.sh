@@ -27,11 +27,11 @@ AUTOUPD_NEED_UPDATE=$?
 
 if [ "${AUTOUPD_NEED_UPDATE}" == "1" ] && [ -f "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh" ]; then
 
-  echo "bash ${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
+  bash "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
 
 elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]; then
 
-  echo "fxGit ${AUTOUPD_PROJECT_DIR} pull"
+  fxGit "${AUTOUPD_PROJECT_DIR}" pull
 fi
 
 fxEndFooter
