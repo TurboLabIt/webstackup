@@ -28,7 +28,7 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh 2>&1 >> ${LOG_PATH}db-dump.log
 
 ## application auto-update
-#00 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.log 2>&1
+#0 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.log 2>&1
 
 ## Disk cleaner
 7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.log 2>&1
