@@ -6,7 +6,7 @@
 # 1. set `PROJECT_FRAMEWORK=pimcore` in your project `script_begin.sh`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cron.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cron.sh && sudo chmod u=rwx,go=rx scripts/cron.sh
+#   curl -Lo scripts/cron.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cron.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #
@@ -36,7 +36,7 @@ wsuSymfony console messenger:consume pimcore_core pimcore_maintenance pimcore_im
 
 
 fxTitle "Segment Building Queue"
-# Handles the calculation of asynchronous segments by processing the segment building queue. 
+# Handles the calculation of asynchronous segments by processing the segment building queue.
 # This is needed for segments which could not be calculated directly for performance reasons
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Segment-Building-Queue
 wsuSymfony console cmf:build-segments -v
@@ -61,21 +61,21 @@ wsuSymfony console cmf:duplicates-index -c -v
 
 
 fxTitle "CMF Maintenance"
-# This cronjob should be configured to be executed on a regular basis. 
+# This cronjob should be configured to be executed on a regular basis.
 # It performs various tasks configured in services.yml and tagged with cmf.maintenance.serviceCalls.
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_CMF-Maintenance
 wsuSymfony console cmf:maintenance -v
 
 
 fxTitle "Newsletter Queue"
-# Processes the newsletter queue. 
+# Processes the newsletter queue.
 # This job should run once every x minutes (e.g. every 5 minutes) when the newsletter/mailchimp sync feature is needed.
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
 wsuSymfony console cmf:newsletter-sync -c
 
 
 fxTitle "Mailchimp status sync"
-# Should run as a night job. Synchronizes status updates from Mailchimp to Pimcore if webhook calls failed. 
+# Should run as a night job. Synchronizes status updates from Mailchimp to Pimcore if webhook calls failed.
 # This is important to ensure data integrity also when the system is down for several hours.
 # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
 wsuSymfony console cmf:newsletter-sync -m

@@ -6,7 +6,7 @@
 # 1. In your Nginx server {}: `include /usr/local/turbolab.it/webstackup/config/nginx/06_maintenace.conf;`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx scripts/maintenance.sh
+#   curl -Lo scripts/maintenance.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/maintenance-starter.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #
@@ -28,7 +28,7 @@ elif [ "$1" = "off" ]; then
 
   fxTitle "🌂 STOP maintenance mode..."
   sudo -u "${EXPECTED_USER}" -H rm -f "${WEBROOT_DIR}wsu-maintenance"
-  
+
 else
 
   fxCatastrophicError "❓ Usage: zzmaintenance on|off"

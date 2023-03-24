@@ -6,7 +6,7 @@
 # 1. set `PROJECT_FRAMEWORK=magento` in your project `script_begin.sh`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/maintenance.sh && sudo chmod u=rwx,go=rx scripts/maintenance.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/maintenance.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. git commit your copy
 #
@@ -25,7 +25,7 @@ elif [ "$1" = "off" ]; then
 
   fxTitle "🌂 STOP maintenance mode..."
   wsuMage maintenance:disable
-  
+
 else
 
   fxCatastrophicError "❓ Usage: zzmaintenance on|off"

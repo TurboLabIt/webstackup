@@ -4,7 +4,7 @@
 # How to:
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/reindex.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/reindex-starter.sh && sudo chmod u=rwx,go=rx scripts/reindex.sh
+#   curl -Lo scripts/reindex.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/magento/reindex-starter.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #
@@ -25,7 +25,7 @@ if [ -z "$1" ]; then
 
   fxTitle "Reindexing all..."
   wsuMage indexer:reindex
-  
+
 elif [ "$1" = "fast" ]; then
 
   fxTitle "Fast reindexing..."
@@ -34,7 +34,7 @@ elif [ "$1" = "fast" ]; then
 else
 
   wsuMage indexer:reindex "$@"
-  
+
 fi
 
 fxTitle "Status"

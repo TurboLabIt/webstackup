@@ -6,7 +6,7 @@
 # 1. set `PROJECT_FRAMEWORK=symfony` in your project `script_begin.sh`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #
@@ -35,7 +35,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   #fxTitle "🧹 Removing Symfony cache folder..."
   #sudo rm -rf "${PROJECT_DIR}var/cache"
-  
+
   fxTitle "🚚 Migrating..."
   wsuSymfony console doctrine:migrations:migrate --no-interaction
 

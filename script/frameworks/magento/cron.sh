@@ -6,7 +6,7 @@
 # 1. set `PROJECT_FRAMEWORK=magento` in your project `script_begin.sh`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cron.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cron.sh && sudo chmod u=rwx,go=rx scripts/cron.sh
+#   curl -Lo scripts/cron.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cron.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #

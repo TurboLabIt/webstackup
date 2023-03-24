@@ -9,7 +9,7 @@
 # 1. set `PROJECT_FRAMEWORK=magento` in your project `script_begin.sh`
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/cache-clear.sh
+#   curl -Lo scripts/cache-clear.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/cache-clear.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 #
@@ -65,7 +65,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   ## Extending session life
   wsuMage config:set admin/security/session_lifetime 31536000
-  
+
   ## Disable merge and minify
   wsuMage config:set dev/js/merge_files 0
   wsuMage config:set dev/js/enable_js_bundling 0
@@ -112,12 +112,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "Disabling module(s)..."
   if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
-  
-    ## explode string to array 
+
+    ## explode string to array
     readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
-    
+
     for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
-    
+
       ## trim the last element (?!?)
       MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
       if [ ! -z "${MOD_TO_DISABLE}" ]; then
@@ -125,9 +125,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
       fi
 
     done
-  
+
   else
-    
+
     fxWarning "No modules to disable defined"
   fi
 

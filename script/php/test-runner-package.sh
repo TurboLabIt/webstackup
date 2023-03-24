@@ -4,7 +4,7 @@
 # How to:
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/test-runner.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/test-runner.sh && sudo chmod u=rwx,go=rx scripts/test-runner.sh
+#   curl -Lo scripts/test-runner.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/test-runner.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 
@@ -26,9 +26,9 @@ if [ -f "${PROJECT_DIR}vendor/bin/bdi" ]; then
   sudo killall -s KILL chromedriver
   rm -rf "${PROJECT_DIR}drivers"
   XDEBUG_MODE=off ${PHP_CLI} ${PROJECT_DIR}vendor/bin/bdi detect drivers
-  
+
 else
-  
+
   fxInfo "No webdrivers required"
 fi
 
@@ -57,7 +57,7 @@ if [ "${PHPUNIT_RESULT}" = 0 ]; then
   fxCountdown 3
   echo ""
 
-  ## Example: https://github.com/TurboLabIt/php-symfony-basecommand/blob/main/tests/RunTestCommand.php 
+  ## Example: https://github.com/TurboLabIt/php-symfony-basecommand/blob/main/tests/RunTestCommand.php
   fxTitle "Running the test command..."
   TEST_COMMAND_PATH=${PROJECT_DIR}tests/RunTestCommand.php
   if [ -f "${TEST_COMMAND_PATH}" ]; then
@@ -65,7 +65,7 @@ if [ "${PHPUNIT_RESULT}" = 0 ]; then
   else
     fxInfo "##$TEST_COMMAND_PATH## not found, skipping"
   fi
-  
+
   wsuPlayOKSound
 
 else
@@ -73,4 +73,3 @@ else
   fxMessage "🛑 TEST FAILED | phpunit returned ${PHPUNIT_RESULT}"
   wsuPlayKOSound
 fi
-
