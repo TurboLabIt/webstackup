@@ -1,3 +1,4 @@
+MAILTO=""
 SHELL=/bin/bash
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
@@ -6,4 +7,3 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 
 
 ## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
-
