@@ -26,26 +26,39 @@ if [ "$1" = "fast" ]; then
   CACHE_CLEAR_PARAMS=--no-optional-warmers
 fi
 
+
 cd "$PROJECT_DIR"
+
+
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
+
+  bash "${SCRIPT_DIR}migrate.sh"
+
+else
+
+  fxTitle "🚚 Migrating..."
+  wsuSymfony console doctrine:migrations:migrate --no-interaction
+fi
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   #fxTitle "⚙️ Stopping services.."
   #sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
-  #fxTitle "🧹 Removing Symfony cache folder..."
-  #sudo rm -rf "${PROJECT_DIR}var/cache"
-
-  fxTitle "🚚 Migrating..."
-  wsuSymfony console doctrine:migrations:migrate --no-interaction
+  ## https://github.com/symfony/monolog-bundle/issues/288
+  fxTitle "🧹 Removing Symfony cache folder..."
+  sudo rm -rf "${PROJECT_DIR}var/cache/dev" "${PROJECT_DIR}var/cache/staging" "${PROJECT_DIR}var/cache/prod"
 
 else
 
   fxTitle "📐 Symfony cache folder NOT removed (fast mode)"
 fi
 
+
 fxTitle "🌊 Symfony cache:clear..."
 wsuSymfony console cache:clear ${CACHE_CLEAR_PARAMS}
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
