@@ -41,7 +41,7 @@ function wsuComposer()
   
     fxInfo "Using ##${COMPOSER_JSON_FULLPATH}##"
     fxInfo "$(dirname ${COMPOSER_JSON_FULLPATH})"
-    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})""
+    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir="$(dirname ${COMPOSER_JSON_FULLPATH})""
   fi
 
 
