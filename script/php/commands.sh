@@ -49,7 +49,7 @@ function wsuComposer()
     local NO_DEV="--no-dev"
   fi
   
-  echo "composer $@"
+  echo "${FULL_COMPOSER_CMD} $@ -no-interaction ${NO_DEV}"
   echo ""
 
   ${FULL_COMPOSER_CMD} "$@" --no-interaction ${NO_DEV}
