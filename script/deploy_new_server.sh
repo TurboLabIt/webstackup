@@ -178,31 +178,13 @@ fi
 
 fxTitle "Installing COMPOSER..."
 if [ "$INSTALL_COMPOSER" = 1 ]; then
-
-  fxMessage "Downloading..."
-  COMPOSER_EXPECTED_SIGNATURE="$(wget -q -O - https://composer.github.io/installer.sig)"
-  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  COMPOSER_ACTUAL_SIGNATURE="$(php -r "echo hash_file('sha384', 'composer-setup.php');")"
-
-  if [ "$COMPOSER_EXPECTED_SIGNATURE" != "$COMPOSER_ACTUAL_SIGNATURE" ]; then
-
-    catastrophicError "Composer signature doesn't match! Abort! Abort!"
-
-Expec. hash: ### ${COMPOSER_EXPECTED_SIGNATURE}
-Actual hash: ### ${COMPOSER_ACTUAL_SIGNATURE}"
-  fi
-
-  fxMessage "Installing..."
-  php composer-setup.php --filename=composer --install-dir=/usr/local/bin
-  php -r "unlink('composer-setup.php');"
-
+  bash ${WEBSTACKUP_SCRIPT_DIR}php/composer-install.sh
 else
-
   fxInfo "Skipped (disabled in config)"
 fi
 
 
-fxTitle "Installing SYMFONY"
+fxTitle "Installing SYMFONY..."
 if [ "$INSTALL_SYMFONY" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh
 else
