@@ -135,12 +135,14 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/radio-buttons-for-taxonomies/
 # https://wordpress.org/plugins/regenerate-thumbnails/
 # https://wordpress.org/plugins/wp-fastest-cache/
+https://it.wordpress.org/plugins/redirection/
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
   webp-express timber-library advanced-custom-fields \
   google-authenticator autoptimize classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
+  redirection \
   --activate-network --activate
 
 
