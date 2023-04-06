@@ -41,9 +41,4 @@ php composer-setup.php --filename=composer --install-dir=/usr/local/bin
 php -r "unlink('composer-setup.php');"
 
 
-fxTitle "Version check..."
-whereis composer
-composer --version
-
-
 fxEndFooter
