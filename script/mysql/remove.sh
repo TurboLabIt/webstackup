@@ -21,15 +21,15 @@ rootCheck
 
 fxTitle "Removing MySQL..."
 service mysql stop
-apt purge --auto-remove mysql* -y
+DEBIAN_FRONTEND=noninteractive apt purge --auto-remove mysql* -y
 
 
 fxTitle "Removing data..."
-rm -rf /var/lib/mysql
+rm -rf /var/lib/*mysql*
 
 
 fxTitle "Removing config..."
-rm -rf /etc/mysql
+rm -rf /etc/*mysql*
 
 
 fxTitle "Removing repository-related files..."
@@ -37,8 +37,8 @@ rm -rf /etc/apt/trusted.gpg.d/*mysql*
 rm -rf /etc/apt/sources.list.d/*mysql*
 
 
-fxTitle "Removing webstackup maintenance script..."
-rm -rf /etc/cron.d/webstackup-mysql
+fxTitle "Removing cron files..."
+rm -rf /etc/cron.d/*mysql*
 
 
 fxEndFooter
