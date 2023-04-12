@@ -34,7 +34,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 
   bash "${SCRIPT_DIR}migrate.sh"
 
-else
+elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🚚 Migrating..."
   wsuSymfony console doctrine:migrations:migrate --no-interaction
