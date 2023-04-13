@@ -347,6 +347,14 @@ else
 fi
 
 
+fxTitle "Installing PDF SUPPORT..."
+if [ "$INSTALL_PDF_SUPPORT" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}script/print/pdf-install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Running cloning wizard..."
 if [ "$INSTALL_GIT_CLONE_WEBAPP" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone-a-webapp.sh
