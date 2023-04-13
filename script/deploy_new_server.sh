@@ -349,7 +349,7 @@ fi
 
 fxTitle "Installing PDF SUPPORT..."
 if [ "$INSTALL_PDF_SUPPORT" = 1 ]; then
-  source ${WEBSTACKUP_SCRIPT_DIR}script/print/pdf-install.sh
+  source ${WEBSTACKUP_SCRIPT_DIR}script/print/install-pdf.sh
 else
   fxInfo "Skipped (disabled in config)"
 fi
