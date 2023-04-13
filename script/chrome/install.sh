@@ -23,6 +23,7 @@ chromeTestRun()
   
   echo -e "\e[1;32m ✔ Chrome is ready! \e[0m"
   echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
+  echo -e "\e[1;32m 📣 To generate PDFs: https://github.com/TurboLabIt/webstackup/blob/master/script/print/install-pdf.sh \e[0m"
 }
 
 if [ -f "/usr/bin/google-chrome" ]; then
