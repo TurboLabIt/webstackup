@@ -7,6 +7,8 @@ source $(dirname $(readlink -f $0))/script_begin.sh
 fxHeader "🧹 ${SCRIPT_NAME}"
 rootCheck
 
+wsuSourceFrameworkScript cleaner
+
 #fxTitle "Deleting processed file..."
 XML_PROCESSED_RETENTION_DAYS=20
 #find "${PROJECT_DIR}var/xml/processed/"* -mtime +${XML_PROCESSED_RETENTION_DAYS} -name '*' -delete
