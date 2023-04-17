@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-fxHeader "Flush Pimcore data storage"
-
 LOCKFILE=${PROJECT_DIR}var/log/${SCRIPT_NAME}
 lockCheck ${LOCKFILE}
 
