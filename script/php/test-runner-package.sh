@@ -35,7 +35,7 @@ fi
 
 fxTitle "🔬 Checking input..."
 if [ ! -z "$@" ]; then
-  ADDITIONAL_PARAMS="--limit $@"
+  ADDITIONAL_PARAMS="--filter $@"
 else
   fxInfo "No arguments"
 fi
