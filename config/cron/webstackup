@@ -6,5 +6,4 @@ WSU_CRON_LOG_DIR=/var/log/webstackup_cron_
 
 ##
 
-
-## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+## 👇 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇
