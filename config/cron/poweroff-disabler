@@ -6,4 +6,4 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin
 @reboot root sleep 30 && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler.sh | sudo bash > /var/log/turbolab.it/cron_poweroff_disabler.log 2>&1
 
 
-## 👇🏻 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇🏻
+## 👇 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇
