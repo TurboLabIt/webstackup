@@ -13,7 +13,7 @@ source $(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/version-variables.sh
 ## composer
 function wsuComposer()
 {
-  fxTitle "📦 Running composer..."  
+  fxTitle "📦 Running composer..."
   expectedUserSetCheck
 
 
@@ -29,16 +29,16 @@ function wsuComposer()
 
     COMPOSER_JSON_FULLPATH=$(pwd)/composer.json
   fi
-  
-  
+
+
   if [ -z "${COMPOSER_JSON_FULLPATH}" ] || [ ! -f "${COMPOSER_JSON_FULLPATH}" ]; then
-  
+
     fxInfo "composer.json not found"
     fxInfo "$(pwd)"
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer"
-  
+
   else
-  
+
     fxInfo "Using ##${COMPOSER_JSON_FULLPATH}##"
     fxInfo "$(dirname ${COMPOSER_JSON_FULLPATH})"
     local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir="$(dirname ${COMPOSER_JSON_FULLPATH})""
@@ -48,7 +48,7 @@ function wsuComposer()
   if [ ! -z "${APP_ENV}" ] && [ "${APP_ENV}" != "dev" ] && [ "$1" = "install" ]; then
     local NO_DEV="--no-dev"
   fi
-  
+
   echo "${FULL_COMPOSER_CMD} $@ --no-interaction ${NO_DEV}"
   echo ""
 
@@ -65,13 +65,13 @@ function wsuMage()
   if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
     fxCatastrophicError "📁 MAGENTO_DIR not set"
   fi
-  
+
   local CONSOLE_FILE_PATH=${MAGENTO_DIR}bin/magento
-  
+
   if [ ! -f "${CONSOLE_FILE_PATH}" ]; then
     fxCatastrophicError "##${CONSOLE_FILE_PATH}## not found"
   fi
-  
+
   if [ -d "/tmp/magento" ]; then
     sudo rm -rf "/tmp/magento"
   fi
@@ -79,11 +79,11 @@ function wsuMage()
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${MAGENTO_DIR}"
-  
+
   fxInfo "$(pwd)"
   echo "bin/magento $@"
   echo ""
-  
+
   sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} ${CONSOLE_FILE_PATH} "$@"
 
   cd "${CURR_DIR_BACKUP}"
@@ -125,27 +125,43 @@ function wsuSymfony()
   local SYMFONY_FILE_PATH=/usr/bin/symfony
 
   if [ ! -f "${SYMFONY_FILE_PATH}" ]; then
-    bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh"
+    sudo bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh"
   fi
 
   if [ -z $(command -v unbuffer) ]; then
-  
+
     fxTitle "unbuffer is not installed. Installing it now..."
     sudo apt update
     sudo apt install expect -y
   fi
 
   local CURR_DIR_BACKUP=$(pwd)
-
   cd "${PROJECT_DIR}"
-  
-  fxInfo "$(pwd)"
-  echo "symfony $@"
+  fxInfo "Working in $(pwd)"
   echo ""
-  
-  sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off unbuffer ${SYMFONY_FILE_PATH} "$@"
 
-  cd "${CURR_DIR_BACKUP}"
+  showPHPVer
+
+  fxTitle "🐛 Xdebug"
+  if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
+
+    export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
+    export XDEBUG_MODE="develop,debug"
+    fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
+    fxInfo "To disable: export XDEBUG_PORT="
+
+  else
+
+    export XDEBUG_MODE="off"
+    fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
+  fi
+
+  fxTitle "🌋 symfony"
+  if [ "$EXPECTED_USER" = "$(whoami)" ]; then
+    symfony "$@"
+  else
+    sudo -u "$EXPECTED_USER" -H symfony "$@"
+  fi
 }
 
 
@@ -158,21 +174,21 @@ function wsuWordPress()
   if [ -z "${WEBROOT_DIR}" ] || [ ! -d "${WEBROOT_DIR}" ]; then
     fxCatastrophicError "📁 WEBROOT_DIR not set"
   fi
-  
+
   local WPCLI_FILE_PATH=/usr/local/bin/wp-cli
 
   if [ ! -f "${WPCLI_FILE_PATH}" ]; then
     bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh"
   fi
-  
+
   local CURR_DIR_BACKUP=$(pwd)
 
   cd "${WEBROOT_DIR}"
-  
+
   fxInfo "$(pwd)"
   echo "wp-cli $@"
   echo ""
-  
+
   sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} ${WPCLI_FILE_PATH} --path="${WEBROOT_DIR%*/}/" "$@"
 
   cd "${CURR_DIR_BACKUP}"
