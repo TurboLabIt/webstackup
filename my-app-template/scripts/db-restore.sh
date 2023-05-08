@@ -13,7 +13,7 @@ DB_DUMP_FILE_PATH=${DB_DUMP_DIR}db_${APP_NAME}_$(date +'%u').sql.7z
 MYSQL_DB_NAME=${APP_NAME}_shared
 
 ## options
-SKIP_POST_LOAD_QUERY=0
+SKIP_POST_RESTORE_QUERY=0
 
 wsuSourceFrameworkScript db-restore
 
