@@ -1,4 +1,4 @@
-if [ "${SKIP_POST_RESTORE_QUERY}" != 0 ]; then
+if [ "${SKIP_POST_RESTORE_QUERY}" = "1" ]; then
 
   fxTitle "⚙️ Running db-post-restore SQL queries..."
   fxInfo "SKIP_POST_RESTORE_QUERY is set, skipping"
