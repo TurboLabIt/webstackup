@@ -51,7 +51,6 @@ else
 
   fxTitle "⚙️ Running db-post-restore SQL queries..."
   fxInfo "SKIP_POST_RESTORE_QUERY is set, skipping"
-  
 fi
 
 source "${WEBSTACKUP_SCRIPT_DIR}frameworks/db-restore-after.sh"
