@@ -224,9 +224,6 @@ if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/my
   printTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
   chmod u=rw,go=r "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
-  
-  printTitle "🔃️ Restarting MySQL..."
-  service mysql restart
 
   printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
   ls -l "/etc/mysql/mysql.conf.d/"
@@ -242,9 +239,6 @@ if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ]; then
   cp "${PROJECT_DIR}config/custom/logrotate.conf" "/etc/logrotate.d/${APP_NAME}.conf"
   chown root:root "/etc/logrotate.d/${APP_NAME}.conf"
   chmod u=rw,go= "/etc/logrotate.d/${APP_NAME}.conf"
-  
-  printTitle "🔃️ Restarting logrotate..."
-  service logrotate restart
 
   printTitle "📂 Listing /etc/logrotate.d/..."
   ls -l "/etc/logrotate.d"
@@ -274,10 +268,6 @@ if [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] && [ -
   printTitle "🔐 Renewing Let's Encrypt..."
   certbot renew --force-renewal
 fi
-
-
-printTitle "🔃 Conditional nginx restart..."
-nginx -t && service nginx restart
 
 printTitle "📂 Listing /etc/nginx/conf.d/..."
 ls -l /etc/nginx/conf.d
@@ -370,9 +360,29 @@ fi
 
 ## sshd config
 if [ -f "${PROJECT_DIR}config/custom/sshd.conf" ] && [ ! -f "/etc/ssh/sshd_config.d/${APP_NAME}.conf" ]; then
+
   printTitle "🚪 Linking sshd..."
   ln -s "${PROJECT_DIR}config/custom/sshd.conf" "/etc/ssh/sshd_config.d/${APP_NAME}.conf"
+  
+  printTitle "📂 Listing /etc/ssh/sshd_config.d/..."
+  ls -l "/etc/ssh/sshd_config.d/"
 fi
+
+## services restart
+printTitle "🔃 Conditional nginx stop..."
+nginx -t && service nginx stop
+
+printTitle "🔃️ Restarting MySQL..."
+service mysql restart
+
+printTitle "🔃 Conditional nginx restart..."
+nginx -t && service nginx restart
+
+printTitle "🔃️ Restarting logrotate..."
+service logrotate restart
+
+printTitle "🔃️ Restarting sshd..."
+service sshd restart
 
 
 ## cache-clear
