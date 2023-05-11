@@ -68,7 +68,7 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-www-data.sh
 
   fxMessage "Keep SSH alive..." 
-  ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf /etc/ssh/sshd_config.d/
+  ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf /etc/ssh/sshd_config.d/webstackup-keepalive.conf
 
   fxMessage "Updating MOTD"
   source "${WEBSTACKUP_SCRIPT_DIR}motd/setup.sh"
@@ -330,7 +330,7 @@ fi
 fxTitle "Disable SSH password login..."
 if [ "$INSTALL_SSH_DISABLE_PASSWORD_LOGIN" = 1 ]; then
 
-  ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/
+  ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/webstackup-disable-password-login.conf
   service sshd restart
 
 else
