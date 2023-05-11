@@ -40,6 +40,8 @@
 # ${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf
 
+# ${PROJECT_DIR}config/custom/sshd.conf
+
 
 echo ""
 echo -e "\e[1;46m ============= \e[0m"
@@ -363,6 +365,13 @@ fi
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf" ]; then
   printTitle "🚪 Linking ${APP_ENV} nginx-allow-deny-list..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf"
+fi
+
+
+## sshd config
+if [ -f "${PROJECT_DIR}config/custom/sshd.conf" ] && [ ! -f "/etc/ssh/sshd_config.d/${APP_NAME}.conf" ]; then
+  printTitle "🚪 Linking sshd..."
+  ln -s "${PROJECT_DIR}config/custom/sshd.conf" "/etc/ssh/sshd_config.d/${APP_NAME}.conf"
 fi
 
 
