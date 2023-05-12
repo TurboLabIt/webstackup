@@ -9,3 +9,10 @@ MAGENTO_STATIC_CONTENT_DEPLOY="MyCompany/my-app en_US it_IT fr_FR de_DE en_GB es
 source "/usr/local/turbolab.it/webstackup/script/filesystem/script_begin_start.sh" 
 
 USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
+
+## Enviroment variables and checks
+if [ "$APP_ENV" = "prod" ]; then
+  EMOJI=robot_face
+elif [ "$APP_ENV" = "staging" ]; then
+  EMOJI=cat
+fi
