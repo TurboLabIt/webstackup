@@ -57,6 +57,7 @@ wsuSymfony composer require \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
   stof/doctrine-extensions-bundle \
+  symfony/expression-language \
   turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main \
   turbolabit/php-doctrine-runtime-manager:dev-main turbolabit/php-encryptor:dev-main \
   turbolabit/php-dev-pack:dev-master
