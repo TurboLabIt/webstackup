@@ -19,6 +19,6 @@ PROJECT_DIR=/var/www/my-app/
 ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
   "${PROJECT_DIR}shop" "Go"
   "${PROJECT_DIR}var/log" "Go"
-  "/var/log/nginx/" "Go"
-  "/var/www/" "Go"
+  "/var/log/nginx" "Go"
+  "/var/www" "Go"
   "/etc/nginx/conf.d" "Go")
