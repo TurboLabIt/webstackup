@@ -128,9 +128,7 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/seo-by-rank-math/
 # https://wordpress.org/plugins/webp-express/
 # https://wordpress.org/plugins/timber-library/
-# https://wordpress.org/plugins/advanced-custom-fields/
 # https://wordpress.org/plugins/google-authenticator/
-# https://wordpress.org/plugins/autoptimize/
 # https://wordpress.org/plugins/classic-editor/
 # https://wordpress.org/plugins/radio-buttons-for-taxonomies/
 # https://wordpress.org/plugins/regenerate-thumbnails/
@@ -139,8 +137,8 @@ fxTitle "Installing WordPress plugin..."
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
-  webp-express timber-library advanced-custom-fields \
-  google-authenticator autoptimize classic-editor \
+  webp-express timber-library \
+  google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   redirection \
   --activate-network --activate
