@@ -133,16 +133,16 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/radio-buttons-for-taxonomies/
 # https://wordpress.org/plugins/regenerate-thumbnails/
 # https://wordpress.org/plugins/wp-fastest-cache/
-# https://it.wordpress.org/plugins/redirection/
+# https://wordpress.org/plugins/redirection/
+# https://wordpress.org/plugins/safe-svg/
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
   webp-express timber-library \
   google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
-  redirection \
+  redirection safe-svg \
   --activate-network --activate
-
 
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
 wsuWordPress plugin auto-updates enable --all
