@@ -73,8 +73,6 @@ echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
 ## pulling and merging
 printTitle "⏬ Git pulling..."
-sudo -u $(logname) -H git config --global --add safe.directory "${PROJECT_DIR}"
-sudo -u ${EXPECTED_USER} -H git config --global --add safe.directory "${PROJECT_DIR}"
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
