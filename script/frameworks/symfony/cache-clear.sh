@@ -30,6 +30,19 @@ fi
 cd "$PROJECT_DIR"
 
 
+## composer install
+if [ -z "${FAST_CACHE_CLEAR}" ]; then
+  wsuComposer install
+fi
+
+
+## dump-env
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
+  wsuComposer dump-env ${APP_ENV}
+fi
+
+
+## migrate
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 
   bash "${SCRIPT_DIR}migrate.sh"
