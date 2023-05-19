@@ -70,7 +70,7 @@ fi
 
 fxTitle "🌊 Symfony cache:clear..."
 wsuSymfony console cache:clear --no-optional-warmers
-wsuSymfony console cache:warmup "${PROJECT_DIR}var/log/cache-warmer.log" 2>&1 &
+wsuSymfony console cache:warmup > "${PROJECT_DIR}var/log/cache-warmer.log" 2>&1 &
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
