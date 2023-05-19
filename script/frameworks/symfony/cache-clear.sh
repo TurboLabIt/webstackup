@@ -23,7 +23,6 @@ fi
 if [ "$1" = "fast" ]; then
 
   FAST_CACHE_CLEAR=1
-  CACHE_CLEAR_PARAMS=--no-optional-warmers
 fi
 
 
@@ -70,7 +69,8 @@ fi
 
 
 fxTitle "🌊 Symfony cache:clear..."
-wsuSymfony console cache:clear ${CACHE_CLEAR_PARAMS}
+wsuSymfony console cache:clear --no-optional-warmers
+wsuSymfony console cache:warmup "${PROJECT_DIR}var/log/cache-warmer.log" 2>&1 &
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
