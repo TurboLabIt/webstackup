@@ -17,6 +17,8 @@ cd "$PROJECT_DIR"
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
+  wsuComposer install
+
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   
