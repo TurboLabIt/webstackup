@@ -22,7 +22,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   
-  if [ -d "${PROJECT_DIR}vendor/pimcore/pimcore/bundles/EcommerceFrameworkBundle" ]; then
+  if [ "${PIMCORE_ECOMMERECE_BUNDLE_ENABLED}" == "1" ]; then
   
     fxTitle "🔎 --create-or-update-index-structure"
     wsuSymfony console ecommerce:indexservice:bootstrap --create-or-update-index-structure
