@@ -22,8 +22,11 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   
-  fxTitle "🔎 --create-or-update-index-structure"
-  wsuSymfony console ecommerce:indexservice:bootstrap --create-or-update-index-structure
+  if [ -d "${PROJECT_DIR}vendor/pimcore/pimcore/bundles/EcommerceFrameworkBundle" ]; then
+  
+    fxTitle "🔎 --create-or-update-index-structure"
+    wsuSymfony console ecommerce:indexservice:bootstrap --create-or-update-index-structure
+  fi
   
   fxTitle "🐧 Setting permissions..."
   ## https://pimcore.com/docs/pimcore/current/Development_Documentation/Installation_and_Upgrade/System_Setup_and_Hosting/File_Permissions.html
