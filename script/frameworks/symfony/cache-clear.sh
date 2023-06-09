@@ -60,7 +60,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   ## https://github.com/symfony/monolog-bundle/issues/288
   fxTitle "🧹 Removing Symfony cache folder..."
-  sudo rm -rf "${PROJECT_DIR}var/cache/dev" "${PROJECT_DIR}var/cache/staging" "${PROJECT_DIR}var/cache/prod"
+  sudo rm -rf "${PROJECT_DIR}var/cache"
 
 else
 
@@ -69,8 +69,8 @@ fi
 
 
 fxTitle "🌊 Symfony cache:clear..."
-wsuSymfony console cache:clear --no-optional-warmers
-wsuSymfony console cache:warmup > "${PROJECT_DIR}var/log/cache-warmer.log" 2>&1 &
+sudo -u www-data -H symfony console cache:clear --no-optional-warmers
+sudo -u www-data -H symfony console cache:warmup > "${PROJECT_DIR}var/log/cache-warmer.log" 2>&1 &
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
