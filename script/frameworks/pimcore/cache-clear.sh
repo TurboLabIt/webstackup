@@ -57,8 +57,8 @@ fi
 
 fxTitle "🌊 Pimcore cache:clear..."
 # https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html#page_Potentially-useful-commands
-wsuSymfony console pimcore:cache:clear
-wsuSymfony console cache:clear
+sudo -u www-data -H symfony console pimcore:cache:clear
+sudo -u www-data -H symfony console cache:clear
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
