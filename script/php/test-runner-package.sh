@@ -41,9 +41,14 @@ else
 fi
 
 
+fxTitle "👢 Bootstrap"
+BOOTSTRAP_FILE=${WEBSTACKUP_SCRIPT_DIR}php-pages/phpunit-bootstrap.php
+fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
+
+
 fxTitle "🤖 Testing with PHPUnit..."
 ${PHP_CLI} ./vendor/bin/phpunit \
-  --bootstrap vendor/autoload.php \
+  --bootstrap "${BOOTSTRAP_FILE}" \
   --cache-result-file=/tmp/.phpunit.${APP_NAME}.result.cache \
   --stop-on-failure $ADDITIONAL_PARAMS \
   tests
