@@ -42,7 +42,7 @@ fi
 
 
 fxTitle "👢 Bootstrap"
-BOOTSTRAP_FILE=${WEBSTACKUP_SCRIPT_DIR}php-pages/phpunit-bootstrap.php
+BOOTSTRAP_FILE=${PROJECT_DIR}tests/bootstrap.php
 fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
 
 
