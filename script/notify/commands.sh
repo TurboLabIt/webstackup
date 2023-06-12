@@ -12,7 +12,7 @@ function wsuPlaySound()
 
 function wsuPlayOKSound()
 {
-  wsuPlaySound "${WEBSTACKUP_SOUND_DIR}mario-stage-clear.wav"
+  wsuPlaySound "${WEBSTACKUP_SOUND_DIR}mario-coin.wav"
 }
 
 
