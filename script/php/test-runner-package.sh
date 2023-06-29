@@ -47,7 +47,7 @@ fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
 
 
 fxTitle "🚕 Migrating/upgrading phpunit config..."
-${PHP_CLI} ./vendor/bin/phpunit \
+XDEBUG_MODE=off ${PHP_CLI} ./vendor/bin/phpunit \
   --bootstrap "${BOOTSTRAP_FILE}" \
   --migrate-configuration
 
