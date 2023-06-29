@@ -46,6 +46,12 @@ BOOTSTRAP_FILE=${PROJECT_DIR}tests/bootstrap.php
 fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
 
 
+fxTitle "🚕 Migrating/upgrading phpunit config..."
+${PHP_CLI} ./vendor/bin/phpunit \
+  --bootstrap "${BOOTSTRAP_FILE}" \
+  --migrate-configuration
+
+
 fxTitle "🤖 Testing with PHPUnit..."
 ${PHP_CLI} ./vendor/bin/phpunit \
   --bootstrap "${BOOTSTRAP_FILE}" \
