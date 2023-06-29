@@ -53,7 +53,7 @@ XDEBUG_MODE=off ${PHP_CLI} ./vendor/bin/phpunit \
 
 
 fxTitle "🤖 Testing with PHPUnit..."
-${PHP_CLI} ./vendor/bin/phpunit \
+SYMFONY_DEPRECATIONS_HELPER=disabled ${PHP_CLI} ./vendor/bin/phpunit \
   --bootstrap "${BOOTSTRAP_FILE}" \
   --cache-result-file=/tmp/.phpunit.${APP_NAME}.result.cache \
   --stop-on-failure $ADDITIONAL_PARAMS \
