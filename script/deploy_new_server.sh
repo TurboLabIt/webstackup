@@ -70,6 +70,9 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
   fxMessage "Keep SSH alive..." 
   ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/keepalive.conf /etc/ssh/sshd_config.d/webstackup-keepalive.conf
 
+  fxMessage "Faster SSH login..."
+  ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/faster-login.conf /etc/ssh/sshd_config.d/webstackup-faster-login.conf
+
   fxMessage "Updating MOTD"
   source "${WEBSTACKUP_SCRIPT_DIR}motd/setup.sh"
 
