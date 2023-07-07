@@ -309,6 +309,7 @@ fi
 fxTitle "Firewalling..."
 if [ "$INSTALL_FIREWALL" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzfirewall/master/setup.sh | sudo bash
+  sudo zzfirewall
 else
   fxInfo "Skipped (disabled in config)"
 fi
