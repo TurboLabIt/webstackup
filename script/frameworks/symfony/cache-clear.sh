@@ -70,7 +70,8 @@ fi
 
 fxTitle "🌊 Symfony cache:clear..."
 sudo -u www-data -H symfony console cache:clear --no-optional-warmers
-sudo -u www-data -H symfony console cache:warmup &> "${PROJECT_DIR}var/log/cache-warmer.log" &
+sudo -u www-data -H symfony console cache:warmup 
+#&> "${PROJECT_DIR}var/log/cache-warmer.log" &
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
