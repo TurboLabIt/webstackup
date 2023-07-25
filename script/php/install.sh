@@ -31,7 +31,7 @@ PHP_VER="${PHP_VER_CLI}"
 
 fxTitle "Removing any old previous instance of PHP ${PHP_VER}..."
 apt purge --auto-remove php${PHP_VER}* -y
-rm -rf /etc/php/${PHP_VER}
+rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}*
 
 
 ## installing/updating WSU
