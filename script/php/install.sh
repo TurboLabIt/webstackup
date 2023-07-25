@@ -110,10 +110,16 @@ fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install
 
 fxTitle "Activating custom php-fpm pool settings..."
 POOL_LINK=/etc/php/${PHP_VER}/fpm/pool.d/zz_webstackup-fpm-pool.conf
-if [ "$INSTALLED_RAM" -gt "6000" ]; then
+
+if [ "$INSTALLED_RAM" -gt "16000" ]; then
 
   echo "RAM: ${INSTALLED_RAM} MB: using fpm-pool-32GB.conf"
   fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-32GB.conf" ${POOL_LINK}
+
+elif [ "$INSTALLED_RAM" -gt "8000" ]; then
+
+  echo "RAM: ${INSTALLED_RAM} MB: using fpm-pool-16GB.conf"
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-16GB.conf" ${POOL_LINK}
 
 else
 
