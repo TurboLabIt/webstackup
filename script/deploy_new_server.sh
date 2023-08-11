@@ -73,6 +73,10 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
   fxMessage "Faster SSH login..."
   ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/faster-login.conf /etc/ssh/sshd_config.d/webstackup-faster-login.conf
 
+  fxMessage "SFTP-only group..."
+  addgroup sftp-only
+  ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/sftp-only-group.conf /etc/ssh/sshd_config.d/webstackup-sftp-only-group.conf
+
   fxMessage "Updating MOTD"
   source "${WEBSTACKUP_SCRIPT_DIR}motd/setup.sh"
 
@@ -333,10 +337,7 @@ fi
 
 fxTitle "Disable SSH password login..."
 if [ "$INSTALL_SSH_DISABLE_PASSWORD_LOGIN" = 1 ]; then
-
   ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/webstackup-disable-password-login.conf
-  service sshd restart
-
 else
 
   fxInfo "Skipped (disabled in config)"
@@ -381,6 +382,10 @@ if [ "$INSTALL_DISABLE_POWEROFF" = 1 ]; then
 else
   fxInfo "Skipped (disabled in config)"
 fi
+
+
+fxTitle "Restarting SSH..."
+sshd -t && service sshd restart
 
 
 fxTitle "REBOOTING..."
