@@ -28,6 +28,10 @@ fi
 
 cd "$PROJECT_DIR"
 
+fxTitle "Resetting permissions..."
+sudo chmod ugo= ${PROJECT_DIR}var/cache -R
+sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
+
 
 ## composer install
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
@@ -72,6 +76,11 @@ fxTitle "🌊 Symfony cache:clear..."
 sudo -u www-data -H symfony console cache:clear --no-optional-warmers
 sudo -u www-data -H symfony console cache:warmup 
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
+
+
+fxTitle "Resetting permissions..."
+sudo chmod ugo= ${PROJECT_DIR}var/cache -R
+sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
