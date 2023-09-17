@@ -1,4 +1,5 @@
 <?php
+// curl -o tests/bootstrap.php https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit-bootstrap.php
 use Symfony\Component\Dotenv\Dotenv;
 
 require 'vendor/autoload.php';
