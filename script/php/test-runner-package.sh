@@ -45,6 +45,11 @@ fxTitle "👢 Bootstrap"
 BOOTSTRAP_FILE=${PROJECT_DIR}tests/bootstrap.php
 fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
 
+if [ ! -f "${BOOTSTRAP_FILE}" ]; then
+  fxInfo "Bootstrap file non found. Downloading..."
+  curl -Lo "${BOOTSTRAP_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit-bootstrap.php
+fi
+
 
 fxTitle "🚕 Migrating/upgrading phpunit config..."
 XDEBUG_MODE=off ${PHP_CLI} ./vendor/bin/phpunit \
