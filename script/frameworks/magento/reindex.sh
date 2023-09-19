@@ -39,3 +39,6 @@ fi
 
 fxTitle "Status"
 wsuMage indexer:status
+
+fxTitle "Cache flushing..."
+wsuMage cache:flush
