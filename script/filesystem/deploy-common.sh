@@ -24,6 +24,7 @@
 # ${PROJECT_DIR}config/custom/php-custom-cli.ini
 
 # ${PROJECT_DIR}config/custom/mysql-custom.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf
 
 # ${PROJECT_DIR}config/custom/logrotate.conf
 
@@ -222,6 +223,16 @@ if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/my
   printTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
   chmod u=rw,go=r "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
+
+  printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
+  ls -l "/etc/mysql/mysql.conf.d/"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf" ] && [ -d "/etc/mysql/mysql.conf.d/" ]; then
+
+  printTitle "📜 Copying ${APP_ENV} mysql-custom..."
+  cp "${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf" "/etc/mysql/mysql.conf.d/96-${APP_NAME}_${APP_ENV}.cnf"
+  chmod u=rw,go=r "/etc/mysql/mysql.conf.d/96-${APP_NAME}_${APP_ENV}.cnf"
 
   printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
   ls -l "/etc/mysql/mysql.conf.d/"
