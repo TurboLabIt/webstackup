@@ -81,7 +81,7 @@ apt install mysql-server mysql-client -y -qq
   
 fxTitle "Enabling Webstackup custom config for MySQL..."
 WSU_MYSQL_SOURCE_CONFIG=${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf
-WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/webstackup.cnf
+WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/00-webstackup.cnf
 
 if [ ! -z "${WEBSTACKUP_INSTALL_DIR}" ] && [ -f "WSU_MYSQL_SOURCE_CONFIG" ]; then
 
@@ -99,7 +99,6 @@ if [ "${MYSQL_VER}" = "5.7" ]; then
   sed -i 's|mysqlx = off|#mysqlx = off|g' "${WSU_MYSQL_DEST_CONFIG}"
   sed -i 's|mysqlx-bind-address|#mysqlx-bind-address|g' "${WSU_MYSQL_DEST_CONFIG}"
 fi
-
 
 chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
 
