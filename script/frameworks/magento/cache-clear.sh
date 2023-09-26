@@ -30,7 +30,13 @@ cd "$MAGENTO_DIR"
 
 
 if [ "$1" = "fast" ]; then
+
   FAST_CACHE_CLEAR=1
+
+else
+
+    sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
+    sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
 fi
 
 
@@ -59,7 +65,6 @@ fi
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
 
   ## Setting developer mode
-  sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
   sudo rm -rf "${MAGENTO_DIR}generated/metadata/"*
   wsuMage deploy:mode:set developer --skip-compilation
   wsuMage deploy:mode:show
