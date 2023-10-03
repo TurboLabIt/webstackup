@@ -82,7 +82,7 @@ curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gi
 
 
 fxTitle "Adding webpack stuff..."
-sudo -u $EXPECTED_USER -H yarn add sass-loader sass
+sudo -u $EXPECTED_USER -H yarn add sass-loader sass file-loader
 sudo -u $EXPECTED_USER -H yarn install
 sudo -u $EXPECTED_USER -H yarn webpack
 
