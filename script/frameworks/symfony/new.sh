@@ -81,6 +81,12 @@ fxTitle "Adding .gitignore..."
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 
 
+fxTitle "Adding webpack stuff..."
+sudo -u $EXPECTED_USER -H yarn add sass-loader sass
+sudo -u $EXPECTED_USER -H yarn install
+sudo -u $EXPECTED_USER -H yarn webpack
+
+
 fxTitle "Restoring PROJECT_DIR"
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
