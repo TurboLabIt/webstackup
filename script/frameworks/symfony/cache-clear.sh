@@ -29,7 +29,7 @@ fi
 cd "$PROJECT_DIR"
 
 fxTitle "Resetting permissions..."
-sudo chmod ugo= ${PROJECT_DIR}var/cache -R
+sudo chmod -x+X ${PROJECT_DIR}var/cache -R
 sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
 
 
@@ -79,7 +79,7 @@ sudo -u www-data -H symfony console cache:warmup
 
 
 fxTitle "Resetting permissions..."
-sudo chmod ugo= ${PROJECT_DIR}var/cache -R
+sudo chmod -x+X ${PROJECT_DIR}var/cache -R
 sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
 
 
