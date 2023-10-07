@@ -59,6 +59,7 @@ wsuSymfony composer require \
   stof/doctrine-extensions-bundle \
   symfony/expression-language \
   form validator \
+  symfony/monolog-bundle \
   turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main \
   turbolabit/php-doctrine-runtime-manager:dev-main turbolabit/php-encryptor:dev-main \
   turbolabit/php-dev-pack:dev-master
