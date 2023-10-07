@@ -7,7 +7,10 @@ PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 
 PRIVGEN_DIR="/var/www/private_generics/"
-ZZ_CMD_SUFFIX=0
+
+if [ -z "${ZZ_CMD_SUFFIX}" ]; then
+  ZZ_CMD_SUFFIX=0
+fi
 
 WSU_FRAMEWORK_BEGIN=${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/script_begin.sh
 if [ -f "${WSU_FRAMEWORK_BEGIN}" ]; then
