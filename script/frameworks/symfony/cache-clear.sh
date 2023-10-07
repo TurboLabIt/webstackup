@@ -63,8 +63,14 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   #sudo nginx -t && sudo service nginx stop && sudo service ${PHP_FPM} stop
 
   ## https://github.com/symfony/monolog-bundle/issues/288
-  fxTitle "🧹 Removing Symfony cache folder..."
+  fxTitle "🧹 Removing the Symfony cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
+
+  fxTitle "☀ Creating the Symfony cache folder anew..."
+  sudo mkdir -p "${PROJECT_DIR}var/cache"
+  sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
+  sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
+  sudo chmod ug=rwX "${PROJECT_DIR}var/cache" -R
 
 else
 
