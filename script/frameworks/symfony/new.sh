@@ -58,6 +58,7 @@ wsuSymfony composer require \
   symfony/webpack-encore-bundle \
   stof/doctrine-extensions-bundle \
   symfony/expression-language \
+  symfony/monolog-bundle \
   form validator \
   turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main \
   turbolabit/php-doctrine-runtime-manager:dev-main turbolabit/php-encryptor:dev-main \
