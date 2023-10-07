@@ -33,7 +33,7 @@ wsuSymfony new ${APP_NAME} --no-git
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 
 wsuSymfony composer config extra.symfony.allow-contrib true
-wsuSymfony composer config extra.symfony.docker true
+wsuSymfony composer config extra.symfony.docker false
 
 
 # https://github.com/TurboLabIt/php-foreachable
@@ -74,7 +74,8 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 
-wsuSymfony composer require symfony/maker-bundle symfony/debug-pack --dev
+## composer req DEV
+wsuSymfony composer require --dev symfony/maker-bundle symfony/debug-pack 
 
 
 fxTitle "Adding .gitignore..."
