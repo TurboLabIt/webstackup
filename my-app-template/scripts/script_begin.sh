@@ -13,7 +13,7 @@ USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
 
 ## Enviroment variables and checks
 if [ "$APP_ENV" = "prod" ]; then
-  EMOJI=robot_face
+  EMOJI=rocket
 elif [ "$APP_ENV" = "staging" ]; then
   EMOJI=cat
 fi
