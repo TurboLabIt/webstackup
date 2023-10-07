@@ -28,9 +28,9 @@ fi
 
 cd "$PROJECT_DIR"
 
-fxTitle "Resetting permissions..."
-sudo chmod -x+X ${PROJECT_DIR}var/cache -R
-sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
+
+fxTitle "Temporary open permissions on cache..."
+sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
 ## composer install
@@ -68,14 +68,15 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "☀ Creating the Symfony cache folder anew..."
   sudo mkdir -p "${PROJECT_DIR}var/cache"
-  sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
-  sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
-  sudo chmod ug=rwX "${PROJECT_DIR}var/cache" -R
 
 else
 
   fxTitle "📐 Symfony cache folder NOT removed (fast mode)"
 fi
+
+
+fxTitle "Temporary open permissions on cache..."
+sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
 fxTitle "🌊 Symfony cache:clear..."
@@ -85,8 +86,13 @@ sudo -u www-data -H symfony console cache:warmup
 
 
 fxTitle "Resetting permissions..."
-sudo chmod -x+X ${PROJECT_DIR}var/cache -R
-sudo chmod ugo=rwX ${PROJECT_DIR}var/cache -R
+sudo chown webstackup:www-data "${PROJECT_DIR}var" -R
+sudo chmod ugo= "${PROJECT_DIR}var" -R
+sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var" -R
+
+
+fxTitle "Final status..."
+ls -latrh "${PROJECT_DIR}var/cache"
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
