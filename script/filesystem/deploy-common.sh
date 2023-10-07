@@ -133,6 +133,7 @@ if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" !=
 fi
 
 
+fxTitle "Activating zzcommands..."
 function deployZzCmdSuffix()
 {
   if [ -z "${ZZ_CMD_SUFFIX}" ] || [ "${ZZ_CMD_SUFFIX}" = "0" ]; then
