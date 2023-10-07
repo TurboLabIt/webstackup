@@ -2,7 +2,7 @@
 ### SET PHP VARIABLES SUCH AS PHP_VER AND PHP_CLI BY WEBSTACK.UP
 #
 # PHP_VER = '8.2'
-# PHP_CLI = '/bin/php8.2'
+# PHP_CLI = '/usr/bin/php8.2'
 # PHP_FPM = 'php8.2-fpm'
 
 PHP_KNOWN_VERSIONS=(5.6 7.0 7.1 7.2 7.3 7.4 8.0 8.1 8.2 8.3 8.4)
@@ -17,7 +17,7 @@ if [ ! -z "${PROJECT_DIR}" ] && [ -f "${PROJECT_DIR}.php-version" ]; then
   PHP_VER_FROM_PROJECT=${PHP_VER}
 fi
 
-PHP_CLI="/bin/php${PHP_VER}"
+PHP_CLI="/usr/bin/php${PHP_VER}"
 PHP_FPM="php${PHP_VER}-fpm"
 
 showPHPVer()
