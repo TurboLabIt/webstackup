@@ -29,6 +29,11 @@ fi
 cd "$PROJECT_DIR"
 
 
+fxTitle "Setting log permission..."
+sudo chmod ugo= "${PROJECT_DIR}var/log" -R
+sudo chmod ugo=rwX "${PROJECT_DIR}var/cache" -R
+
+
 fxTitle "Temporary open permissions on cache..."
 sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
