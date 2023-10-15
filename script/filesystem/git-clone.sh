@@ -132,7 +132,11 @@ fxTitle "📁 Repository directory"
 fxInfo "For example: /var/www/some-dir"
 while [ -z "$GIT_CLONE_TARGET_FOLDER" ]; do
 
-  echo "🤖 Provide the full path (use TAB!) of the directory to clone into"
+  echo -n "🤖 Provide the full path (use TAB!) of the directory to clone into, "
+  echo "or just hit Enter for ##/var/www/${APP_NAME}##"
+  fxWarning "This should be the PRODUCTION path!"
+  fxWarning "If you need a different path for dev, provide the PRODUCTION path "
+  fxWarning "here and then move the directory in dev manually"
   read -ep ">> " GIT_CLONE_TARGET_FOLDER  < /dev/tty
 
 done
