@@ -68,6 +68,7 @@ case $CHOICE in
     wsuzzws
     ;;
   4)
+    bash ${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh
     bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone.sh"
     ;;
   5)
