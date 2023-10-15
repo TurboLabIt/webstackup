@@ -152,6 +152,9 @@ WSU_MAP_DEPLOY_TO_PATH_DEFAULT=/var/www/${WSU_MAP_APP_NAME}
 while [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; do
 
   echo "🤖 Provide the path (use TAB!) or hit Enter for ##${WSU_MAP_DEPLOY_TO_PATH_DEFAULT}##"
+  fxWarning "This should be the PRODUCTION path!"
+  fxWarning "If you need a different path for dev, provide the PRODUCTION path anyway, "
+  fxWarning "and then move the directory in dev manually"
   read -ep ">> " WSU_MAP_DEPLOY_TO_PATH  < /dev/tty
   if [ -z "$WSU_MAP_DEPLOY_TO_PATH" ]; then
     WSU_MAP_DEPLOY_TO_PATH=$WSU_MAP_DEPLOY_TO_PATH_DEFAULT
@@ -295,7 +298,7 @@ if [ "${WSU_MAP_NEED_APACHE_HTTPD}" != "1" ]; then
 
   rm -f ${WSU_MAP_TMP_DIR}scripts/*apache-httpd* \
     ${WSU_MAP_TMP_DIR}config/custom/*apache-httpd* \
-    ${WSU_MAP_TMP_DIR}config/custom/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/prod/*apache-httpd* 
+    ${WSU_MAP_TMP_DIR}config/custom/dev/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/staging/*apache-httpd* ${WSU_MAP_TMP_DIR}config/custom/prod/*apache-httpd*
 
 else
 
@@ -308,7 +311,7 @@ for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
   rm -f \
     ${WSU_MAP_TMP_DIR}scripts/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* \
     ${WSU_MAP_TMP_DIR}config/custom/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* \
-    ${WSU_MAP_TMP_DIR}config/custom/dev/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/staging/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/prod/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* 
+    ${WSU_MAP_TMP_DIR}config/custom/dev/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/staging/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/prod/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
 done
 
 mv ${WSU_MAP_TMP_DIR}config/custom/nginx-${WSU_MAP_FRAMEWORK}.conf ${WSU_MAP_TMP_DIR}config/custom/nginx.conf
@@ -418,21 +421,21 @@ if [ "${WSU_MAP_ACTIVATE_SITE}" != "yes" ] && [ "${WSU_MAP_ACTIVATE_SITE}" != "1
   fxOK "Got it, you're on your own now"
 
 else
-  
+
   DIR_ABOVE_PATH=$(dirname "${WSU_MAP_DEPLOY_TO_PATH}")
   DEVELOPER_NAME=$(basename "${DIR_ABOVE_PATH}")
-  
+
   fxInfo "dev name (inferred from path): ##${DEVELOPER_NAME}##"
-  
+
   find "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev" -type f -exec sed -i "s/dev0/${DEVELOPER_NAME}/g" {} \;
   mv "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-dev0.conf" "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf"
   nano "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf"
-  
+
   ln -s "${WSU_MAP_DEPLOY_TO_PATH}config/custom/dev/nginx-${DEVELOPER_NAME}.conf" /etc/nginx/conf.d/${WSU_MAP_APP_NAME}_${DEVELOPER_NAME}.conf
   bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh
-  
+
   ls -la /etc/nginx/conf.d/ | grep ${WSU_MAP_APP_NAME}
-  
+
 fi
 
 
