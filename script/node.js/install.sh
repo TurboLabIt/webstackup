@@ -4,7 +4,7 @@
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh?$(date +%s) | sudo NODEJS_VER=20 bash
 #
-# Based on: https://turbolab.it/
+# Based on: https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
 
 ## https://github.com/nodesource/distributions/blob/master/README.md#debinstall
 NODEJS_LATEST_VERSION=20
@@ -20,6 +20,10 @@ fi
 fxHeader "💿 Node.js installer"
 rootCheck
 
+if [ -z "$NODEJS_VER" ]; then
+  NODEJS_VER=$NODEJS_LATEST_VERSION
+fi
+
 
 fxTitle "Removing any old previous instance of Node.js..."
 if [ ! -z "$(command -v n)" ]; then
@@ -29,6 +33,7 @@ fi
 
 apt purge --auto-remove nodejs* npm* -y
 rm -f /etc/apt/sources.list.d/nodesource*
+rm -f /etc/apt/keyrings/nodesource.gpg
 apt update
 rm -rf /usr/bin/node
 rm -rf /usr/local/bin/node
@@ -38,21 +43,26 @@ rm -rf /usr/local/n/
 rm -rf "$(getent passwd $SUDO_USER | cut -d: -f6)/.nvm"
 
 
-NODEJS_INSTALL_URL=https://deb.nodesource.com/setup_${NODEJS_LATEST_VERSION}.x
-fxTitle "Running ${NODEJS_INSTALL_URL}..."
-fxInfo "Don't freak out if this is not the version you requested!"
-fxInfo "The version you requested will be installed later on"
-curl -s  "${NODEJS_INSTALL_URL}" | bash
+fxTitle "🔑 Downloading the Nodesource GPG key..."
+apt update
+apt install ca-certificates curl gnupg -y
+mkdir -p /etc/apt/keyrings
+curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
+fxTitle "🔗 Creating the deb repository..."
+echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODEJS_LATEST_VERSION.x nodistro main" > /etc/apt/sources.list.d/nodesource.list
 
-fxTitle "Installing..."
+fxTitle "💿 Installing Node.js..."
+apt update
 ## the NodeSource package contains both the node binary and npm
-apt install -y nodejs
+apt install nodejs -y
 
 
 fxTitle "Current Node.js version..."
 apt policy nodejs
 node --version
+fxInfo "Don't freak out if this is not the version you requested!"
+fxInfo "The version you requested will be installed later on"
 
 
 fxTitle "Enabling corepack..."
