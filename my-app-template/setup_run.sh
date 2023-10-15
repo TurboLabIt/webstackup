@@ -85,6 +85,7 @@ if [ "${WSU_MAP_REPO_CLONE}" = "yes" ] || [ "${WSU_MAP_REPO_CLONE}" = "1" ]; the
 
   # https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/git-clone.sh
   GIT_CLONE_TARGET_FOLDER=${WSU_MAP_TMP_DIR}
+  GIT_CLONE_SKIP_DEPLOY=1
   source "${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh"
 
 else
