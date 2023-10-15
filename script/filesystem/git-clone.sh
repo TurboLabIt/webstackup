@@ -29,11 +29,11 @@ fxTitle "👤 Provide the user to clone as"
 fxInfo "This is the name of the Linux user account to sudo -u as"
 while [ -z "$GIT_CLONE_RUN_AS" ]; do
 
-  echo "🤖 Provide the username or just hit Enter for ##$(logname)##"
+  echo "🤖 Provide the username or just hit Enter for ##webstackup##"
   read -p ">> " GIT_CLONE_RUN_AS  < /dev/tty
 
   if [ -z "${GIT_CLONE_RUN_AS}" ]; then
-    GIT_CLONE_RUN_AS=$(logname)
+    GIT_CLONE_RUN_AS=webstackup
   fi
 
   if ! id "${GIT_CLONE_RUN_AS}" &>/dev/null; then
@@ -92,6 +92,8 @@ while [ -z "$GIT_CLONE_REPO_URL" ]; do
 
   echo "🤖 Provide the URL of the repository"
   read -p ">> " GIT_CLONE_REPO_URL  < /dev/tty
+
+  GIT_CLONE_REPO_URL=${GIT_CLONE_REPO_URL#git clone}
 
   if [ ! -z "${GIT_CLONE_REPO_URL}" ]; then
 
