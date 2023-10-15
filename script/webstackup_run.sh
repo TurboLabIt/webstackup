@@ -18,20 +18,20 @@ TITLE="Web service management GUI"
 MENU="Choose one task:"
 
 OPTIONS=(
-     1 "🔄 Web services turbo-restart"
-     2 "♻️  Web services safe restart"
-     3 "✔️  Self-update"
-     4 "🚀  Git clone an existing app"
-     5 "🧺  New database user access"
-     6 "📧  DKIM a domain"
-     7 "🔒  Let's Encrypt a domain"
-     8 "🔑  Webpermissions a directory"
-     9 "↗️  Show webstackup SSH pub key"
-     10 "🔧 MySQL maintenance"
-     11 "🏁 MySQL Tuner"
-     12 "🤦 MySQL password reset"
-     13 "🧪 WSU Dev (MAP test)"
-     14 "🐫 my-app-template")
+     1 "🔄   Web services turbo-restart"
+     2 "♻️    Web services safe restart"
+     3 "✔️    Self-update"
+     4 "🐑🐑 Git clone an existing app"
+     5 "🐬   New database user access"
+     6 "📧   DKIM a domain"
+     7 "🔒   Let's Encrypt a domain"
+     8 "👮   Webpermissions a directory"
+     9 "🔑   Show webstackup SSH pub key"
+     10 "🔧   MySQL maintenance"
+     11 "💨   MySQL Tuner"
+     12 "🤦   MySQL password reset"
+     13 "🧪   WSU Dev (MAP test)"
+     14 "🐫   my-app-template")
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
@@ -68,7 +68,7 @@ case $CHOICE in
     wsuzzws
     ;;
   4)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone-a-webapp.sh"
+    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone.sh"
     ;;
   5)
     bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"

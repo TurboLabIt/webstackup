@@ -93,7 +93,7 @@ while [ -z "$GIT_CLONE_REPO_URL" ]; do
   echo "🤖 Provide the URL of the repository"
   read -p ">> " GIT_CLONE_REPO_URL  < /dev/tty
 
-  GIT_CLONE_REPO_URL=${GIT_CLONE_REPO_URL#git clone}
+  GIT_CLONE_REPO_URL=${GIT_CLONE_REPO_URL#git clone }
 
   if [ ! -z "${GIT_CLONE_REPO_URL}" ]; then
 
