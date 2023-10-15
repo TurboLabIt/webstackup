@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### GUIDED PROJECT CLONING BY WEBSTACK.UP
+### PROJECT STARTUP BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/filesystem/git-clone.sh
 #
 # Variables
@@ -8,6 +8,7 @@
 # GIT_CLONE_REPO_URL
 # GIT_CLONE_TARGET_FOLDER
 # GIT_CLONE_BRANCH
+# GIT_CLONE_SKIP_DEPLOY
 
 
 ## bash-fx
@@ -129,11 +130,10 @@ fxOK "Good choice! ##${GIT_CLONE_BRANCH}## is my favourite branch too!"
 
 
 fxTitle "📁 Repository directory"
-fxInfo "For example: /var/www/${APP_NAME}"
+fxInfo "For example: /var/www/my-app"
 while [ -z "$GIT_CLONE_TARGET_FOLDER" ]; do
 
-  echo -n "🤖 Provide the full path (use TAB!) of the directory to clone into, "
-  echo "or just hit Enter for ##/var/www/${APP_NAME}##"
+  echo "🤖 Provide the full path (use TAB!) of the directory to clone into"
   fxWarning "This should be the PRODUCTION path!"
   fxWarning "If you need a different path for dev, provide the PRODUCTION path anyway, "
   fxWarning "and then move the directory in dev manually"
@@ -178,5 +178,27 @@ gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} status
 gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} branch
 ls -la ${GIT_CLONE_TARGET_FOLDER}
 
-fxEndFooter
 
+fxTitle "🚀 Looking for a deploy script..."
+if [ -z "$GIT_CLONE_SKIP_DEPLOY" ] || [ "$GIT_CLONE_SKIP_DEPLOY" == "0" ]; then
+
+  if [ -f "${GIT_CLONE_TARGET_FOLDER}script/deploy.sh" ]; then
+
+    bash "${GIT_CLONE_TARGET_FOLDER}script/deploy.sh"
+
+  elif [ -f "${GIT_CLONE_TARGET_FOLDER}scripts/deploy.sh" ]; then
+
+    bash "${GIT_CLONE_TARGET_FOLDER}scripts/deploy.sh"
+
+  else
+
+    fxWarning "No deploy.sh script found!"
+  fi
+
+else
+
+  fxInfo "Deploy skipped, as requested"
+fi
+
+
+fxEndFooter
