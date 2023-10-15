@@ -5,7 +5,7 @@
 # NEW_MYSQL_USER_FROM_HOST=%
 # NEW_MYSQL_PASSWORD=auto
 # NEW_MYSQL_HOST=localhost
-# NEW_MYSQL_DB_NAME=my-app_db
+# NEW_MYSQL_DB_NAME=my-app
 
 if [ ! -z "$1" ]; then
   NEW_MYSQL_APP_NAME=$1
@@ -51,7 +51,7 @@ fxOK "Got it, APP_NAME is ##$NEW_MYSQL_APP_NAME##"
 fxTitle "🧔 Username"
 
 ## generating a candidate USER_NAME
-NEW_MYSQL_USER_DEFAULT=${NEW_MYSQL_APP_NAME}_usr
+NEW_MYSQL_USER_DEFAULT=${NEW_MYSQL_APP_NAME}
 
 while [ -z "$NEW_MYSQL_USER" ]; do
 
@@ -135,7 +135,7 @@ if [ "${NEW_MYSQL_USER}" != "root" ]; then
   fxTitle "🧺 Database name"
 
   ## generating a candidate DBNAME
-  NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}_db
+  NEW_MYSQL_DB_NAME_DEFAULT=${NEW_MYSQL_APP_NAME}
 
   while [ -z "$NEW_MYSQL_DB_NAME" ]; do
 
