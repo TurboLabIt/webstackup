@@ -362,8 +362,12 @@ fi
 
 fxTitle "Running cloning wizard..."
 if [ "$INSTALL_GIT_CLONE_WEBAPP" = 1 ]; then
-  bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone-a-webapp.sh
+
+  bash ${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh
+  bash ${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh
+
 else
+
   fxInfo "Skipped (disabled in config)"
 fi
 
