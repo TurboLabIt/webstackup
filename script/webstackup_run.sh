@@ -68,20 +68,21 @@ case $CHOICE in
     wsuzzws
     ;;
   4)
-    bash ${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh
-    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/git-clone.sh"
+    bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh"
     ;;
   5)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/new.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh"
     ;;
   6)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mail/dkim.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}mail/dkim.sh"
     ;;
   7)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/https/letsencrypt-generate.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-generate.sh"
     ;;
   8)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/filesystem/webpermission.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh"
     ;;
   9)
     printMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")"
@@ -90,10 +91,10 @@ case $CHOICE in
     bash "${WEBSTACKUP_SCRIPT_DIR}mysql/maintenance.sh"
     ;;
   11)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/mysqltuner.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}mysql/mysqltuner.sh"
     ;;
   12)
-    bash "${WEBSTACKUP_INSTALL_DIR}script/mysql/password-reset.sh"
+    bash "${WEBSTACKUP_SCRIPT_DIR}mysql/password-reset.sh"
     ;;
   13)
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh"
@@ -102,4 +103,4 @@ case $CHOICE in
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
     ;;
-esac  
+esac
