@@ -1,6 +1,7 @@
 *
 !readme.md
 !.gitignore
+!log/.gitignore
 
 ## this is required to include generated classes (Pimcore)
 !classes/
