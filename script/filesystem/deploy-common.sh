@@ -395,6 +395,12 @@ printTitle "🔃️ Restarting sshd..."
 service sshd restart
 
 
+## build
+if [ -f "${SCRIPT_DIR}build.sh" ]; then
+  bash "${SCRIPT_DIR}build.sh"
+fi
+
+
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   bash "${SCRIPT_DIR}cache-clear.sh"
