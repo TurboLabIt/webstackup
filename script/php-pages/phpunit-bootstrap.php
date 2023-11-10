@@ -7,6 +7,8 @@ require 'vendor/autoload.php';
 $arrEnvFiles = [
     '.env',
     '.env.local'
+    '.env.test',
+    '.env.test.local'
 ];
 
 if( file_exists('.env.local.php') ) {
