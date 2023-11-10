@@ -25,4 +25,13 @@ if [ "$1" = "fast" ]; then
   FAST_CACHE_CLEAR=1
 fi
 
+
+fxTitle "Temporary open permissions on cache..."
+sudo chmod ugo=rwx "${WEBROOT_DIR}wp-content/cache" -R
+
+
 wsuWordPress fastest-cache clear all and minified
+
+
+fxTitle "Temporary open permissions on cache..."
+sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
