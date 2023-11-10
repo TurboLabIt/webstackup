@@ -28,7 +28,8 @@ if [ -d "/etc/letsencrypt/renewal-hooks/deploy" ]; then
   
 else
 
-  echo "Let's Encrypt post-renewal hook skipped"
+  fxInfo "##/etc/letsencrypt/renewal-hooks/deploy## doesn't exist"
+  fxInfo "Let's Encrypt post-renewal hook skipped"
 fi
 
 fxEndFooter
