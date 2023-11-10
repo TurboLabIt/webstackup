@@ -34,4 +34,4 @@ wsuWordPress fastest-cache clear all and minified
 
 
 fxTitle "Temporary open permissions on cache..."
-sudo chmod ugo=rwx "${WEBROOT_DIR}var/cache" -R
+sudo chmod ugo=rwx "${WEBROOT_DIR}wp-content/cache" -R
