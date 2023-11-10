@@ -18,12 +18,17 @@ fi
 fxHeader "🪝 LET'S ENCRYPT CREATE HOOKS"
 
 
-if [ -d "/etc/letsencrypt/renewal-hooks/deploy" ]; then
+if [ -d /etc/letsencrypt/renewal-hooks/deploy ]; then
 
   fxTitle "🔃 Deploying Let's Encrypt post-renewal hook..."
   sudo curl -Lo /etc/letsencrypt/renewal-hooks/deploy/nginx_restart https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/restart.sh
   sudo chown root:root /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
   sudo chmod u=rwx,go=rx /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
+
+  fxTitle "✅ Script deployed"
+  ls -latrh /etc/letsencrypt/renewal-hooks/deploy
+
+  fxTitle "☀ Renewing certificates..."
   sudo certbot renew --force-renewal --no-random-sleep-on-renew
   
 else
