@@ -178,7 +178,7 @@ function wsuWordPress()
   local WPCLI_FILE_PATH=/usr/local/bin/wp-cli
 
   if [ ! -f "${WPCLI_FILE_PATH}" ]; then
-    bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh"
+    sudo bash "${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/install.sh"
   fi
 
   local CURR_DIR_BACKUP=$(pwd)
