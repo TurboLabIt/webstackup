@@ -19,7 +19,7 @@ rootCheck
 
 
 fxTitle "Removing any old previous instance..."
-sudo rm -f /usr/local/bin/wp-cli
+rm -f /usr/local/bin/wp-cli
 
 curl -o /usr/local/bin/wp-cli https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
 chmod u=rwx,go=rx /usr/local/bin/wp-cli
