@@ -7,15 +7,15 @@ require 'vendor/autoload.php';
 $arrEnvFiles = [
     '.env',
     '.env.local'
-    '.env.test',
-    '.env.test.local'
+    '.env.dev',
+    '.env.dev.local'
 ];
 
 if( file_exists('.env.local.php') ) {
     $arrDumpedEnv = include '.env.local.php';
 }
 
-$realEnv = $arrDumpedEnv["APP_ENV"] ?? 'dev';
+$realEnv = $arrDumpedEnv["APP_ENV"] ?? 'test';
 
 $arrEnvFiles =
     array_merge($arrEnvFiles, [
