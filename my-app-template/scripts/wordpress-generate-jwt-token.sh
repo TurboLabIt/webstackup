@@ -9,7 +9,6 @@ fxHeader "👛 Generate JWT token on WordPress"
 #SITE_HTTP_BASIC_AUTH_USER_PASSWORD="myUser:myPass"
 
 echo "📚 https://bitbucket.org/my-name/my-app/wiki/WordPress%20integration%20guide"
-echo ""
 echo "💡 The required password is on https://www.lastpass.com"
 
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/wordpress/generate-jwt-token.sh
