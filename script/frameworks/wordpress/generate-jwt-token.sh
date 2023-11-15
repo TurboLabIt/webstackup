@@ -25,6 +25,6 @@ while [ -z "$JWT_USER_PASSWORD" ]; do
 done
 
 fxTitle "Response"
-curl -i -X POST --USER "${SITE_HTTP_BASIC_AUTH_USER_PASSWORD}" "${SITE_URL}wp-json/jwt-auth/v1/token' -d "username=$JWT_USER_NAME&password=$JWT_USER_PASSWORD"
+curl -i -X POST --USER "${SITE_HTTP_BASIC_AUTH_USER_PASSWORD}" "${SITE_URL}wp-json/jwt-auth/v1/token" -d "username=$JWT_USER_NAME&password=$JWT_USER_PASSWORD"
 
 source "${SCRIPT_DIR}script_end.sh"
