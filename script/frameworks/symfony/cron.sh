@@ -15,5 +15,8 @@
 fxHeader "♾️ 🕰️ Symfony cron"
 
 ## this is temporary | find a better solution!
+fxTitle "Stopping workers..."
 bash ${SCRIPT_DIR}cli.sh messenger:stop-workers
+
+fxTitle "Starting workers..."
 bash ${SCRIPT_DIR}cli.sh messenger:consume async -vv --limit 50 &
