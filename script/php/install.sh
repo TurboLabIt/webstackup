@@ -24,6 +24,8 @@ fi
 
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
+apt update
+apt install lsb-release -y
 RELEASE_DESCR=$(lsb_release -d)
 if [[ "$RELEASE_DESCR" != *"Ubuntu"* ]] || [[ "$RELEASE_DESCR" != *"LTS"* ]]; then
   fxCatastrophicError "${RELEASE_DESCR} is INCOMPATIBLE with this script! See: https://github.com/TurboLabIt/webstackup/issues/15"
