@@ -24,15 +24,33 @@ fi
 
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
+fxTitle "Checking OS version..."
 apt update
 apt install lsb-release -y
 RELEASE_DESCR=$(lsb_release -d)
-if [[ "$RELEASE_DESCR" != *"Ubuntu"* ]] || [[ "$RELEASE_DESCR" != *"LTS"* ]]; then
-  fxCatastrophicError "${RELEASE_DESCR} is INCOMPATIBLE with this script! See: https://github.com/TurboLabIt/webstackup/issues/15"
+echo ""
+fxMessage "${RELEASE_DESCR}"
+echo ""
+
+if [[ "$RELEASE_DESCR" == *"Ubuntu"* ]] && [[ "$RELEASE_DESCR" == *"LTS"* ]]; then
+  
+  PHP_OS_DETECTED=ubuntu
+  fxOK "Ubuntu LTS detected"
+
+elif [[ "$RELEASE_DESCR" == *"Debian"* ]]; then
+
+  PHP_OS_DETECTED=debian
+  fxOK "Debian detected"
+
+else
+
+  fxCatastrophicError "The OS is INCOMPATIBLE with this script! See: https://github.com/TurboLabIt/webstackup/issues/15"
 fi
 
 
-fxTitle "Removing any old previous instance of PHP ${PHP_VER}..."
+fxTitle "Removing any old previous instance of PHP ${PHP_VER} (if any)..."
+fxInfo "Note: this will display some errors if PHP is not installed yet."
+fxInfo "This is expected, don't freak out"
 apt purge --auto-remove php${PHP_VER}* -y
 rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}*
 
@@ -50,11 +68,24 @@ PHP_VER=${PHP_VER_REQUESTED}
 
 fxTitle "Installing prerequisites..."
 apt update -qq
-apt install software-properties-common -y
+apt install software-properties-common ca-certificates apt-transport-https  -y
 
 
 fxTitle "Setting up ondrej/php..."
-LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
+if [ "${PHP_OS_DETECTED}" == 'ubuntu' ]; then
+  
+  
+  LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
+
+
+elif [ "${PHP_OS_DETECTED}" == 'debian' ]; then
+
+  sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/webstackup-php-debian.list' 
+  curl https://packages.sury.org/php/apt.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-php-sury.gpg > /dev/null
+
+fi
+
+
 apt update -qq
 
 
@@ -94,6 +125,7 @@ fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/no-exec.ini" ${FPM_CONF_FILE}no-exec
 fxTitle "Setting timezone to Italy..."
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" ${FPM_CONF_FILE}timezone-italy.ini
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/timezone-italy.ini" ${CLI_CONF_FILE}timezone-italy.ini
+echo ""
 fxInfo "Different timezone? rm -rf ${FPM_CONF_FILE}timezone-italy.ini ${CLI_CONF_FILE}timezone-italy.ini"
 
 fxTitle "Removing all limits from CLI..."
@@ -105,9 +137,10 @@ fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/no-cgi.fix_pathinfo.ini" ${FPM_CONF_
 fxTitle "Enable OPcache..."
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/opcache.ini" ${FPM_CONF_FILE}opcache.ini
 
-fxMessage "Configuring Xdebug..."
+fxTitle "Configuring Xdebug..."
 ln -s ${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${FPM_CONF_FILE}xdebug.ini
 ln -s ${WEBSTACKUP_CONFIG_DIR}php/xdebug.ini ${CLI_CONF_FILE}xdebug.ini
+echo ""
 fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install php${PHP_VER}-xdebug install -y"
 
 
