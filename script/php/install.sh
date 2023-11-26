@@ -2,7 +2,7 @@
 ### AUTOMATIC PHP INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh?$(date +%s) | sudo PHP_VER=8.2 bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh?$(date +%s) | sudo PHP_VER=8.3 bash
 #
 # Based on: https://turbolab.it/1380
 
@@ -21,12 +21,13 @@ if [ -z "${PHP_VER}" ]; then
   fxCatastrophicError "PHP_VER is undefined! Cannot determine which version of PHP to install"
 fi
 
+
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
-PHP_VER_CLI="${PHP_VER}"
-source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/webstackup.default.conf)
-fxRequireCompatbileUbuntuVersion "${COMPATIBLE_OS_VERSIONS}"
-PHP_VER="${PHP_VER_CLI}"
+RELEASE_DESCR=$(lsb_release -d)
+if [[ "$RELEASE_DESCR" != *"Ubuntu"* ]] || [[ "$RELEASE_DESCR" != *"LTS"* ]]; then
+  fxCatastrophicError "${RELEASE_DESCR} is INCOMPATIBLE with this script! See: https://github.com/TurboLabIt/webstackup/issues/15"
+fi
 
 
 fxTitle "Removing any old previous instance of PHP ${PHP_VER}..."
