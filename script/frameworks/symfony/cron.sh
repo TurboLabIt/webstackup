@@ -18,4 +18,4 @@ fxTitle "Stopping workers..."
 bash ${SCRIPT_DIR}cli.sh messenger:stop-workers
 
 fxTitle "Starting workers..."
-bash ${SCRIPT_DIR}cli.sh messenger:consume async -vv --limit 90
+bash ${SCRIPT_DIR}cli.sh messenger:consume async -vv --time-limit=90
