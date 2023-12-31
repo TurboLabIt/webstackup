@@ -91,7 +91,7 @@ if [ ! -d /var/www ]; then
   mkdir -p /var/www
   chown webstackup:www-data /var/www/ -R
   chmod ugo= /var/www/ -R
-  chmod u=rwX,g=rX,o= /var/www/ -R
+  chmod u=rwX,go=rX /var/www/ -R
   # SetGID - Any new file will have its group set to www-data
   chmod g+s /var/www/
   
