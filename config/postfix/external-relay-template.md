@@ -1,3 +1,5 @@
+💥 Please note: to relay via Gmail you MUST [create an "app password"](https://support.google.com/accounts/answer/185833?hl=en&ref_topic=7189145). Yes, 2FA is mandatory to create an "app password".
+
 ````shell
 sudo apt update && sudo apt install nano -y && \
   sudo nano /etc/postfix/main.cf && sudo nano /etc/postfix/sasl_passwd && \
