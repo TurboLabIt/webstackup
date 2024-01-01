@@ -22,7 +22,7 @@ apt purge --auto-remove mysql* -y
 rm -rf /etc/mysql
 
 fxTitle "Import an official signing key..."
-curl https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/mysql/mysql.key | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-mysql.gpg > /dev/null
+curl https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-mysql.gpg > /dev/null
 
 fxTitle "Selecting the version..."
 if [ -z "${MYSQL_VER}" ]; then
