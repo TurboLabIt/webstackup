@@ -2,7 +2,7 @@
 sudo apt update && sudo apt install nano -y && \
   sudo nano /etc/postfix/main.cf && sudo nano /etc/postfix/sasl_passwd && \
   sudo postmap /etc/postfix/sasl_passwd && \
-  chown root:root /etc/postfix/sasl_passw* && chmod u=rw,go= /etc/postfix/sasl_passw* && \
+  sudo chown root:root /etc/postfix/sasl_passw* && sudo chmod u=rw,go= /etc/postfix/sasl_passw* && \
   sudo service postfix restart && sudo service postfix status && \
   echo "Test from $(hostname) relayed via 3rd-party" | mail -s "Hello, this is $(hostname)!" -a FROM:info@my-test-app.com me@my-domain.com && \
   sleep 10 && sudo tail -n 25 /var/log/mail.log
