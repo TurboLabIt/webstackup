@@ -4,7 +4,7 @@ fxHeader "🗄️ Database restore"
 
 echo "🗄️ DB_DUMP_FILE_PATH:    ##${DB_DUMP_FILE_PATH}##"
 echo "📛 MYSQL_DB_NAME:        ##${MYSQL_DB_NAME}##"
-echo "⚙️ SKIP_POST_LOAD_QUERY:  ##${SKIP_POST_LOAD_QUERY}#"
+echo "⚙️ SKIP_POST_RESTORE_QUERY:  ##${SKIP_POST_RESTORE_QUERY}#"
 
 fxEnvNotProd
 showPHPVer
