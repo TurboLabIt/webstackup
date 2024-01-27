@@ -70,3 +70,6 @@ echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 cat "${WEBSTACKUP_CONFIG_DIR}dovecot/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
+
+
+fxEndFooter
