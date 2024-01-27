@@ -17,9 +17,20 @@ fi
 fxHeader "💿 Dovecot installer"
 rootCheck
 
+fxTitle "Preserving the virtual user file..."
+if [ -f /etc/dovecot/passwd ]; then
+
+   mv /etc/dovecot/passwd /tmp/webstackup-dovecot-installer-passwd-backup
+   fxOK "File moved to ##/tmp/webstackup-dovecot-installer-passwd-backup##"
+
+else
+
+  fxInfo "No pre-existing virtual user file found. Skipping."
+fi
+
 fxTitle "Removing any old previous instance..."
-#apt purge --auto-remove dovecot* -y
-#rm -rf /etc/dovecot
+apt purge --auto-remove dovecot* -y
+rm -rf /etc/dovecot
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
@@ -32,6 +43,17 @@ source "${WSU_DIR}script/base.sh"
 fxTitle "Installing..."
 apt update
 apt install dovecot-lmtpd dovecot-imapd dovecot-pop3d -y
+
+fxTitle "Restoring the virtual user file..."
+if [ -f /tmp/webstackup-dovecot-installer-passwd-backup ]; then
+
+   mv /tmp/webstackup-dovecot-installer-passwd-backup /etc/dovecot/passwd
+   fxOK "File moved back to ##/etc/dovecot/passwd##"
+
+else
+
+  fxInfo "No pre-existing virtual user file found. Skipping."
+fi
 
 fxTitle "Creating the vmail user..."
 useradd --no-create-home --shell /bin/false --system vmail
@@ -53,7 +75,7 @@ chown vmail:vmail /var/log/dovecot-info.log
 chmod ug=rw,o= /var/log/dovecot-info.log
 
 fxOK "Log files created"
-fxMessage "Use #tail -f /var/log/dovecot* /var/log/mail.log# to see the logs"
+fxMessage "Use ##tail -f /var/log/dovecot* /var/log/mail.log## to see the logs"
 
 fxTitle "Linking the Webstackup config..."
 fxLink "${WEBSTACKUP_CONFIG_DIR}dovecot/virtual-users.conf" /etc/dovecot/conf.d/00-webstackup.conf
