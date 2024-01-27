@@ -30,8 +30,9 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 fxTitle "Automating..."
-debconf-set-selections <<< "postfix	postfix/mailname string ${POSTFIX_DOMAIN}"
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
+debconf-set-selections <<< "postfix	postfix/mailname string ${POSTFIX_MAIL_NAME}"
+fxOk "Mail name set to ##${POSTFIX_MAIL_NAME}##"
   
 fxTitle "Installing..."
 apt update
