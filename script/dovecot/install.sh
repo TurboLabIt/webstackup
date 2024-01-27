@@ -63,5 +63,10 @@ if [ ! -f /usr/sbin/postfix ]; then
   POSTFIX_MAIL_NAME=${POSTFIX_MAIL_NAME} bash ${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh
 else
   fxInfo "Postfix is aready installed"
-  fxEndFooter
 fi
+
+fxTitle "Wiring together Postfix and Dovecot..."
+echo "" >>  /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+cat "${WEBSTACKUP_CONFIG_DIR}dovecot/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
