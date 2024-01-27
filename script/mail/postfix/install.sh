@@ -20,6 +20,14 @@ rootCheck
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove postfix* postfix mailutils opendkim opendkim-tools -y
 rm -rf /etc/postfix  /etc/config/opendkim/
+
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ ! -f "${WSU_DIR}setup.sh" ]; then
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
+fi
+
+source "${WSU_DIR}script/base.sh"
   
 fxTitle "Installing..."
 apt install postfix mailutils opendkim opendkim-tools -y -qq
