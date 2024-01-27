@@ -30,7 +30,7 @@ fi
 source "${WSU_DIR}script/base.sh"
   
 fxTitle "Installing..."
-apt install postfix mailutils opendkim opendkim-tools -y -qq
+apt install postfix mailutils opendkim opendkim-tools -y
 
 fxTitle "Adding the postfix user to the opendkim group..."
 adduser postfix opendkim
