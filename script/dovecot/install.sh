@@ -41,7 +41,7 @@ mkdir -p /var/lib/dovecot/vmail
 chown vmail:vmail /var/lib/dovecot/vmail -R
 chmod ugo= /var/lib/dovecot/vmail -R
 chmod ug=rwX,o= /var/lib/dovecot/vmail -R
-fxOk "Mailstore created at #/var/lib/dovecot/vmail#"
+fxOK "Mailstore created at #/var/lib/dovecot/vmail#"
 
 fxTitle "Creating the logfiles..."
 touch /var/log/dovecot.log
@@ -52,7 +52,7 @@ touch /var/log/dovecot-info.log
 chown vmail:vmail /var/log/dovecot-info.log
 chmod ug=rw,o= /var/log/dovecot-info.log
 
-fxOk "Log files created"
+fxOK "Log files created"
 fxMessage "Use #tail -f /var/log/dovecot* /var/log/mail.log# to see the logs"
 
 fxTitle "Linking the Webstackup config..."
