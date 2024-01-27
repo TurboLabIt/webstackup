@@ -60,12 +60,8 @@ fxLink "${WEBSTACKUP_CONFIG_DIR}dovecot/virtual-users.conf" /etc/dovecot/conf.d/
 
 fxTitle "Installing Postfix..."
 if [ ! -f /usr/sbin/postfix ]; then
-
+  POSTFIX_MAIL_NAME=${POSTFIX_MAIL_NAME} bash ${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh
+else
   fxInfo "Postfix is aready installed"
   fxEndFooter
-  
-else
-
-  export 
-  POSTFIX_MAIL_NAME=${POSTFIX_MAIL_NAME} bash ${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh
 fi
