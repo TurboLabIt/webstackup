@@ -2,7 +2,7 @@
 ### AUTOMATIC POSTFIX INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/postfix/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/postfix/install.sh?$(date +%s) | sudo POSTFIX_DOMAIN=mail.example.com bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/postfix/install.sh?$(date +%s) | sudo POSTFIX_MAIL_NAME=my-app.com bash
 #
 # Based on: https://turbolab.it/
 
