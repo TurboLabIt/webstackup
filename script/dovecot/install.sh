@@ -66,11 +66,11 @@ chmod ug=rwX,o= /var/lib/dovecot/vmail -R
 fxOK "Mailstore created at #/var/lib/dovecot/vmail#"
 
 fxTitle "Creating the logfiles..."
-touch /var/log/dovecot.log
+>/var/log/dovecot.log
 chown vmail:vmail /var/log/dovecot.log
 chmod ug=rw,o= /var/log/dovecot.log
 
-touch /var/log/dovecot-info.log
+>/var/log/dovecot-info.log
 chown vmail:vmail /var/log/dovecot-info.log
 chmod ug=rw,o= /var/log/dovecot-info.log
 
@@ -84,7 +84,7 @@ fxTitle "Installing Postfix..."
 if [ ! -f /usr/sbin/postfix ]; then
   POSTFIX_MAIL_NAME=${POSTFIX_MAIL_NAME} bash ${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh
 else
-  fxInfo "Postfix is aready installed"
+  fxInfo "Postfix is already installed"
 fi
 
 fxTitle "Wiring together Postfix and Dovecot..."
