@@ -28,6 +28,10 @@ if [ ! -f "${WSU_DIR}setup.sh" ]; then
 fi
 
 source "${WSU_DIR}script/base.sh"
+
+fxTitle "Automating..."
+debconf-set-selections <<< "postfix	postfix/mailname string $(hostname)"
+debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
   
 fxTitle "Installing..."
 apt update
