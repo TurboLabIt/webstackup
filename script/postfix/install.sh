@@ -38,10 +38,9 @@ fxTitle "Installing..."
 apt update
 apt install postfix mailutils opendkim opendkim-tools -y
 
-fxTitle "Removing references to ##${POSTFIX_MAIL_NAME}##..."
+fxTitle "Removing references to ##${POSTFIX_MAIL_NAME}## from mydestination..."
 sed -i "s|${POSTFIX_MAIL_NAME}, ||g" /etc/postfix/main.cf
 sed -i "s|${POSTFIX_MAIL_NAME},||g" /etc/postfix/main.cf
-sed -i "s|${POSTFIX_MAIL_NAME}||g" /etc/postfix/main.cf
 
 fxTitle "Adding the postfix user to the opendkim group..."
 adduser postfix opendkim
