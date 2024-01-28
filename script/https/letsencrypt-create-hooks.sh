@@ -25,6 +25,10 @@ if [ -d /etc/letsencrypt/renewal-hooks/deploy ]; then
   sudo chown root:root /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
   sudo chmod u=rwx,go=rx /etc/letsencrypt/renewal-hooks/deploy/nginx_restart
 
+  sudo curl -Lo /etc/letsencrypt/renewal-hooks/deploy/dovecot_restart https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/dovecot/restart.sh
+  sudo chown root:root /etc/letsencrypt/renewal-hooks/deploy/dovecot_restart
+  sudo chmod u=rwx,go=rx /etc/letsencrypt/renewal-hooks/deploy/dovecot_restart
+
   fxTitle "✅ Script deployed"
   ls -latrh /etc/letsencrypt/renewal-hooks/deploy
 
