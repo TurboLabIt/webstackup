@@ -99,7 +99,7 @@ if [ "${EMAIL_SKIP_SERVICES_RESTART}" != "1" ]; then
 
   ## opendkim
   if systemctl is-active --quiet opendkim.service; then
-    sudo systemctl status opendkim
+    sudo systemctl restart opendkim
     sudo systemctl status opendkim --no-pager
   else
     fxWarning "OpenDKIM not found"
