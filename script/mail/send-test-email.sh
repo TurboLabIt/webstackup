@@ -108,6 +108,8 @@ fi
 
 
 fxTitle "Sending the actual email (finally!)..."
+## https://serverfault.com/q/1152427/188704
+## https://www.telemessage.com/developer/faq/how-do-i-encode-non-ascii-characters-in-an-email-subject-line/
 EMAIL_SUBJECT=$(echo "🧪 Hi! This is a test email from $(hostname) 🧪" | base64)
 echo "Test from $(hostname) sent $(date) (server-time)" | \
   mail -s "=?utf-8?B?${EMAIL_SUBJECT}?=" -a \
