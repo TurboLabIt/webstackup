@@ -260,6 +260,14 @@ else
 fi
 
 
+fxTitle "Installing DOVECOT"
+if [ "$INSTALL_DOVECOT" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}dovecot/install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing ZZALIAS..."
 if [ "$INSTALL_ZZALIAS" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | sudo bash
