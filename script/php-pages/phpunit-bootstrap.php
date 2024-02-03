@@ -6,7 +6,7 @@ require 'vendor/autoload.php';
 
 $arrEnvFiles = [
     '.env',
-    '.env.local'
+    '.env.local',
     '.env.dev',
     '.env.dev.local'
 ];
