@@ -85,6 +85,7 @@ sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
 fxTitle "🌊 Symfony cache:clear..."
+sudo rm -rf /tmp/symfony-cache
 sudo -u www-data -H symfony console cache:clear --no-optional-warmers
 sudo -u www-data -H symfony console cache:warmup 
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
@@ -109,4 +110,13 @@ else
 
   fxTitle "🌊 PHP OPcache clear..."
   wsuOpcacheClear
+fi
+
+
+if [ "$APP_ENV" = "dev" ]; then
+
+  fxTitle "chown dev..."
+  sudo chown $(logname):www-data "${PROJECT_DIR}" -R
+  sudo chmod ugo= "${PROJECT_DIR}" -R
+  sudo chmod ugo=rwx "${PROJECT_DIR}" -R
 fi
