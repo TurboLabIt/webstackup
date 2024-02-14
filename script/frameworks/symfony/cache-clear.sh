@@ -38,7 +38,7 @@ fxTitle "Temporary open permissions on cache..."
 sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
-fxTitle "Refresh the list of PHP versions know to Symfony..."
+fxTitle "Refresh the list of installed PHP versions know to Symfony..."
 wsuSymfony local:php:refresh
 wsuSymfony local:php:list
 
