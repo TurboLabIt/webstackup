@@ -22,17 +22,23 @@ PROJECT_DIR=/var/www/my-app/
 SCRIPT_DIR=/var/www/my-app/scripts/
 LOG_PATH=/var/www/my-app/var/log/cron_
 
-## my-app-framework cron job
-* * * * * root bash ${SCRIPT_DIR}cron.sh >> ${LOG_PATH}my-app-framework.log 2>&1
+## every minute: my-app-framework cron job
+* * * * * root bash ${SCRIPT_DIR}cron.sh >> ${LOG_PATH}my-app-framework.sh.log 2>&1
 
-## database auto-backup
-0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh 2>&1 >> ${LOG_PATH}db-dump.log
+## every minute: phpBB cron job
+* * * * * root bash ${SCRIPT_DIR}phpbb-cli.sh cron:run >> ${LOG_PATH}phpbb-cli-cron.sh.log 2>&1
 
-## application auto-update
-#0 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.log 2>&1
+## mid-night and mid-day: run the cleaner
+7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.sh.log 2>&1
 
-## Disk cleaner
-7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.log 2>&1
+## every night: sitemap generator
+0 2 * * * root bash ${SCRIPT_DIR}sitemap.sh >> ${LOG_PATH}sitemap.sh.log 2>&1
+
+## every night: database auto-backup
+0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh >> ${LOG_PATH}db-dump.sh.log 2>&1
+
+## every morning: application auto-update
+#0 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.sh.log 2>&1
 
 
 ## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
