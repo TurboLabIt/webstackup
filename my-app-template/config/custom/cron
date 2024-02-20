@@ -29,16 +29,16 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 * * * * * root bash ${SCRIPT_DIR}phpbb-cli.sh cron:run >> ${LOG_PATH}phpbb-cli-cron.sh.log 2>&1
 
 ## mid-night and mid-day: run the cleaner
-7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.log 2>&1
+7 0,12 * * * root bash ${SCRIPT_DIR}cleaner.sh >> ${LOG_PATH}cleaner.sh.log 2>&1
 
 ## every night: sitemap generator
 0 2 * * * root bash ${SCRIPT_DIR}sitemap.sh >> ${LOG_PATH}sitemap.sh.log 2>&1
 
 ## every night: database auto-backup
-0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh >> ${LOG_PATH}db-dump.log 2>&1
+0 3 * * * root bash ${SCRIPT_DIR}db-dump.sh >> ${LOG_PATH}db-dump.sh.log 2>&1
 
 ## every morning: application auto-update
-#0 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.log 2>&1
+#0 9 * * * root bash ${SCRIPT_DIR}auto-update.sh >> ${LOG_PATH}auto-update.sh.log 2>&1
 
 
 ## 👇 If the last entry is missing a newline, cron will consider the file broken and refuse to run it 👇
