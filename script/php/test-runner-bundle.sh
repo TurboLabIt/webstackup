@@ -111,7 +111,6 @@ fi
 fxTitle "🤖 Testing with PHPUnit..."
 SYMFONY_DEPRECATIONS_HELPER=disabled ./vendor/bin/phpunit \
   --bootstrap "${BOOTSTRAP_FILE}" \
-  --cache-result-file=/tmp/.phpunit.result.cache \
   --display-warnings \
   --stop-on-failure $ADDITIONAL_PARAMS \
   tests
