@@ -66,7 +66,7 @@ fxTitle "Building the bundle structure..."
 ## 📚 https://symfony.com/doc/current/bundles.html#bundle-directory-structure
 for DIR_NAME in assets config public templates translations; do
 
-  if [ ! -d "${PROJECT_DIR}dirName" ]; then
+  if [ ! -d "${PROJECT_DIR}${DIR_NAME}" ]; then
 
     fxInfo "##${PROJECT_DIR}${DIR_NAME}## folder not found. Creating..."
     mkdir "${PROJECT_DIR}${DIR_NAME}"
@@ -99,6 +99,10 @@ if [ ! -d "${PROJECT_DIR}tests" ]; then
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
   curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyWebTestCase.php
+  
+else
+
+  fxOK "tests found, nothing to do"
   
 fi
 
@@ -190,3 +194,4 @@ else
 
   fxMessage "🛑 TEST FAILED | phpunit returned ${PHPUNIT_RESULT}"
 fi
+
