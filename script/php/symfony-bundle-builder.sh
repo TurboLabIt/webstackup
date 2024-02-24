@@ -127,7 +127,7 @@ if [ ! -d "${PROJECT_DIR}tests" ]; then
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
   cd tests
-  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/SymfonyWebTestCase.php
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/tests/SymfonyWebTestCase.php
   cd ..
 
 else
