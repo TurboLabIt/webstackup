@@ -1,6 +1,6 @@
 <?php
 /**
- * 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/SymfonyBundle.php
+ * 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/symfony-bundle-builder/MyVendorNameMyPackageNameBundle.php
  *
  * 📚 Usage example (customize with your own):
  *
@@ -16,6 +16,7 @@
  * - class              ➡ TurboLabItBaseCommandBundle
  * - in composer.json   ➡ "autoload": {"psr-4": {"TurboLabIt\\BaseCommandBundle\\": "src/"}},
  * - in composer.json   ➡ "autoload-dev": {"psr-4": {"TurboLabIt\\BaseCommandBundle\\Tests\\": "tests/"}},
+ * - in services.yaml   ➡ TurboLabIt\BaseCommandBundle\Service\MyService
  *
  * ✅ You're done && ready to go here!
  *
@@ -30,3 +31,4 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 
 class MyVendorNameMyPackageNameBundle extends AbstractBundle {}
+

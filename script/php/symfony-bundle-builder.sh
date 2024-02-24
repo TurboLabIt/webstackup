@@ -79,17 +79,45 @@ for DIR_NAME in assets config public templates translations; do
 done
 
 
+fxTitle "Checking the main Bundle file..."
+if [ ! -f "${PROJECT_DIR}*Bundle.php" ]; then
 
-fxTitle "Checking src/..."
-if [ ! -d "${PROJECT_DIR}src" ]; then
-
-  fxInfo "##${PROJECT_DIR}src## folder not found. Creating..."
-  mkdir src
-  curl -o "${PROJECT_DIR}src/MyVendorNameMyPackageNameBundle.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyBundle.php
-
+  fxInfo "No Bundle file found. Downloading..."
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/MyVendorNameMyPackageNameBundle.php
+  
 else
 
   fxOK "src found, nothing to do"
+fi
+
+
+fxTitle "Checking config/..."
+if [ ! -f "${PROJECT_DIR}config/services.yaml" ]; then
+
+  fxInfo "##${PROJECT_DIR}config/services.yaml## not found. Downloading..."
+  cd config
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/config/services.yaml
+  cd ..
+  
+else
+
+  fxOK "services.yaml found, nothing to do"
+fi
+
+
+fxTitle "Checking src/DependencyInjection/..."
+if [ ! -d "${PROJECT_DIR}src/DependencyInjection" ]; then
+
+  fxInfo "##${PROJECT_DIR}src/DependencyInjection## folder not found. Creating..."
+  mkdir -p src/Service
+  mkdir -p src/DependencyInjection
+  cd src/DependencyInjection
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/src/DependencyInjection/MyVendorNameMyPackageNameExtension.php
+  cd ..
+
+else
+
+  fxOK "src/DependencyInjection found, nothing to do"
 fi
 
 
@@ -98,12 +126,13 @@ if [ ! -d "${PROJECT_DIR}tests" ]; then
 
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
-  curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyWebTestCase.php
-  
+  cd tests
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/SymfonyWebTestCase.php
+  cd ..
+
 else
 
   fxOK "tests found, nothing to do"
-  
 fi
 
 
