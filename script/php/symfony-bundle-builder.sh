@@ -40,8 +40,52 @@ fi
 
 cd "$PROJECT_DIR"
 
+
+fxTitle "Requirements check..."
+function checkReqCommand()
+{
+  if [ -z $(command -v $1) ]; then
+  
+    echo "🛑 $1 is missing!"
+    REQ_CHECK_FAILURE=1
+    
+  else
+
+    echo "✅ $1 is installed"
+  fi
+}
+
+checkReqCommand php
+checkReqCommand composer
+checkReqCommand symfony
+
+if [ -s "${PROJECT_DIR}.php-version" ]; then
+
+  echo "✅ .php-version exists. PHP version set to ##$(cat .php-version)##"
+
+else
+
+  echo "🛑 .php-version is missing or empty! It must contain the PHP version to use"
+  touch .php-version
+  REQ_CHECK_FAILURE=1
+fi
+
+
+if [ ! -z ${REQ_CHECK_FAILURE} ]; then
+  fxCatastrophicError "Some required tools are missing!"
+fi
+
+
+
+fxTitle "Looking for composer.json..."
 if [ ! -f "${PROJECT_DIR}composer.json" ]; then
-  fxCatastrophicError "##${PROJECT_DIR}composer.json## not found"
+
+  fxInfo "##${PROJECT_DIR}composer.json## not found. Downloading..."
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/composer.json
+
+else
+
+  fxOK "composer.json found, nothing to do"
 fi
 
 
