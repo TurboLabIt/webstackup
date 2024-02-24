@@ -4,5 +4,10 @@
 
 clear
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
+
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/php/symfony-bundle-builder.sh
-source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/symfony-bundle-builder.sh)
+if [ -f "/usr/local/turbolab.it/webstackup/script/php/symfony-bundle-builder.sh" ]; then
+  source "/usr/local/turbolab.it/webstackup/script/php/symfony-bundle-builder.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/symfony-bundle-builder.sh)
+fi
