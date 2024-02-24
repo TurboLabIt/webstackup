@@ -1,4 +1,4 @@
-## Run phpunit tests of your bundle by WEBSTACKUP
+## Startup procedure to build a Symfony Bundle
 # https://github.com/TurboLabIt/webstackup/blob/master/script/php/test-runner-bundle.sh
 #
 # How to:
@@ -50,10 +50,34 @@ symfony composer update
 rm -rf composer.lock
 
 
+fxTitle "Looking for a .gitignore..."
 if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
-  fxInfo "##${PROJECT_DIR}.gitignore## not found  not found. Downloading..."
+
+  fxInfo "##${PROJECT_DIR}.gitignore## not found. Downloading..."
   curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+
+else
+
+  fxOK ".gitignore found, nothing to do"
 fi
+
+
+fxTitle "Building the bundle structure..."
+## 📚 https://symfony.com/doc/current/bundles.html#bundle-directory-structure
+for DIR_NAME in assets config public templates translations; do
+
+  if [ ! -d "${PROJECT_DIR}dirName" ]; then
+
+    fxInfo "##${PROJECT_DIR}${DIR_NAME}## folder not found. Creating..."
+    mkdir "${PROJECT_DIR}${DIR_NAME}"
+
+  else
+
+    fxOK "${DIR_NAME} found, nothing to do"
+  fi
+
+done
+
 
 
 if [ ! -d "${PROJECT_DIR}src" ]; then
@@ -70,13 +94,28 @@ if [ ! -d "${PROJECT_DIR}tests" ]; then
 fi
 
 
-if [ ! -d "${PROJECT_DIR}vendor/phpunit" ]; then
-  symfony composer require phpunit/phpunit --dev
+## dependencies
+fxTitle "Looking for Symfony Framework..."
+if [ ! -d "${PROJECT_DIR}vendor/symfony/framework-bundle" ]; then
+
+  fxInfo "Symfony Framework not found. Composer req it now..."
+  symfony composer require symfony/framework-bundle --dev
+
+else
+
+  fxOK "Symfony Framework is already installed"
 fi
 
 
-if [ ! -d "${PROJECT_DIR}vendor/symfony/framework-bundle" ]; then
-  symfony composer require symfony/framework-bundle --dev
+fxTitle "Looking for PHPUnit..."
+if [ ! -d "${PROJECT_DIR}vendor/phpunit" ]; then
+
+  fxInfo "PHPUnit not found. Composer req it now..."
+  symfony composer require  phpunit/phpunit --dev
+
+else
+
+  fxOK "PHPUnit is already installed"
 fi
 
 
