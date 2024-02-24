@@ -8,8 +8,6 @@
 #
 # 1. You should now git commit your copy
 
-SCRIPT_NAME=test-runner-bundle
-
 ## https://github.com/TurboLabIt/bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
