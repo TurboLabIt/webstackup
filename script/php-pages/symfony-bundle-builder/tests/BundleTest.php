@@ -1,6 +1,6 @@
 <?php
 /**
- * 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/SymfonyWebTestCase.php
+ * 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/tests/BundleTest.php
  *
  * 📚 Usage example (customize with your own):
  *
