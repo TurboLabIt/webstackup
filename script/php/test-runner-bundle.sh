@@ -22,7 +22,7 @@ fxHeader "🧪 Test Runner"
 
 if [ -f /usr/local/turbolab.it/webstackup/script/base.sh ]; then
 
-  source <(curl -s /usr/local/turbolab.it/webstackup/script/base.sh)
+  source /usr/local/turbolab.it/webstackup/script/base.sh
   
 else
 
