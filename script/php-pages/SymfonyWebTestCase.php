@@ -18,19 +18,18 @@
 namespace MyVendorName\MyPackageNameBundle\tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 
 class BundleTest extends WebTestCase
 {
-    protected static function somethingProvider()
+    public static function somethingProvider()
     {
         yield ['/aaa', '/bbb', '/ccc'];
     }
 
 
-    /**
-     * @dataProvider somethingProvider
-     */
+    #[DataProvider('somethingProvider')]
     public function testSomething(string $value)
     {
         $this->assertNotEmpty($value);
