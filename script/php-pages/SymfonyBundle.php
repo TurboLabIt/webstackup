@@ -27,6 +27,4 @@ namespace MyVendorName\MyPackageNameBundle;
 use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 
-class MyVendorNameMyPackageNameBundle extends AbstractBundle
-{}
---
+class MyVendorNameMyPackageNameBundle extends AbstractBundle {}
