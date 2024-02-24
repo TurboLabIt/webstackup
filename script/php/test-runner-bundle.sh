@@ -59,7 +59,7 @@ fi
 if [ ! -d "${PROJECT_DIR}src" ]; then
   fxInfo "##${PROJECT_DIR}src## folder not found. Creating..."
   mkdir src
-  curl -o "${PROJECT_DIR}tests/MyVendorNameThisPackageNameBundle.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyBundle.php
+  curl -o "${PROJECT_DIR}src/MyVendorNameThisPackageNameBundle.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyBundle.php
 fi
 
 
