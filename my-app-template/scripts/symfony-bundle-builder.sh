@@ -3,4 +3,4 @@
 
 clear
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
-source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/test-runner-bundle.sh)
+source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/symfony-bundle-builder.sh)
