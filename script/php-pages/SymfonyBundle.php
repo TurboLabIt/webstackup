@@ -29,3 +29,4 @@ use Symfony\Component\HttpKernel\Bundle\AbstractBundle;
 
 class MyVendorNameMyPackageNameBundle extends AbstractBundle
 {}
+--
