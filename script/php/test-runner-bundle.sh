@@ -46,6 +46,8 @@ fi
 
 
 symfony local:php:refresh
+symfony composer update
+rm -rf composer.lock
 
 
 if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
@@ -66,8 +68,9 @@ if [ ! -d "${PROJECT_DIR}vendor/phpunit" ]; then
 fi
 
 
-symfony composer update
-rm -rf composer.lock
+if [ ! -d "${PROJECT_DIR}vendor/symfony/framework-bundle" ]; then
+  symfony composer require symfony/framework-bundle --dev
+fi
 
 
 fxTitle "🔬 Checking input..."
