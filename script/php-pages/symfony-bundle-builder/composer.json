@@ -1,0 +1,29 @@
+{
+  "name": "myvendorname/mypackagenamebundle",
+  "description": "",
+  "type": "symfony-bundle",
+  "license": "CC BY-SA 4.0",
+  "authors": [
+    {
+      "name": "",
+      "email": "someone@example.com"
+    }
+  ],
+  "require": {
+    "php": "^8"
+  },
+  "autoload": {
+    "psr-4": {
+      "MyVendorName\\MyPackageNameBundle\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "MyVendorName\\MyPackageNameBundle\\Tests\\": "tests/"
+    }
+  },
+  "require-dev": {
+    "symfony/framework-bundle": "@stable",
+    "phpunit/phpunit": "@stable"
+  }
+}
