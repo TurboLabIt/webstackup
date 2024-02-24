@@ -12,8 +12,8 @@
  * Expected result:
  *
  * - filename   ➡ TurboLabItBaseCommandExtension.php
- * - namespace	➡ TurboLabIt\BaseCommandBundle\DependencyInjection
- * - class	➡ TurboLabItBaseCommandExtension
+ * - namespace  ➡ TurboLabIt\BaseCommandBundle\DependencyInjection
+ * - class      ➡ TurboLabItBaseCommandExtension
  *
  * ✅ You're done && ready to go here!
  *
@@ -37,4 +37,3 @@ class MyVendorNameMyPackageNameExtension extends Extension
         $loader->load('services.yaml');
     }
 }
-
