@@ -56,10 +56,18 @@ if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
 fi
 
 
+if [ ! -d "${PROJECT_DIR}src" ]; then
+  fxInfo "##${PROJECT_DIR}src## folder not found. Creating..."
+  mkdir src
+  curl -o "${PROJECT_DIR}tests/MyVendorNameThisPackageNameBundle.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyBundle.php
+fi
+
+
+
 if [ ! -d "${PROJECT_DIR}tests" ]; then
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
-  curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/BundleTest.php
+  curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyWebTestCase.php
 fi
 
 
