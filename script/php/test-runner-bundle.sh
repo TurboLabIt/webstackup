@@ -45,6 +45,9 @@ if [ ! -f "${PROJECT_DIR}composer.json" ]; then
 fi
 
 
+symfony local:php:refresh
+
+
 if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
   fxInfo "##${PROJECT_DIR}.gitignore## not found  not found. Downloading..."
   curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
