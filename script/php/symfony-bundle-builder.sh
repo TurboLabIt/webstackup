@@ -113,7 +113,7 @@ if [ ! -d "${PROJECT_DIR}src/DependencyInjection" ]; then
   mkdir -p src/DependencyInjection
   cd src/DependencyInjection
   curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/src/DependencyInjection/MyVendorNameMyPackageNameExtension.php
-  cd ..
+  cd ../..
 
 else
 
