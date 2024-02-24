@@ -8,7 +8,6 @@
 #
 # 1. You should now git commit your copy
 
-echo ""
 SCRIPT_NAME=test-runner-bundle
 
 ## https://github.com/TurboLabIt/bash-fx
