@@ -40,7 +40,7 @@ fi
 
 cd "$PROJECT_DIR"
 
-if [ ! -g "${PROJECT_DIR}composer.json" ]; then
+if [ ! -f "${PROJECT_DIR}composer.json" ]; then
   fxCatastrophicError "##${PROJECT_DIR}composer.json## not found"
 fi
 
@@ -51,7 +51,7 @@ if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
 fi
 
 
-if [ ! -f "${PROJECT_DIR}tests" ]; then
+if [ ! -d "${PROJECT_DIR}tests" ]; then
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
   curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/BundleTest.php
