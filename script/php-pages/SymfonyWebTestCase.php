@@ -22,7 +22,7 @@ use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 
 class BundleTest extends WebTestCase
 {
-    protected static function somethingProvider()
+    public static function somethingProvider()
     {
         yield ['/aaa', '/bbb', '/ccc'];
     }
