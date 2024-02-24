@@ -4,7 +4,7 @@
 # How to:
 #
 # 1. Copy the "starter" script to your project directory with:
-#   curl -Lo scripts/test-runner-bundle.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/test-runner-bundle.sh && sudo chmod u=rwx,go=rx scripts/*.sh
+#   curl -Lo scripts/symfony-bundle-builder.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/my-app-template/scripts/symfony-bundle-builder.sh && sudo chmod u=rwx,go=rx scripts/*.sh
 #
 # 1. You should now git commit your copy
 
@@ -17,7 +17,7 @@ fi
 ## bash-fx is ready
 
 
-fxHeader "🧪 Test Runner"
+fxHeader "📦 Symfony Bundle Builder"
 
 
 if [ -f /usr/local/turbolab.it/webstackup/script/base.sh ]; then
