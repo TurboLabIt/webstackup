@@ -18,6 +18,7 @@
 namespace MyVendorName\MyPackageNameBundle\tests;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 
 class BundleTest extends WebTestCase
@@ -28,9 +29,7 @@ class BundleTest extends WebTestCase
     }
 
 
-    /**
-     * @dataProvider somethingProvider
-     */
+    #[DataProvider('somethingProvider')]
     public function testSomething(string $value)
     {
         $this->assertNotEmpty($value);
