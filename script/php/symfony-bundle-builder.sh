@@ -80,17 +80,26 @@ done
 
 
 
+fxTitle "Checking src/..."
 if [ ! -d "${PROJECT_DIR}src" ]; then
+
   fxInfo "##${PROJECT_DIR}src## folder not found. Creating..."
   mkdir src
   curl -o "${PROJECT_DIR}src/MyVendorNameMyPackageNameBundle.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyBundle.php
+
+else
+
+  fxOK "src found, nothing to do"
 fi
 
 
+fxTitle "Checking tests/..."
 if [ ! -d "${PROJECT_DIR}tests" ]; then
+
   fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
   mkdir tests
   curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/SymfonyWebTestCase.php
+  
 fi
 
 
@@ -146,7 +155,7 @@ XDEBUG_MODE=off ./vendor/bin/phpunit \
 
 
 fxTitle "🐛 Xdebug"
-if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
+if [ ! -z "$XDEBUG_PORT" ]; then
 
   export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
   export XDEBUG_MODE="develop,debug"
