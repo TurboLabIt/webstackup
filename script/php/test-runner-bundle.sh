@@ -73,6 +73,9 @@ if [ ! -d "${PROJECT_DIR}vendor/symfony/framework-bundle" ]; then
 fi
 
 
+rm -rf composer.lock
+
+
 fxTitle "🔬 Checking input..."
 if [ ! -z "$@" ]; then
   ADDITIONAL_PARAMS="$@"
