@@ -40,12 +40,31 @@ fi
 
 cd "$PROJECT_DIR"
 
-if [ ! -d "${PROJECT_DIR}tests" ]; then
-  fxCatastrophicError "Directory ##${PROJECT_DIR}tests## not found"
+if [ ! -g "${PROJECT_DIR}composer.json" ]; then
+  fxCatastrophicError "##${PROJECT_DIR}composer.json## not found"
+fi
+
+
+if [ ! -f "${PROJECT_DIR}.gitignore" ]; then
+  fxInfo "##${PROJECT_DIR}.gitignore## not found  not found. Downloading..."
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+fi
+
+
+if [ ! -f "${PROJECT_DIR}tests" ]; then
+  fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
+  mkdir tests
+  curl -o "${PROJECT_DIR}tests/BundleTest.php" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/BundleTest.php
+fi
+
+
+if [ ! -d "${PROJECT_DIR}vendor/phpunit" ]; then
+  symfony composer require phpunit/phpunit --dev
 fi
 
 
 symfony composer update
+rm -rf composer.lock
 
 
 fxTitle "🔬 Checking input..."
