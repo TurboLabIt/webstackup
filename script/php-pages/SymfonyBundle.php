@@ -9,7 +9,7 @@
  *
  * 💡 "Replace all" the above and you're done!
  *
- * Results:
+ * Expected result:
  *
  * - filename       ➡ TurboLabItBaseCommandBundle.php
  * - namespace      ➡ TurboLabIt\BaseCommandBundle
