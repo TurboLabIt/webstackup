@@ -11,9 +11,11 @@
  *
  * Expected result:
  *
- * - filename       ➡ TurboLabItBaseCommandBundle.php
- * - namespace      ➡ TurboLabIt\BaseCommandBundle
- * - class          ➡ TurboLabItBaseCommandBundle
+ * - filename      ➡ TurboLabItBaseCommandBundle.php
+ * - namespace     ➡ TurboLabIt\BaseCommandBundle
+ * - class         ➡ TurboLabItBaseCommandBundle
+ * - autoload      ➡ "autoload": {"psr-4": {"TurboLabIt\\BaseCommandBundle\\": "src/" }},
+ * - autoload-dev  ➡ "autoload-dev": {"psr-4": {"TurboLabIt\\BaseCommandBundle\\Tests": "tests/" }},
  *
  * ✅ You're done && ready to go here!
  *
