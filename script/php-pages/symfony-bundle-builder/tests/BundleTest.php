@@ -34,7 +34,7 @@ class BundleTest extends WebTestCase
     public function testSomething(string $value)
     {
         $this->assertNotEmpty($value);
-        return $value
+        return $value;
     }
 
 
