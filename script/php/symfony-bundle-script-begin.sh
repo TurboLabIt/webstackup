@@ -55,7 +55,8 @@ if [ -s "${PROJECT_DIR}.php-version" ]; then
 
 else
 
-  echo "🛑 .php-version is missing or empty! It must contain the PHP version to use"
+  echo "🛑 ##${PROJECT_DIR}.php-version## is missing or empty! It must contain the PHP version to use. This will build it for you:"
+  fxMessage "echo '8.3' > .php-version"
   touch .php-version
   REQ_CHECK_FAILURE=1
 fi
