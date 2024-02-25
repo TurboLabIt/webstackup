@@ -2,6 +2,7 @@
 # 🪄 Based on XXXXXXX
 # 📚 Usage guide: XXXXX
 
+clear
 mkdir -p scripts
 cd scripts
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/php/symfony-bundle-builder.sh
