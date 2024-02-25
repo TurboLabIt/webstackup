@@ -1,5 +1,5 @@
 ## Startup procedure to build a Symfony Bundle
-# https://github.com/TurboLabIt/webstackup/blob/master/script/php/test-runner-bundle.sh
+# https://github.com/TurboLabIt/webstackup/blob/master/script/php/symfony-bundle-builder.sh
 #
 # How to:
 #
@@ -8,66 +8,12 @@
 #
 # 1. You should now git commit your copy
 
-## https://github.com/TurboLabIt/bash-fx
-if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
-  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+SCRIPT_TITLE="📦 Symfony Bundle Builder"
+
+if [ -f /usr/local/turbolab.it/webstackup/script/php/symfony-bundle-script-begin.sh ]; then
+  source /usr/local/turbolab.it/webstackup/script/php/symfony-bundle-script-begin.sh
 else
-  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
-fi
-## bash-fx is ready
-
-
-fxHeader "📦 Symfony Bundle Builder"
-
-
-if [ -f /usr/local/turbolab.it/webstackup/script/base.sh ]; then
-
-  source /usr/local/turbolab.it/webstackup/script/base.sh
-  
-else
-
-  ## Absolute path to this script, e.g. /home/user/bin/foo.sh
-  SCRIPT_FULLPATH=$(readlink -f "$0")
-  
-  ## Absolute path this script is in, thus /home/user/bin
-  SCRIPT_DIR=$(dirname "$SCRIPT_FULLPATH")/
-  
-  ##
-  INITIAL_DIR=$(pwd)
-  PROJECT_DIR=$(readlink -m "${SCRIPT_DIR}..")/
-fi
-
-
-cd "$PROJECT_DIR"
-
-
-fxTitle "Requirements check..."
-function checkReqCommand()
-{
-  if [ -z $(command -v $1) ]; then
-  
-    echo "🛑 $1 is missing!"
-    REQ_CHECK_FAILURE=1
-    
-  else
-
-    echo "✅ $1 is installed"
-  fi
-}
-
-checkReqCommand php
-checkReqCommand composer
-checkReqCommand symfony
-
-if [ -s "${PROJECT_DIR}.php-version" ]; then
-
-  echo "✅ .php-version exists. PHP version set to ##$(cat .php-version)##"
-
-else
-
-  echo "🛑 .php-version is missing or empty! It must contain the PHP version to use"
-  touch .php-version
-  REQ_CHECK_FAILURE=1
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/symfony-bundle-script-begin.sh)
 fi
 
 
@@ -106,21 +52,9 @@ else
 fi
 
 
-fxTitle "Looking for phpunit.xml.dist..."
-if [ ! -f "${PROJECT_DIR}phpunit.xml.dist" ]; then
-
-  fxInfo "##${PROJECT_DIR}phpunit.xml.dist## not found. Downloading..."
-  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit.xml.dist
-
-else
-
-  fxOK "phpunit.xml.dist found, nothing to do"
-fi
-
-
 fxTitle "Building the bundle structure..."
 ## 📚 https://symfony.com/doc/current/bundles.html#bundle-directory-structure
-for DIR_NAME in assets config public templates translations; do
+for DIR_NAME in assets config public templates translations scripts; do
 
   if [ ! -d "${PROJECT_DIR}${DIR_NAME}" ]; then
 
@@ -177,18 +111,17 @@ else
 fi
 
 
-fxTitle "Checking tests/..."
-if [ ! -d "${PROJECT_DIR}tests" ]; then
+fxTitle "Checking scripts/symfony-bundle-tester.sh..."
+if [ ! -f "${PROJECT_DIR}scripts/symfony-bundle-tester.sh" ]; then
 
-  fxInfo "##${PROJECT_DIR}tests## folder not found. Creating..."
-  mkdir tests
-  cd tests
-  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/tests/BundleTest.php
+  fxInfo "##${PROJECT_DIR}scripts/symfony-bundle-tester.sh## not found. Downloading..."
+  cd scripts
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/symfony-bundle-builder/scripts/symfony-bundle-tester.sh
   cd ..
 
 else
 
-  fxOK "tests found, nothing to do"
+  fxOK "symfony-bundle-tester.sh found, nothing to do"
 fi
 
 
@@ -204,79 +137,8 @@ else
   fxOK "Symfony Framework is already installed"
 fi
 
-
-fxTitle "Looking for PHPUnit..."
-if [ ! -d "${PROJECT_DIR}vendor/phpunit" ]; then
-
-  fxInfo "PHPUnit not found. Composer req it now..."
-  symfony composer require  phpunit/phpunit --dev
-
-else
-
-  fxOK "PHPUnit is already installed"
-fi
-
-
 rm -rf composer.lock
 
 
-fxTitle "🔬 Checking input..."
-if [ ! -z "$@" ]; then
-  ADDITIONAL_PARAMS="$@"
-else
-  fxInfo "No arguments"
-fi
-
-
-fxTitle "👢 Bootstrap"
-BOOTSTRAP_FILE=${PROJECT_DIR}tests/bootstrap.php
-fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
-
-if [ ! -f "${BOOTSTRAP_FILE}" ]; then
-  fxInfo "Bootstrap file non found. Downloading..."
-  curl -Lo "${BOOTSTRAP_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit-bootstrap.php
-fi
-
-
-fxTitle "🚕 Migrating/upgrading phpunit config..."
-XDEBUG_MODE=off ./vendor/bin/phpunit \
-  --bootstrap "${BOOTSTRAP_FILE}" --migrate-configuration
-
-
-fxTitle "🐛 Xdebug"
-if [ ! -z "$XDEBUG_PORT" ]; then
-
-  export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
-  export XDEBUG_MODE="develop,debug"
-  fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
-  fxInfo "To disable: export XDEBUG_PORT="
-
-else
-
-  export XDEBUG_MODE="off"
-  fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
-fi
-
-
-fxTitle "🤖 Testing with PHPUnit..."
-SYMFONY_DEPRECATIONS_HELPER=disabled ./vendor/bin/phpunit \
-  --bootstrap "${BOOTSTRAP_FILE}" \
-  --display-warnings \
-  --stop-on-failure $ADDITIONAL_PARAMS \
-  tests
-
-
-PHPUNIT_RESULT=$?
-echo ""
-
-if [ "${PHPUNIT_RESULT}" = 0 ]; then
-
-  fxMessage "🎉 TEST RAN SUCCESSFULLY!"
-  fxCountdown 3
-  echo ""
-
-else
-
-  fxMessage "🛑 TEST FAILED | phpunit returned ${PHPUNIT_RESULT}"
-fi
+fxEndFooter
 
