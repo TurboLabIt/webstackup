@@ -106,6 +106,18 @@ else
 fi
 
 
+fxTitle "Looking for phpunit.xml.dist..."
+if [ ! -f "${PROJECT_DIR}phpunit.xml.dist" ]; then
+
+  fxInfo "##${PROJECT_DIR}phpunit.xml.dist## not found. Downloading..."
+  curl -O https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit.xml.dist
+
+else
+
+  fxOK "phpunit.xml.dist found, nothing to do"
+fi
+
+
 fxTitle "Building the bundle structure..."
 ## 📚 https://symfony.com/doc/current/bundles.html#bundle-directory-structure
 for DIR_NAME in assets config public templates translations; do
