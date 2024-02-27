@@ -54,6 +54,13 @@ if [ -z "${EMAIL_TO_ADDRESS}" ]; then
 fi
 
 
+fxTitle "Checking the mail command..."
+if [ -z $(command -v mail) ]; then
+  fxWarning "Mail is not installed. Installing it now..."
+  sudo apt install mailutils -y
+fi
+
+
 fxTitle "Wiping /var/log/email.log..."
 if [ -f "/var/log/mail.log" ]; then
   fxInfo "Mail log file found"
