@@ -31,3 +31,6 @@ if($dotEnvLoaderExists) {
         }
     }
 }
+
+// https://github.com/symfony/symfony/issues/53812#issuecomment-1962311843
+Symfony\Component\ErrorHandler\ErrorHandler::register(null, false);
