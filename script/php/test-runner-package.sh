@@ -33,14 +33,6 @@ else
 fi
 
 
-fxTitle "🔬 Checking input..."
-if [ ! -z "$@" ]; then
-  ADDITIONAL_PARAMS="--filter $@"
-else
-  fxInfo "No arguments"
-fi
-
-
 fxTitle "👢 Bootstrap"
 BOOTSTRAP_FILE=${PROJECT_DIR}tests/bootstrap.php
 fxInfo "phpunit bootstrap file set to ##${BOOTSTRAP_FILE}##"
@@ -76,7 +68,7 @@ fxTitle "🤖 Testing with PHPUnit..."
 SYMFONY_DEPRECATIONS_HELPER=disabled ${PHP_CLI} ./vendor/bin/phpunit \
   --bootstrap "${BOOTSTRAP_FILE}" \
   --display-warnings \
-  --stop-on-failure $ADDITIONAL_PARAMS \
+  --stop-on-failure $@ \
   tests
 
 PHPUNIT_RESULT=$?
