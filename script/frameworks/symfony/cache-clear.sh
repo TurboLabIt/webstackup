@@ -97,7 +97,7 @@ sudo -u www-data -H symfony console cache:warmup
 
 
 fxTitle "Resetting permissions..."
-sudo chown webstackup:www-data "${PROJECT_DIR}var" -R
+sudo chown www-data:webstackup "${PROJECT_DIR}var" -R
 sudo chmod ugo= "${PROJECT_DIR}var" -R
 sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var" -R
 
