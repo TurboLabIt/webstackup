@@ -29,7 +29,7 @@ fi
 cd "$PROJECT_DIR"
 
 
-fxTitle "Setting log permission..."
+fxTitle "Setting var/log permissions..."
 sudo chmod ugo= "${PROJECT_DIR}var/log" -R
 sudo chmod ugo=rwX "${PROJECT_DIR}var/log" -R
 
@@ -85,8 +85,11 @@ else
 fi
 
 
-fxTitle "Temporary open permissions on cache..."
-sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
+fxTitle "👮 Setting final permissions on var/cache..."
+sudo chown -R webstackup:www-data "${PROJECT_DIR}var/cache" -R
+sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
+sudo chmod ug=rwX,o= "${PROJECT_DIR}var/cache" -R
+sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 
 fxTitle "🌊 Symfony cache:clear..."
@@ -95,15 +98,9 @@ sudo -u www-data -H symfony console cache:clear --no-optional-warmers
 sudo -u www-data -H symfony console cache:warmup 
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
 
-
-fxTitle "Resetting permissions..."
-sudo chown www-data:www-data "${PROJECT_DIR}var" -R
-sudo chmod ugo= "${PROJECT_DIR}var" -R
-sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var" -R
-
-
 fxTitle "Final status..."
-ls -latrh "${PROJECT_DIR}var/cache"
+ls -ld "${PROJECT_DIR}var"
+ls -la "${PROJECT_DIR}var/cache"
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
