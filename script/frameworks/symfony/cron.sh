@@ -13,6 +13,8 @@
 # After the next `deploy.sh`, the related cron file https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/cron will be activated
 
 fxHeader "♾️ 🕰️ Symfony cron"
+cd "${PROJECT_DIR}"
 
 fxTitle "Running messenger:consume async..."
-bash ${SCRIPT_DIR}cli.sh messenger:consume async -vv --time-limit=90
+export XDEBUG_MODE="off"
+sudo -u www-data -H symfony console messenger:consume async -vv --time-limit=90
