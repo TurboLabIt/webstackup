@@ -17,4 +17,5 @@ cd "${PROJECT_DIR}"
 
 fxTitle "Running messenger:consume async..."
 export XDEBUG_MODE="off"
+sudo -u www-data -H symfony local:php:refresh
 sudo -u www-data -H symfony console messenger:consume async -vv --time-limit=90
