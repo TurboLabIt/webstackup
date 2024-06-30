@@ -72,6 +72,7 @@ corepack enable
 fxTitle "Installing yarn via corepack..."
 ## https://yarnpkg.com/getting-started/install
 corepack prepare yarn@stable --activate
+yarn install
 
 
 fxTitle "Current yarn version..."
