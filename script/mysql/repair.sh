@@ -6,4 +6,6 @@
 
 source /etc/turbolab.it/mysql.conf
 
-mysqlcheck -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" --all-databases --auto-repair
+mysqlcheck -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" --all-databases --auto-repair --medium-check
+mysqlcheck -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" --all-databases --check-upgrade
+mysqlcheck -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" --all-databases --optimize
