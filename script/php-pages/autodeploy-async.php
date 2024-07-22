@@ -38,10 +38,6 @@ if( $oChangesNew->type != "branch" ) {
 
 $branch = $oChangesNew->name ?? 'unknown-branch';
 
-if( !in_array($branch, ['master', 'main', 'staging']) ) {
-  fxCatastrophicError("Not an approved branch", 200);
-}
-
 if( !empty($_GET["task"]) ) {
   $_GET["task"] = str_ireplace("BRANCH-NAME", $branch, $_GET["task"]);
 }
