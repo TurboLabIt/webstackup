@@ -43,6 +43,8 @@
 
 # ${PROJECT_DIR}config/custom/sshd.conf
 
+# ${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml
+
 
 echo ""
 echo -e "\e[1;46m ============= \e[0m"
@@ -377,6 +379,18 @@ if [ -f "${PROJECT_DIR}config/custom/sshd.conf" ] && [ ! -f "/etc/ssh/sshd_confi
   printTitle "📂 Listing /etc/ssh/sshd_config.d/..."
   ls -l "/etc/ssh/sshd_config.d/"
 fi
+
+
+## netplan network interface config
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml" ] && [ ! -f "/etc/netplan/${APP_NAME}.yaml" ]; then
+
+  printTitle "🛜 Linking netplan.yaml from /etc/netplan/..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml" "/etc/netplan/${APP_NAME}.yaml"
+
+  printTitle "🛜 Applying netplan config..."
+  netplan apply
+fi
+
 
 ## services restart
 printTitle "🔃 Conditional nginx stop..."
