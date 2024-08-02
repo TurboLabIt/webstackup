@@ -94,8 +94,8 @@ sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 fxTitle "🌊 Symfony cache:clear..."
 sudo rm -rf /tmp/symfony-cache
-sudo -u www-data -H symfony console cache:clear --no-optional-warmers
-sudo -u www-data -H symfony console cache:warmup 
+sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
+sudo -u www-data -H XDEBUG_MODE=off symfony console cache:warmup 
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
 
 fxTitle "Final status..."
