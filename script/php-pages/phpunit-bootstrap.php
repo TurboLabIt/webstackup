@@ -1,6 +1,7 @@
 <?php
-// curl -o tests/bootstrap.php https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php-pages/phpunit-bootstrap.php
+// 📚 https://github.com/TurboLabIt/webstackup/edit/master/script/php-pages/phpunit-bootstrap.php
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\ErrorHandler\ErrorHandler;
 
 require 'vendor/autoload.php';
 
@@ -23,9 +24,10 @@ $arrEnvFiles =
         ".env.$realEnv.local"
     ]);
 
-$dotEnvLoaderExists = method_exists(Dotenv::class, 'bootEnv');
-if($dotEnvLoaderExists) {
+if( method_exists(Dotenv::class, 'bootEnv') ) {
+
     foreach($arrEnvFiles as $envFile) {
+
         if( file_exists($envFile) ) {
             (new Dotenv())->bootEnv($envFile);
         }
@@ -33,4 +35,6 @@ if($dotEnvLoaderExists) {
 }
 
 // https://github.com/symfony/symfony/issues/53812#issuecomment-1962311843
-Symfony\Component\ErrorHandler\ErrorHandler::register(null, false);
+if( method_exists(ErrorHandler::class, 'register') ) {
+    ErrorHandler::register(null, false);
+}
