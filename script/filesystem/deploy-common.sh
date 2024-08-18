@@ -396,8 +396,13 @@ fi
 printTitle "🔃 Conditional nginx stop..."
 nginx -t && service nginx stop
 
-printTitle "🔃️ Restarting MySQL..."
-service mysql restart
+
+## MySQL
+systemctl --all --type service | grep -q "mysql"
+if [ "$?" = 0 ] && [ "${DEPLOY_MYSQL_RESTART}" != 0 ]; then
+  printTitle "🔃 Restarting MySQL..."
+  service mysql restart
+fi
 
 printTitle "🔃 Conditional nginx restart..."
 nginx -t && service nginx restart
