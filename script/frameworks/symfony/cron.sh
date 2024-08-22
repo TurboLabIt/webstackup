@@ -12,10 +12,19 @@
 #
 # After the next `deploy.sh`, the related cron file https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/cron will be activated
 
-fxHeader "♾️ 🕰️ Symfony cron"
+fxHeader "🕰️ Symfony cron"
 cd "${PROJECT_DIR}"
 
-fxTitle "Running messenger:consume async..."
-export XDEBUG_MODE="off"
+
+fxTitle "Refreshing available PHP versions..."
 sudo -u www-data -H symfony local:php:refresh
-sudo -u www-data -H symfony console messenger:consume async -vv --time-limit=90
+
+
+if sudo -u www-data -H XDEBUG_MODE="off" symfony console | grep -qE '^  messenger\b'; then
+
+  sudo -u www-data -H XDEBUG_MODE="off" symfony console messenger:consume async -vv --time-limit=90
+
+else
+    
+  fxInfo "Symfony messenger is not installed, skipping messenger:consume"
+fi
