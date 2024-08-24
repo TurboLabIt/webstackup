@@ -113,7 +113,10 @@ function wsuN98MageRun()
 ## Symfony executable
 function wsuSymfony()
 {
-  fxTitle "🎼 Running symfony..."
+  if [ "${WSU_SYMFONY_DEBUG_MODE}" = 1 ]; then
+    fxTitle "🎼 Running symfony..."
+  fi
+  
   expectedUserSetCheck
 
   if [ -z "${PROJECT_DIR}" ] || [ ! -d "${PROJECT_DIR}" ]; then
@@ -135,28 +138,40 @@ function wsuSymfony()
     sudo apt install expect -y
   fi
 
+
   local CURR_DIR_BACKUP=$(pwd)
   cd "${PROJECT_DIR}"
-  fxInfo "Working in $(pwd)"
-  echo ""
 
-  showPHPVer
 
-  fxTitle "🐛 Xdebug"
+  if [ "${WSU_SYMFONY_DEBUG_MODE}" = 1 ]; then
+
+    fxInfo "Working in $(pwd)"
+    echo ""
+    showPHPVer
+    fxTitle "🐛 Xdebug"
+  fi
+
+  
   if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
 
     export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
     export XDEBUG_MODE="develop,debug"
-    fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
-    fxInfo "To disable: export XDEBUG_PORT="
+
+    if [ "${WSU_SYMFONY_DEBUG_MODE}" = 1 ]; then
+
+      fxOK "Xdebug enabled to port ##$XDEBUG_PORT##. Good hunting!"
+      fxInfo "To disable: export XDEBUG_PORT="
+    fi
 
   else
 
     export XDEBUG_MODE="off"
-    fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
+    if [ "${WSU_SYMFONY_DEBUG_MODE}" = 1 ]; then
+      fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
+    fi
   fi
 
-  fxTitle "🌋 symfony"
+
   if [ "$EXPECTED_USER" = "$(whoami)" ]; then
     symfony "$@"
   else
