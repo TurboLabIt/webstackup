@@ -48,7 +48,7 @@ if ! id "webstackup" &>/dev/null; then
   
   sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh" -f /home/webstackup/.ssh/id_rsa
   
-  fxGitSetKnownHosts "webstackup"
+  fxSshSetKnownHosts "webstackup"
   chmod u=rw,go= /home/webstackup/.ssh/known_hosts
   chown webstackup:www-data /home/webstackup/.ssh/known_hosts
   
