@@ -36,7 +36,7 @@ apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 fxTitle "Installing additional utilities..."
 apt install software-properties-common openssl zip unzip nano -y
 
-fxTitle "Import an official nginx signing key..."
+fxTitle "Import the official nginx signing key..."
 curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
 
 fxTitle "Verify that the downloaded file contains the proper key..."
@@ -49,6 +49,7 @@ http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /e
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
 
+## https://github.com/TurboLabIt/webstackup/blob/master/script/account/generate-www-data.sh
 bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-www-data.sh
 
 wsuMkAutogenDir
