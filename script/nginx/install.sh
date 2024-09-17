@@ -2,7 +2,7 @@
 ### AUTOMATIC NGINX INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/nginx/install.sh
 #
-# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh?$(date +%s) | sudo bash
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh | sudo bash
 #
 # Based on: https://turbolab.it/1482 | http://nginx.org/en/linux_packages.html#Ubuntu
 
