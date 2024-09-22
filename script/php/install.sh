@@ -210,7 +210,7 @@ if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
   fxLink "${WEBSTACKUP_INSTALL_DIR}config/apache-httpd/php-fpm.conf" /etc/apache2/conf-available/
   a2enconf php-fpm
 
-  rm -f /etc/apache2/mods-available/dir.conf
+  rm -f /etc/apache2/mods-enabled/dir.conf
 
   apachectl configtest && service apache2 restart
 
