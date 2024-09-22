@@ -67,7 +67,6 @@ PHP_VER=${PHP_VER_REQUESTED}
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
 apt install software-properties-common ca-certificates apt-transport-https  -y
 
 
@@ -187,7 +186,9 @@ fi
 fxTitle "Enabling PHP integration with NGINX..."
 if [ -d /etc/nginx/ ] && [ ! -z $(command -v nginx) ]; then
 
+  ## https://turbolab.it/1957
   usermod -aG www-data nginx
+  nginx -t && service nginx restart
   
 else
 
@@ -201,25 +202,21 @@ if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
   ## https://turbolab.it/1961
   a2dismod php* -f
   apt purge libapache2-mod-php* -y
+
   apt install libapache2-mod-fcgid -y
   a2enmod proxy_fcgi setenvif
-  rm -f /etc/apache2/mods-available/dir.conf
-  
-else
 
-  fxInfo "Function disabled or Apache HTTP Server not installed, skipping"  
-fi
+  a2disconf dir
 
+  a2disconf *php*
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/apache-httpd/php-fpm.conf" /etc/apache2/conf-available/
+  a2enconf php-fpm
 
-## enabling PHP globally on Apache is not always desirable, b/c it forces the same PHP version for every vhost
-if [ ! -z "${APACHE_PHP_GLOBAL_ENABLE}" ] && [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
-
-  a2enconf ${PHP_FPM}
   apachectl configtest && service apache2 restart
-  
+
 else
 
-  fxInfo "Function disabled or Apache HTTP Server not installed, skipping"  
+  fxInfo "Apache HTTP Server not installed, skipping"  
 fi
 
 
