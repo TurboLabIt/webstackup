@@ -2,7 +2,7 @@
 ### AUTOMATIC APACHE HTTP SERVER INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/apache-httpd/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh?$(date +%s) | sudo WSU_HTTPD_ALT_PORTS=0 bash
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh?$(date +%s) | sudo WSU_HTTPD_ALT_PORTS=0 bash
 #
 # Based on: https://turbolab.it/1379
 
