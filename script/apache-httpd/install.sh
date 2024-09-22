@@ -47,8 +47,7 @@ bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-http-basic-auth.sh
 
 
 fxTitle "apt install apache..."
-apt install apache2 libapache2-mod-fcgid -y
-
+apt install apache2 -y
 
 fxTitle "Disable Prefork and Worker MPMs..."
 a2dismod mpm_prefork mpm_worker
@@ -73,22 +72,6 @@ fxTitle "Set the ServerName directive..."
 fxInfo "Prevents 'Could not reliably determine the server's fully qualified domain name' on restarts"
 echo "ServerName $(hostname)" > /etc/apache2/conf-available/server-name.conf
 a2enconf server-name
-
-
-fxTitle "Disable and remove mod_php (if any)..."
-a2dismod php* -f
-apt purge libapache2-mod-php* -y
-
-fxTitle "Enable Apache FastCGI module (for PHP)..."
-a2enmod proxy_fcgi setenvif
-
-fxTitle "Enabling ${PHP_FPM} support..."
-## enabling PHP globally is not desirable, b/c it forces the same version for every vhost
-if [ ! -z "${APACHE_PHP_GLOBAL_ENABLE}" ] && [ ! -z "${PHP_VER}" ] && [ ! -z "${PHP_FPM}" ]; then
-  a2enconf ${PHP_FPM}
-else
-  fxInfo "Function disabled or PHP not found, skipping"  
-fi
 
 
 ## Create a self-signed, bogus certificate
