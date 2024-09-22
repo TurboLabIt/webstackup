@@ -22,15 +22,6 @@ if [ -z "${PHP_VER}" ]; then
 fi
 
 
-## installing/updating WSU
-WSU_DIR=/usr/local/turbolab.it/webstackup/
-if [ ! -f "${WSU_DIR}setup.sh" ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
-fi
-
-source "${WSU_DIR}script/base.sh"
-
-
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
 fxTitle "Checking OS version..."
