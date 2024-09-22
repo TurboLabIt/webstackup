@@ -2,7 +2,7 @@
 ### AUTOMATIC PHP INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh?$(date +%s) | sudo PHP_VER=8.3 bash
+# sudo apt update && apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh?$(date +%s) | sudo PHP_VER=8.3 bash
 #
 # Based on: https://turbolab.it/1380
 
@@ -20,6 +20,15 @@ rootCheck
 if [ -z "${PHP_VER}" ]; then
   fxCatastrophicError "PHP_VER is undefined! Cannot determine which version of PHP to install"
 fi
+
+
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ ! -f "${WSU_DIR}setup.sh" ]; then
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
+fi
+
+source "${WSU_DIR}script/base.sh"
 
 
 ## checking compatibility
