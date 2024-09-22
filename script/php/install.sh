@@ -187,7 +187,22 @@ fi
 
 
 fxTitle "Enabling PHP integration with Apache HTTP Server..."
-## enabling PHP globally on Apache is not desirable, b/c it forces the same PHP version for every vhost
+if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
+
+  ## https://turbolab.it/1961
+  a2dismod php* -f
+  apt purge libapache2-mod-php* -y
+  apt install libapache2-mod-fcgid -y
+  a2enmod proxy_fcgi setenvif
+  rm -f /etc/apache2/mods-available/dir.conf
+  
+else
+
+  fxInfo "Function disabled or Apache HTTP Server not installed, skipping"  
+fi
+
+
+## enabling PHP globally on Apache is not always desirable, b/c it forces the same PHP version for every vhost
 if [ ! -z "${APACHE_PHP_GLOBAL_ENABLE}" ] && [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
 
   a2enconf ${PHP_FPM}
