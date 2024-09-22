@@ -188,8 +188,9 @@ if [ -d /etc/nginx/ ] && [ ! -z $(command -v nginx) ]; then
 
   ## https://turbolab.it/1957
   usermod -aG www-data nginx
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/nginx/40_php-fpm.conf" /etc/nginx/php-fpm.conf
   nginx -t && service nginx restart
-  
+
 else
 
   fxInfo "NGINX not installed, skipping"  
@@ -207,11 +208,7 @@ if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
   a2enmod proxy_fcgi setenvif
 
   a2disconf *php* -f 2>&1 /dev/null -f 2>&1 /dev/null
-  fxLink "${WEBSTACKUP_INSTALL_DIR}config/apache-httpd/php-fpm.conf" /etc/apache2/conf-available/
-  a2enconf php-fpm
-
-  echo "Define PHP_VER ${PHP_VER}" /etc/apache2/conf-available/php-version.conf
-  a2enconf php-version
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/apache-httpd/php-fpm.conf" /etc/apache2/
 
   rm -f /etc/apache2/mods-enabled/dir.conf
 
