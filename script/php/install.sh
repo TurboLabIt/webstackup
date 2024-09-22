@@ -200,17 +200,17 @@ fxTitle "Enabling PHP integration with Apache HTTP Server..."
 if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
 
   ## https://turbolab.it/1961
-  a2dismod php* -f
+  a2dismod php* -f 2>&1 /dev/null
   apt purge libapache2-mod-php* -y
 
   apt install libapache2-mod-fcgid -y
   a2enmod proxy_fcgi setenvif
 
-  a2disconf dir
-
-  a2disconf *php*
+  a2disconf *php* -f 2>&1 /dev/null -f 2>&1 /dev/null
   fxLink "${WEBSTACKUP_INSTALL_DIR}config/apache-httpd/php-fpm.conf" /etc/apache2/conf-available/
   a2enconf php-fpm
+
+  rm -f /etc/apache2/mods-available/dir.conf
 
   apachectl configtest && service apache2 restart
 
