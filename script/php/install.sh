@@ -184,6 +184,17 @@ else
 fi
 
 
+fxTitle "Enabling PHP integration with NGINX..."
+if [ -d /etc/nginx/ ] && [ ! -z $(command -v nginx) ]; then
+
+  usermod -aG www-data nginx
+  
+else
+
+  fxInfo "NGINX not installed, skipping"  
+fi
+
+
 fxTitle "Enabling PHP integration with Apache HTTP Server..."
 if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
 
