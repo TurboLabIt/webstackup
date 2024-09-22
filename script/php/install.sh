@@ -73,10 +73,8 @@ apt install software-properties-common ca-certificates apt-transport-https  -y
 
 fxTitle "Setting up ondrej/php..."
 if [ "${PHP_OS_DETECTED}" == 'ubuntu' ]; then
-  
-  
-  LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 
+  LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 
 elif [ "${PHP_OS_DETECTED}" == 'debian' ]; then
 
