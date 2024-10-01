@@ -23,16 +23,12 @@ lockCheck "${LOCKFILE}"
 
 cd "${PROJECT_DIR}"
 
-
 fxTitle "Refreshing available PHP versions..."
 sudo -u www-data -H symfony local:php:refresh
 
 
 if sudo -u www-data -H XDEBUG_MODE="off" symfony console | grep -qE '^  messenger\b'; then
-
-  sudo -u www-data -H XDEBUG_MODE="off" symfony console messenger:consume async -vv --time-limit=90
-
+  sudo -u www-data -H XDEBUG_MODE="off" symfony console messenger:consume async -vv --time-limit=50
 else
-    
   fxInfo "Symfony messenger is not installed, skipping messenger:consume"
 fi
