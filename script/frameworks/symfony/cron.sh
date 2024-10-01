@@ -18,7 +18,7 @@ if [ -z "${LOCKFILE}" ]; then
   LOCKFILE=/tmp/symfony-cron-${APP_NAME}
 fi
 
-lockCheck "${LOCKFILE}"
+lockCheck "${LOCKFILE}" 2
 
 
 cd "${PROJECT_DIR}"
