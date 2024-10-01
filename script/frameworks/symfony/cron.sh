@@ -13,6 +13,14 @@
 # After the next `deploy.sh`, the related cron file https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/cron will be activated
 
 fxHeader "🕰️ Symfony cron"
+
+if [ -z "${LOCKFILE}" ]; then
+  LOCKFILE=/tmp/symfony-cron-${APP_NAME}
+fi
+
+lockCheck "${LOCKFILE}"
+
+
 cd "${PROJECT_DIR}"
 
 
