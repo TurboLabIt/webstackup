@@ -5,7 +5,7 @@ MAGENTO_DIR=${PROJECT_DIR}shop/
 WEBROOT_DIR=${MAGENTO_DIR}pub/
 MAGENTO_MODULE_DISABLE=" \
   Magento_AdminAdobeImsTwoFactorAuth \
-  Magento_TwoFactorAuth Magento_Csp Mageplaza_Core Magento_LoginAsCustomerGraphQl Magento_LoginAsCustomerAssistance \
+  Magento_TwoFactorAuth Mageplaza_Core Magento_LoginAsCustomerGraphQl Magento_LoginAsCustomerAssistance \
   Magento_StoreGraphQl Magento_CatalogRuleGraphQl Magento_CheckoutAgreementsGraphQl Magento_CmsUrlRewriteGraphQl \
   Magento_CompareListGraphQl Magento_DirectoryGraphQl Magento_DownloadableGraphQl \
   Magento_CustomerDownloadableGraphQl Magento_CatalogCustomerGraphQl Magento_BundleGraphQl Magento_GiftMessageGraphQl \
