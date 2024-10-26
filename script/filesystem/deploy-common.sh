@@ -279,7 +279,7 @@ if [ -d "/etc/letsencrypt/renewal-hooks/deploy" ] && [ ! -f "/etc/letsencrypt/re
   cp "${WEBSTACKUP_SCRIPT_DIR}nginx/lets-encrypt-renewal-hook" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action"
 fi
 
-if [ "${LETS_ENCRYPT_SKIP_RENEW}" != 0 ] && [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] && [ -s "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] ; then
+if [ "${LETS_ENCRYPT_SKIP_RENEW}" != 1 ] && [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] && [ -s "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] ; then
   printTitle "🔐 Renewing Let's Encrypt..."
   certbot renew --force-renewal
 fi
