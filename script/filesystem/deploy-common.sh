@@ -45,8 +45,8 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml
 
-# ${PROJECT_DIR}config/custom/varnish.conf
-# ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf
+# ${PROJECT_DIR}config/custom/varnish.vcl
+# ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl
 
 
 echo ""
@@ -396,16 +396,16 @@ fi
 
 
 ## varnish
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.conf" ] && [ ! -f "/etc/varnish/${APP_NAME}.conf" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ] && [ ! -f "/etc/varnish/${APP_NAME}.vcl" ]; then
 
   printTitle "🪣 Linking custom Varnish ${APP_NAME}..."
-  ln -s "${PROJECT_DIR}config/custom/varnish.conf" "/etc/varnish/${APP_NAME}.conf"
+  ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/${APP_NAME}.vcl"
 fi
 
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf" ] && [ ! -f "/etc/varnish/${APP_NAME}_${APP_ENV}.conf" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ] && [ ! -f "/etc/varnish/${APP_NAME}_${APP_ENV}.vcl" ]; then
 
   printTitle "🪣 Linking custom Varnish ${APP_NAME} (from ${APP_ENV})..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf" "/etc/varnish/${APP_NAME}_${APP_ENV}.conf"
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/${APP_NAME}_${APP_ENV}.vcl"
 fi
 
 
