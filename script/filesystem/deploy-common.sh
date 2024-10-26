@@ -45,6 +45,9 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml
 
+# ${PROJECT_DIR}config/custom/varnish.conf
+# ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf
+
 
 echo ""
 echo -e "\e[1;46m ============= \e[0m"
@@ -392,10 +395,23 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml" ] && [ ! -f "/etc/
 fi
 
 
+## varnish
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.conf" ] && [ ! -f "/etc/varnish/${APP_NAME}.conf" ]; then
+
+  printTitle "🪣 Linking custom Varnish ${APP_NAME}..."
+  ln -s "${PROJECT_DIR}config/custom/varnish.conf" "/etc/varnish/${APP_NAME}.conf"
+fi
+
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf" ] && [ ! -f "/etc/varnish/${APP_NAME}_${APP_ENV}.conf" ]; then
+
+  printTitle "🪣 Linking custom Varnish ${APP_NAME} (from ${APP_ENV})..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.conf" "/etc/varnish/${APP_NAME}_${APP_ENV}.conf"
+fi
+
+
 ## services restart
 printTitle "🔃 Conditional nginx stop..."
 nginx -t && service nginx stop
-
 
 ## MySQL
 systemctl --all --type service | grep -q "mysql"
@@ -404,11 +420,18 @@ if [ "$?" = 0 ] && [ "${DEPLOY_MYSQL_RESTART}" != 0 ]; then
   service mysql restart
 fi
 
-printTitle "🔃 Conditional nginx restart..."
-nginx -t && service nginx restart
+## Varnish
+systemctl --all --type service | grep -q "varnish"
+if [ "$?" = 0 ] && [ "${DEPLOY_VARNISH_RESTART}" != 0 ]; then
+  printTitle "🔃 Restarting Varnish..."
+  service varnish restart
+fi
 
 printTitle "🔃️ Restarting logrotate..."
 service logrotate restart
+
+printTitle "🔃 Conditional nginx restart..."
+nginx -t && service nginx restart
 
 printTitle "🔃️ Restarting sshd..."
 service sshd restart
