@@ -42,10 +42,10 @@ curl -L https://packagecloud.io/varnishcache/varnish60lts/gpgkey | gpg --dearmor
 
 fxTitle "Creating the apt source file..."
 . /etc/os-release
-sudo tee /etc/apt/sources.list.d/varnishcache_varnish60lts.list > /dev/null <<-EOF
+sudo tee /etc/apt/sources.list.d/varnish.list > /dev/null <<-EOF
 deb https://packagecloud.io/varnishcache/varnish60lts/$ID/ $VERSION_CODENAME main
 EOF
-sudo tee /etc/apt/preferences.d/varnishcache > /dev/null <<-EOF
+sudo tee /etc/apt/preferences.d/varnish > /dev/null <<-EOF
 Package: varnish varnish-*
 Pin: release o=packagecloud.io/varnishcache/*
 Pin-Priority: 1000
