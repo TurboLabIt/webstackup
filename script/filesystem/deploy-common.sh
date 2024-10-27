@@ -396,16 +396,16 @@ fi
 
 
 ## varnish
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ] && [ ! -f "/etc/varnish/${APP_NAME}.vcl" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ] && [ ! -f "/etc/varnish/default.vcl" ]; then
 
-  printTitle "🪣 Linking custom Varnish ${APP_NAME}..."
-  ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/${APP_NAME}.vcl"
+  printTitle "🪣 Linking custom Varnish config for the ${APP_ENV} env..."
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/default.vcl"
 fi
 
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ] && [ ! -f "/etc/varnish/${APP_NAME}_${APP_ENV}.vcl" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ] && [ ! -f "/etc/varnish/default.vcl" ]; then
 
-  printTitle "🪣 Linking custom Varnish ${APP_NAME} (from ${APP_ENV})..."
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/${APP_NAME}_${APP_ENV}.vcl"
+  printTitle "🪣 Linking custom Varnish config..."
+  ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/default.vcl"
 fi
 
 
