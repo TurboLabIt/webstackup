@@ -21,13 +21,9 @@ fxTitle "Removing any old previous instance..."
 apt purge --auto-remove varnish* -y
 rm -rf /etc/varnish
 
-## installing/updating WSU
-#WSU_DIR=/usr/local/turbolab.it/webstackup/
-#if [ ! -f "${WSU_DIR}setup.sh" ]; then
-  #curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
-#fi
+## Webstackup dir.
+WSU_DIR=/usr/local/turbolab.it/webstackup/
 
-#source "${WSU_DIR}script/base.sh"
 
 fxTitle "Installing prerequisites..."
 apt update -qq
@@ -56,5 +52,11 @@ apt install varnish -y
 fxTitle "Final varnish restart..."
 varnish -t
 service varnish restart
+
+
+WSU_NGINX_IP_FWD_FILE=${WSU_DIR}config/nginx/04_global_ip_forwarding.conf
+if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/conf.d/04_global_ip_forwarding.conf" ] && [ -f "${WSU_NGINX_IP_FWD_FILE}" ]; then
+  fxLink "${WSU_NGINX_IP_FWD_FILE}" /etc/nginx/conf.d/
+fi
 
 fxEndFooter
