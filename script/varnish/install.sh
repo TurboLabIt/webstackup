@@ -42,15 +42,12 @@ curl -L https://packagecloud.io/varnishcache/varnish60lts/gpgkey | gpg --dearmor
 
 fxTitle "Creating the apt source file..."
 . /etc/os-release
-sudo tee /etc/apt/sources.list.d/varnish.list > /dev/null <<-EOF
-deb https://packagecloud.io/varnishcache/varnish60lts/$ID/ $VERSION_CODENAME main
-EOF
-sudo tee /etc/apt/preferences.d/varnish > /dev/null <<-EOF
-Package: varnish varnish-*
-Pin: release o=packagecloud.io/varnishcache/*
-Pin-Priority: 1000
-EOF
+echo "deb [signed-by=/usr/share/keyrings/varnish-archive-keyring.gpg] \
+https://packagecloud.io/varnishcache/varnish60lts/$ID/ $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/varnish.list
 
+fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
+echo -e "Package: varnish varnish-*\nPin: release o=packagecloud.io/varnishcache/*\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99varnish
+exit
 
 fxTitle "apt install varnish..."
 apt update -qq
