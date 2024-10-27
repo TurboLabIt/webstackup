@@ -37,7 +37,7 @@ fxTitle "Installing additional utilities..."
 apt install software-properties-common openssl zip unzip nano -y
 
 fxTitle "Import the official varnish signing key..."
-curl https://packagecloud.io/varnishcache/varnish60lts/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/varnish-archive-keyring.gpg >/dev/null
+curl -L https://packagecloud.io/varnishcache/varnish60lts/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/varnish-archive-keyring.gpg >/dev/null
 
 
 fxTitle "Creating the apt source file..."
@@ -50,12 +50,6 @@ Package: varnish varnish-*
 Pin: release o=packagecloud.io/varnishcache/*
 Pin-Priority: 1000
 EOF
-
-cat /etc/apt/preferences.d/varnishcache
-
-
-#fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
-#echo -e "Package: *\nPin: origin varnish.org\nPin: release o=varnish\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99varnish
 
 
 fxTitle "apt install varnish..."
