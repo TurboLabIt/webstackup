@@ -151,9 +151,17 @@ else
 fi
 
 
-fxTitle "Installing MYSQL..."
+fxTitle "Installing MySQL..."
 if [ "$INSTALL_MYSQL" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}mysql/install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
+fxTitle "Installing Varnish..."
+if [ "$INSTALL_VARNISH" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}varnish/install.sh
 else
   fxInfo "Skipped (disabled in config)"
 fi
