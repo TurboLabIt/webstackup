@@ -47,7 +47,6 @@ https://packagecloud.io/varnishcache/varnish${VARNISH_VER//./}/$ID/ $VERSION_COD
 
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: varnish varnish-*\nPin: release o=packagecloud.io/varnishcache/*\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99varnish
-exit
 
 fxTitle "apt install varnish..."
 apt update -qq
