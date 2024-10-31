@@ -2,7 +2,7 @@
 ### URL CHECKER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/url-checker.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/url-checker.sh | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/url-checker.sh | bash
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
@@ -90,7 +90,7 @@ while IFS= read -r line; do
 done <<< "$WSU_URL_LIST"
 
 
-fxTitle "🐦‍🔥 Report"
+fxTitle "📊 Report"
 echo "Invalid URLs : $URL_INVALID"
 echo "Checked URLs : $URL_CHECKED"
 echo ""
