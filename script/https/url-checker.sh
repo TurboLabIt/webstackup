@@ -18,7 +18,7 @@ fxTitle "📃 URLs to check"
 while [ -z "$WSU_URL_LIST" ]; do
 
   echo "🤖 Provide the list of URL to check, one per line. Hit Ctrl+D when done"
-  WSU_URL_LIST=$(cat)
+  WSU_URL_LIST=$(cat < /dev/tty)
 done
 
 
