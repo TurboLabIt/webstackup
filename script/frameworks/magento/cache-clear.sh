@@ -45,6 +45,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   ## Entering maintenance mode
   wsuMage maintenance:enable
 
+  systemctl --all --type service | grep -q "varnish"
+  if [ "$?" = 0 ]; then
+    fxTitle "🔃 Restarting Varnish..."
+    sudo service varnish restart
+  fi
+
   ## Enable merge and minify
   wsuMage config:set dev/js/merge_files 1
   wsuMage config:set dev/js/enable_js_bundling 0
@@ -165,15 +171,15 @@ fi
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
+
   wsuMage maintenance:disable
+  ## Varnish
+  systemctl --all --type service | grep -q "varnish"
+  if [ "$?" = 0 ]; then
+    fxTitle "🔃 Restarting Varnish..."
+    sudo service varnish restart
+  fi
+  
 else
   wsuOpcacheClear
-fi
-
-
-## Varnish
-systemctl --all --type service | grep -q "varnish"
-if [ "$?" = 0 ]; then
-  fx "🔃 Restarting Varnish..."
-  sudo service varnish restart
 fi
