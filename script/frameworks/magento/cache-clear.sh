@@ -170,7 +170,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "devvvvvv" ] && [ "${COMPOS
 fi
 
 
-if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   wsuMage maintenance:disable
 else
   wsuOpcacheClear
@@ -179,7 +179,7 @@ fi
 
 ## Varnish
 systemctl --all --type service | grep -q "varnish"
-if [ "$?" = 0 ] && [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
+if [ "$?" = 0 ] && [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "🔃 Restarting Varnish..."
   sudo service varnish restart
