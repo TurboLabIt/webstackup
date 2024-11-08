@@ -33,3 +33,10 @@ fi
 
 fxTitle "🌊 Magento cache:flush..."
 wsuMage cache:flush
+
+
+systemctl --all --type service | grep -q "varnish"
+if [ "$?" = 0 ]; then
+  fxTitle "🔃 Restarting Varnish..."
+  sudo service varnish restart
+fi
