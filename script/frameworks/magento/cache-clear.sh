@@ -173,6 +173,7 @@ fi
 if [ -z "${FAST_CACHE_CLEAR}" ]  && [ "${APP_ENV}" != "dev" ]; then
 
   wsuMage maintenance:disable
+  
   ## Varnish
   systemctl --all --type service | grep -q "varnish"
   if [ "$?" = 0 ]; then
