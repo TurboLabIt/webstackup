@@ -181,5 +181,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   fi
 
 else
+
   wsuOpcacheClear
 fi
