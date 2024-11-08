@@ -18,6 +18,11 @@ MAGENTO_MODULE_DISABLE=" \
   Magento_WishlistGraphQl PayPal_BraintreeGraphQl \
   Magento_CmsGraphQl Magento_CustomerGraphQl Magento_QuoteGraphQl Magento_CatalogGraphQl Magento_EavGraphQl \
   Magento_GraphQlCache Magento_GraphQl Magento_UrlRewriteGraphQl \
+  Magento_AdobeIms Magento_AdobeImsApi Magento_AdobeStockAdminUi Magento_AdobeStockAssetApi \
+  Magento_AdobeStockClient Magento_AdobeStockClientApi Magento_AdobeStockImage \
+  Magento_AdobeStockImageApi Magento_Dhl Magento_Fedex Magento_AdobeStockAsset \
+  Magento_AdobeStockImageAdminUi Magento_AwsS3 Magento_SendFriend Magento_AwsS3PageBuilder \
+  Magento_Ups Magento_Usps Magento_Weee PayPal_Braintree Temando_ShippingRemover \
 "
 COMPOSER_JSON_FULLPATH=${MAGENTO_DIR}composer.json
 COMPOSER_SKIP_DUMP_AUTOLOAD=0
