@@ -40,6 +40,9 @@ sudo chmod ug=rwX,o= "${WEBROOT_DIR}" -R
 sudo chmod g+s "${WEBROOT_DIR}"
 
 
+wsuWordPress fastest-cache clear all and minified
+
+
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Restarting services..."
