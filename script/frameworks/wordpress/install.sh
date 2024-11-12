@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC WP-CLI INSSTALLER BY WEBSTACK.UP
+### AUTOMATIC WP-CLI INSTALLER BY WEBSTACK.UP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/wordpress/install.sh?$(date +%s) | sudo bash
 #
 # Source:
