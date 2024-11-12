@@ -52,11 +52,13 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   fi
 
   ## Enable merge and minify
-  wsuMage config:set dev/js/merge_files 1
-  wsuMage config:set dev/js/enable_js_bundling 0
-  wsuMage config:set dev/js/minify_files 1
-  wsuMage config:set dev/css/merge_css_files 1
-  wsuMage config:set dev/css/minify_files 1
+  wsuMage config:set dev/js/merge_files ${MAGENTO_CONFIG_DEV_JS_MERGE_FILES}
+  wsuMage config:set dev/js/enable_js_bundling ${MAGENTO_CONFIG_DEV_JS_ENABLE_JS_BUNDLING}
+  wsuMage config:set dev/js/minify_files ${MAGENTO_CONFIG_DEV_JS_MINIFY_FILES}
+  wsuMage config:set dev/js/move_script_to_bottom ${MAGENTO_CONFIG_DEV_JS_MOVE_SCRIPT_TO_BOTTOM}
+  wsuMage config:set dev/css/merge_css_files ${MAGENTO_CONFIG_DEV_CSS_MERGE_CSS_FILES}
+  wsuMage config:set dev/css/minify_files ${MAGENTO_CONFIG_DEV_CSS_MINIFY_FILES}
+  wsuMage config:set dev/template/minify_html ${MAGENTO_CONFIG_DEV_TEMPLATE_MINIFY_HTML}
 fi
 
 
