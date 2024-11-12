@@ -21,17 +21,42 @@ if [ -z "${PROJECT_DIR}" ] || [ ! -d "${PROJECT_DIR}" ]; then
 fi
 
 if [ "$1" = "fast" ]; then
-
   FAST_CACHE_CLEAR=1
 fi
 
 
-fxTitle "Temporary open permissions on cache..."
-sudo chmod ugo=rwx "${WEBROOT_DIR}wp-content/cache" -R
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
+
+  fxTitle "⚙️ Stopping services..."
+  sudo nginx -t && sudo service nginx stop
+  sudo service ${PHP_FPM} restart
+fi
 
 
-wsuWordPress fastest-cache clear all and minified
+fxTitle "👮 Setting permissions on WordPress dir..."
+sudo chown -R webstackup:www-data "${WEBROOT_DIR}" -R
+sudo chmod ugo= "${WEBROOT_DIR}" -R
+sudo chmod ug=rwX,o= "${WEBROOT_DIR}" -R
+sudo chmod g+s "${WEBROOT_DIR}"
 
 
-fxTitle "Temporary open permissions on cache..."
-sudo chmod ugo=rwx "${WEBROOT_DIR}wp-content/cache" -R
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
+
+  fxTitle "⚙️ Restarting services..."
+  sudo service ${PHP_FPM} restart
+  sudo nginx -t && sudo service nginx start
+fi
+
+
+if [ "$APP_ENV" = "dev" ]; then
+
+  fxTitle "chown dev..."
+  sudo chown $(logname):www-data "${PROJECT_DIR}" -R
+  sudo chmod ugo= "${PROJECT_DIR}" -R
+  sudo chmod ugo=rwx "${PROJECT_DIR}" -R
+fi
+
+
+fxTitle "Final status..."
+ls -la "${PROJECT_DIR}"
+ls -ld "${WEBROOT_DIR}"
