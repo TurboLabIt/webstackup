@@ -90,6 +90,7 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 
 echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WEBROOT_DIR}wp-config.php"
 echo "define('FS_METHOD', 'direct');" >> "${WEBROOT_DIR}wp-config.php"
+Wcho "" >> "${WEBROOT_DIR}wp-config.php"
 echo "/** Webstackup -- Auto-update: security and minor only */" >> "${WEBROOT_DIR}wp-config.php"
 echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${WEBROOT_DIR}wp-config.php"
 
