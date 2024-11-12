@@ -62,4 +62,3 @@ fi
 
 fxTitle "Final status..."
 ls -la "${PROJECT_DIR}"
-ls -ld "${WEBROOT_DIR}"
