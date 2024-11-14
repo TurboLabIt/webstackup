@@ -64,6 +64,10 @@ systemctl --no-pager status elasticsearch
 fxTitle "Testing..."
 curl -X GET 'http://localhost:9200'
 
+fxTitle "Disabling replicas..."
+curl -X PUT http://localhost:9200/_template/default -H 'Content-Type: application/json' -d \
+  '{"index_patterns": ["*"],"order": -1,"settings": {"number_of_shards": "1","number_of_replicas": "0"}}'
+
 fxTitle "Netstat..."
 ss -lpt | grep -i 'java\|elastic'
 
