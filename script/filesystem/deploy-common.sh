@@ -408,6 +408,21 @@ elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ] &
 fi
 
 
+WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/95_${APP_NAME}.conf
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
+
+  printTitle "🪣 Linking custom Varnish service unit file for the ${APP_ENV} env..."
+  mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
+
+elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
+
+  printTitle "🪣 Linking custom Varnish service unit file..."
+  mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
+  ln -s "${PROJECT_DIR}config/custom/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
+fi
+
+
 ## services restart
 printTitle "🔃 Conditional nginx stop..."
 nginx -t && service nginx stop
