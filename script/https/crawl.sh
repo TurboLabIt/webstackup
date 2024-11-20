@@ -37,8 +37,8 @@ CRAWLER_BASE_URL=$(echo "$CRAWLER_URL" | cut -d/ -f1-3)
 
 fxTitle "Creating the local mirror directory..."
 CRAWLER_LOCAL_DIR=${PROJECT_DIR}backup/crawl-httrack
-rm -rf "${CRAWLER_LOCAL_DIR}"
-mkdir -p "${CRAWLER_LOCAL_DIR}"
+sudo -u "${EXPECTED_USER}" -H rm -rf "${CRAWLER_LOCAL_DIR}"
+sudo -u "${EXPECTED_USER}" -H mkdir -p "${CRAWLER_LOCAL_DIR}"
 fxOK "${CRAWLER_LOCAL_DIR}"
 
 
@@ -46,7 +46,7 @@ fxTitle "HTTracking..."
 fxMessage "Entrypoint:    ##${CRAWLER_URL}##"
 fxMessage "Base URL:      ##${CRAWLER_BASE_URL}##"
 echo ""
-httrack "${CRAWLER_URL}" "-*" "+${CRAWLER_BASE_URL}/*" -r2 -O "${CRAWLER_LOCAL_DIR}" \
+sudo -u "${EXPECTED_USER}" -H httrack "${CRAWLER_URL}" "-*" "+${CRAWLER_BASE_URL}/*" -r2 -O "${CRAWLER_LOCAL_DIR}" \
   -F "Mozilla/5.0 (X11; LinuxWSU x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
 
@@ -54,7 +54,7 @@ fxTitle "Managing the mirror..."
 if [ "${CRAWLER_PRESERVER_MIRROR}" != 1 ]; then
 
   fxInfo "Deleting ##${CRAWLER_LOCAL_DIR}##..."
-  rm -rf "${CRAWLER_LOCAL_DIR}"
+  sudo -u "${EXPECTED_USER}" -H rm -rf "${CRAWLER_LOCAL_DIR}"
 
 else
 
