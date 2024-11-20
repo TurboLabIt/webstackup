@@ -47,7 +47,7 @@ fxMessage "Entrypoint:    ##${CRAWLER_URL}##"
 fxMessage "Base URL:      ##${CRAWLER_BASE_URL}##"
 echo ""
 sudo -u "${EXPECTED_USER}" -H httrack "${CRAWLER_URL}" "-*" "+${CRAWLER_BASE_URL}/*" -r2 -O "${CRAWLER_LOCAL_DIR}" \
-  -%v -%P "%u 🟰 %s" \
+  -v -s0 \
   -F "Mozilla/5.0 (X11; LinuxWSU x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
 
 
