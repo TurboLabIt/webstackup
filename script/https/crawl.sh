@@ -37,7 +37,7 @@ CRAWLER_BASE_URL=$(echo "$CRAWLER_URL" | cut -d/ -f1-3)
 
 fxTitle "Creating the local mirror directory..."
 CRAWLER_LOCAL_DIR=${PROJECT_DIR}backup/crawl-httrack
-sudo rm -rf "${CRAWLER_LOCAL_DIR}"
+rm -rf "${CRAWLER_LOCAL_DIR}"
 mkdir -p "${CRAWLER_LOCAL_DIR}"
 fxOK "${CRAWLER_LOCAL_DIR}"
 
