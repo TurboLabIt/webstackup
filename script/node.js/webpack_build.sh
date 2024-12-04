@@ -12,6 +12,9 @@ sudo -u $EXPECTED_USER -H node --version
 fxTitle "💿 yarn install..."
 echo "y" | sudo -u $EXPECTED_USER -H yarn install
 
+fxTitle "👮 Fixing permissions..."
+sudo chmod ug+x node_modules/.bin -R
+
 fxTitle "📦 Webpack..."
 sudo -u $EXPECTED_USER -H yarn webpack
 
