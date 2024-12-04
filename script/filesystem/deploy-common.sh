@@ -22,6 +22,7 @@
 # ${PROJECT_DIR}config/custom/php-custom.ini
 # ${PROJECT_DIR}config/custom/php-custom-fpm.ini
 # ${PROJECT_DIR}config/custom/php-custom-cli.ini
+# ${PROJECT_DIR}config/custom/php-fpm.conf
 
 # ${PROJECT_DIR}config/custom/mysql-custom.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf
