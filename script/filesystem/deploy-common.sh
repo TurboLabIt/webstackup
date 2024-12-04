@@ -216,9 +216,6 @@ deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP
 printTitle "📂 Listing /etc/php/${PHP_VER}/fpm/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
 
-printTitle "🔃️ Restarting PHP-FPM..."
-/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
-
 printTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
@@ -227,6 +224,10 @@ if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_V
   fxTitle "🔨 Linking PHP FPM custom config..."
   ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zz_${APP_NAME}.conf"
 fi
+
+
+printTitle "🔃️ Restarting PHP-FPM..."
+/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
 
 
 ## mysql-custom
