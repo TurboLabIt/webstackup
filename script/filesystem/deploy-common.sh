@@ -222,6 +222,12 @@ printTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
+if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zz_${APP_NAME}.conf" ]; then
+  fxTitle "🔨 Linking PHP FPM custom config..."
+  ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zz_${APP_NAME}.conf"
+fi
+
+
 ## mysql-custom
 if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/mysql.conf.d/" ]; then
 
