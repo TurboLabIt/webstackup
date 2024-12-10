@@ -2,7 +2,7 @@
 ### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) | sudo MYSQL_VER=8.0 bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) | sudo MYSQL_VER=8.4 bash
 #
 # Based on: https://turbolab.it/1381
 
@@ -27,7 +27,7 @@ curl https://repo.mysql.com/RPM-GPG-KEY-mysql-2023 | gpg --dearmor | sudo tee /e
 fxTitle "Selecting the version..."
 if [ -z "${MYSQL_VER}" ]; then
 
-  MYSQL_VER=8.0
+  MYSQL_VER=8.4
   fxImportantMessage "MYSQL_VER is not set - defaulting to MySQL ${MYSQL_VER}"
 
 else
