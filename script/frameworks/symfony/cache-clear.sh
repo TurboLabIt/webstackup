@@ -32,6 +32,7 @@ fxTitle "Setting var/log permissions..."
 sudo chmod ugo= "${PROJECT_DIR}var/log" -R
 sudo chmod ugo=rwX "${PROJECT_DIR}var/log" -R
 
+
 fxTitle "Temporary open permissions on cache..."
 sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
@@ -53,18 +54,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 fi
 
 
-## migrate
-if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
-
-  bash "${SCRIPT_DIR}migrate.sh"
-
-elif [ -z "${FAST_CACHE_CLEAR}" ]; then
-
-  fxTitle "🚚 Migrating..."
-  wsuSymfony console doctrine:migrations:migrate --no-interaction
-fi
-
-
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Stopping services..."
@@ -79,18 +68,31 @@ sudo rm -rf "${PROJECT_DIR}var/cache"
 
 fxTitle "☀ Creating the Symfony cache folder anew..."
 sudo mkdir -p "${PROJECT_DIR}var/cache"
-
-
-fxTitle "👮 Setting final permissions on var/cache..."
-sudo chown -R webstackup:www-data "${PROJECT_DIR}var/cache" -R
-sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
-sudo chmod ug=rwX,o= "${PROJECT_DIR}var/cache" -R
-sudo chmod g+s "${PROJECT_DIR}var/cache"
+sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
 fxTitle "🌊 Symfony cache:clear..."
 sudo rm -rf /tmp/symfony-cache
 sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
+
+
+## migrate
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
+
+  bash "${SCRIPT_DIR}migrate.sh"
+
+elif [ -z "${FAST_CACHE_CLEAR}" ]; then
+
+  fxTitle "🚚 Migrating..."
+  wsuSymfony console doctrine:migrations:migrate --no-interaction
+fi
+
+
+fxTitle "👮 Setting final permissions on var/cache..."
+sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
+sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
+sudo chmod ug=rwX,o= "${PROJECT_DIR}var/cache" -R
+sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
