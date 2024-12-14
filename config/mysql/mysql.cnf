@@ -15,15 +15,12 @@ mysqlx-bind-address = 127.0.0.1
 
 
 ## MySQL legacy auth plugin
-# The caching_sha2_password plugin will be supported in a future PHP release.
-# http://php.net/manual/en/mysqli.requirements.php
-default_authentication_plugin=mysql_native_password
+# The caching_sha2_password plugin is fully supported as of PHP 7.4.4
+# default_authentication_plugin=mysql_native_password
 
 
 ## Disable MySQL name resolution
-# https://bugs.mysql.com/bug.php?id=22118 Makes "127.0.0.1" unusable (use "localhost" instead). 
-# Connections over SSH will fail
-# skip_name_resolve
+skip_name_resolve
 
 
 ## Rise the max_connections limit
@@ -52,7 +49,8 @@ innodb_buffer_pool_size = 4G
 
 ##
 # the log file size should be set as big as possible, but not bigger than necessary.
-# A bigger log file size is better for performance, but it has a drawback (a significant one) that you need to worry about: the recovery time after a crash
+# A bigger log file size is better for performance, but it has a drawback (a significant one) that you need to worry about: 
+# the recovery time after a crash
 # https://www.percona.com/blog/2016/05/31/what-is-a-big-innodb_log_file_size/
 innodb_log_file_size = 512M
 
