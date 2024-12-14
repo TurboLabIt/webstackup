@@ -20,7 +20,9 @@ mysqlx-bind-address = 127.0.0.1
 
 
 ## Disable MySQL name resolution
-skip_name_resolve
+# No! Connections over SSH would fail
+# https://bugs.mysql.com/bug.php?id=22118 Makes "127.0.0.1" unusable (use "localhost" instead). 
+# skip_name_resolve
 
 
 ## Rise the max_connections limit
