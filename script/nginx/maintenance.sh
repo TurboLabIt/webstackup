@@ -14,9 +14,6 @@
 #
 # Tip: after the first `deploy.sh`, you can `zzmaintenance on` and `zzmaintenance off` directly
 
-SCRIPT_NAME=maintenance
-
-source $(dirname $(readlink -f $0))/script_begin.sh
 fxHeader "🧰 Nginx maintenance mode manager"
 
 if [ "$1" = "on" ]; then
