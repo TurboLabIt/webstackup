@@ -79,6 +79,10 @@ DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
 ## pulling and merging
+if [ -z "${GIT_BRANCH}" ] && [ -d "${PROJECT_DIR}.git" ]; then
+  GIT_BRANCH=$(sudo -u $EXPECTED_USER -H git -C $PROJECT_DIR branch | grep \* | cut -d ' ' -f2-)
+fi
+
 if [ -z "${GIT_BRANCH}" ]; then
   printTitle "🧹 Git reset (no remote branch set)..."
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
