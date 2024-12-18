@@ -79,8 +79,15 @@ DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
 ## pulling and merging
-printTitle "⏬ Git pulling..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+if [ -z "${GIT_BRANCH}" ]; then
+  printTitle "🧹 Git reset (no remote branch set)..."
+  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+else
+  printTitle "🧹 Git reset to ##${GIT_BRANCH}##..."
+  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard origin/${GIT_BRANCH}
+fi
+
+printTitle "⏬ Git pull..."
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull --no-rebase
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" config core.fileMode false
