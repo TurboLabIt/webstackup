@@ -61,6 +61,10 @@ else
   fxInfo "Detected version: ${WSU_MYSQL_LSB_RELEASE}"
 fi
 
+if [ "${MYSQL_VER}" = "8.4" ]; then
+  MYSQL_VER=8.4-lts
+fi
+
 WSU_MYSQL_APT_FILE=/etc/apt/sources.list.d/webstackup.mysql.list
 echo "deb http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
 echo "deb-src http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
