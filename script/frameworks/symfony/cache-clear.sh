@@ -72,7 +72,6 @@ sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
 
 
 fxTitle "🌊 Symfony cache:clear..."
-sudo rm -rf /tmp/symfony-cache
 sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
 
 
@@ -115,6 +114,12 @@ if [ "$APP_ENV" = "dev" ]; then
   sudo chmod ugo= "${PROJECT_DIR}" -R
   sudo chmod ugo=rwx "${PROJECT_DIR}" -R
 fi
+
+
+fxTitle "🧹 Cleaning..."
+sudo rm -rf /tmp/symfony-cache
+## https://github.com/symfony-cli/symfony-cli/issues/553
+sudo find "$HOME/.symfony5/tmp" -type d -empty -delete
 
 
 fxTitle "Final status..."
