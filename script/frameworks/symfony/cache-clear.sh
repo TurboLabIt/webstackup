@@ -119,7 +119,8 @@ fi
 fxTitle "🧹 Cleaning..."
 sudo rm -rf /tmp/symfony-cache
 ## https://github.com/symfony-cli/symfony-cli/issues/553
-sudo find "$HOME/.symfony5/tmp" -type d -empty -delete
+sudo find "/home/webstackup/.symfony5/tmp" -type d -empty -delete
+sudo find "/home/www-data/.symfony5/tmp" -type d -empty -delete
 
 
 fxTitle "Final status..."
