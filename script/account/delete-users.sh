@@ -20,18 +20,18 @@ rootCheck
 USERS_TO_REMOVE=("$@")
 for NAME in "${USERS_TO_REMOVE[@]}"; do
 
-fxTitle "Working on user ${NAME}..."
+  fxTitle "🔪 Deleting user ${NAME}..."
+  
   if ! id "$NAME" &>/dev/null; then
+    fxInfo "It doesn't exist, skipping 🦘"
     continue
   fi
 
-  fxTitle "Deleting user ${NAME}..."
-
-  #sudo killall -u "$NAME"
-  #sudo deluser --remove-home "$NAME"
-  #if [ $? -ne 0 ]; then
-    #fxWarning "error deleting Linux user $NAME"
-  #fi
+  sudo killall -u "$NAME"
+  sudo deluser --remove-home "$NAME"
+  if [ $? -ne 0 ]; then
+    fxWarning "error deleting Linux user $NAME"
+  fi
 done
 
 
