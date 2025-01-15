@@ -24,11 +24,13 @@ for NAME in "${USERS_TO_REMOVE[@]}"; do
     continue
   fi
 
-  sudo killall -u "$NAME"
-  sudo deluser --remove-home "$NAME"
-  if [ $? -ne 0 ]; then
-    fxWarning "error deleting Linux user $NAME"
-  fi
+  fxTitle "Deleting user ${NAME}..."
+
+  #sudo killall -u "$NAME"
+  #sudo deluser --remove-home "$NAME"
+  #if [ $? -ne 0 ]; then
+    #fxWarning "error deleting Linux user $NAME"
+  #fi
 done
 
 
