@@ -20,6 +20,7 @@ rootCheck
 USERS_TO_REMOVE=("$@")
 for NAME in "${USERS_TO_REMOVE[@]}"; do
 
+fxTitle "Working on user ${NAME}..."
   if ! id "$NAME" &>/dev/null; then
     continue
   fi
