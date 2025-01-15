@@ -22,7 +22,7 @@ USERS_TO_REMOVE=("$@")
 for NAME in "${USERS_TO_REMOVE[@]}"; do
 
   fxTitle "🔪 Deleting user ${NAME}..."
-  
+
   if ! id "$NAME" &>/dev/null; then
     fxInfo "It doesn't exist, skipping 🦘"
     continue
@@ -33,6 +33,7 @@ for NAME in "${USERS_TO_REMOVE[@]}"; do
   if [ $? -ne 0 ]; then
     fxWarning "error deleting Linux user $NAME"
   fi
+
 done
 
 
