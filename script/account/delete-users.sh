@@ -12,6 +12,7 @@ else
 fi
 ## bash-fx is ready
 
+
 fxHeader "🗑️ Remove Linux users"
 rootCheck
 
