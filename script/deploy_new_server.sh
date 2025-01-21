@@ -73,6 +73,9 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
   fxMessage "Faster SSH login..."
   ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/faster-login.conf /etc/ssh/sshd_config.d/webstackup-faster-login.conf
 
+  fxMessage "Change SSH port (template)"
+  curl -o /etc/ssh/sshd_config.d/port.conf https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ssh/port.conf
+
   fxMessage "SFTP-only group..."
   addgroup sftp-only
   ln -s ${WEBSTACKUP_INSTALL_DIR}config/ssh/sftp-only-group.conf /etc/ssh/sshd_config.d/webstackup-sftp-only-group.conf
