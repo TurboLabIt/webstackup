@@ -32,9 +32,21 @@ apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 fxTitle "Installing additional utilities..."
 apt install software-properties-common openssl zip unzip nano -y
 
+
+fxTitle "Selecting the version..."
+if [ -z "${VARNISH_VER}" ]; then
+
+  VARNISH_VER=7.6
+  fxImportantMessage "VARNISH_VER is not set - defaulting to Varnish ${VARNISH_VER}"
+
+else
+
+  fxInfo "Selecting the configured VARNISH_VER version, Varnish ${VARNISH_VER}"
+fi
+
+
 fxTitle "Import the official varnish signing key..."
 curl -L https://packagecloud.io/varnishcache/varnish${VARNISH_VER//./}/gpgkey | gpg --dearmor | sudo tee /usr/share/keyrings/varnish-archive-keyring.gpg >/dev/null
-
 
 fxTitle "Creating the apt source file..."
 . /etc/os-release
