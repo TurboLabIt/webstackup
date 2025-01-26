@@ -17,12 +17,21 @@ fi
 fxHeader "💿 VARNISH installer"
 rootCheck
 
+
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
+  "${WSU_DIR}setup-if-stale.sh"
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
+fi
+
+source "${WSU_DIR}script/base.sh"
+
+
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove varnish* -y
 rm -rf /etc/varnish
-
-## Webstackup dir.
-WSU_DIR=/usr/local/turbolab.it/webstackup/
 
 
 fxTitle "Installing prerequisites..."
@@ -61,13 +70,29 @@ apt update -qq
 apt install varnish -y
 
 
-fxTitle "Final varnish restart..."
+fxTitle "Final Varnish restart..."
 service varnish restart
 
 
-WSU_NGINX_IP_FWD_FILE=${WSU_DIR}config/nginx/04_global_ip_forwarding.conf
-if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/conf.d/04_global_ip_forwarding.conf" ] && [ -f "${WSU_NGINX_IP_FWD_FILE}" ]; then
-  fxLink "${WSU_NGINX_IP_FWD_FILE}" /etc/nginx/conf.d/
+fxTitle "Enabling Varnish integration with NGINX..."
+
+if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/conf.d/04_global_ip_forwarding.conf" ]; then
+  fxLink "${WSU_DIR}config/nginx/04_global_ip_forwarding.conf" /etc/nginx/conf.d/
 fi
+
+if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/varnish.conf" ]; then
+  fxLink "${WEBSTACKUP_INSTALL_DIR}config/nginx/varnish.conf" /etc/nginx/
+fi
+
+if [ ! -d /etc/nginx/ ]; then
+
+  fxWarning "NGINX not installed, skipping 🦘"
+
+else
+
+  fxTitle "Final Nginx restart..."
+  nginx -t && service nginx restart
+fi
+
 
 fxEndFooter
