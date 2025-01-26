@@ -17,17 +17,21 @@ fi
 fxHeader "💿 NGINX installer"
 rootCheck
 
-fxTitle "Removing any old previous instance..."
-apt purge --auto-remove nginx* -y
-rm -rf /etc/nginx
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
-if [ ! -f "${WSU_DIR}setup.sh" ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
+if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
+  "${WSU_DIR}setup-if-stale.sh"
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
 fi
 
 source "${WSU_DIR}script/base.sh"
+
+
+fxTitle "Removing any old previous instance..."
+apt purge --auto-remove nginx* -y
+rm -rf /etc/nginx
 
 fxTitle "Installing prerequisites..."
 apt update -qq
