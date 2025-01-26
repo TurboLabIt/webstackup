@@ -83,8 +83,8 @@ if [ ! -d /etc/nginx/ ]; then
 
 else
 
-  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/04_global_ip_forwarding.conf" /etc/nginx/conf.d/
-  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/varnish.conf" /etc/nginx/
+  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/04_global_ip_forwarding.conf" /etc/nginx/conf.d/04_global_ip_forwarding.conf
+  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/varnish.conf" /etc/nginx/varnish.conf
 
   fxTitle "Final Nginx restart..."
   nginx -t && service nginx restart
