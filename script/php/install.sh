@@ -48,18 +48,23 @@ else
 fi
 
 
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
+  "${WSU_DIR}setup-if-stale.sh"
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
+fi
+
+source "${WSU_DIR}script/base.sh"
+
+
 fxTitle "Removing any old previous instance of PHP ${PHP_VER} (if any)..."
 fxInfo "Note: this will display some errors if PHP is not installed yet."
 fxInfo "This is expected, don't freak out"
 apt purge --auto-remove php${PHP_VER}* -y
 rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}*
 
-
-## installing/updating WSU
-WSU_DIR=/usr/local/turbolab.it/webstackup/
-if [ ! -f "${WSU_DIR}setup.sh" ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
-fi
 
 PHP_VER_REQUESTED=${PHP_VER}
 source "${WSU_DIR}script/base.sh"
