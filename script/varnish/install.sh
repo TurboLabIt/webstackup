@@ -62,7 +62,6 @@ apt install varnish -y
 
 
 fxTitle "Final varnish restart..."
-varnish -t
 service varnish restart
 
 
