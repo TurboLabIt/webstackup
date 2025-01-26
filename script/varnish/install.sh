@@ -32,7 +32,7 @@ source "${WSU_DIR}script/base.sh"
 fxTitle "Removing any old previous instance..."
 fxInfo "Note: this will display some errors if Varnish is not installed yet."
 fxInfo "This is expected, don't freak out"
-apt purge --auto-remove varnish* -y
+apt purge --auto-remove 'varnish*' -y
 rm -rf /etc/varnish /var/log/varnish
 
 
