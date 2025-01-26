@@ -30,8 +30,10 @@ source "${WSU_DIR}script/base.sh"
 
 
 fxTitle "Removing any old previous instance..."
-apt purge --auto-remove varnish* -y
-rm -rf /etc/varnish
+fxInfo "Note: this will display some errors if Varnish is not installed yet."
+fxInfo "This is expected, don't freak out"
+apt purge --auto-remove php${PHP_VER}* -y
+rm -rf /etc/varnish /var/log/varnish
 
 
 fxTitle "Installing prerequisites..."
@@ -75,20 +77,14 @@ service varnish restart
 
 
 fxTitle "Enabling Varnish integration with NGINX..."
-
-if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/conf.d/04_global_ip_forwarding.conf" ]; then
-  fxLink "${WSU_DIR}config/nginx/04_global_ip_forwarding.conf" /etc/nginx/conf.d/
-fi
-
-if [ -d "/etc/nginx/conf.d" ] && [ ! -f "/etc/nginx/varnish.conf" ]; then
-  fxLink "${WEBSTACKUP_INSTALL_DIR}config/nginx/varnish.conf" /etc/nginx/
-fi
-
 if [ ! -d /etc/nginx/ ]; then
 
   fxWarning "NGINX not installed, skipping 🦘"
 
 else
+
+  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/04_global_ip_forwarding.conf" /etc/nginx/conf.d/
+  fxLink "${WEBSTACKUP_CONFIG_DIR}nginx/varnish.conf" /etc/nginx/
 
   fxTitle "Final Nginx restart..."
   nginx -t && service nginx restart
