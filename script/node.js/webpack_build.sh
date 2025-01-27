@@ -15,6 +15,7 @@ echo "y" | sudo -u $EXPECTED_USER -H yarn install
 fxTitle "👮 Fixing permissions..."
 sudo chmod ug+x node_modules/.bin -R
 sudo chmod ug+x node_modules/webpack* -R
+sudo chmod ug+x node_modules/@webpack-cli -R
 
 fxTitle "👀 build..."
 sudo -u $EXPECTED_USER -H yarn dist
