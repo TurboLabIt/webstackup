@@ -13,10 +13,7 @@ fxTitle "💿 yarn install..."
 echo "y" | sudo -u $EXPECTED_USER -H yarn install
 
 fxTitle "👮 Fixing permissions..."
-sudo chmod ug+x node_modules/.bin -R
-
-fxTitle "📦 Webpack..."
-sudo -u $EXPECTED_USER -H yarn webpack
+sudo chmod ug+x node_modules -R
 
 fxTitle "👀 build..."
-sudo -u $EXPECTED_USER -H yarn build
+sudo -u $EXPECTED_USER -H yarn dist
