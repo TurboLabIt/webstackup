@@ -1,0 +1,2 @@
+fxHeader "🎶 wp-cli"
+wsuWordPress "$@"
