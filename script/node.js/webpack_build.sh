@@ -30,11 +30,11 @@ if grep -q '"dist":' package.json; then
 
 elif grep -q '"build":' package.json; then
 
-  fxInfo "build"
+  fxInfo "yarn build"
   sudo -u $EXPECTED_USER -H yarn build
   
 else
 
-  fxInfo "webpack"
+  fxInfo "yarn webpack"
   sudo -u $EXPECTED_USER -H yarn webpack
 fi
