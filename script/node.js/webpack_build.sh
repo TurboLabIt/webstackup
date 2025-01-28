@@ -22,7 +22,7 @@ sudo chmod ug+x node_modules/webpack* -R
 sudo chmod ug+x node_modules/@webpack-cli -R
 
 
-fxTitle "🔨 build with yarn..."
+fxTitle "🔨 building with yarn..."
 if grep -q '"dist":' package.json; then
 
   fxInfo "yarn dist"
