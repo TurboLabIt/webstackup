@@ -1,5 +1,5 @@
 fxHeader "👀 ${APP_NAME} watch"
-devOnly
+devOnlyCheck
 
 
 if [ ! -z "${NODEJS_VER}" ]; then
