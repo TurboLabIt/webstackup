@@ -36,5 +36,5 @@ elif grep -q '"build":' package.json; then
 else
 
   fxInfo "yarn webpack"
-  sudo -u $EXPECTED_USER -H yarn webpack
+  sudo -u $EXPECTED_USER -H yarn webpack --mode production
 fi
