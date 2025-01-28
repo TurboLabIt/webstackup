@@ -25,5 +25,6 @@ if grep -q '"watch":' package.json; then
   
 else
 
-  fxCatastrophicError "yarn watch is not defined in package.json"
+  fxInfo "yarn webpack"
+  sudo -u $EXPECTED_USER -H yarn webpack --watch --mode development
 fi
