@@ -13,7 +13,7 @@
 #
 # ⚠️ This file is SHARED among staging|prod ⚠️
 #
-# 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/varnish.vcl
+# Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/varnish.vcl
 
 vcl 4.1;
 
