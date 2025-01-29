@@ -17,7 +17,7 @@
 
 vcl 4.1;
 
-import /usr/local/turbolab.it/webstackup/config/varnish/base.vcl;
+include /usr/local/turbolab.it/webstackup/config/varnish/base.vcl;
 
 # Default backend definition. Set this to point to your content server.
 backend default {
