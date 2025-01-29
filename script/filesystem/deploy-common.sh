@@ -46,8 +46,8 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml
 
-# ${PROJECT_DIR}config/custom/varnish.vcl
 # ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl
+# ${PROJECT_DIR}config/custom/varnish.vcl
 
 
 echo ""
@@ -415,14 +415,16 @@ fi
 
 
 ## varnish
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ] && [ ! -f "/etc/varnish/default.vcl" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ]; then
 
   printTitle "🪣 Linking custom Varnish config for the ${APP_ENV} env..."
+  rm -f "/etc/varnish/default.vcl"
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/default.vcl"
 
-elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ] && [ ! -f "/etc/varnish/default.vcl" ]; then
+elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ]; then
 
   printTitle "🪣 Linking custom Varnish config..."
+  rm -f "/etc/varnish/default.vcl"
   ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/default.vcl"
 fi
 
