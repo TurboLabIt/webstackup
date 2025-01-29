@@ -2,17 +2,12 @@
 # https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
 #
 # Based on https://www.varnish-software.com/developers/tutorials/configuring-varnish-wordpress/#4-custom-wordpress-vcl
+#
+# Usage example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/varnish.vcl
+# include "/usr/local/turbolab.it/webstackup/config/varnish/base.vcl";
+# sub vcl_recv { wsu_base(); }
 
 vcl 4.1;
-
-sub wsu_base {
-
-  wsu_httpoxy();
-  wsu_real_ip_address();
-  wsu_http_methods();
-  wsu_normalize_url();
-  wsu_wp_purge_from_whitelist();
-}
 
 
 acl wsu_whitelist {
@@ -110,4 +105,14 @@ sub wsu_wp_purge_from_whitelist {
     ban("obj.http.x-url == " + req.url + " && obj.http.x-host == " + req.http.host);
     return(synth(200, "Purged"));
   }
+}
+
+
+sub wsu_base {
+
+  wsu_httpoxy();
+  wsu_real_ip_address();
+  wsu_http_methods();
+  wsu_normalize_url();
+  wsu_wp_purge_from_whitelist();
 }
