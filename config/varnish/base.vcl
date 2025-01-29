@@ -1,5 +1,7 @@
 ## VARNISH DEFAULTS BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
+#
+# Based on https://www.varnish-software.com/developers/tutorials/configuring-varnish-wordpress/#4-custom-wordpress-vcl
 
 vcl 4.1;
 
