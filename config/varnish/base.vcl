@@ -9,6 +9,8 @@
 
 vcl 4.1;
 
+import std;
+
 
 acl wsu_whitelist {
 
@@ -31,7 +33,15 @@ sub wsu_httpoxy {
 
 
 sub wsu_set_protocol {
-  set req.http.X-Forwarded-Proto = "https";
+
+  # Add X-Forwarded-Proto header when using https
+  if (!req.http.X-Forwarded-Proto) {
+    if( std.port(server.ip) == 443 || std.port(server.ip) == 8443 ) {
+      set req.http.X-Forwarded-Proto = "https";
+    } else {
+      set req.http.X-Forwarded-Proto = "http";
+    }
+  }
 }
 
 
