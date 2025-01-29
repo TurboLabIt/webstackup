@@ -1,5 +1,7 @@
-vcl 4.1;
+## VARNISH DEFAULTS BY WEBSTACKUP
+# https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
 
+vcl 4.1;
 
 sub wsu_base {
 
