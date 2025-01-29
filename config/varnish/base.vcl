@@ -30,16 +30,8 @@ sub wsu_httpoxy {
 }
 
 
-sub wsu_real_ip_address {
-
-  # Add X-Forwarded-Proto header when using https
-  if (!req.http.X-Forwarded-Proto) {
-    if( server.port == 443 || server.port == 8443 ) {
-      set req.http.X-Forwarded-Proto = "https";
-    } else {
-      set req.http.X-Forwarded-Proto = "http";
-    }
-  }
+sub wsu_set_protocol {
+  set req.http.X-Forwarded-Proto = "https";
 }
 
 
@@ -111,7 +103,7 @@ sub wsu_wp_purge_from_whitelist {
 sub wsu_base {
 
   wsu_httpoxy();
-  wsu_real_ip_address();
+  wsu_set_protocol();
   wsu_http_methods();
   wsu_normalize_url();
   wsu_wp_purge_from_whitelist();
