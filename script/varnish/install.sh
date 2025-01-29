@@ -72,6 +72,11 @@ apt update -qq
 apt install varnish -y
 
 
+fxTitle "Installing the customized default.vcl..."
+cp ${WSU_DIR}my-app-template/config/custom/varnish.vcl /etc/varnish/default.vcl
+sed -i '1,/^# Based on/d' /etc/varnish/default.vcl
+
+
 fxTitle "Final Varnish restart..."
 service varnish restart
 
