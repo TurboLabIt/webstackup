@@ -34,7 +34,7 @@ sub wsu_real_ip_address {
 
   # Add X-Forwarded-Proto header when using https
   if (!req.http.X-Forwarded-Proto) {
-    if(std.port(server.ip) == 443 || std.port(server.ip) == 8443) {
+    if( server.port == 443 || server.port == 8443 ) {
       set req.http.X-Forwarded-Proto = "https";
     } else {
       set req.http.X-Forwarded-Proto = "http";
