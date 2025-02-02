@@ -113,8 +113,8 @@ sub wsu_wp_purge_from_whitelist {
 sub wsu_base {
 
   call wsu_httpoxy;
+  call wsu_wp_purge_from_whitelist;
   call wsu_set_protocol;
   call wsu_http_methods;
   call wsu_normalize_url;
-  call wsu_wp_purge_from_whitelist;
 }
