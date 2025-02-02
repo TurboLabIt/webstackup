@@ -17,13 +17,9 @@
 
 vcl 4.1;
 
+include "/usr/local/turbolab.it/webstackup/config/varnish/config/base-backend-localhost.vcl";
 include "/usr/local/turbolab.it/webstackup/config/varnish/base.vcl";
 
-# Default backend definition. Set this to point to your content server.
-backend default {
-  .host = "127.0.0.1";
-  .port = "8080";
-}
 
 sub vcl_recv {
   # Happens before we check if we have this in cache already.
@@ -33,8 +29,9 @@ sub vcl_recv {
     
   # Webstackup base Varnish config.
   # See: https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
-  wsu_base();
+  call wsu_base;
 }
+
 
 sub vcl_backend_response {
   # Happens after we have read the response headers from the backend.
@@ -42,6 +39,7 @@ sub vcl_backend_response {
   # Here you clean the response headers, removing silly Set-Cookie headers
   # and other mistakes your backend does.
 }
+
 
 sub vcl_deliver {
   # Happens when we have all the pieces we need, and are about to send the
