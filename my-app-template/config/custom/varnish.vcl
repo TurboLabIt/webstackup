@@ -17,7 +17,7 @@
 
 vcl 4.1;
 
-include "/usr/local/turbolab.it/webstackup/config/varnish/config/base-backend-localhost.vcl";
+include "/usr/local/turbolab.it/webstackup/config/varnish/base-backend-localhost.vcl";
 include "/usr/local/turbolab.it/webstackup/config/varnish/base.vcl";
 
 
