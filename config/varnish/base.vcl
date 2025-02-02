@@ -110,7 +110,7 @@ sub wsu_wp_purge_from_whitelist {
 }
 
 
-sub wsu_base {
+sub wsu_base_recv {
 
   call wsu_httpoxy;
   call wsu_wp_purge_from_whitelist;
