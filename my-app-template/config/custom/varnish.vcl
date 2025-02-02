@@ -29,7 +29,7 @@ sub vcl_recv {
     
   # Webstackup base Varnish config.
   # See: https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
-  call wsu_base;
+  call wsu_base_recv;
 }
 
 
