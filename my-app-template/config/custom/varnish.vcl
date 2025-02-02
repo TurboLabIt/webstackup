@@ -27,7 +27,7 @@ sub vcl_recv {
   # Typically you clean up the request here, removing cookies you don't need,
   # rewriting the request, etc.
     
-  # Webstackup base Varnish config.
+  ## Webstackup base Varnish config.
   # See: https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
   call wsu_base_recv;
 }
@@ -38,6 +38,10 @@ sub vcl_backend_response {
   #
   # Here you clean the response headers, removing silly Set-Cookie headers
   # and other mistakes your backend does.
+
+  ## Default cache life: 2hrs
+  # backend Cache-Control and Expires still have priority
+  # default_ttl 7200
 }
 
 
