@@ -21,6 +21,8 @@ if [ -z "${PHP_VER}" ]; then
   fxCatastrophicError "PHP_VER is undefined! Cannot determine which version of PHP to install"
 fi
 
+PHP_VER_TO_INSTALL=${PHP_VER}
+
 
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
@@ -57,6 +59,7 @@ else
 fi
 
 source "${WSU_DIR}script/base.sh"
+PHP_VER=${PHP_VER_TO_INSTALL}
 
 
 fxTitle "Removing any old previous instance of PHP ${PHP_VER} (if any)..."
@@ -64,11 +67,6 @@ fxInfo "Note: this will display some errors if PHP is not installed yet."
 fxInfo "This is expected, don't freak out"
 apt purge --auto-remove php${PHP_VER}* -y
 rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}*
-
-
-PHP_VER_REQUESTED=${PHP_VER}
-source "${WSU_DIR}script/base.sh"
-PHP_VER=${PHP_VER_REQUESTED}
 
 
 fxTitle "Installing prerequisites..."
