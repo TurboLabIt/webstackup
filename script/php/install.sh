@@ -2,7 +2,7 @@
 ### AUTOMATIC PHP INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/install.sh
 #
-# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh?$(date +%s) | sudo PHP_VER=8.4 bash
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh | sudo PHP_VER=8.4 bash
 #
 # Based on: https://turbolab.it/1380
 
