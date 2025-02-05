@@ -5,12 +5,11 @@
 #
 # Usage example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/varnish.vcl
 # include "/usr/local/turbolab.it/webstackup/config/varnish/base.vcl";
-# sub vcl_recv { wsu_base(); }
+# sub vcl_recv { wsu_base_recv(); }
+# sub vcl_backend_response  { wsu_base_backend_response(); }
 
 vcl 4.1;
-
 import std;
-
 
 acl wsu_whitelist {
 
@@ -110,24 +109,43 @@ sub wsu_wp_purge_from_whitelist {
 }
 
 
+sub wsu_pipe_unvarnishable_paths {
+
+  # Check if the request URL starts with "/.well-known/"
+  if (req.url ~ "^/\\.well-known/") {
+    return (pipe);
+  }
+}
+
+
 sub wsu_base_recv {
 
   call wsu_httpoxy;
   call wsu_wp_purge_from_whitelist;
   call wsu_set_protocol;
+  call wsu_pipe_unvarnishable_paths;
   call wsu_http_methods;
   call wsu_normalize_url;
+}
+
+
+sub wsu_xmark_backend_response {
+
+  # Inject URL & Host header into the object for asynchronous banning purposes
+  set beresp.http.x-url = bereq.url;
+  set beresp.http.x-host = bereq.http.host;
 }
 
 
 sub wsu_ttl_long {
 
   ## Default cache life: 2hrs (backend Cache-Control and Expires still have priority)
-  default_ttl 7200
+  default_ttl 7200;
 }
 
 
 sub wsu_base_backend_response {
 
+  call wsu_xmark_backend_response;
   call wsu_ttl_long;
 }
