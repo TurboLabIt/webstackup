@@ -118,3 +118,16 @@ sub wsu_base_recv {
   call wsu_http_methods;
   call wsu_normalize_url;
 }
+
+
+sub wsu_ttl_long {
+
+  ## Default cache life: 2hrs (backend Cache-Control and Expires still have priority)
+  default_ttl 7200
+}
+
+
+sub wsu_base_backend_response {
+
+  call wsu_ttl_long;
+}
