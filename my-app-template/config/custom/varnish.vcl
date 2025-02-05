@@ -39,9 +39,7 @@ sub vcl_backend_response {
   # Here you clean the response headers, removing silly Set-Cookie headers
   # and other mistakes your backend does.
 
-  ## Default cache life: 2hrs
-  # backend Cache-Control and Expires still have priority
-  # default_ttl 7200
+  call wsu_base_backend_response;
 }
 
 
