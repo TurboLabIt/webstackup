@@ -139,8 +139,10 @@ sub wsu_xmark_backend_response {
 
 sub wsu_ttl_long {
 
-  ## Default cache life: 2hrs (backend Cache-Control and Expires still have priority)
-  default_ttl 7200;
+  ## Default cache life: 2hrs
+  if (beresp.ttl < 1s) {
+    set beresp.ttl = 7200s;
+  }
 }
 
 
