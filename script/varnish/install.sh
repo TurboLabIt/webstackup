@@ -79,7 +79,17 @@ sed -i '0,/^# Based on/{/^# Based on/!d}' /etc/varnish/default.vcl
 
 
 fxTitle "Final Varnish restart..."
-service varnish restart
+VARNISH_OUTPUT="$(varnishd -C -f /etc/varnish/default.vcl 2>&1)"
+
+if [ $? -eq 0 ]; then
+
+  service varnish restart
+  fxOK "Looking good!"
+  
+else
+
+  fxCatastrophicError "${VARNISH_OUTPUT}" proceed
+fi
 
 
 fxTitle "Enabling Varnish integration with NGINX..."
