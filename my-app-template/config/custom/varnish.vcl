@@ -39,6 +39,8 @@ sub vcl_backend_response {
   # Here you clean the response headers, removing silly Set-Cookie headers
   # and other mistakes your backend does.
 
+  ## Webstackup base Varnish config.
+  # See: https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/base.vcl
   call wsu_base_backend_response;
 }
 
