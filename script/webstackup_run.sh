@@ -33,7 +33,7 @@ OPTIONS=(
   13 "💌   Email GUI (zzmail)"
   14 "🐫   my-app-template"
   15 "🧪   WSU Dev (MAP test)"
-  )
+)
 
 CHOICE=$(dialog --clear \
   --backtitle "$BACKTITLE" \
