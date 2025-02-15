@@ -23,17 +23,17 @@ MENU="Choose one task:"
 OPTIONS=(
   1 "📤  Send a test email"
   2 "📫  New mailbox"
-  3 "🕵️‍  Read a mailbox"
-  4 "📜  Show mail.log"
+  3 "🕵️‍ Read a mailbox"
+  4 "📜  Show email logs"
 )
 
 CHOICE=$(dialog --clear \
-        --backtitle "$BACKTITLE" \
-        --title "$TITLE" \
-        --menu "$MENU" \
-        $HEIGHT $WIDTH $CHOICE_HEIGHT \
-        "${OPTIONS[@]}" \
-        2>&1 >/dev/tty)
+  --backtitle "$BACKTITLE" \
+  --title "$TITLE" \
+  --menu "$MENU" \
+  $HEIGHT $WIDTH $CHOICE_HEIGHT \
+  "${OPTIONS[@]}" \
+  2>&1 >/dev/tty)
 
 clear
 
@@ -42,5 +42,5 @@ case $CHOICE in
   1) bash /usr/local/turbolab.it/webstackup/script/mail/send-test-email.sh;;
   2) bash /usr/local/turbolab.it/webstackup/script/dovecot/new-mailbox.sh;;
   3) bash /usr/local/turbolab.it/webstackup/script/dovecot/read-mailbox.sh;;
-  4) tail -f /var/log/mail.log /var/log/dovecot.log;;
+  4) fxTitle "📜 Mail log" && tail -f /var/log/mail.log /var/log/dovecot.log;;
 esac
