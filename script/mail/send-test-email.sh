@@ -54,7 +54,7 @@ while [ -z "$WSU_TEST_EMAIL_FROM" ]; do
 
 done
 
-WSU_TEST_EMAIL_FROM="${WSU_EMAIL_ADDRESS_TO_READ//[[:space:]]/}"
+WSU_TEST_EMAIL_FROM="${WSU_TEST_EMAIL_FROM//[[:space:]]/}"
 fxOK "Got it! ##$WSU_TEST_EMAIL_FROM##"
 
 
