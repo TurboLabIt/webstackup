@@ -5,7 +5,7 @@ clear
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"
 TITLE="Email server management GUI"
-fxTitle "$TITLE"
+fxHeader "$TITLE"
 rootCheck
 
 
