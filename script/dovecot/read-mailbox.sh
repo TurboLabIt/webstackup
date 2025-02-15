@@ -35,7 +35,7 @@ WSU_EMAIL_ADDRESS_TO_READ="${WSU_EMAIL_ADDRESS_TO_READ//[[:space:]]/}"
 fxOK "Got it! ##$WSU_EMAIL_ADDRESS_TO_READ##"
 
 
-fxTitle "📫 Inbox"
+fxTitle "📫 Inbox of $WSU_EMAIL_ADDRESS_TO_READ"
 sudo doveadm fetch -u $WSU_EMAIL_ADDRESS_TO_READ 'hdr.from hdr.subject hdr.date' mailbox INBOX | perl -MEncode -ne 'binmode STDOUT, ":utf8"; print decode("MIME-Header", $_)' | awk '
 /hdr.from:/ {from = substr($0, index($0, ":") + 2)}
 /hdr.subject:/ {subject = substr($0, index($0, ":") + 2)}
