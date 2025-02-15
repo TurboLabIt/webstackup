@@ -9,120 +9,165 @@ fi
 ## bash-fx is ready
 
 fxHeader "📧 Send test email"
-
-fxTitle "Checking mailname from /etc/mailname..."
-if [ -f "/etc/mailname" ]; then
-  fxOK "Your mailname is ##$(cat /etc/mailname)##"
-else
-  fxWarning "Mailname doesn't exist. User discretion is advised"
-fi
-
-
-function argumentError()
-{
-  fxCatastrophicError "Bad arguments! Usage: send-test-email from@example.com to@example.com [fast]"
-}
-
-
-fxTitle "Checking sender address..."
-if [ ! -z "${1}" ]; then
-  fxInfo "Sender address set from command line: 🏠 ##${1}##"
-  EMAIL_FROM_ADDRESS=${1}
-fi
-
-if [ ! -z "${EMAIL_FROM_ADDRESS}" ] && [ -z "${1}" ]; then
-  fxInfo "Sender address variable found: 🏠 ##${EMAIL_FROM_ADDRESS}##"
-fi
-
-if [ -z "${EMAIL_FROM_ADDRESS}" ]; then
-  argumentError
-fi
-
-
-fxTitle "Checking recipient address..."
-if [ ! -z "${2}" ]; then
-  fxInfo "Recipient address set from command line: 📇 ##${2}##"
-  EMAIL_TO_ADDRESS=${2}
-fi
-
-if [ ! -z "${EMAIL_TO_ADDRESS}" ] && [ -z "${2}" ]; then
-  fxInfo "Recipient address variable found: 📇 ##${EMAIL_TO_ADDRESS}##"
-fi
-
-if [ -z "${EMAIL_TO_ADDRESS}" ]; then
-  argumentError
-fi
-
+rootCheck
 
 fxTitle "Checking the mail command..."
 if [ -z $(command -v mail) ]; then
+
   fxWarning "Mail is not installed. Installing it now..."
-  sudo apt install mailutils -y
+  apt install mailutils -y
 fi
 
 
-fxTitle "Wiping /var/log/email.log..."
-if [ -f "/var/log/mail.log" ]; then
-  fxInfo "Mail log file found"
+fxTitle "Checking mailname from /etc/mailname..."
+if [ -f "/etc/mailname" ]; then
+
+  WSU_MAILNAME=$(cat /etc/mailname)
+  WSU_MAILNAME="${WSU_MAILNAME//[[:space:]]/}"
+  fxOK "Your mailname is ##${WSU_MAILNAME}##"
+  WSU_TEST_EMAIL_DEFAULT_FROM=test@${WSU_MAILNAME}
+  WSU_TEST_EMAIL_DEFAULT_TO=info@${WSU_MAILNAME}
+  
 else
-  fxWarning "Mail log file not found"
+
+  fxWarning "Mailname doesn't exist. User discretion is advised"
+  WSU_TEST_EMAIL_DEFAULT_FROM=test@example.com
+  WSU_TEST_EMAIL_DEFAULT_TO=info@example.com
+
 fi
 
+
+fxTitle "Sender address (From:)"
+if [ ! -z "${1}" ]; then
+
+  fxInfo "Sender address (From:) set from command line"
+  WSU_TEST_EMAIL_FROM=${1}
+fi
+
+while [ -z "$WSU_TEST_EMAIL_FROM" ]; do
+  
+  echo "🤖 Provide the sender email address (From:) or hit Enter for ##${WSU_TEST_EMAIL_DEFAULT_FROM}##"
+  read -p ">> " WSU_TEST_EMAIL_FROM  < /dev/tty
+  if [ -z "$WSU_TEST_EMAIL_FROM" ]; then
+    WSU_TEST_EMAIL_FROM=$WSU_TEST_EMAIL_DEFAULT_FROM
+  fi
+
+done
+
+WSU_TEST_EMAIL_FROM="${WSU_EMAIL_ADDRESS_TO_READ//[[:space:]]/}"
+fxOK "Got it! ##$WSU_TEST_EMAIL_FROM##"
+
+
+fxTitle "Recipient address (To:)"
+if [ ! -z "${2}" ]; then
+
+  fxInfo "Recipient address (To:) set from command line"
+  WSU_TEST_EMAIL_TO=${2}
+fi
+
+while [ -z "$WSU_TEST_EMAIL_TO" ]; do
+  
+  echo "🤖 Provide the recipient email address (To:) or hit Enter for ##${WSU_TEST_EMAIL_DEFAULT_TO}##"
+  read -p ">> " WSU_TEST_EMAIL_TO  < /dev/tty
+  if [ -z "$WSU_TEST_EMAIL_TO" ]; then
+    WSU_TEST_EMAIL_TO=$WSU_TEST_EMAIL_DEFAULT_TO
+  fi
+
+done
+
+WSU_TEST_EMAIL_TO="${WSU_TEST_EMAIL_TO//[[:space:]]/}"
+fxOK "Got it! ##$WSU_TEST_EMAIL_TO##"
+
+
+fxTitle "Fast/slow mode"
 if [ "${3}" == "fast" ]; then
-  fxInfo "🦘 Skipping due to fast mode from command line"
-  EMAIL_SKIP_WIPE_LOG=1
+
+  fxInfo "Fast mode set from the command line"
+  WSU_TEST_EMAIL_MODE=fast
+
+elif [ "${3}" == "slow" ]; then
+
+  fxInfo "Slow mode set from the command line"
+  WSU_TEST_EMAIL_MODE=slow
 fi
 
-if [ "${EMAIL_SKIP_WIPE_LOG}" == "1" ] && [ "${3}" != "fast" ]; then
-  fxInfo "🦘 Skipping due to variable set"
-fi
+while [ -z "$WSU_TEST_EMAIL_MODE" ]; do
+  
+  echo "🤖 Wipe the log and restart the email services? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_TEST_EMAIL_MODE=slow
+  else
+    WSU_TEST_EMAIL_MODE=yes
+  fi
 
-if [ "${EMAIL_SKIP_WIPE_LOG}" != "1" ] && [ -f "/var/log/mail.log" ]; then
-  echo "" | sudo tee /var/log/mail.log
-  fxOK "Log wiped"
-fi
+done
 
+if [ "$WSU_TEST_EMAIL_MODE" == slow ]; then
 
-fxTitle "Restarting email services..."
-if [ "${3}" == "fast" ]; then
-  fxInfo "🦘 Skipping due to fast mode from command line"
-  EMAIL_SKIP_SERVICES_RESTART=1
-fi
+  fxTitle "Wiping the mail.log..."
+  if [ -f /var/log/mail.log ]; then
+    echo "" > /var/log/mail.log
+  else
+    fxInfo "Log file not found. Skipping 🦘"
+  fi
 
-if [ "${EMAIL_SKIP_SERVICES_RESTART}" == "1" ] && [ -z "${3}" ]; then
-  fxInfo "🦘 Skipping due to variable set"
-fi
+  fxTitle "Wiping dovecot.log..."
+  if [ -f /var/log/dovecot.log ]; then
+    echo "" > /var/log/dovecot.log
+  else
+    fxInfo "Log file not found. Skipping 🦘"
+  fi
 
-if [ "${EMAIL_SKIP_SERVICES_RESTART}" != "1" ]; then
-
-  ## postfix
+  fxTitle "Restarting Postfix..."
   if systemctl is-active --quiet postfix.service; then
     sudo systemctl restart postfix
     sudo systemctl status postfix --no-pager
   else
-    fxWarning "Postfix not found"
+    fxInfo "Postfix not found. Skipping 🦘"
   fi
 
-
-  ## opendkim
+  fxTitle "Restarting OpenDKIM..."
   if systemctl is-active --quiet opendkim.service; then
     sudo systemctl restart opendkim
     sudo systemctl status opendkim --no-pager
   else
-    fxWarning "OpenDKIM not found"
+    fxWarning "OpenDKIM not found. Skipping 🦘"
   fi
+
+  fxTitle "Restarting Dovecot..."
+  if systemctl is-active --quiet dovecot.service; then
+    sudo systemctl restart dovecot
+    sudo systemctl status dovecot --no-pager
+  else
+    fxWarning "Dovecot not found. Skipping 🦘"
+  fi
+  
 fi
 
 
 fxTitle "Sending the actual email (finally!)..."
 ## https://serverfault.com/q/1152427/188704
 ## https://www.telemessage.com/developer/faq/how-do-i-encode-non-ascii-characters-in-an-email-subject-line/
-EMAIL_SUBJECT=$(echo "🧪 Hi! This is a test email from $(hostname) 🧪" | base64)
-echo "Test from $(hostname) sent $(date) (server-time)" | \
+EMAIL_SUBJECT=$(echo "🧪 Test email sent from $(hostname) 🧪" | base64)
+echo "Hi! This is a test sent from $(hostname) on $(date) (server-time)" | \
   mail -s "=?utf-8?B?${EMAIL_SUBJECT}?=" -a \
-  FROM:"${EMAIL_FROM_ADDRESS}" "${EMAIL_TO_ADDRESS}"
+  FROM:"${WSU_TEST_EMAIL_FROM}" "${WSU_TEST_EMAIL_TO}"
 
 sleep 5
-cat /var/log/mail.log
+
+fxTitle "📜 Mail log"
+if [ -f /var/log/mail.log ]; then
+  tail -n 100 /var/log/mail.log | grep --color=always -i ${WSU_TEST_EMAIL_TO} -B10 -A10
+else
+  fxInfo "mail.log not found. Skipping 🦘"
+fi
+
+if [ -f /var/log/dovecot.log ]; then
+  tail -n 100 /var/log/dovecot.log | grep --color=always -i ${WSU_TEST_EMAIL_TO} -B10 -A10
+else
+  fxInfo "dovecot.log not found. Skipping 🦘"
+fi
+
 
 fxEndFooter
