@@ -110,7 +110,7 @@ while [ -z "$NEW_MYSQL_PASSWORD" ]; do
   if [ -z "$NEW_MYSQL_PASSWORD" ]; then
     NEW_MYSQL_PASSWORD="$(fxPasswordGenerator)"
   fi
-  
+
 done
 
 fxOK "OK, ##$NEW_MYSQL_PASSWORD##"
