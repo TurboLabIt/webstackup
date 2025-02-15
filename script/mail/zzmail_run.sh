@@ -24,7 +24,8 @@ OPTIONS=(
   1 "📤  Send a test email"
   2 "📫  New mailbox"
   3 "🕵️‍  Read a mailbox"
-  4 "📜  Show mail.log")
+  4 "📜  Show mail.log"
+)
 
 CHOICE=$(dialog --clear \
         --backtitle "$BACKTITLE" \
