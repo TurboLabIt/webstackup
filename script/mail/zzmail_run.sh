@@ -23,7 +23,7 @@ MENU="Choose one task:"
 OPTIONS=(
   1 "📤  Send a test email"
   2 "📫  New mailbox"
-  3 "🕵️‍ Read a mailbox"
+  3 "🕵️‍ Read a mailbox (Dovecot)"
   4 "📜  Show email logs"
 )
 
