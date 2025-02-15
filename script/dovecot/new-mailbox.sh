@@ -66,7 +66,9 @@ if [ -f "$DOVECOT_PASSWD" ] && [ "$(tail -c1 "$DOVECOT_PASSWD")" != "" ]; then
 fi
 
 echo "$WSU_NEW_EMAIL_ROW" >> "$DOVECOT_PASSWD"
-fxOK "OK"
+
+fxTitle "Reloading..."
+service dovecot reload
 
 
 fxEndFooter
