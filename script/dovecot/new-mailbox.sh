@@ -37,7 +37,7 @@ while [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; do
   echo "🤖 Provide the new email address or hit Enter for ##${WSU_NEW_EMAIL_ADDRESS_DEFAULT}##"
   read -p ">> " WSU_NEW_EMAIL_ADDRESS  < /dev/tty
   if [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; then
-    WSU_NEW_EMAIL_ADDRESS=$WSU_READ_EMAIL_ADDRESS_DEFAULT
+    WSU_NEW_EMAIL_ADDRESS=$WSU_NEW_EMAIL_ADDRESS_DEFAULT
   fi
 
 done
