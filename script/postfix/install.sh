@@ -48,7 +48,7 @@ adduser postfix opendkim
 fxTitle "Enabling port 587 (SMTPS) for end-users to use..."
 echo "" >>  /etc/postfix/master.cf
 echo "" >>  /etc/postfix/master.cf
-cat "${WEBSTACKUP_CONFIG_DIR}postfix/submission-port-587.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
+cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
 
 fxTitle "Wiring together opendkim and postfix..."
 mkdir /var/spool/postfix/opendkim
