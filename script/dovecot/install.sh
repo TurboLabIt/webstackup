@@ -90,7 +90,6 @@ fi
 fxTitle "Wiring together Postfix and Dovecot..."
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
 cat "${WEBSTACKUP_CONFIG_DIR}postfix/dovecot-integration-incoming.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
