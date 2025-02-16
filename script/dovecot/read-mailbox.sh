@@ -10,7 +10,7 @@ else
 fi
 ## bash-fx is ready
 
-fxHeader "🕵️‍♀️ DOVECOT email reader"
+fxHeader "🕵 DOVECOT email reader"
 rootCheck
 
 
