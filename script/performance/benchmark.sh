@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### AUTOMATIC SERVER BENCHMARK BY WEBSTACK.UP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/performance/benchmark.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/performance/benchmark.sh | sudo bash
 #
 
 ## bash-fx

@@ -2,7 +2,7 @@
 ### AUTOMATIC DOVECOT INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/dovecot/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/dovecot/install.sh?$(date +%s) | sudo POSTFIX_MAIL_NAME=my-app.com bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/dovecot/install.sh | sudo POSTFIX_MAIL_NAME=mailserver.my-app.com bash
 #
 # Based on: https://turbolab.it/
 
@@ -35,7 +35,7 @@ rm -rf /etc/dovecot
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
 if [ ! -f "${WSU_DIR}setup.sh" ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s) | sudo bash
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
 fi
 
 source "${WSU_DIR}script/base.sh"

@@ -2,7 +2,7 @@
 ### AUTOMATIC www-data GENERATOR BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/account/generate-www-data.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-www-data.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-www-data.sh | sudo bash
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then

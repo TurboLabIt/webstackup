@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ## POWEROFF THE SYSTEM, BUT ONLY IT THE NORMAL POWEROFF COMMAND IS DISABLED BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-zz.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-zz.sh | sudo bash
 
 ## bash-fx
 if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi

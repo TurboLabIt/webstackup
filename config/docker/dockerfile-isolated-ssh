@@ -4,8 +4,8 @@ LABEL maintainer="Webstackup info@turbolab.it"
 RUN apt update
 RUN apt install curl sudo nano lsb-release openssh-server wget git bash apt-utils -y
 
-RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh?$(date +%s) | bash
-RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh?$(date +%s) | bash
+RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | bash
+RUN curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | bash
 
 RUN curl -o "/etc/ssh/sshd_config.d/disable-password-login.conf" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/ssh/disable-password-login.conf?$(date +%s)
 

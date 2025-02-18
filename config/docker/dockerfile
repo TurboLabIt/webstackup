@@ -4,7 +4,7 @@ RUN apt update && apt install apt-utils sudo wget nano iproute2 openssh-server -
 RUN apt dist-upgrade -y
 RUN apt autoremove -y
 
-RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh?$(date +%s)
+RUN wget -O setup.sh https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh
 RUN bash setup.sh
 RUN rm setup.sh
 

@@ -2,7 +2,7 @@
 ### AUTOMATIC COMPOSER INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/composer-install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/composer-install.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/composer-install.sh | sudo bash
 #
 # Based on: https://getcomposer.org/download/
 

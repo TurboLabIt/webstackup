@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### CHANGE MOTD ON UBUNTU BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/setup.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/setup.sh | sudo bash
 #
 
 ## bash-fx
@@ -53,7 +53,7 @@ if [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ -f /usr/local/turbola
  
 elif [ ! -f /etc/update-motd.d/00-webstackup-hostname ] && [ ! -f /usr/local/turbolab.it/webstackup/script/motd/hostname-banner.sh ]; then
 
-  sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/hostname-banner.sh?$(date +%s)
+  sudo curl -Lo /etc/update-motd.d/00-webstackup-hostname https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/motd/hostname-banner.sh
   sudo chmod u=rwx,go=rx /etc/update-motd.d/00-webstackup-hostname
 fi
 

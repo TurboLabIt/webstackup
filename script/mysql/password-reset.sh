@@ -2,7 +2,7 @@
 ### GUIDED MySQL PASSWORD RESET BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/password-reset.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/password-reset.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/password-reset.sh | sudo bash
 #
 # Based on: https://turbolab.it/3354 | https://dev.mysql.com/doc/refman/8.0/en/resetting-permissions.html
 

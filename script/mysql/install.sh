@@ -2,7 +2,7 @@
 ### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh?$(date +%s) | sudo MYSQL_VER=8.4 bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh | sudo MYSQL_VER=8.4 bash
 #
 # Based on: https://turbolab.it/1381
 
@@ -129,4 +129,4 @@ if [ -f /usr/local/turbolab.it/webstackup/config/cron/mysql ]; then
   cp /usr/local/turbolab.it/webstackup/config/cron/mysql /etc/cron.d/webstackup_mysql
 fi
 
-curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/mysqltuner.sh?$(date +%s) | sudo bash
+curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/mysqltuner.sh | sudo bash

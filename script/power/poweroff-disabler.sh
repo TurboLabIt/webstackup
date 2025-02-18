@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ## DISABLE THE POWEROFF/SHUTDOWN COMMAND BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-disabler.sh | sudo bash
 # 💡 To shutdown the system, you must then use `zzserver-poweroff`
 #
 # Source: https://turbolab.it/23
@@ -65,7 +65,7 @@ if [ -f "${WSU_POWEROFF}" ]; then
 else
 
   fxTitle "Downloading..."
-  curl -o "${ZZPOWEROFF_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-zz.sh?$(date +%s)
+  curl -o "${ZZPOWEROFF_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/power/poweroff-zz.sh
   chown root:root "${ZZPOWEROFF_FILE}"
   chmod u=rwx,go=rx "${ZZPOWEROFF_FILE}"
 fi

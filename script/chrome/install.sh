@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 ### AUTOMATIC Chrome INSTALL BY WEBSTACK.UP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh | sudo bash
 # 
 
 echo ""

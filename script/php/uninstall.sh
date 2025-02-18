@@ -2,7 +2,7 @@
 ### AUTOMATIC PHP UNINSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/uninstall.sh
 #
-# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/uninstall.sh?$(date +%s) | sudo PHP_VER=8.3 bash
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/uninstall.sh | sudo PHP_VER=8.3 bash
 #
 # Based on: https://turbolab.it/1380
 

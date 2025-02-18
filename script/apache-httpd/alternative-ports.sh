@@ -2,7 +2,7 @@
 ### MOVE APACHE TO ALTERNATIVE PORTS BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/apache-httpd/alternative-ports.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/alternative-ports.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/alternative-ports.sh | sudo bash
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ## Let's Encrypt post-renewal hook
 # https://certbot.eff.org/docs/using.html?highlight=hook#renewing-certificates
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-create-hooks.sh?$(date +%s) | sudo bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-create-hooks.sh | sudo bash
 #
 SCRIPT_NAME=letsencrypt-create-hooks
 

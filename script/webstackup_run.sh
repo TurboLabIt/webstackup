@@ -51,7 +51,7 @@ function wsuzzws()
   if [ -f "${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh" ]; then
     sudo bash ${WEBSTACKUP_INSTALL_DIR_PARENT}zzalias/zzws.sh $1
   else
-    curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/zzws.sh?$(date +%s) | sudo bash
+    curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/zzws.sh | sudo bash
   fi
 }
 
