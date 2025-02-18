@@ -45,7 +45,7 @@ sed -i "s|${POSTFIX_MAIL_NAME},||g" /etc/postfix/main.cf
 
 fxTitle "Replace default myhostname = $(hostname) with my own..."
 sed -i '/^myhostname\|^mydestination/ s/^/#/' /etc/postfix/main.cf
-echo "myhostname = /etc/mailname" >>  /etc/postfix/main.cf
+echo "myhostname = ${POSTFIX_MAIL_NAME}" >>  /etc/postfix/main.cf
 echo "mydestination = localhost.localdomain, localhost" >>  /etc/postfix/main.cf
 
 fxTitle "Adding the postfix user to the opendkim group..."
