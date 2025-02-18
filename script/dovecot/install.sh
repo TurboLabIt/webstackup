@@ -17,6 +17,7 @@ fi
 fxHeader "💿 Dovecot installer"
 rootCheck
 
+
 fxTitle "Preserving the virtual user file..."
 if [ -f /etc/dovecot/passwd ]; then
 
@@ -87,13 +88,19 @@ else
   fxInfo "Postfix is already installed"
 fi
 
+
+## mailname re-parsing via BashFx
+fxSourceLocalOrRemote "scripts/mail.sh"
+fxMailNameWarning
+
+
 fxTitle "Wiring together Postfix and Dovecot..."
 sed -i '/^smtpd_tls_cert_file\|^smtpd_tls_key_file/ s/^/#/' /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
-cat "${WEBSTACKUP_CONFIG_DIR}postfix/dovecot-integration-incoming.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/main.cf
+cat "${WEBSTACKUP_CONFIG_DIR}postfix/dovecot-integration-incoming.conf" | sed "s|my-app.com|${WSU_MAILDOMAIN}|g" >> /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
-cat "${WEBSTACKUP_CONFIG_DIR}postfix/dovecot-integration-outgoing.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/main.cf
+cat "${WEBSTACKUP_CONFIG_DIR}postfix/dovecot-integration-outgoing.conf" | sed "s|my-app.com|${WSU_MAILDOMAIN}|g" >> /etc/postfix/main.cf
 
 fxEndFooter
