@@ -15,12 +15,30 @@ rootCheck
 DOVECOT_PASSWD=/etc/dovecot/passwd
 
 
-fxTitle "📧 Mailbox address"
-fxInfo "For example: \"info@turbolab.it\""
-while [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; do
+fxTitle "Checking mailname from /etc/mailname..."
+if [ -f "/etc/mailname" ]; then
 
-  echo "🤖 Provide the new email address"
+  WSU_MAILNAME=$(cat /etc/mailname)
+  WSU_MAILNAME="${WSU_MAILNAME//[[:space:]]/}"
+  fxOK "Your mailname is ##${WSU_MAILNAME}##"
+  WSU_NEW_EMAIL_ADDRESS_DEFAULT=info@${WSU_MAILNAME}
+fi
+
+
+fxTitle "Mailbox address"
+if [ ! -z "${1}" ]; then
+
+  fxInfo "Email address set from command line"
+  WSU_NEW_EMAIL_ADDRESS=${1}
+fi
+
+while [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; do
+  
+  echo "🤖 Provide the new email address or hit Enter for ##${WSU_NEW_EMAIL_ADDRESS_DEFAULT}##"
   read -p ">> " WSU_NEW_EMAIL_ADDRESS  < /dev/tty
+  if [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; then
+    WSU_NEW_EMAIL_ADDRESS=$WSU_NEW_EMAIL_ADDRESS_DEFAULT
+  fi
 
 done
 
@@ -28,22 +46,29 @@ WSU_NEW_EMAIL_ADDRESS="${WSU_NEW_EMAIL_ADDRESS//[[:space:]]/}"
 fxOK "Got it! ##$WSU_NEW_EMAIL_ADDRESS##"
 
 
-# Check if the mailbox address already exists
+fxTitle "Checking if the mailbox already exists..."
 if [ -f "$DOVECOT_PASSWD" ] && grep -q "^${WSU_NEW_EMAIL_ADDRESS}:" "$DOVECOT_PASSWD"; then
   fxCatastrophicError "This mailbox already exists!"
 fi
 
 
 fxTitle "🔑 Password"
+if [ "${2}" == "auto" ]; then
 
-## generating a candidate password
-if [ "$WSU_NEW_EMAIL_PASSWORD" = "auto" ]; then
+  fxInfo "Password set from command line to auto-generated"
   WSU_NEW_EMAIL_PASSWORD="$(fxPasswordGenerator)"
+
+elif [ ! -z "${2}" ]; then
+
+  fxInfo "Password set from command line"
+  WSU_NEW_EMAIL_PASSWORD="$2"
+
 fi
+
 
 while [ -z "$WSU_NEW_EMAIL_PASSWORD" ]; do
 
-  echo "🤖 Provide the new mailbox password (leave blank for autogeneration)"
+  echo "🤖 Provide the new mailbox password (leave it blank for autogeneration)"
   read -p ">> " WSU_NEW_EMAIL_PASSWORD  < /dev/tty
   if [ -z "$WSU_NEW_EMAIL_PASSWORD" ]; then
     WSU_NEW_EMAIL_PASSWORD="$(fxPasswordGenerator)"
