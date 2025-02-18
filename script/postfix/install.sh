@@ -31,24 +31,25 @@ source "${WSU_DIR}script/base.sh"
 
 fxTitle "Automating..."
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
-debconf-set-selections <<< "postfix	postfix/mailname string ${POSTFIX_MAIL_NAME}"
-fxOK "Mail name set to ##${POSTFIX_MAIL_NAME}##"
+debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
   
 fxTitle "Installing..."
 apt update
 apt install postfix mailutils opendkim opendkim-tools -y
 
+fxMailNameWarning
+
 fxTitle "Removing references to ##${POSTFIX_MAIL_NAME}## from mydestination..."
 sed -i "s|${POSTFIX_MAIL_NAME}, ||g" /etc/postfix/main.cf
 sed -i "s|${POSTFIX_MAIL_NAME},||g" /etc/postfix/main.cf
 
+fxTitle "Replace default myhostname = $(hostname) with my own..."
+sed -i '/^myhostname\|^mydestination/ s/^/#/' /etc/postfix/main.cf
+echo "myhostname = /etc/mailname" >>  /etc/postfix/master.cf
+echo "mydestination = localhost.localdomain, localhost" >>  /etc/postfix/master.cf
+
 fxTitle "Adding the postfix user to the opendkim group..."
 adduser postfix opendkim
-
-fxTitle "Enabling port 587 (SMTPS) for end-users to use..."
-echo "" >>  /etc/postfix/master.cf
-echo "" >>  /etc/postfix/master.cf
-cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
 
 fxTitle "Wiring together opendkim and postfix..."
 mkdir /var/spool/postfix/opendkim
@@ -61,7 +62,6 @@ echo "" >>  /etc/opendkim.conf
 echo "" >>  /etc/opendkim.conf
 cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/opendkim_to_be_appended.conf" >> /etc/opendkim.conf
 
-echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
 cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
@@ -81,6 +81,11 @@ cp "${WEBSTACKUP_INSTALL_DIR}config/opendkim/SigningTable" /etc/opendkim/Signing
 chown opendkim:opendkim /etc/opendkim/ -R
 chmod ug=rwX,o=rX /etc/opendkim/ -R
 chmod u=rwX,og=X /etc/opendkim/keys -R
+
+fxTitle "Enabling SMTPS port for end-users to use..."
+echo "" >>  /etc/postfix/master.cf
+echo "" >>  /etc/postfix/master.cf
+cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
 
 fxTitle "Restarting services..."
 service postfix restart
