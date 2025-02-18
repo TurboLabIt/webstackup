@@ -15,14 +15,7 @@ rootCheck
 DOVECOT_PASSWD=/etc/dovecot/passwd
 
 
-fxTitle "Checking mailname from /etc/mailname..."
-if [ -f "/etc/mailname" ]; then
-
-  WSU_MAILNAME=$(cat /etc/mailname)
-  WSU_MAILNAME="${WSU_MAILNAME//[[:space:]]/}"
-  fxOK "Your mailname is ##${WSU_MAILNAME}##"
-  WSU_NEW_EMAIL_ADDRESS_DEFAULT=info@${WSU_MAILNAME}
-fi
+fxMailNameWarning
 
 
 fxTitle "Mailbox address"
@@ -32,12 +25,13 @@ if [ ! -z "${1}" ]; then
   WSU_NEW_EMAIL_ADDRESS=${1}
 fi
 
+
 while [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; do
   
-  echo "🤖 Provide the new email address or hit Enter for ##${WSU_NEW_EMAIL_ADDRESS_DEFAULT}##"
+  echo "🤖 Provide the new email address or hit Enter for ##${WSU_MAIL_DEFAULT_ADDRESS}##"
   read -p ">> " WSU_NEW_EMAIL_ADDRESS  < /dev/tty
   if [ -z "$WSU_NEW_EMAIL_ADDRESS" ]; then
-    WSU_NEW_EMAIL_ADDRESS=$WSU_NEW_EMAIL_ADDRESS_DEFAULT
+    WSU_NEW_EMAIL_ADDRESS=$WSU_MAIL_DEFAULT_ADDRESS
   fi
 
 done
@@ -62,7 +56,6 @@ elif [ ! -z "${2}" ]; then
 
   fxInfo "Password set from command line"
   WSU_NEW_EMAIL_PASSWORD="$2"
-
 fi
 
 

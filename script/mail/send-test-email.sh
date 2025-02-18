@@ -18,24 +18,7 @@ if [ -z $(command -v mail) ]; then
   apt install mailutils -y
 fi
 
-
-fxTitle "Checking mailname from /etc/mailname..."
-if [ -f "/etc/mailname" ]; then
-
-  WSU_MAILNAME=$(cat /etc/mailname)
-  WSU_MAILNAME="${WSU_MAILNAME//[[:space:]]/}"
-  fxOK "Your mailname is ##${WSU_MAILNAME}##"
-  WSU_TEST_EMAIL_DEFAULT_FROM=test@${WSU_MAILNAME}
-  WSU_TEST_EMAIL_DEFAULT_TO=info@${WSU_MAILNAME}
-  
-else
-
-  fxWarning "Mailname doesn't exist. User discretion is advised"
-  WSU_TEST_EMAIL_DEFAULT_FROM=test@example.com
-  WSU_TEST_EMAIL_DEFAULT_TO=info@example.com
-
-fi
-
+fxMailNameWarning
 
 fxTitle "Sender address (From:)"
 if [ ! -z "${1}" ]; then
@@ -46,10 +29,10 @@ fi
 
 while [ -z "$WSU_TEST_EMAIL_FROM" ]; do
   
-  echo "🤖 Provide the sender email address (From:) or hit Enter for ##${WSU_TEST_EMAIL_DEFAULT_FROM}##"
+  echo "🤖 Provide the sender email address (From:) or hit Enter for ##${WSU_MAIL_DEFAULT_TEST_ADDRESS}##"
   read -p ">> " WSU_TEST_EMAIL_FROM  < /dev/tty
   if [ -z "$WSU_TEST_EMAIL_FROM" ]; then
-    WSU_TEST_EMAIL_FROM=$WSU_TEST_EMAIL_DEFAULT_FROM
+    WSU_TEST_EMAIL_FROM=$WSU_MAIL_DEFAULT_TEST_ADDRESS
   fi
 
 done
@@ -67,10 +50,10 @@ fi
 
 while [ -z "$WSU_TEST_EMAIL_TO" ]; do
   
-  echo "🤖 Provide the recipient email address (To:) or hit Enter for ##${WSU_TEST_EMAIL_DEFAULT_TO}##"
+  echo "🤖 Provide the recipient email address (To:) or hit Enter for ##${WSU_MAIL_DEFAULT_ADDRESS}##"
   read -p ">> " WSU_TEST_EMAIL_TO  < /dev/tty
   if [ -z "$WSU_TEST_EMAIL_TO" ]; then
-    WSU_TEST_EMAIL_TO=$WSU_TEST_EMAIL_DEFAULT_TO
+    WSU_TEST_EMAIL_TO=$WSU_MAIL_DEFAULT_ADDRESS
   fi
 
 done
@@ -154,7 +137,9 @@ echo "Hi! This is a test sent from $(hostname) on $(date) (server-time)" | \
   mail -s "=?utf-8?B?${EMAIL_SUBJECT}?=" -a \
   FROM:"${WSU_TEST_EMAIL_FROM}" "${WSU_TEST_EMAIL_TO}"
 
+
 sleep 5
+
 
 fxTitle "📜 Mail log"
 if [ -f /var/log/mail.log ]; then
@@ -162,6 +147,7 @@ if [ -f /var/log/mail.log ]; then
 else
   fxInfo "mail.log not found. Skipping 🦘"
 fi
+
 
 if [ -f /var/log/dovecot.log ]; then
   tail -n 100 /var/log/dovecot.log | grep --color=always -i ${WSU_TEST_EMAIL_TO} -B10 -A10

@@ -13,16 +13,7 @@ fi
 fxHeader "🕵 DOVECOT email reader"
 rootCheck
 
-
-fxTitle "Checking mailname from /etc/mailname..."
-if [ -f "/etc/mailname" ]; then
-
-  WSU_MAILNAME=$(cat /etc/mailname)
-  WSU_MAILNAME="${WSU_MAILNAME//[[:space:]]/}"
-  fxOK "Your mailname is ##${WSU_MAILNAME}##"
-  WSU_READ_EMAIL_ADDRESS_DEFAULT=info@${WSU_MAILNAME}
-
-fi
+fxMailNameWarning
 
 
 fxTitle "Mailbox address"
@@ -34,10 +25,10 @@ fi
 
 while [ -z "$WSU_EMAIL_ADDRESS_TO_READ" ]; do
   
-  echo "🤖 Provide the email address to check or hit Enter for ##${WSU_READ_EMAIL_ADDRESS_DEFAULT}##"
+  echo "🤖 Provide the email address to check or hit Enter for ##${WSU_MAIL_DEFAULT_ADDRESS}##"
   read -p ">> " WSU_EMAIL_ADDRESS_TO_READ  < /dev/tty
   if [ -z "$WSU_EMAIL_ADDRESS_TO_READ" ]; then
-    WSU_EMAIL_ADDRESS_TO_READ=$WSU_READ_EMAIL_ADDRESS_DEFAULT
+    WSU_EMAIL_ADDRESS_TO_READ=$WSU_MAIL_DEFAULT_ADDRESS
   fi
 
 done
