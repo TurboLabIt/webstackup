@@ -25,6 +25,7 @@ OPTIONS=(
   2 "📫  New mailbox"
   3 "🕵️‍ Read a mailbox (Dovecot)"
   4 "📜  Show email logs"
+  5 "🔏 Activate Let's Encrypt certificate"
 )
 
 CHOICE=$(dialog --clear \
@@ -43,4 +44,5 @@ case $CHOICE in
   2) bash /usr/local/turbolab.it/webstackup/script/dovecot/new-mailbox.sh;;
   3) bash /usr/local/turbolab.it/webstackup/script/dovecot/read-mailbox.sh;;
   4) fxTitle "📜 Mail log" && tail -f /var/log/mail.log /var/log/dovecot.log;;
+  5) bash /usr/local/turbolab.it/webstackup/script/dovecot/replace-certificate.sh;;
 esac
