@@ -25,7 +25,7 @@ OPTIONS=(
   2 "📫  New mailbox"
   3 "🕵️‍ Read a mailbox (Dovecot)"
   4 "📜  Show email logs"
-  5 "🔏 Activate Let's Encrypt certificate"
+  5 "🔏  Activate Let's Encrypt certificate"
 )
 
 CHOICE=$(dialog --clear \
