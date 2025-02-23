@@ -26,7 +26,7 @@ apt install snapd -y
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove certbot* -y
 snap remove --purge certbot
-rm -rf /etc/letsencrypt /usr/local/bin/acme-dns-client
+rm -rf /etc/letsencrypt /var/log/letsencrypt /var/lib/letsencrypt /usr/local/bin/acme-dns-client
 
 
 ## installing/updating WSU
