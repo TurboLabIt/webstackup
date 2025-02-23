@@ -17,6 +17,7 @@ fi
 fxHeader "💿 Let's Encrypt installer"
 rootCheck
 
+
 fxTitle "Installing prerequisites..."
 apt update -qq
 apt install snapd -y
