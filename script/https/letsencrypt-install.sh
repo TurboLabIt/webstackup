@@ -49,19 +49,16 @@ mkdir -p /etc/letsencrypt/renewal-hooks/deploy/
 fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
 
 
-fxTitle "Installing acme-dns-client...."
 ## https://github.com/acme-dns/acme-dns-client/releases/latest
 URL="https://github.com/acme-dns/acme-dns-client/releases/download/v0.3/acme-dns-client_0.3_linux_$(fxGetCpuArch).tar.gz"
-fxInfo "Downloading linux_${URL}"
+fxInfo "Downloading ${URL} ..."
 curl -Lo /tmp/acme-dns-client.tar.gz "${URL}"
 
+fxTitle "Installing acme-dns-client...."
 tar -zxf /tmp/acme-dns-client.tar.gz -C /usr/local/bin/ acme-dns-client
 rm -f /tmp/acme-dns-client.tar.gz
-
 chown root:root /usr/local/bin/acme-dns-client
 chmod u=rwx,go=rx /usr/local/bin/acme-dns-client
-
-fxOK "acme-dns-client $(acme-dns-client --version) ready!"
 
 
 fxEndFooter
