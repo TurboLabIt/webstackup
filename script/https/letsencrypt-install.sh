@@ -41,12 +41,12 @@ apt install snapd -y
 
 fxTitle "Installing certbot..."
 snap install --classic certbot
-ln -s /snap/bin/certbot /usr/bin/certbot
+fxLinkBin /snap/bin/certbot
 fxOK "certbot $(certbot --version) ready!"
 
 
 fxTitle "Deploying post-renewal hook...."
-ln -s ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh"
+fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh"
 
 
 fxTitle "Installing acme-dns-client...."
@@ -54,7 +54,7 @@ mkdir /usr/local/acme-dns-client
 curl -o /usr/local/acme-dns-client/acme-dns-client.tar.gz https://github.com/acme-dns/acme-dns-client/releases/download/v0.3/acme-dns-client_0.3_linux_$(fxGetCpuArch).tar.gz
 tar -zxvf /usr/local/acme-dns-client/acme-dns-client.tar.gz -C /usr/local/acme-dns-client/
 rm -f /usr/local/acme-dns-client/acme-dns-client.tar.gz
-ln -s /usr/local/acme-dns-client/acme-dns-client /usr/local/bin/acme-dns-client
+fxLinkBin /usr/local/acme-dns-client/acme-dns-client
 fxOK "acme-dns-client $(acme-dns-client --version) ready!"
 
 
