@@ -12,11 +12,11 @@ fi
 
 if [ ! -z "$(command -v postfix)" ]; then
   echo "Reloading POSTFIX...."
-  sudo service postfix reload
+  sudo postfix check && sudo service postfix reload
 fi
 
 
 if [ ! -z "$(command -v dovecot)" ]; then
   echo "Reloading DOVECOT...."
-  sudo service dovecot reload
+  sudo doveconf -n >/dev/null && service dovecot reload
 fi
