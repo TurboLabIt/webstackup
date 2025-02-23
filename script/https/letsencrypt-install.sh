@@ -20,7 +20,7 @@ rootCheck
 
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove certbot* -y
-rm -rf /etc/letsencrypt /usr/local/acme-dns-client /usr/local/bin/acme-dns-client
+rm -rf /etc/letsencrypt /usr/local/bin/acme-dns-client
 
 
 ## installing/updating WSU
@@ -49,11 +49,12 @@ fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencr
 
 
 fxTitle "Installing acme-dns-client...."
-mkdir /usr/local/acme-dns-client
-curl -o /usr/local/acme-dns-client/acme-dns-client.tar.gz https://github.com/acme-dns/acme-dns-client/releases/download/v0.3/acme-dns-client_0.3_linux_$(fxGetCpuArch).tar.gz
-tar -zxvf /usr/local/acme-dns-client/acme-dns-client.tar.gz -C /usr/local/acme-dns-client/
-rm -f /usr/local/acme-dns-client/acme-dns-client.tar.gz
-fxLinkBin /usr/local/acme-dns-client/acme-dns-client
+## https://github.com/acme-dns/acme-dns-client/releases/latest
+curl -o /tmp/acme-dns-client.tar.gz https://github.com/acme-dns/acme-dns-client/releases/download/v0.3/acme-dns-client_0.3_linux_$(fxGetCpuArch).tar.gz
+tar -zxf /tmp/acme-dns-client.tar.gz -C /usr/local/bin/ acme-dns-client
+rm -f /tmp/acme-dns-client.tar.gz
+chown root:root /usr/local/bin/acme-dns-client
+chmod u=rwx,go=rx /usr/local/bin/acme-dns-client
 fxOK "acme-dns-client $(acme-dns-client --version) ready!"
 
 
