@@ -50,30 +50,27 @@
 # ${PROJECT_DIR}config/custom/varnish.vcl
 
 
-echo ""
-echo -e "\e[1;46m ============= \e[0m"
-echo -e "\e[1;46m DEPLOY-COMMON \e[0m"
-echo -e "\e[1;46m ============= \e[0m"
+fxHeader "DEPLOY-COMMON"
+
 
 if [ "${APP_ENV}" != 'prod' ] && [ "${APP_ENV}" != 'staging' ]; then
-  catastrophicError "Common deploy ops can't run in this APP_ENV (##${APP_ENV}##)"
-  exit
+  fxCatastrophicError "Common deploy ops can't run in this APP_ENV (##${APP_ENV}##)"
 fi
 
 if [ -z "${APP_NAME}" ] || [ -z "${EXPECTED_USER}" ] || [ -z "${PHP_VER}" ] ||  [ -z "${PROJECT_DIR}" ] || [ -z "${SCRIPT_DIR}" ]; then
 
-  catastrophicError "Common deploy ops can't run with these variables undefined:
+  fxCatastrophicError "Common deploy ops can't run with these variables undefined:
   
   APP_NAME:       ##${APP_NAME}##
   EXPECTED_USER:  ##${EXPECTED_USER}##
   PHP_VER:        ##${PHP_VER}##
   PROJECT_DIR:    ##${PROJECT_DIR}##
   SCRIPT_DIR:     ##${SCRIPT_DIR}##"
-  exit
 fi
 
+
 ##
-printTitle "#️⃣ Pre-pull hashing"
+fxTitle "#️⃣ Pre-pull hashing"
 echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
@@ -84,19 +81,19 @@ if [ -z "${GIT_BRANCH}" ] && [ -d "${PROJECT_DIR}.git" ]; then
 fi
 
 if [ -z "${GIT_BRANCH}" ]; then
-  printTitle "🧹 Git reset (no remote branch set)..."
+  fxTitle "🧹 Git reset (no remote branch set)..."
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
 else
-  printTitle "🧹 Git reset to ##${GIT_BRANCH}##..."
+  fxTitle "🧹 Git reset to ##${GIT_BRANCH}##..."
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard origin/${GIT_BRANCH}
 fi
 
-printTitle "⏬ Git pull..."
+fxTitle "⏬ Git pull..."
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull --no-rebase
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" config core.fileMode false
 
-printTitle "#️⃣ Post-pull hashing"
+fxTitle "#️⃣ Post-pull hashing"
 echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_POSTPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_POSTPULL_HASH"
@@ -106,17 +103,17 @@ if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ] && [ 
 fi
 
 if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
-
-  catastrophicError "The deploy script has been updated by the pull! Please run it again!"
-  exit
+  fxCatastrophicError "The deploy script has been updated by the pull! Please run it again!"
 fi
 
+
 ## show PHP the selected PHP version
+source "${WEBSTACKUP_SCRIPT_DIR}php/commands.sh"
 showPHPVer
 
 
 ## cleanup
-printTitle "🧹 Cleaning up..."
+fxTitle "🧹 Cleaning up..."
 rm -rf /tmp/.symfony
 rm -rf /tmp/magento
 
@@ -133,10 +130,10 @@ fi
 
 if [ ! -z "${COMPOSER_JSON_FULLPATH}" ]; then
 
-  printTitle "📦 Removing composer dump-autoload..."
+  fxTitle "📦 Removing composer dump-autoload..."
   rm -f "$(dirname ${COMPOSER_JSON_FULLPATH})/vendor/composer/autoload_classmap.php"
 
-  printTitle "📦 Composer install from ##${COMPOSER_JSON_FULLPATH}##..."
+  fxTitle "📦 Composer install from ##${COMPOSER_JSON_FULLPATH}##..."
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer install --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-dev --no-interaction
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer dump-env ${APP_ENV} --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-interaction
   
@@ -144,7 +141,7 @@ fi
 
 if [ ! -z "${COMPOSER_JSON_FULLPATH}" ] && [ "${COMPOSER_SKIP_DUMP_AUTOLOAD}" != 1 ]; then
 
-  printTitle "📦 Composer dump-autoload..."
+  fxTitle "📦 Composer dump-autoload..."
   sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" /usr/bin/php${PHP_VER} /usr/local/bin/composer dump-autoload --classmap-authoritative --working-dir "$(dirname ${COMPOSER_JSON_FULLPATH})" --no-dev --no-interaction
 
 fi
@@ -179,31 +176,34 @@ deployCmdLinker "${SCRIPT_DIR}cache-clear.sh" "zzcache"
 deployCmdLinker "${SCRIPT_DIR}maintenance.sh" "zzmaintenance"
 deployCmdLinker "${SCRIPT_DIR}test-runner.sh" "zztest"
 
+
 ## zzcd bookmarks
 if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ] && [ -z "$(deployZzCmdSuffix)" ]; then
-  printTitle "📂 Linking zzcd config..."
+  fxTitle "📂 Linking zzcd config..."
   rm -f "/etc/turbolab.it/zzcd_bookmarks.sh"
   ln -s "${SCRIPT_DIR}zzcd_bookmarks.sh" "/etc/turbolab.it/zzcd_bookmarks.sh"
 fi
 
+
 ## cron
 if [ -f "${PROJECT_DIR}config/custom/cron" ]; then
-  printTitle "⏲️ Copying shared cron file..."
+  fxTitle "⏲️ Copying shared cron file..."
   cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME//./_}"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
-  printTitle "⏲️ Copying ${APP_ENV} cron file..."
+  fxTitle "⏲️ Copying ${APP_ENV} cron file..."
   cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME//./_}_${APP_ENV}"
 fi
 
-printTitle "📂 Listing /etc/cron.d/..."
+fxTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
 
-printTitle "🔃️ Reloading cron..."
+fxTitle "🔃️ Reloading cron..."
 ## cron shouldn't be restarted, or you'll get:
 # `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
 service cron reload
+
 
 function deployPhpLinker()
 {
@@ -214,7 +214,7 @@ function deployPhpLinker()
   fi
   
   local LINK_FILE=$2
-  printTitle "📜 ${LINK_FILE}..."
+  fxTitle "📜 ${LINK_FILE}..."
   rm -f "${LINK_FILE}"
   ln -s "${PHP_FILE}" "${LINK_FILE}"
 }
@@ -224,10 +224,10 @@ deployPhpLinker "${PROJECT_DIR}config/custom/php-custom.ini" "/etc/php/${PHP_VER
 deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-fpm.ini" "/etc/php/${PHP_VER}/fpm/conf.d/95-${APP_NAME}-fpm.ini"
 deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
 
-printTitle "📂 Listing /etc/php/${PHP_VER}/fpm/conf.d/..."
+fxTitle "📂 Listing /etc/php/${PHP_VER}/fpm/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
 
-printTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
+fxTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
@@ -237,7 +237,7 @@ if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_V
 fi
 
 
-printTitle "🔃️ Restarting PHP-FPM..."
+fxTitle "🔃️ Restarting PHP-FPM..."
 /usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
 
 
@@ -245,21 +245,21 @@ printTitle "🔃️ Restarting PHP-FPM..."
 if [ -f "${PROJECT_DIR}config/custom/mysql-custom.conf" ] && [ -d "/etc/mysql/mysql.conf.d/" ]; then
 
   # https://serverfault.com/questions/439378/mysql-not-reading-symlinks-for-options-files-my-cnf
-  printTitle "📜 Copying mysql-custom..."
+  fxTitle "📜 Copying mysql-custom..."
   cp "${PROJECT_DIR}config/custom/mysql-custom.conf" "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
   chmod u=rw,go=r "/etc/mysql/mysql.conf.d/95-${APP_NAME}.cnf"
 
-  printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
+  fxTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
   ls -l "/etc/mysql/mysql.conf.d/"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf" ] && [ -d "/etc/mysql/mysql.conf.d/" ]; then
 
-  printTitle "📜 Copying ${APP_ENV} mysql-custom..."
+  fxTitle "📜 Copying ${APP_ENV} mysql-custom..."
   cp "${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf" "/etc/mysql/mysql.conf.d/96-${APP_NAME}_${APP_ENV}.cnf"
   chmod u=rw,go=r "/etc/mysql/mysql.conf.d/96-${APP_NAME}_${APP_ENV}.cnf"
 
-  printTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
+  fxTitle "📂 Listing /etc/mysql/mysql.conf.d/..."
   ls -l "/etc/mysql/mysql.conf.d/"
 fi
 
@@ -267,14 +267,14 @@ fi
 ## logrotate
 if [ -f "${PROJECT_DIR}config/custom/logrotate.conf" ]; then
 
-  printTitle "📄 Deploying custom logrotate config..."
+  fxTitle "📄 Deploying custom logrotate config..."
   # error: Ignoring xxx.conf because the file owner is wrong (should be root or user with uid 0).
   rm -f "/etc/logrotate.d/${APP_NAME}.conf"
   cp "${PROJECT_DIR}config/custom/logrotate.conf" "/etc/logrotate.d/${APP_NAME}.conf"
   chown root:root "/etc/logrotate.d/${APP_NAME}.conf"
   chmod u=rw,go= "/etc/logrotate.d/${APP_NAME}.conf"
 
-  printTitle "📂 Listing /etc/logrotate.d/..."
+  fxTitle "📂 Listing /etc/logrotate.d/..."
   ls -l "/etc/logrotate.d"
 fi
 
@@ -287,42 +287,45 @@ elif [ -d "/etc/nginx/conf.d" ]; then
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf" ]; then
-  printTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
+  fxTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf"
 fi
 
 
-## Let's Encrypt Renewal Hook
-if [ -d "/etc/letsencrypt/renewal-hooks/deploy" ] && [ ! -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ]; then
-  printTitle "🔐 Deploy Let's Encrypt post-renewal hook"
-  cp "${WEBSTACKUP_SCRIPT_DIR}nginx/lets-encrypt-renewal-hook" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action"
+## Let's Encrypt renewal
+rm -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action"
+if [ -d /etc/letsencrypt/renewal-hooks/deploy ] && [ ! -f /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh ]; then
+  fxTitle "🔐 Deploy Let's Encrypt post-renewal hook"
+  fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
 fi
 
-if [ "${LETS_ENCRYPT_SKIP_RENEW}" != 1 ] && [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] && [ -s "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action" ] ; then
-  printTitle "🔐 Renewing Let's Encrypt..."
+if [ "${LETS_ENCRYPT_SKIP_RENEW}" = 0 ] && [ -d /etc/letsencrypt/ ]; then
+  fxTitle "🔐 Renewing Let's Encrypt..."
   certbot renew --force-renewal
 fi
 
-printTitle "📂 Listing /etc/nginx/conf.d/..."
+
+fxTitle "📂 Listing /etc/nginx/conf.d/..."
 ls -l /etc/nginx/conf.d
 
 
 ## ElasticSearch
 systemctl --all --type service | grep -q "elasticsearch"
 if [ "$?" = 0 ] && [ "${DEPLOY_ELASTICSEARCH_RESTART}" != 0 ]; then
-  printTitle "🔃 Restarting ElasticSearch (background)..."
+  fxTitle "🔃 Restarting ElasticSearch (background)..."
   service elasticsearch restart &
 fi
 
+
 ## async-runner-request
 if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}async-runner-request.php" ]; then
-  printTitle "🏃‍♂️ Linking async-runner-request.php..."
+  fxTitle "🏃‍♂️ Linking async-runner-request.php..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/async-runner-request.php" "${WEBROOT_DIR}"
 fi
 
 ## autodeploy https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 if [ "$APP_ENV" = "staging" ] && [ ! -f "${WEBROOT_DIR}autodeploy-async.php" ]; then
-  printTitle "🤖 Linking autodeploy..."
+  fxTitle "🤖 Linking autodeploy..."
   ln -s "${WEBSTACKUP_SCRIPT_DIR}php-pages/autodeploy-async.php" "${WEBROOT_DIR}"
 fi
 
@@ -344,50 +347,50 @@ fi
 ## zzmysqldump
 if [ -f "${PROJECT_DIR}config/custom/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
 
-  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME}..."
+  fxTitle "🛟 Linking custom zzmysqldump ${APP_NAME}..."
   ln -s "${PROJECT_DIR}config/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf" ]; then
 
-  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME} (from ${APP_ENV})..."
+  fxTitle "🛟 Linking custom zzmysqldump ${APP_NAME} (from ${APP_ENV})..."
   ln -s "${PROJECT_DIR}config/${APP_ENV}/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}.conf"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf" ] && [ ! -f "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf" ]; then
 
-  printTitle "🛟 Linking custom zzmysqldump ${APP_NAME}-${APP_ENV}..."
+  fxTitle "🛟 Linking custom zzmysqldump ${APP_NAME}-${APP_ENV}..."
   ln -s "${PROJECT_DIR}config/${APP_ENV}/custom/zzmysqldump.conf" "/etc/turbolab.it/zzmysqldump.profile.${APP_NAME}-${APP_ENV}.conf"
 fi
 
 
 ## zzfirewall
 if [ -f "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf" ]; then
-  printTitle "🔥🧱 Linking zzfirewall-whitelist..."
+  fxTitle "🔥🧱 Linking zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf" ]; then
-  printTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
+  fxTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf"
 fi
 
 
 ## phpbb-upgrader
 if [ -f "${PROJECT_DIR}config/custom/phpbb-upgrader.conf" ] && [ ! -f "/etc/turbolab.it/phpbb-upgrader-${APP_NAME}.conf" ]; then
-  printTitle "🤼 Linking phpBB Upgrader ${APP_NAME} config..."
+  fxTitle "🤼 Linking phpBB Upgrader ${APP_NAME} config..."
   ln -s "${PROJECT_DIR}config/custom/phpbb-upgrader.conf" "/etc/turbolab.it/phpbb-upgrader-${APP_NAME}.conf"
 fi
 
 
 ## nginx-allow-deny-list
 if [ -f "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}.conf" ]; then
-  printTitle "🚪 Linking nginx-allow-deny-list..."
+  fxTitle "🚪 Linking nginx-allow-deny-list..."
   ln -s "${PROJECT_DIR}config/custom/nginx-allow-deny-list.conf" "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}.conf"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" ] && [ ! -f "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf" ]; then
-  printTitle "🚪 Linking ${APP_ENV} nginx-allow-deny-list..."
+  fxTitle "🚪 Linking ${APP_ENV} nginx-allow-deny-list..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx-allow-deny-list.conf" "/etc/turbolab.it/webstackup-nginx-allow-deny-list-${APP_NAME}_${APP_ENV}.conf"
 fi
 
@@ -395,10 +398,10 @@ fi
 ## sshd config
 if [ -f "${PROJECT_DIR}config/custom/sshd.conf" ] && [ ! -f "/etc/ssh/sshd_config.d/${APP_NAME}.conf" ]; then
 
-  printTitle "🚪 Linking sshd..."
+  fxTitle "🚪 Linking sshd..."
   ln -s "${PROJECT_DIR}config/custom/sshd.conf" "/etc/ssh/sshd_config.d/${APP_NAME}.conf"
   
-  printTitle "📂 Listing /etc/ssh/sshd_config.d/..."
+  fxTitle "📂 Listing /etc/ssh/sshd_config.d/..."
   ls -l "/etc/ssh/sshd_config.d/"
 fi
 
@@ -406,10 +409,10 @@ fi
 ## netplan network interface config
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml" ] && [ ! -f "/etc/netplan/${APP_NAME}.yaml" ]; then
 
-  printTitle "🛜 Linking netplan.yaml from /etc/netplan/..."
+  fxTitle "🛜 Linking netplan.yaml from /etc/netplan/..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/netplan.yaml" "/etc/netplan/${APP_NAME}.yaml"
 
-  printTitle "🛜 Applying netplan config..."
+  fxTitle "🛜 Applying netplan config..."
   netplan apply
 fi
 
@@ -417,13 +420,13 @@ fi
 ## varnish
 if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ]; then
 
-  printTitle "🪣 Linking custom Varnish config for the ${APP_ENV} env..."
+  fxTitle "🪣 Linking custom Varnish config for the ${APP_ENV} env..."
   rm -f "/etc/varnish/default.vcl"
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/default.vcl"
 
 elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ]; then
 
-  printTitle "🪣 Linking custom Varnish config..."
+  fxTitle "🪣 Linking custom Varnish config..."
   rm -f "/etc/varnish/default.vcl"
   ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/default.vcl"
 fi
@@ -432,50 +435,44 @@ fi
 WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/95_${APP_NAME}.conf
 if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
 
-  printTitle "🪣 Linking custom Varnish service unit file for the ${APP_ENV} env..."
+  fxTitle "🪣 Linking custom Varnish service unit file for the ${APP_ENV} env..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 
 elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
 
-  printTitle "🪣 Linking custom Varnish service unit file..."
+  fxTitle "🪣 Linking custom Varnish service unit file..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
   ln -s "${PROJECT_DIR}config/custom/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 fi
 
 
 ## services restart
-printTitle "🔃 Conditional nginx stop..."
+fxTitle "🔃 Conditional nginx stop..."
 nginx -t && service nginx stop
 
 ## MySQL
 systemctl --all --type service | grep -q "mysql"
 if [ "$?" = 0 ] && [ "${DEPLOY_MYSQL_RESTART}" != 0 ]; then
-  printTitle "🔃 Restarting MySQL..."
+  fxTitle "🔃 Restarting MySQL..."
   service mysql restart
 fi
 
 ## Varnish
 systemctl --all --type service | grep -q "varnish"
 if [ "$?" = 0 ] && [ "${DEPLOY_VARNISH_RESTART}" != 0 ]; then
-  printTitle "🔃 Restarting Varnish..."
+  fxTitle "🔃 Restarting Varnish..."
   service varnish restart
 fi
 
-printTitle "🔃️ Restarting logrotate..."
+fxTitle "🔃️ Restarting logrotate..."
 service logrotate restart
 
-printTitle "🔃 Conditional nginx restart..."
+fxTitle "🔃 Conditional nginx restart..."
 nginx -t && service nginx restart
 
-printTitle "🔃️ Restarting sshd..."
+fxTitle "🔃️ Restarting sshd..."
 service sshd restart
-
-
-## build
-if [ -f "${SCRIPT_DIR}build.sh" ]; then
-  bash "${SCRIPT_DIR}build.sh"
-fi
 
 
 ## cache-clear
@@ -486,4 +483,4 @@ fi
 
 ## delete test files
 fxTitle "👮 Deleting test.php, phpinfo.php and similar..."
-rm -f "${WEBROOT_DIR}"test.php "${WEBROOT_DIR}"phpinfo.php
+rm -f "${WEBROOT_DIR}test.php" "${WEBROOT_DIR}phpinfo.php"
