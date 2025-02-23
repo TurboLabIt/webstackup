@@ -15,26 +15,27 @@ else
 fi
 ## bash-fx is ready
 
+
 fxHeader "🧹 Let's Encrypt Remover"
 rootCheck
 
 
-fxTitle "Listing current live domains..."
+fxTitle "Listing current live domain(s)..."
 ls -la /etc/letsencrypt/live
 
 
-fxTitle "Removing certbot..."
+fxTitle "Removing any old previous instance..."
 apt purge --auto-remove certbot* -y
+snap remove --purge certbot
+rm -rf /etc/letsencrypt /var/log/letsencrypt /var/lib/letsencrypt /usr/local/bin/acme-dns-client
 
 
-fxTitle "Removing config and files..."
-rm -rf /etc/letsencrypt/
-rm -rf /var/lib/letsencrypt/
-rm -rf /var/log/letsencrypt/
-
-
-fxTitle "Restarting nginx..."
-nginx -t && service nginx restart
+fxTitle "Reloading services..."
+if [ -f /usr/local/turbolab.it/webstackup/script/https/certificate-renewal-action.sh ]; then
+  source /usr/local/turbolab.it/webstackup/script/https/certificate-renewal-action.sh
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-remove.sh | sudo bash
+fi
 
 
 fxEndFooter
