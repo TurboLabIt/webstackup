@@ -42,11 +42,10 @@ apt install snapd -y
 fxTitle "Installing certbot..."
 snap install --classic certbot
 fxLinkBin /snap/bin/certbot
-fxOK "certbot $(certbot --version) ready!"
 
 
 fxTitle "Deploying post-renewal hook...."
-fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh" "/etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh"
+fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
 
 
 fxTitle "Installing acme-dns-client...."
