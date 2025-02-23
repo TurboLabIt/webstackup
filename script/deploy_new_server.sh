@@ -250,15 +250,8 @@ fi
 
 fxTitle "Installing LET'S ENCRYPT..."
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
-
-  fxMessage "Installing..."
-  apt install certbot -y -qq
-  fxMessage "$(certbot --version)"
-  service cron restart
-  source "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-create-hooks.sh"
-
+  bash ${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh
 else
-
   fxInfo "Skipped (disabled in config)"
 fi
 
