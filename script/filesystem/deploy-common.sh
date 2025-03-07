@@ -186,23 +186,30 @@ fi
 
 
 ## cron
-if [ -f "${PROJECT_DIR}config/custom/cron" ]; then
-  fxTitle "⏲️ Copying shared cron file..."
-  cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME//./_}"
-fi
+if [ "${DEPLOY_COPY_CRON}" != 0 ]; then
 
-if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
-  fxTitle "⏲️ Copying ${APP_ENV} cron file..."
-  cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME//./_}_${APP_ENV}"
+  if [ -f "${PROJECT_DIR}config/custom/cron" ]; then
+    fxTitle "⏲️ Copying shared cron file..."
+    cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME//./_}"
+  fi
+
+  if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
+    fxTitle "⏲️ Copying ${APP_ENV} cron file..."
+    cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME//./_}_${APP_ENV}"
+  fi
+
+  fxTitle "🔃️ Reloading cron..."
+  ## cron shouldn't be restarted, or you may get:
+  # `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
+  service cron reload
+
+else
+
+  fxWarning "DEPLOY_COPY_CRON is set to zero, skipping"
 fi
 
 fxTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
-
-fxTitle "🔃️ Reloading cron..."
-## cron shouldn't be restarted, or you'll get:
-# `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
-service cron reload
 
 
 function deployPhpLinker()
