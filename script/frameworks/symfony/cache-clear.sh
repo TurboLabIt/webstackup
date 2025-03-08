@@ -94,6 +94,12 @@ sudo chmod ug=rwX,o= "${PROJECT_DIR}var/cache" -R
 sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 
+## build
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
+  bash "${SCRIPT_DIR}build.sh"
+fi
+
+
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Restarting services..."
