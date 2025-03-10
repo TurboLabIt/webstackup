@@ -63,4 +63,8 @@ chown root:root /usr/local/bin/acme-dns-client
 chmod u=rwx,go=rx /usr/local/bin/acme-dns-client
 
 
+fxTitle "Example"
+fxMessage "certbot --email info@my-app.com --no-eff-email --agree-tos certonly --webroot -w /var/www/my-app/public -d my-app.com -d www.my-app.com"
+
+
 fxEndFooter
