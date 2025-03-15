@@ -13,6 +13,7 @@ rootCheck
 
 
 fxTitle "Cron check..."
+## https://github.com/TurboLabIt/webstackup/blob/master/config/cron/temp-read-stop-fans
 READ_TEMPS_CRON_FILE=/etc/cron.d/webstackup_temp_read
 if [ ! -f "$READ_TEMPS_CRON_FILE" ]; then
   cp /usr/local/turbolab.it/webstackup/temp-read-stop-fans "$READ_TEMPS_CRON_FILE"
