@@ -28,7 +28,7 @@ fi
 
 fxTitle "Cron check..."
 ## https://github.com/TurboLabIt/webstackup/blob/master/config/cron/temperature-read-stop-fans
-READ_TEMPS_CRON_FILE=/etc/cron.d/temperature-read-stop-fans
+READ_TEMPS_CRON_FILE=/etc/cron.d/webstackup_temperature_read_stop_fans
 if [ ! -f "$READ_TEMPS_CRON_FILE" ]; then
 
   cp /usr/local/turbolab.it/webstackup/config/cron/temperature-read-stop-fans "$READ_TEMPS_CRON_FILE"
