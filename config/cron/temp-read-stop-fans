@@ -1,0 +1,11 @@
+MAILTO=""
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+##
+SCRIPT_TO_RUN=/usr/local/turbolab.it/webstackup/script/power/temp-read-stop-fans.sh
+@reboot root sleep 30 && bash "${SCRIPT_TO_RUN}" > /dev/null 2>&1
+*/11 * * * * root /bin/bash "${SCRIPT_TO_RUN}" > /dev/null 2>&1
+
+
+## 👇 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇
