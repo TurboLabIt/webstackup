@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+## clear && sudo bash /usr/local/turbolab.it/webstackup/script/power/temperature-read-stop-fans.sh
+
 echo ""
 
 ## bash-fx
@@ -13,10 +15,10 @@ rootCheck
 
 
 fxTitle "Cron check..."
-## https://github.com/TurboLabIt/webstackup/blob/master/config/cron/temp-read-stop-fans
-READ_TEMPS_CRON_FILE=/etc/cron.d/webstackup_temp_read
+## https://github.com/TurboLabIt/webstackup/blob/master/config/cron/temperature-read-stop-fans
+READ_TEMPS_CRON_FILE=/etc/cron.d/temperature-read-stop-fans
 if [ ! -f "$READ_TEMPS_CRON_FILE" ]; then
-  cp /usr/local/turbolab.it/webstackup/temp-read-stop-fans "$READ_TEMPS_CRON_FILE"
+  cp /usr/local/turbolab.it/webstackup/config/cron/temperature-read-stop-fans "$READ_TEMPS_CRON_FILE"
 fi
 
 fxTitle "thermal_zone..."
@@ -26,7 +28,12 @@ cat /sys/class/thermal/thermal_zone?/temp
 
 fxTitle "sensors..."
 ## https://forum.proxmox.com/threads/temperature.67755/#post-304046
-if [ -z $(command -v sensors) ]; then apt update && apt install xsensors -y; fi
+if [ -z $(command -v sensors) ]; then
+
+  apt update && apt install lm-sensors -y
+  sensors-detect
+fi
+
 sensors
 
 
