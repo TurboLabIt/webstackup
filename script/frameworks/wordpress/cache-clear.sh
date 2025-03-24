@@ -40,6 +40,12 @@ sudo chmod ug=rwX,o= "${WEBROOT_DIR}" -R
 sudo chmod g+s "${WEBROOT_DIR}"
 
 
+## build
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
+  bash "${SCRIPT_DIR}build.sh"
+fi
+
+
 wsuWordPress fastest-cache clear all and minified
 
 
