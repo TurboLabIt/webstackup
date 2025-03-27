@@ -18,9 +18,19 @@ fxHeader "💿 Let's Encrypt installer"
 rootCheck
 
 
-fxTitle "Installing prerequisites..."
+fxTitle "Repos update..."
 apt update -qq
-apt install snapd -y
+
+
+fxContainerDetection
+IS_CONTAINER="$?"
+
+
+if [ "${IS_CONTAINER}" != "1" ]; then
+
+  fxTitle "Installing prerequisites..."
+  apt install snapd -y
+fi
 
 
 fxTitle "Removing any old previous instance..."
@@ -28,6 +38,7 @@ rm -rf /etc/letsencrypt /var/log/letsencrypt /var/lib/letsencrypt /usr/local/bin
 apt purge --auto-remove certbot* -y
 snap remove --purge certbot
 rm -rf /etc/letsencrypt /var/log/letsencrypt /var/lib/letsencrypt /usr/local/bin/acme-dns-client
+
 
 
 ## installing/updating WSU
@@ -42,8 +53,17 @@ source "${WSU_DIR}script/base.sh"
 
 
 fxTitle "Installing certbot..."
-snap install --classic certbot
-fxLinkBin /snap/bin/certbot
+if [ "${IS_CONTAINER}" == "1" ]; then
+
+  fxInfo "Container detected: using apt (fallback)"
+  apt install certbot -y
+
+else
+
+  fxInfo "No container detected: using snap (recommended)"
+  snap install --classic certbot
+  fxLinkBin /snap/bin/certbot
+fi
 
 
 fxTitle "Deploying post-renewal hook...."
