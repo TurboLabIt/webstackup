@@ -56,3 +56,10 @@ HOSTNAME="$(hostname)"
 
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
+
+## dialog default
+HEIGHT=25
+WIDTH=75
+CHOICE_HEIGHT=30
+BACKTITLE="WEBSTACK.UP - TurboLab.it"
+MENU="Choose one task:"
