@@ -1,17 +1,8 @@
 #!/usr/bin/env bash
 ### MySQL GUI by WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/zzdb.sh
-clear
 
-source "/usr/local/turbolab.it/webstackup/script/base.sh"
 TITLE="MySQL management GUI"
-fxHeader "$TITLE"
-rootCheck
-
-if [ -z "$(command -v dialog)" ]; then
-  apt install dialog -y -qq
-fi
-
 OPTIONS=(
   1 "🐬  New database user access"
   2 "🔧  MySQL maintenance"
@@ -19,16 +10,7 @@ OPTIONS=(
   4 "🤦  MySQL password reset"
 )
 
-CHOICE=$(dialog --clear \
-  --backtitle "$BACKTITLE" \
-  --title "$TITLE" \
-  --menu "$MENU" \
-  $HEIGHT $WIDTH $CHOICE_HEIGHT \
-  "${OPTIONS[@]}" \
-  2>&1 >/dev/tty)
-
-clear
-
+source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
 
 case $CHOICE in
   1)bash "${WEBSTACKUP_SCRIPT_DIR}mysql/new.sh";;

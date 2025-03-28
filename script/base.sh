@@ -51,9 +51,8 @@ source "${WEBSTACKUP_SCRIPT_DIR}frameworks/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}notify/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}deprecated-retrocompat.sh"
 
-## Hostname
 HOSTNAME="$(hostname)"
-
+CURRENT_LANG=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 

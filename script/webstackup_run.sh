@@ -1,15 +1,6 @@
 #!/usr/bin/env bash
-clear
 
-source "/usr/local/turbolab.it/webstackup/script/base.sh"
 TITLE="Server management GUI"
-fxHeader "$TITLE"
-rootCheck
-
-if [ -z "$(command -v dialog)" ]; then
-  apt install dialog -y -qq
-fi
-
 OPTIONS=(
   1 "🔄   Web services turbo-restart"
   2 "♻️   Web services safe restart"
@@ -25,15 +16,7 @@ OPTIONS=(
   #12 "🧪   WSU Dev (MAP test)"
 )
 
-CHOICE=$(dialog --clear \
-  --backtitle "$BACKTITLE" \
-  --title "$TITLE" \
-  --menu "$MENU" \
-  $HEIGHT $WIDTH $CHOICE_HEIGHT \
-  "${OPTIONS[@]}" \
-  2>&1 >/dev/tty)
-
-clear
+source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
 
 
 function wsuzzws()
