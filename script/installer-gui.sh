@@ -5,7 +5,7 @@
 TITLE="Software installer"
 OPTIONS=(
   1 "💿  node.js, yarn, webpack"
-  1 "💿  MySQL"
+  2 "💿  MySQL"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
