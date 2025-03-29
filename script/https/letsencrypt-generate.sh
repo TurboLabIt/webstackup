@@ -1,79 +1,102 @@
 #!/usr/bin/env bash
-echo ""
-echo -e "\e[1;46m ========================= \e[0m"
-echo -e "\e[1;46m 🔏 LET'S ENCRYPT GENERATE \e[0m"
-echo -e "\e[1;46m ========================= \e[0m"
 
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+## bash-fx
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
+fi
+## bash-fx is ready
+
+
+fxHeader "🔏 HTTPS CERTIFICATE GENERATOR"
+rootCheck
+
+
+fxTitle "📛 Enter the domain"
+fxInfo "For example: \"turbolab.it\" or \"next.turbolab.it\""
+while [ -z "$WSU_MAP_DOMAIN_DEFAULT" ]; do
+
+  echo "🤖 Provide the domain ⚠️ no 'WWW.' here!"
+  read -p ">> " WSU_MAP_DOMAIN_DEFAULT  < /dev/tty
+
+done
+
+fxOK "OK, working on ##$WSU_MAP_DOMAIN_DEFAULT##"
+
+
+fxTitle "🌍 WWW check"
+dot_count=$(grep -o '\.' <<< "$WSU_MAP_DOMAIN_DEFAULT" | wc -l)
+
+if [[ $dot_count -eq 1 ]]; then
+  
+  fxOK "Great, ##${WSU_MAP_DOMAIN_DEFAULT}## is a second-level domain!"
+
+  echo "🤖 Add WWW.${WSU_MAP_DOMAIN_DEFAULT} to the certificate too? Hit Enter for 'yes'"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    WSU_MAP_DOMAIN_WWW="-d www.${WSU_MAP_DOMAIN_DEFAULT}"
+  fi
+  
+else
+
+  fxInfo "The domain ##${WSU_MAP_DOMAIN_DEFAULT}## is NOT second-level. Skipping WWW 🦘"
 fi
 
-## Script name
-SCRIPT_NAME=letsencrypt-generate
-LETSENCRYPT_DOMAIN=$1
-LETSENCRYPT_EMAIL=$2
 
-## Domain
-while [ -z "$LETSENCRYPT_DOMAIN" ]
-do
-  read -p "Please provide the website domain to request the HTTPS certificate for (no-www! E.g.: turbolab.it): " LETSENCRYPT_DOMAIN  < /dev/tty
-  
-  if [ -z "${LETSENCRYPT_DOMAIN}" ]; then
-  
-    echo "Please provide the website domain!"
-    continue
-  fi
-  
-  echo "Domain: $LETSENCRYPT_DOMAIN"
-  
-  LETSENCRYPT_DOMAIN_2ND=$(echo "$LETSENCRYPT_DOMAIN" |  cut -d '.' -f 1)
-  LETSENCRYPT_DOMAIN_TLD=$(echo "$LETSENCRYPT_DOMAIN" |  cut -d '.' -f 2)
-  
-  if [ -z "${LETSENCRYPT_DOMAIN_2ND}" ] || [ -z "${LETSENCRYPT_DOMAIN_TLD}" ] || [ "${LETSENCRYPT_DOMAIN_2ND}" == "${LETSENCRYPT_DOMAIN_TLD}" ]; then
-  
-    LETSENCRYPT_DOMAIN=    
-    echo "Let's Encrypt error!"
-    echo "Please provide a valid domain, such as: turbolab.it"
-    continue
-  fi
-  
-  echo "OK, this domain looks valid!"
-  LETSENCRYPT_NEWSITE_NAME=${LETSENCRYPT_DOMAIN_2ND}_${LETSENCRYPT_DOMAIN_TLD}
-  
-  if [ -d "/etc/letsencrypt/live/${LETSENCRYPT_NEWSITE_NAME}" ]; then
-  
-    LETSENCRYPT_DOMAIN=
-    
-    echo "Let's Encrypt error!"
-    echo "This domain already exists!"
-    continue
+fxTitle "📂 Enter the path to webroot directory"
+WSU_WEBROOT_PATH_DEFAULT=/var/www/${WSU_MAP_DOMAIN_DEFAULT}/public
+while [ -z "$WSU_WEBROOT_PATH" ]; do
+
+  echo "🤖 Provide the path (use TAB!) or hit Enter for ##${WSU_WEBROOT_PATH_DEFAULT}##"
+  read -ep ">> " WSU_WEBROOT_PATH  < /dev/tty
+  if [ -z "$WSU_WEBROOT_PATH" ]; then
+    WSU_WEBROOT_PATH=$WSU_WEBROOT_PATH_DEFAULT
   fi
 
 done
 
+WSU_WEBROOT_PATH=${WSU_WEBROOT_PATH%*/}/
+fxOK "Aye, aye! The webroot path is ##$WSU_WEBROOT_PATH##"
 
-## Email address (to get notifications from Let's Encrypt)
-while [ -z "$LETSENCRYPT_EMAIL" ]
-do
-  read -p "Please provide the email address to receive notifications at: " LETSENCRYPT_EMAIL  < /dev/tty
-  
-  if [ -z "${LETSENCRYPT_EMAIL}" ]; then
-  
-    echo "Please provide the email address!"
-    continue
-  fi
-  
-  echo "Email: $LETSENCRYPT_EMAIL"
-  
+
+fxTitle "✉️ Provide the administrator email address"
+fxInfo "It's required to create an account"
+while [ -z "$WSU_HTTPS_EMAIL_ADDRESS" ]; do
+
+  echo "🤖 Provide the email address"
+  read -p ">> " WSU_HTTPS_EMAIL_ADDRESS  < /dev/tty
+
 done
 
-
-## Generate request
-certbot --non-interactive --email $LETSENCRYPT_EMAIL --agree-tos certonly --webroot -w "/var/www/${LETSENCRYPT_NEWSITE_NAME}/website/www/public/" -d ${LETSENCRYPT_DOMAIN} -d www.${LETSENCRYPT_DOMAIN}
+fxOK "OK, ##$WSU_HTTPS_EMAIL_ADDRESS##"
 
 
-## Load certificates
-service nginx reload
+fxTitle "Building command..."
+WSU_CERTBOT_REQUEST="certbot --email $WSU_HTTPS_EMAIL_ADDRESS --no-eff-email --agree-tos certonly --webroot -w ${WSU_WEBROOT_PATH} -d ${WSU_MAP_DOMAIN_DEFAULT} ${WSU_MAP_DOMAIN_WWW}"
+fxMessage "${WSU_CERTBOT_REQUEST}"
 
-sleep 5
+
+fxTitle "Requesting certificate (dry-run)..."
+$WSU_CERTBOT_REQUEST --dry-run
+
+if [ $? -ne 0 ]; then
+
+  fxCatastrophicError "Failure!" proceed
+
+else
+
+  fxOK "dry-run worked! Doing it for real..."
+
+  fxTitle "Requesting..."
+  $WSU_CERTBOT_REQUEST
+
+  if [ -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh" ]; then
+    bash "/etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh"
+  fi
+
+fi
+
+
+fxEndFooter
