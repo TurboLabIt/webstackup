@@ -74,7 +74,7 @@ fxOK "OK, ##$WSU_HTTPS_EMAIL_ADDRESS##"
 
 
 fxTitle "Building command..."
-WSU_CERTBOT_REQUEST="certbot --email $WSU_HTTPS_EMAIL_ADDRESS --no-eff-email --agree-tos certonly --webroot -w ${WSU_WEBROOT_PATH} -d ${WSU_MAP_DOMAIN_DEFAULT} ${WSU_MAP_DOMAIN_WWW}"
+WSU_CERTBOT_REQUEST="certbot certonly --email $WSU_HTTPS_EMAIL_ADDRESS --no-eff-email --agree-tos --webroot -w ${WSU_WEBROOT_PATH} -d ${WSU_MAP_DOMAIN_DEFAULT} ${WSU_MAP_DOMAIN_WWW}"
 fxMessage "${WSU_CERTBOT_REQUEST}"
 
 
