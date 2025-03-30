@@ -91,7 +91,7 @@ chmod u=rwx,go=rx /usr/local/bin/acme-dns-client
 
 
 fxTitle "To request a certificate"
-fxMessage "curl -sL https://raw.githubusercontent.com/TurboLabIt/webstackup/refs/heads/master/script/https/letsencrypt-generate.sh | sudo bash"
+fxMessage "Run: webstackup -> 🔏 Let's Encrypt"
 
 
 fxEndFooter
