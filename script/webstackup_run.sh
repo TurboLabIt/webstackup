@@ -7,7 +7,7 @@ OPTIONS=(
   3 "✔️   Self-update"
   4 "🐑   Git clone an existing app"
   5 "🛢️   MySQL GUI (zzdb) ☰"
-  6 "🔒   Let's Encrypt a domain"
+  6 "🔏   Let's Encrypt a domain"
   7 "👮   Webpermissions a directory"
   8 "🔑   Show webstackup SSH pub key"
   9 "💌   Email GUI (zzmail) ☰"
