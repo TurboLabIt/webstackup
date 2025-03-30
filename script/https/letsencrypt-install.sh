@@ -73,7 +73,6 @@ fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencr
 fxTitle "Removing the cron file (unused with systemd)..."
 rm -f /etc/cron.d/certbot
 
-
 fxTitle "Checking the systemd renewal timer..."
 systemctl list-timers --all | grep certbot
 
