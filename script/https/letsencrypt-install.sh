@@ -40,7 +40,6 @@ snap remove --purge certbot
 rm -rf /etc/letsencrypt /var/log/letsencrypt /var/lib/letsencrypt /usr/local/bin/acme-dns-client
 
 
-
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
 if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
@@ -71,6 +70,14 @@ mkdir -p /etc/letsencrypt/renewal-hooks/deploy/
 fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
 
 
+fxTitle "Removing the cron file (unused with systemd)..."
+rm -f /etc/cron.d/certbot
+
+
+fxTitle "Checking the systemd renewal timer..."
+systemctl list-timers --all | grep certbot
+
+
 ## https://github.com/acme-dns/acme-dns-client/releases/latest
 URL="https://github.com/acme-dns/acme-dns-client/releases/download/v0.3/acme-dns-client_0.3_linux_$(fxGetCpuArch).tar.gz"
 fxInfo "Downloading ${URL} ..."
@@ -83,8 +90,8 @@ chown root:root /usr/local/bin/acme-dns-client
 chmod u=rwx,go=rx /usr/local/bin/acme-dns-client
 
 
-fxTitle "Example"
-fxMessage "certbot --email info@my-app.com --no-eff-email --agree-tos certonly --webroot -w /var/www/my-app/public -d my-app.com -d www.my-app.com"
+fxTitle "To request a certificate"
+fxMessage "curl -sL https://raw.githubusercontent.com/TurboLabIt/webstackup/refs/heads/master/script/https/letsencrypt-generate.sh | sudo bash"
 
 
 fxEndFooter
