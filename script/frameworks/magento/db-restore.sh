@@ -14,41 +14,25 @@ if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
   fxCatastrophicError "📁 MAGENTO_DIR not set"
 fi
 
+showPHPVer
 echo "🗄️ DB_DUMP_FILE_PATH:    ##${DB_DUMP_FILE_PATH}##"
 echo "⚙️ SKIP_POST_RESTORE_QUERY:  ##${SKIP_POST_RESTORE_QUERY}#"
 
-fxEnvNotProd
-showPHPVer
+
+fxTitle "Env check..."
+fxOK "$APP_ENV"
+if [ "$APP_ENV" == "prod" ]; then
+
+  fxWarning "PROD env detected! Do you really want to restore the db IN PROD?"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Yy1]$ ]]; then
+    return 0
+  fi
+fi
+
 
 cd "${MAGENTO_DIR}"
 
-
 wsuN98MageRun db:import "${DB_DUMP_FILE_PATH}" --drop --compression=gzip
 
-
-if [ "${SKIP_POST_RESTORE_QUERY}" != "1" ]; then
-
-  fxTitle "⚙️ Running SQL query for staging..."
-  SQL_STAGING=${PROJECT_DIR}config/custom/staging/db-post-restore.sql
-  if [ -f "${SQL_STAGING}" ]; then
-    wsuN98MageRun db:import "${SQL_STAGING}"
-  else
-    fxWarning "##$SQL_STAGING## not found, skipping"
-  fi
-
-
-  fxTitle "⚙️ Running SQL query for dev..."
-  SQL_DEV=${PROJECT_DIR}config/custom/dev/db-post-restore.sql
-  if [ "${APP_ENV}" = "dev" ] && [ ! -f "${SQL_DEV}" ]; then
-    fxWarning "##$SQL_DEV## not found, skipping"
-  elif [ "${APP_ENV}" = "dev" ] && [ -f "${SQL_DEV}" ]; then
-    wsuN98MageRun db:import "${SQL_DEV}"
-  else
-    fxInfo "APP_ENV is ##${APP_ENV}##, skipping"
-  fi
-
-else
-
-  fxTitle "⚙️ Running db-post-restore SQL queries..."
-  fxInfo "SKIP_POST_RESTORE_QUERY is set, skipping"
-fi
+source "${WEBSTACKUP_SCRIPT_DIR}frameworks/db-restore-after.sh"
