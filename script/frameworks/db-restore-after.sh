@@ -7,7 +7,7 @@ if [ "${SKIP_POST_RESTORE_QUERY}" == "1" ]; then
 elif [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/db-post-restore.sql" ]; then
 
   sudo bash -c "source /etc/turbolab.it/mysql.conf && \
-    mysql -u \"\$MYSQL_USER\" -p\"\$MYSQL_PASSWORD\" -h \"\$MYSQL_HOST\" \"${MYSQL_DB_NAME}\" \
+    mysql -u \"\$MYSQL_USER\" -p\"\$MYSQL_PASSWORD\" -h \"\$MYSQL_HOST\" \
       < \"${PROJECT_DIR}config/custom/${APP_ENV}/db-post-restore.sql\""
 
 else
