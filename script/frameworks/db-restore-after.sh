@@ -10,9 +10,17 @@ elif [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/db-post-restore.sql" ]; then
     mysql -u \"\$MYSQL_USER\" -p\"\$MYSQL_PASSWORD\" -h \"\$MYSQL_HOST\" \"${MYSQL_DB_NAME}\" \
       < \"${PROJECT_DIR}config/custom/${APP_ENV}/db-post-restore.sql\""
 
-  bash "${SCRIPT_DIR}cache-clear.sh"
-
 else
 
   fxWarning "${APP_ENV}/db-post-restore.sql not found"
+fi
+
+
+if [ "${SKIP_POST_RESTORE_CACHE_CLEAR}" == "1" ]; then
+
+  fxInfo "SKIP_POST_RESTORE_CACHE_CLEAR is set, skipping 🦘"
+
+else
+
+  bash "${SCRIPT_DIR}cache-clear.sh"
 fi
