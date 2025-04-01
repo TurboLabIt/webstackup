@@ -14,6 +14,7 @@ MYSQL_DB_NAME=${APP_NAME}_shared
 
 ## options
 SKIP_POST_RESTORE_QUERY=0
+SKIP_POST_RESTORE_CACHE_CLEAR=0
 
 wsuSourceFrameworkScript db-restore
 
