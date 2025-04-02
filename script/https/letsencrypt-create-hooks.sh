@@ -50,8 +50,17 @@ fxTitle "✅ Script deployed"
 ls -latrh /etc/letsencrypt/renewal-hooks/deploy
 
 
+fxTitle "🔃 Certificates renewal dry-run..."
+sudo certbot renew --dry-run --no-random-sleep-on-renew
+LETS_ENCRYPT_RENEWAL_DRYRUN_RESULT=$?
+
+
 fxTitle "🔃 Force-renewing certificates to test the hook..."
-sudo certbot renew --dry-run && sudo certbot renew --force-renewal
+if [ "${LETS_ENCRYPT_RENEWAL_DRYRUN_RESULT}" == 0 ]; then
+  sudo certbot renew --force-renewal --no-random-sleep-on-renew
+else
+  fxWarning "renewal dry-run FAILED, skipping 🦘"
+fi
 
 
 fxEndFooter
