@@ -300,15 +300,13 @@ fi
 
 
 ## Let's Encrypt renewal
-rm -f "/etc/letsencrypt/renewal-hooks/deploy/webstackup-nginx-action"
-if [ -d /etc/letsencrypt/renewal-hooks/deploy ] && [ ! -f /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh ]; then
-  fxTitle "🔐 Deploy Let's Encrypt post-renewal hook"
-  fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
+if [ -d /etc/letsencrypt ] && [ ! -f /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh ]; then
+  bash ${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-create-hooks.sh
 fi
 
 if [ "${LETS_ENCRYPT_SKIP_RENEW}" = 0 ] && [ -d /etc/letsencrypt/ ]; then
   fxTitle "🔐 Renewing Let's Encrypt..."
-  certbot renew --force-renewal
+  certbot renew --dry-run --no-random-sleep-on-renew && certbot renew --no-random-sleep-on-renew
 fi
 
 
