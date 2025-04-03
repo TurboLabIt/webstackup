@@ -35,6 +35,7 @@ sudo rm -rf \
   "var/session/" \
   "var/di/"
 
+wsuComposer install
 wsuMage setup:di:compile
 wsuMage setup:static-content:deploy --area adminhtml ${MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN} --jobs 8 -f
 wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} --jobs 8 -f
