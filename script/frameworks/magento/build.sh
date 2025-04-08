@@ -21,6 +21,11 @@ fi
 
 cd "$MAGENTO_DIR"
 
+sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
+sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
+
+rm -f "${MAGENTO_DIR}vendor/composer/autoload_*.php"
+wsuComposer dump-autoload
 
 fxTitle "🧹 Removing Magento folders..."
 sudo rm -rf \
@@ -35,7 +40,7 @@ sudo rm -rf \
   "var/session/" \
   "var/di/"
 
-wsuComposer install
+wsuMage setup:upgrade
 wsuMage setup:di:compile
 wsuMage setup:static-content:deploy --area adminhtml ${MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN} --jobs 8 -f
 wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} --jobs 8 -f
