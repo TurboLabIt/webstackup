@@ -87,6 +87,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" = "dev" ]; then
   wsuMage config:set dev/css/merge_css_files 0
   wsuMage config:set dev/css/minify_files 0
 
+  ##
+  wsuN98MageRun cache:disable config layout block_html full_page
+
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   ## Setting PRODUCTION mode
