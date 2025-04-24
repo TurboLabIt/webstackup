@@ -1,0 +1,1 @@
+sudo mkdir -p /var/www/proxyall-webroot && sudo chmod ugo= /var/www/proxyall-webroot -R && sudo chmod ug=rwX,o=rX /var/www/proxyall-webroot -R && sudo chown webstackup:www-data  /var/www/proxyall-webroot -R
