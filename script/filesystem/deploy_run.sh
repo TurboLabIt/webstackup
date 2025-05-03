@@ -23,19 +23,26 @@ if [ ! -d "$PROJECT_DIR" ]; then
   fxCatastrophicError "PROJECT_DIR ##${PROJECT_DIR}## doesn't exist!"
 fi
 
+
+fxTitle "Fast mode check..."
 if [ "$1" = "fast" ]; then
-  fxTitle "🐇 Fast mode"
+
+  fxOK "🐇 Fast mode"
   IS_FAST=1
+
 else
-  printTitle "🐢 Slow mode (non-fast)"
+
+  fxOK "🐢 Slow mode (non-fast)"
   IS_FAST=0
 fi
 
-if [ "$APP_ENV" = "prod" ]; then
 
-  fxTitle "⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡"
-  fxAskConfirmation
+fxTitle "Env check..."
+fxOK "$APP_ENV"
+if [ "$APP_ENV" == "prod" ]; then
+  fxAskConfirmation "You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME)"
 fi
+
 
 if [ -z "${LOCKFILE}" ]; then
   LOCKFILE=/tmp/deploy-${APP_NAME}
