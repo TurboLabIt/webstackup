@@ -34,26 +34,7 @@ fi
 if [ "$APP_ENV" = "prod" ]; then
 
   fxTitle "⚡⚡ You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME) ⚡⚡"
-  WSU_DEPLOY_RUN_OPTIONS=("OK" "Cancel")
-  select opt in "${WSU_DEPLOY_RUN_OPTIONS[@]}"
-  do
-    case $opt in
-
-      "OK")
-        break
-        ;;
-
-      "Cancel")
-        if [ -f "${SCRIPT_DIR}script_end.sh" ]; then
-          source ${SCRIPT_DIR}script_end.sh
-        fi
-        exit
-        ;;
-
-      *) echo "👎🏻 Invalid option";;
-    esac
-  done
-
+  fxAskConfirmation
 fi
 
 if [ -z "${LOCKFILE}" ]; then
