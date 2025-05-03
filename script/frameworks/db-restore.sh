@@ -10,12 +10,7 @@ echo "⚙️ SKIP_POST_RESTORE_QUERY:  ##${SKIP_POST_RESTORE_QUERY}#"
 fxTitle "Env check..."
 fxOK "$APP_ENV"
 if [ "$APP_ENV" == "prod" ]; then
-
-  fxWarning "PROD env detected! Do you really want to restore the db IN PROD?"
-  read -p ">> " -n 1 -r  < /dev/tty
-  if [[ ! "$REPLY" =~ ^[Yy1]$ ]]; then
-    return 0
-  fi
+  fxAskConfirmation "PROD env detected! Do you really want to restore the db IN PROD?"
 fi
 
 cd "${PROJECT_DIR}backup/db-dumps"
