@@ -97,7 +97,7 @@ if [ -f "${WSU_LINKWARDEN_SERVICE_FILE}" ]; then
 
 else
 
-  curl -Lo "${LINKWARDEN_SERVICE_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/linkwarden/linkwarden.service
+  curl -Lo "${LINKWARDEN_SERVICE_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/linkwarden/service.txt
 fi
 
 systemctl daemon-reload
