@@ -18,6 +18,19 @@ fxHeader "💿 linkwarden installer"
 rootCheck
 
 
+fxTitle "Allow new registrations?"
+if [ -z "${LINKWARDEN_ALLOW_REGISTRATIONS}" ]; then
+
+  echo "🤖 Choose Yes the first time, then No"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    LINKWARDEN_ALLOW_REGISTRATIONS=1
+  else
+    LINKWARDEN_ALLOW_REGISTRATIONS=0
+  fi
+fi
+
+
 fxTitle "Stopping the service..."
 service linkwarden stop
 
@@ -73,6 +86,16 @@ if [ ! -f "${LINKWARDEN_INSTALL_DIR}.env" ]; then
 fi
 
 
+if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 0 ]; then
+
+  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
+
+else
+
+  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=/" .env
+fi
+
+
 if [ -z $(command -v yarn) ]; then
   
   # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
@@ -80,12 +103,17 @@ if [ -z $(command -v yarn) ]; then
 fi
 
 
-fxTitle "🧶 Yarn..."
-yarn
-yarn prisma:generate
-yarn web:build
-yarn prisma:deploy
-linkwardenSetWebPermissions
+function linkwardenBuild()
+{
+  fxTitle "🧶 Yarn..."
+  yarn
+  yarn prisma:generate
+  yarn web:build
+  yarn prisma:deploy
+  linkwardenSetWebPermissions
+}
+
+linkwardenBuild
 
 
 fxTitle "Deploying the service unit file..."
