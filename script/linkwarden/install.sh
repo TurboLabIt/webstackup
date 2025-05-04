@@ -65,6 +65,7 @@ if [ ! -f "${LINKWARDEN_INSTALL_DIR}.env" ]; then
 
   LINKWARDEN_DB_PASSWORD=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)
   sudo -u postgres psql -c "CREATE USER linkwarden WITH PASSWORD '${LINKWARDEN_DB_PASSWORD}';"
+  sudo -u postgres psql -c "ALTER USER linkwarden CREATEDB;"
 
   cp .env.sample .env
   sed -i "s/^NEXTAUTH_SECRET=.*/NEXTAUTH_SECRET=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)/" .env
