@@ -123,6 +123,7 @@ fi
 
 function linkwardenBuild()
 {
+  service linkwarden stop
   fxTitle "🧶 Yarn..."
   yarn
   yarn prisma:generate
