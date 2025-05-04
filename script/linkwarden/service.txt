@@ -1,0 +1,16 @@
+[Unit]
+Description=Linkwarden
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+Restart=on-failure
+RestartSec=30
+WorkingDirectory=/var/www/linkwarden
+ExecStart=yarn concurrently:start
+
+[Install]
+WantedBy=default.target
