@@ -18,19 +18,6 @@ fxHeader "💿 linkwarden installer"
 rootCheck
 
 
-fxTitle "Allow new registrations?"
-if [ -z "${LINKWARDEN_ALLOW_REGISTRATIONS}" ]; then
-
-  echo "🤖 Hit Y the first time, then N"
-  read -p ">> " -n 1 -r  < /dev/tty
-  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
-    LINKWARDEN_ALLOW_REGISTRATIONS=1
-  else
-    LINKWARDEN_ALLOW_REGISTRATIONS=0
-  fi
-fi
-
-
 fxTitle "Stopping the service..."
 service linkwarden stop
 
@@ -82,41 +69,7 @@ if [ ! -f "${LINKWARDEN_INSTALL_DIR}.env" ]; then
   cp .env.sample .env
   sed -i "s/^NEXTAUTH_SECRET=.*/NEXTAUTH_SECRET=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)/" .env
   sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://linkwarden:${LINKWARDEN_DB_PASSWORD}@localhost:5432/linkwarden/|" .env
-
 fi
-
-
-## 📚 https://docs.linkwarden.app/self-hosting/environment-variables
-if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 0 ]; then
-
-  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
-  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
-
-else
-
-  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=/" .env
-  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=/" .env
-fi
-
-
-if [ -z $(command -v yarn) ]; then
-  
-  # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh | sudo bash
-fi
-
-
-function linkwardenBuild()
-{
-  fxTitle "🧶 Yarn..."
-  yarn
-  yarn prisma:generate
-  yarn web:build
-  yarn prisma:deploy
-  linkwardenSetWebPermissions
-}
-
-linkwardenBuild
 
 
 fxTitle "Deploying the service unit file..."
@@ -133,7 +86,67 @@ fi
 
 systemctl daemon-reload
 systemctl enable linkwarden
-service linkwarden restart
+
+
+if [ -z $(command -v yarn) ]; then
+  
+  # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh | sudo bash
+fi
+
+
+fxTitle "Allow the sign up of new users?"
+if [ -z "${LINKWARDEN_ALLOW_REGISTRATIONS}" ]; then
+
+  echo "🤖 Hit N only if you already have an account"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
+    LINKWARDEN_ALLOW_REGISTRATIONS=1
+  else
+    LINKWARDEN_ALLOW_REGISTRATIONS=0
+  fi
+fi
+
+## 📚 https://docs.linkwarden.app/self-hosting/environment-variables
+if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 0 ]; then
+
+  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
+  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
+
+else
+
+  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=/" .env
+  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=/" .env
+fi
+
+
+function linkwardenBuild()
+{
+  fxTitle "🧶 Yarn..."
+  yarn
+  yarn prisma:generate
+  yarn web:build
+  yarn prisma:deploy
+  linkwardenSetWebPermissions
+  service linkwarden restart
+}
+
+linkwardenBuild
+
+
+if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 1 ]; then
+
+  fxTitle "Allow others to signup?"
+  echo "🤖 Hit Y will allow ANYONE to sign up"
+  fxWarning "If you haven't signed up yet, do it NOW before proceeding!"
+  read -p ">> " -n 1 -r  < /dev/tty
+  if [[ "$REPLY" =~ ^[Nn0]$ ]]; then
+
+    sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
+    sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
+    linkwardenBuild
+  fi
+fi
 
 
 fxEndFooter
