@@ -21,7 +21,7 @@ rootCheck
 fxTitle "Allow new registrations?"
 if [ -z "${LINKWARDEN_ALLOW_REGISTRATIONS}" ]; then
 
-  echo "🤖 Choose Yes the first time, then No"
+  echo "🤖 Hit Y the first time, then N"
   read -p ">> " -n 1 -r  < /dev/tty
   if [[ ! "$REPLY" =~ ^[Nn0]$ ]]; then
     LINKWARDEN_ALLOW_REGISTRATIONS=1
@@ -82,17 +82,20 @@ if [ ! -f "${LINKWARDEN_INSTALL_DIR}.env" ]; then
   cp .env.sample .env
   sed -i "s/^NEXTAUTH_SECRET=.*/NEXTAUTH_SECRET=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)/" .env
   sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://linkwarden:${LINKWARDEN_DB_PASSWORD}@localhost:5432/linkwarden/|" .env
-  nano .env
+
 fi
 
 
+## 📚 https://docs.linkwarden.app/self-hosting/environment-variables
 if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 0 ]; then
 
   sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
+  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
 
 else
 
   sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=/" .env
+  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=/" .env
 fi
 
 
