@@ -165,7 +165,7 @@ echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-c
 
 
 fxTitle "Adding .gitignore..."
-curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
 
 
 fxTitle "Restoring PROJECT_DIR..."
