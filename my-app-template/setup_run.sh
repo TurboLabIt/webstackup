@@ -10,7 +10,7 @@
 WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
 # WSU_MAP_FRAMEWORK=one of these ☝🏻☝🏻☝🏻☝🏻
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
-# WSU_MAP_PHP_VERSION=8.2
+# WSU_MAP_PHP_VERSION=8.4
 # WSU_MAP_PRE_EXEC_PAUSE_SEC=
 # WSU_MAP_NEW_DATABASE=yes
 # WSU_MAP_NEW_DATABASE_USER=usr_${WSU_MAP_APP_NAME}
@@ -167,10 +167,10 @@ fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
 fxTitle "🔢 Enter the PHP version"
-fxInfo "For example: \"7.4\" or \"8.2\""
+fxInfo "For example: \"7.1\" or \"8.4\""
 while [ -z "$WSU_MAP_PHP_VERSION" ]; do
 
-  WSU_MAP_DEFAULT_PHP_VERSION=8.2
+  WSU_MAP_DEFAULT_PHP_VERSION=8.4
   echo "🤖 Provide the PHP version to use or hit Enter for ##${WSU_MAP_DEFAULT_PHP_VERSION}##"
   read -p ">> " WSU_MAP_PHP_VERSION  < /dev/tty
 
