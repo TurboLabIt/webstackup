@@ -40,6 +40,7 @@ wsuSymfony composer config prefer-stable true --no-interaction
 wsuSymfony composer config extra.symfony.allow-contrib true --no-interaction
 wsuSymfony composer config extra.symfony.docker false --no-interaction
 
+fxTitle "📦 composer req"
 wsuSymfony composer require --no-interaction \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
@@ -62,7 +63,7 @@ stof_doctrine_extensions:
 #config/packages/stof_doctrine_extensions.yml
 
 
-## composer req DEV
+fxTitle "📦 composer req DEV-only"
 wsuSymfony composer require --no-interaction --dev symfony/maker-bundle symfony/debug-pack phpunit
 
 
