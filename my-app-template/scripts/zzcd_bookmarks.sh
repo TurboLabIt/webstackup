@@ -20,5 +20,6 @@ ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
   "${PROJECT_DIR}shop" "Go"
   "${PROJECT_DIR}var/log" "Go"
   "/var/log/nginx" "Go"
+  "/etc/cron.d" "Go"
   "/var/www" "Go"
   "/etc/nginx/conf.d" "Go")
