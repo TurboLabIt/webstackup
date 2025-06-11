@@ -28,7 +28,7 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 cd ${PROJECT_DIR}
 
 
-wsuSymfony new ${APP_NAME} --no-git
+WSU_SYMFONY_DEBUG_MODE=1 wsuSymfony new ${APP_NAME} --no-git
 
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 
