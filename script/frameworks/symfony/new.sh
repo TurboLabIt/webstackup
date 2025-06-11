@@ -19,6 +19,7 @@ fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
 rm -rf "${WSU_TMP_DIR}"
 mkdir -p "${WSU_TMP_DIR}"
+echo "${PHP_VER}" > "${WSU_TMP_DIR}.php-version"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
@@ -29,8 +30,9 @@ cd ${PROJECT_DIR}
 
 
 wsuSymfony new ${APP_NAME} --no-git
-
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
+mv "${WSU_TMP_DIR}.php-version" "${PROJECT_DIR}"
+
 
 wsuSymfony composer config minimum-stability dev --no-interaction
 wsuSymfony composer config prefer-stable true --no-interaction
@@ -38,7 +40,7 @@ wsuSymfony composer config prefer-stable true --no-interaction
 wsuSymfony composer config extra.symfony.allow-contrib true --no-interaction
 wsuSymfony composer config extra.symfony.docker false --no-interaction
 
-WSU_SYMFONY_DEBUG_MODE=1 wsuSymfony composer require --no-interaction \
+wsuSymfony composer require --no-interaction \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
