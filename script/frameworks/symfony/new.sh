@@ -1,7 +1,7 @@
 ### Create a new Symfony project automatically by WEBSTACKUP
 ## This script must be sourced! Example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/symfony-install.sh
 
-fxHeader "🆕 symfony new"
+fxHeader "🆕 Symfony new"
 rootCheck
 
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
@@ -32,20 +32,13 @@ wsuSymfony new ${APP_NAME} --no-git
 
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 
-wsuSymfony composer config extra.symfony.allow-contrib true
-wsuSymfony composer config extra.symfony.docker false
+wsuSymfony composer config minimum-stability dev --no-interaction
+wsuSymfony composer config prefer-stable true --no-interaction
 
-# https://github.com/TurboLabIt/php-doctrine-runtime-manager
-wsuSymfony composer config repositories.turbolabit/php-doctrine-runtime-manager git https://github.com/TurboLabIt/php-doctrine-runtime-manager.git
+wsuSymfony composer config extra.symfony.allow-contrib true --no-interaction
+wsuSymfony composer config extra.symfony.docker false --no-interaction
 
-# https://github.com/TurboLabIt/php-encryptor
-wsuSymfony composer config repositories.turbolabit/php-encryptor git https://github.com/TurboLabIt/php-encryptor.git
-
-# https://github.com/TurboLabIt/php-dev-pack
-wsuSymfony composer config repositories.turbolabit/php-dev-pack git https://github.com/TurboLabIt/php-dev-pack.git
-
-
-wsuSymfony composer require \
+wsuSymfony composer require --no-interaction \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
@@ -53,9 +46,8 @@ wsuSymfony composer require \
   symfony/expression-language \
   form validator \
   symfony/monolog-bundle \
-  turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main \
-  turbolabit/php-doctrine-runtime-manager:dev-main turbolabit/php-encryptor:dev-main \
-  turbolabit/php-dev-pack:dev-master
+  turbolabit/php-foreachable:dev-main turbolabit/php-encryptor turbolabit/php-symfony-basecommand:dev-main \
+  turbolabit/php-symfony-messenger:dev-main turbolabit/paginatorbundle:dev-main turbolabit/service-entity-plus-bundle:dev-main
   
  
 fxTitle "Setting up doctrine-extensions..."
@@ -69,7 +61,7 @@ stof_doctrine_extensions:
 
 
 ## composer req DEV
-wsuSymfony composer require --dev symfony/maker-bundle symfony/debug-pack phpunit
+wsuSymfony composer require --no-interaction --dev symfony/maker-bundle symfony/debug-pack phpunit
 
 
 fxTitle "Adding .gitignore..."
