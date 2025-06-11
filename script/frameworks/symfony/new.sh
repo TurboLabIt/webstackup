@@ -28,7 +28,7 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 cd ${PROJECT_DIR}
 
 
-WSU_SYMFONY_DEBUG_MODE=1 wsuSymfony new ${APP_NAME} --no-git
+wsuSymfony new ${APP_NAME} --no-git
 
 PROJECT_DIR=${WSU_TMP_DIR}${APP_NAME}/
 
@@ -38,7 +38,7 @@ wsuSymfony composer config prefer-stable true --no-interaction
 wsuSymfony composer config extra.symfony.allow-contrib true --no-interaction
 wsuSymfony composer config extra.symfony.docker false --no-interaction
 
-wsuSymfony composer require --no-interaction \
+WSU_SYMFONY_DEBUG_MODE=1 wsuSymfony composer require --no-interaction \
   symfony/twig-pack symfony/cache symfony/asset \
   symfony/orm-pack symfony/mailer \
   symfony/webpack-encore-bundle \
