@@ -3,7 +3,9 @@
 ## Allow the import of big MEMORY engine table size from a mysqldump.
 ## Fixes `ERROR 1114 (HY000): The table catalog_product_index_price_tmp is full`
 ##
-## sudo curl -Lo /etc/mysql/mysql.conf.d/20-webstackup-big-memory-table-support.cnf https://github.com/TurboLabIt/webstackup/raw/refs/heads/master/config/mysql/big-memory-table-support.cnf
+## Don't forget to RESTART the service!
+##
+## sudo curl -Lo /etc/mysql/mysql.conf.d/20-webstackup-big-memory-table-support.cnf https://github.com/TurboLabIt/webstackup/raw/refs/heads/master/config/mysql/big-memory-table-support.cnf && sudo service mysql restart
 ##
 ## 📚 https://dev.mysql.com/doc/refman/8.4/en/server-system-variables.html#sysvar_max_heap_table_size
 ## 📚 https://releem.com/docs/mysql-performance-tuning/max_heap_table_size
