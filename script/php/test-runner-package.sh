@@ -74,8 +74,7 @@ fi
 SYMFONY_DEPRECATIONS_HELPER=disabled ${PHP_CLI} ${PHPUNIT_EXEC} \
   --bootstrap "${BOOTSTRAP_FILE}" \
   --display-warnings \
-  --stop-on-failure $@ \
-  tests
+  --stop-on-failure $@
 
 PHPUNIT_RESULT=$?
 echo ""
