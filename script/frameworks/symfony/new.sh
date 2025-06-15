@@ -64,7 +64,8 @@ stof_doctrine_extensions:
 
 
 fxTitle "📦 composer req DEV-only"
-wsuSymfony composer require --no-interaction --dev symfony/maker-bundle symfony/debug-pack phpunit
+wsuSymfony composer require --no-interaction --dev \
+  symfony/maker-bundle symfony/debug-pack phpunit brianium/paratest
 
 
 fxTitle "Adding .gitignore..."
