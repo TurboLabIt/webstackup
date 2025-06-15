@@ -65,7 +65,13 @@ fi
 
 
 fxTitle "🤖 Testing with PHPUnit..."
-SYMFONY_DEPRECATIONS_HELPER=disabled ${PHP_CLI} ./vendor/bin/phpunit \
+if [ "${WSU_TEST_RUNNER_PARALLEL}" != 0 ]; then
+  PHPUNIT_EXEC=./vendor/bin/paratest
+else
+  PHPUNIT_EXEC=./vendor/bin/phpunit
+fi
+
+SYMFONY_DEPRECATIONS_HELPER=disabled ${PHP_CLI} ${PHPUNIT_EXEC} \
   --bootstrap "${BOOTSTRAP_FILE}" \
   --display-warnings \
   --stop-on-failure $@ \
