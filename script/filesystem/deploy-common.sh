@@ -36,6 +36,7 @@
 # ${PROJECT_DIR}config/custom/zzmysqldump.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzmysqldump.conf
 
+# ${PROJECT_DIR}config/custom/zzfirewall.conf
 # ${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf
 
@@ -370,12 +371,29 @@ fi
 
 
 ## zzfirewall
+if [ -f "${PROJECT_DIR}config/custom/zzfirewall.conf" ]; then
+
+  fxTitle "🔥🧱 Linking zzfirewall..."
+  rm -f "/etc/turbolab.it/zzfirewall.conf"
+  ln -s "${PROJECT_DIR}config/custom/zzfirewall.conf" "/etc/turbolab.it/zzfirewall.conf"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall.conf" ]; then
+
+  fxTitle "🔥🧱 Linking ${APP_ENV} zzfirewall..."
+  rm -f "/etc/turbolab.it/zzfirewall.conf"
+  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall.conf" "/etc/turbolab.it/zzfirewall.conf"
+fi
+
+
 if [ -f "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf" ]; then
+
   fxTitle "🔥🧱 Linking zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}.conf"
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" ] && [ ! -f "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf" ]; then
+
   fxTitle "🔥🧱 Linking ${APP_ENV} zzfirewall-whitelist..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/zzfirewall-whitelist.conf" "/etc/turbolab.it/zzfirewall-whitelist-${APP_NAME}_${APP_ENV}.conf"
 fi
