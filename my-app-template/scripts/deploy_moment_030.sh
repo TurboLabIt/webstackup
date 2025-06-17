@@ -3,3 +3,6 @@
 
 #fxTitle "📦 Setting up composer credentials..."
 #wsuComposer config --global http-basic.repo.magento.com myKey1 myKey2
+
+#fxTitle "📦 Installing additional plugins..."
+#wsuWordPress plugin install PLUGIN1 PLUGIN2 --activate-network --activate
