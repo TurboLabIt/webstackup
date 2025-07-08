@@ -6,6 +6,7 @@ TITLE="Software installer"
 OPTIONS=(
   1 "💿  node.js, yarn, webpack"
   2 "💿  MySQL"
+  3 "💿  Pure-FTPd"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -13,4 +14,5 @@ source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
 case $CHOICE in
   1)bash "${WEBSTACKUP_SCRIPT_DIR}node.js/install.sh";;
   2)bash "${WEBSTACKUP_SCRIPT_DIR}mysql/install.sh";;
+  2)bash "${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh";;
 esac
