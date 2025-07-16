@@ -47,6 +47,10 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
 fi
 
 
+fxTitle "💿 Intalling pre-requisites..."
+sudo apt install php${PHP_VER}-amqp -y
+
+
 PROJECT_DIR_BACKUP=${PROJECT_DIR}
 CURRENT_DIR_BACKUP=$(pwd)
 
