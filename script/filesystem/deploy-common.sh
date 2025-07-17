@@ -186,28 +186,9 @@ if [ -f "${SCRIPT_DIR}zzcd_bookmarks.sh" ] && [ -z "$(deployZzCmdSuffix)" ]; the
 fi
 
 
-## cron
-if [ "${DEPLOY_COPY_CRON}" != 0 ]; then
-
-  if [ -f "${PROJECT_DIR}config/custom/cron" ]; then
-    fxTitle "⏲️ Copying shared cron file..."
-    cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME//./_}"
-  fi
-
-  if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
-    fxTitle "⏲️ Copying ${APP_ENV} cron file..."
-    cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME//./_}_${APP_ENV}"
-  fi
-
-  fxTitle "🔃️ Reloading cron..."
-  ## cron shouldn't be restarted, or you may get:
-  # `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
-  service cron reload
-
-else
-
-  fxWarning "DEPLOY_COPY_CRON is set to zero, skipping"
-fi
+## removing cron
+fxTitle "🧹 Removing ${APP_NAME} cron files..."
+sudo rm -f /etc/cron.d/${APP_NAME}*
 
 fxTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
@@ -495,13 +476,40 @@ fxTitle "🔃 Conditional nginx restart..."
 nginx -t && service nginx restart
 
 fxTitle "🔃️ Restarting sshd..."
-service sshd restart
+service ssh restart
 
 
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
   bash "${SCRIPT_DIR}cache-clear.sh"
 fi
+
+
+## cron
+if [ "${DEPLOY_COPY_CRON}" != 0 ]; then
+
+  if [ -f "${PROJECT_DIR}config/custom/cron" ]; then
+    fxTitle "⏲️ Copying shared cron file..."
+    cp "${PROJECT_DIR}config/custom/cron" "/etc/cron.d/${APP_NAME//./_}"
+  fi
+
+  if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/cron" ]; then
+    fxTitle "⏲️ Copying ${APP_ENV} cron file..."
+    cp "${PROJECT_DIR}config/custom/${APP_ENV}/cron" "/etc/cron.d/${APP_NAME//./_}_${APP_ENV}"
+  fi
+
+  fxTitle "🔃️ Reloading cron..."
+  ## cron shouldn't be restarted, or you may get:
+  # `cron.service: Found left-over process 2093062 (cron) in control group while starting unit. Ignoring.`
+  service cron reload
+
+else
+
+  fxWarning "DEPLOY_COPY_CRON is set to zero, skipping"
+fi
+
+fxTitle "📂 Listing /etc/cron.d/..."
+ls -l "/etc/cron.d/"
 
 
 ## delete test files
