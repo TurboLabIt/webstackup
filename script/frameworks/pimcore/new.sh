@@ -65,7 +65,7 @@ PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
 
-wsuComposer create-project pimcore/skeleton ${APP_NAME}
+wsuComposer create-project pimcore/skeleton:2024.4 ${APP_NAME}
 cd "${APP_NAME}"
 
 
