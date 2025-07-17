@@ -35,8 +35,12 @@ if [ "$1" = "fast" ]; then
 
 else
 
-    sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
-    sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
+  sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
+  sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
+
+  fxTitle "⚙️ Stopping services..."
+  sudo nginx -t && sudo service nginx stop
+  sudo service ${PHP_FPM} restart
 fi
 
 
@@ -176,6 +180,10 @@ fi
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
+
+  fxTitle "⚙️ Restarting services..."
+  sudo service ${PHP_FPM} restart
+  sudo nginx -t && sudo service nginx start
 
   wsuMage maintenance:disable
 
