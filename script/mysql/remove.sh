@@ -41,4 +41,7 @@ fxTitle "Removing cron files..."
 rm -rf /etc/cron.d/*mysql*
 
 
+fxTitle "Reloading service list..."
+systemctl daemon-reload
+
 fxEndFooter
