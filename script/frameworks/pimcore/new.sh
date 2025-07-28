@@ -68,6 +68,7 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 wsuComposer create-project pimcore/skeleton:2024.4 ${APP_NAME}
 cd "${APP_NAME}"
 
+wsuComposer config minimum-stability dev
 
 wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
 
