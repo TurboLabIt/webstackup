@@ -8,5 +8,4 @@ log/*
 
 ## this is required to include generated classes (Pimcore)
 !classes/
-!classes/*
-!classes/**/*
+classes/DataObject
