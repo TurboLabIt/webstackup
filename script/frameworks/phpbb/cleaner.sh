@@ -12,7 +12,7 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
 fi  
 
 if [ -z "${WEBROOT_DIR}" ] || [ -z "${PHPBB_DB_NAME}" ] \
-   [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] || \
+   [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] \
    ; then
 
   catastrophicError "phpBB cleaner can't run with these variables undefined:
