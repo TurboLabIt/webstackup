@@ -11,7 +11,7 @@ if [ ! -z "$MYSQL_PASSWORD" ]; then
   MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
 fi  
 
-if [ -z "${WEBROOT_DIR}" ] || [ -z "${PHPBB_DB_NAME}" ] \
+if [ -z "${WEBROOT_DIR}" ] || [ -z "${PHPBB_DB_NAME}" ] || \
    [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_PASSWORD}" ] \
    ; then
 
