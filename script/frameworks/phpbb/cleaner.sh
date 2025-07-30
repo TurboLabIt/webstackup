@@ -30,4 +30,4 @@ if [ ! -d "${WEBROOT_DIR}forum" ]; then
 fi
 
 fxTitle "Deleting anonymous user sessions..."
-echo mysqll -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1"
+mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1"
