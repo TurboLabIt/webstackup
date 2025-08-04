@@ -1,19 +1,6 @@
 fxHeader "🏗 ${APP_NAME} build"
 
-
-if [ ! -z "${NODEJS_VER}" ]; then
-
-  fxTitle "🤹 Setting node.js version..."
-  sudo n 20
-fi
-
-
-fxTitle "🤹 node.js version in use"
-sudo -u $EXPECTED_USER -H node --version
-
-
-fxTitle "💿 yarn install..."
-echo "y" | sudo -u $EXPECTED_USER -H yarn install
+source "${WEBSTACKUP_SCRIPT_DIR}node.js/webpack_script_begin.sh"
 
 
 fxTitle "👮 Fixing permissions..."
