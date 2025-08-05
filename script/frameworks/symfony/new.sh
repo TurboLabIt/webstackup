@@ -69,7 +69,15 @@ wsuSymfony composer require --no-interaction --dev \
 
 
 fxTitle "Adding .gitignore..."
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_symfony
+curl -o "${PROJECT_DIR}backup/.gitignore_symfony_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_symfony
+sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}backup/.gitignore_symfony_temp"
+echo "" >> "${PROJECT_DIR}.gitignore"
+cat "${PROJECT_DIR}backup/.gitignore_symfony_temp" >> "${PROJECT_DIR}.gitignore"
+rm -f "${PROJECT_DIR}backup/.gitignore_symfony_temp"
 
 
 fxTitle "Adding webpack stuff..."
