@@ -97,7 +97,15 @@ sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \
 
 
 fxTitle "Adding .gitignore..."
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore
 curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_pimcore
+curl -o "${PROJECT_DIR}backup/.gitignore_pimcore_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_pimcore
+sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}backup/.gitignore_pimcore_temp"
+echo "" >> "${PROJECT_DIR}.gitignore"
+cat "${PROJECT_DIR}backup/.gitignore_pimcore_temp" >> "${PROJECT_DIR}.gitignore"
+rm -f "${PROJECT_DIR}backup/.gitignore_pimcore_temp"
 
 
 fxTitle "Restoring PROJECT_DIR"
