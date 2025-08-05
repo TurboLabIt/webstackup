@@ -164,9 +164,13 @@ mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
 
-fxTitle "Adding .gitignore..."
-curl -o .gitignore https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
-sed -i "s/my-app/${APP_NAME}/g" .gitignore
+fxTitle "Adding .gitignore for WordPress..."
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
+curl -o "${PROJECT_DIR}backup/.gitignore_wordpress_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
+sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}backup/.gitignore_wordpress_temp"
+echo "" >> "${PROJECT_DIR}.gitignore"
+cat "${PROJECT_DIR}backup/.gitignore_wordpress_temp" >> "${PROJECT_DIR}.gitignore"
+rm -f "${PROJECT_DIR}backup/.gitignore_wordpress_temp"
 
 
 fxTitle "Restoring PROJECT_DIR..."
