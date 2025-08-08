@@ -10,3 +10,4 @@ log/*
 !classes/
 !classes/*
 classes/DataObject
+!classes/fieldcollections/*
