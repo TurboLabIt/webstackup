@@ -7,7 +7,7 @@ OPTIONS=(
   3 "✔️   Self-update"
   4 "🐑   Git clone an existing app"
   5 "🛢️   MySQL GUI (zzdb) ☰"
-  6 "🔏   Let's Encrypt a domain"
+  6 "🔏   HTTPS certificates ☰"
   7 "👮   Webpermissions a directory"
   8 "🔑   Show webstackup SSH pub key"
   9 "💌   Email GUI (zzmail) ☰"
@@ -44,7 +44,7 @@ case $CHOICE in
     bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/git-clone.sh"
     ;;
   5)bash "${WEBSTACKUP_SCRIPT_DIR}mysql/zzdb.sh";;
-  6)bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-generate.sh";;
+  6)bash "${WEBSTACKUP_SCRIPT_DIR}https/zzhttps.sh";;
   7)bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh";;
   8)fxMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")";;
   9)bash "${WEBSTACKUP_SCRIPT_DIR}mail/zzmail.sh";;
