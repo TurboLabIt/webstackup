@@ -6,6 +6,11 @@ if [ "${PROJECT_FRAMEWORK}" == "wordpress" ] && [ -f "${WEBROOT_DIR}wp-content/t
 fi
 
 
+if [ ! -f "package.json" ]; then
+  fxCatastrophicError "package.json not found in ##$(pwd)##"
+fi
+
+
 if [ ! -z "${NODEJS_VER}" ]; then
 
   fxTitle "🤹 Setting node.js version..."
