@@ -136,13 +136,14 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/wp-fastest-cache/
 # https://wordpress.org/plugins/redirection/
 # https://wordpress.org/plugins/safe-svg/
+# https://wordpress.org/plugins/folders/
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
   webp-express timber-library \
   google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
-  redirection safe-svg \
+  redirection safe-svg folders \
   --activate-network --activate
 
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
@@ -153,7 +154,11 @@ wsuWordPress plugin auto-updates enable --all
 wsuWordPress option update \
   whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
   --skip-plugins --skip-themes
- 
+
+## Enable "Folders" on "Media" only
+wsuWordPress option update \
+  folders_settings '["attachment"]' --format=json \
+  --skip-plugins --skip-themes
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
