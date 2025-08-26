@@ -70,18 +70,6 @@ cd "${APP_NAME}"
 
 wsuComposer config minimum-stability dev
 
-wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
-
-
-fxTitle "Adding repositories for TurboLab.it packages..."
-# https://github.com/TurboLabIt/php-foreachable
-wsuComposer config repositories.turbolabit/php-foreachable git https://github.com/TurboLabIt/php-foreachable.git
-
-# https://github.com/TurboLabIt/php-symfony-basecommand
-wsuComposer config repositories.turbolabit/php-symfony-basecommand git https://github.com/TurboLabIt/php-symfony-basecommand.git
-
-wsuComposer require turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main
-
 
 PCINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 
@@ -94,6 +82,12 @@ sudo -u $EXPECTED_USER -H XDEBUG_MODE=off \
   ${PHP_CLI} vendor/bin/pimcore-install \
   --mysql-host-socket "${MYSQL_HOST}" --mysql-database "${MYSQL_DB_NAME}" \
   --no-interaction
+
+wsuComposer require symfony/maker-bundle symfony/debug-pack --dev
+wsuComposer require turbolabit/php-foreachable:dev-main turbolabit/php-symfony-basecommand:dev-main
+
+wsuSymfony console pimcore:bundle:install PimcoreSimpleBackendSearchBundle
+wsuSymfony console pimcore:search-backend-reindex
 
 
 fxTitle "Adding .gitignore..."
