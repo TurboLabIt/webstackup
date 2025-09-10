@@ -45,8 +45,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fi
   
   fxTitle "↗ Pushing current PHP classes to database..."
-  # https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html
-  sudo chown -R www-data:www-data ${PROJECT_DIR}var/cache
+  # https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html  
   wsuSymfony console pimcore:deployment:classes-rebuild --create-classes
   wsuSymfony console pimcore:deployment:classes-rebuild
 
