@@ -21,6 +21,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🧹 Removing Pimcore cache folder..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
+  sudo mkdir -p "${PROJECT_DIR}var/cache"
+  sudo chown ${EXPECTED_USER}:www-data "${PROJECT_DIR}var/cache" -R
+  sudo chmod 777 "${PROJECT_DIR}var/cache" -R
   
   #if [ "${PIMCORE_ECOMMERECE_BUNDLE_ENABLED}" == "1" ]; then
   
