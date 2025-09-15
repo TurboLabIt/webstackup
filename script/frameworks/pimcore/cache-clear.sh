@@ -62,6 +62,7 @@ fi
 fxTitle "🌊 Pimcore cache:clear..."
 # https://pimcore.com/docs/pimcore/current/Development_Documentation/Deployment/Deployment_Tools.html#page_Potentially-useful-commands
 sudo -u www-data -H symfony console pimcore:cache:clear
+sudo chmod 777 "${PROJECT_DIR}var/cache" -R
 sudo -u www-data -H symfony console cache:clear
 
 
