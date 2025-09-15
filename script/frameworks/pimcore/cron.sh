@@ -35,47 +35,51 @@ fxTitle "messenger:consume"
 wsuSymfony console messenger:consume pimcore_core pimcore_maintenance pimcore_image_optimize --time-limit=300
 
 
-fxTitle "Segment Building Queue"
-# Handles the calculation of asynchronous segments by processing the segment building queue.
-# This is needed for segments which could not be calculated directly for performance reasons
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Segment-Building-Queue
-wsuSymfony console cmf:build-segments -v
+if symfony console list | grep -q 'cmf'; then
 
+  fxTitle "Segment Building Queue"
+  # Handles the calculation of asynchronous segments by processing the segment building queue.
+  # This is needed for segments which could not be calculated directly for performance reasons
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Segment-Building-Queue
+  wsuSymfony console cmf:build-segments -v
+  
+  
+  fxTitle "Action trigger queue"
+  # Handles the execution of delayed actions in ActionTrigger rules.
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Action-trigger-queue
+  wsuSymfony console cmf:process-actiontrigger-queue -v
+  
+  
+  fxTitle "Cron Trigger"
+  # This cronjob is needed if cron triggers are used in ActionTrigger rules.
+  # Important: this needs to run once per minute!
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Cron-Trigger
+  wsuSymfony console cmf:handle-cron-triggers -v
+  
+  fxTitle "Calculate potential duplicates"
+  # Analyzes the duplicates index and calculates potential duplicates which will be shown in the potential duplicates list view.
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Calculate-potential-duplicates
+  wsuSymfony console cmf:duplicates-index -c -v
+  
+  
+  fxTitle "CMF Maintenance"
+  # This cronjob should be configured to be executed on a regular basis.
+  # It performs various tasks configured in services.yml and tagged with cmf.maintenance.serviceCalls.
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_CMF-Maintenance
+  wsuSymfony console cmf:maintenance -v
+  
+  
+  fxTitle "Newsletter Queue"
+  # Processes the newsletter queue.
+  # This job should run once every x minutes (e.g. every 5 minutes) when the newsletter/mailchimp sync feature is needed.
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
+  wsuSymfony console cmf:newsletter-sync -c
+  
+  
+  fxTitle "Mailchimp status sync"
+  # Should run as a night job. Synchronizes status updates from Mailchimp to Pimcore if webhook calls failed.
+  # This is important to ensure data integrity also when the system is down for several hours.
+  # https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
+  wsuSymfony console cmf:newsletter-sync -m
 
-fxTitle "Action trigger queue"
-# Handles the execution of delayed actions in ActionTrigger rules.
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Action-trigger-queue
-wsuSymfony console cmf:process-actiontrigger-queue -v
-
-
-fxTitle "Cron Trigger"
-# This cronjob is needed if cron triggers are used in ActionTrigger rules.
-# Important: this needs to run once per minute!
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Cron-Trigger
-wsuSymfony console cmf:handle-cron-triggers -v
-
-fxTitle "Calculate potential duplicates"
-# Analyzes the duplicates index and calculates potential duplicates which will be shown in the potential duplicates list view.
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Calculate-potential-duplicates
-wsuSymfony console cmf:duplicates-index -c -v
-
-
-fxTitle "CMF Maintenance"
-# This cronjob should be configured to be executed on a regular basis.
-# It performs various tasks configured in services.yml and tagged with cmf.maintenance.serviceCalls.
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_CMF-Maintenance
-wsuSymfony console cmf:maintenance -v
-
-
-fxTitle "Newsletter Queue"
-# Processes the newsletter queue.
-# This job should run once every x minutes (e.g. every 5 minutes) when the newsletter/mailchimp sync feature is needed.
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
-wsuSymfony console cmf:newsletter-sync -c
-
-
-fxTitle "Mailchimp status sync"
-# Should run as a night job. Synchronizes status updates from Mailchimp to Pimcore if webhook calls failed.
-# This is important to ensure data integrity also when the system is down for several hours.
-# https://pimcore.com/docs/customer-management-framework/current/Cronjobs.html#page_Newsletter-Queue
-wsuSymfony console cmf:newsletter-sync -m
+fi
