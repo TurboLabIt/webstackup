@@ -19,11 +19,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   wsuComposer install
 
-  fxTitle "🧹 Removing Pimcore cache folder..."
+  fxTitle "🧹 Removing Pimcore cache folder and set permissions..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   sudo mkdir -p "${PROJECT_DIR}var/cache"
   sudo chown ${EXPECTED_USER}:www-data "${PROJECT_DIR}var/cache" -R
   sudo chmod 777 "${PROJECT_DIR}var/cache" -R
+  sudo chmod g+s "${PROJECT_DIR}var/cache"
   
   #if [ "${PIMCORE_ECOMMERECE_BUNDLE_ENABLED}" == "1" ]; then
   
