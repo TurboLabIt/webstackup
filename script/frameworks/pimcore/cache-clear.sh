@@ -19,6 +19,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   wsuComposer install
 
+  fxTitle "📂 Creating public/var and set permissions..."
+  sudo mkdir -p "${WEBROOT_DIR}var"
+  sudo chown www-data:www-data "${WEBROOT_DIR}var" -R
+  sudo chmod 777 "${WEBROOT_DIR}var" -R
+  sudo chmod g+s "${WEBROOT_DIR}var"
+
   fxTitle "🧹 Removing Pimcore cache folder and set permissions..."
   sudo rm -rf "${PROJECT_DIR}var/cache"
   sudo mkdir -p "${PROJECT_DIR}var/cache"
