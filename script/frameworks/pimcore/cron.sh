@@ -25,14 +25,17 @@ showPHPVer
 fxTitle "pimcore:maintenance"
 # this command needs to be executed via cron or similar task scheduler
 # it fills the message queue with the necessary tasks, which are then processed by messenger:consume
-wsuSymfony console pimcore:maintenance --async
+wsuSymfony console pimcore:maintenance
 
 
 fxTitle "messenger:consume"
 # it's recommended to run the following command using a process control system like Supervisor
 # please follow the Symfony Messenger guide for a best practice production setup:
 # https://symfony.com/doc/current/messenger.html#deploying-to-production
-wsuSymfony console messenger:consume pimcore_core pimcore_maintenance pimcore_image_optimize --time-limit=300
+wsuSymfony console messenger:consume \
+  pimcore_core pimcore_maintenance pimcore_image_optimize pimcore_scheduled_tasks \
+  pimcore_search_backend_message pimcore_asset_update \
+  --time-limit=300
 
 
 if symfony console list | grep -q 'cmf'; then
