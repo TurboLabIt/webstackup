@@ -73,6 +73,11 @@ done
 fxOK "OK, ##$WSU_HTTPS_EMAIL_ADDRESS##"
 
 
+if [ -z $(command -v certbot) ]; then
+  sudo bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh"
+fi
+
+
 fxTitle "Building command..."
 WSU_CERTBOT_REQUEST="certbot certonly --email $WSU_HTTPS_EMAIL_ADDRESS --no-eff-email --agree-tos --webroot -w ${WSU_WEBROOT_PATH} -d ${WSU_MAP_DOMAIN_DEFAULT} ${WSU_MAP_DOMAIN_WWW}"
 fxMessage "${WSU_CERTBOT_REQUEST}"
