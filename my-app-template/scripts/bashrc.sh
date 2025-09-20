@@ -21,5 +21,7 @@ if [[ $- == *i* && -n "$SSH_CONNECTION" ]]; then
 
 fi
 
-
 cd /var/www/my-app
+
+## if the server hosts multiple project, go with this 👇🏻
+#zzcd
