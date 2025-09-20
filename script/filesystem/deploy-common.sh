@@ -16,6 +16,8 @@
 
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
 
+# ${SCRIPT_DIR}bashrc.sh
+
 # ${PROJECT_DIR}config/custom/cron
 # ${PROJECT_DIR}config/custom/${APP_ENV}/cron
 
@@ -49,6 +51,7 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl
 # ${PROJECT_DIR}config/custom/varnish.vcl
+
 
 
 fxHeader "DEPLOY-COMMON"
@@ -477,6 +480,23 @@ nginx -t && service nginx restart
 
 fxTitle "🔃️ Restarting sshd..."
 service ssh restart
+
+
+fxTitle "Patching $(logname) .bashrc..."
+LOGGED_USER_BASHRC=$(fxGetUserHomePath $(logname)).bashrc
+fxInfo "###${LOGGED_USER_BASHRC}###"
+
+if [ ! -f "${LOGGED_USER_BASHRC}" ]; then
+  touch "${LOGGED_USER_BASHRC}"
+fi
+
+if ! grep -q "scripts/bashrc.sh" "${LOGGED_USER_BASHRC}"; then
+
+  echo "" >> "${LOGGED_USER_BASHRC}"
+  echo "## Webstackup" >> "${LOGGED_USER_BASHRC}"
+  echo "source ${SCRIPT_DIR}bashrc.sh" >> "${LOGGED_USER_BASHRC}"
+  fxOK "${LOGGED_USER_BASHRC} has been patched"
+fi
 
 
 ## cache-clear
