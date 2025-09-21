@@ -1,0 +1,5 @@
+env = "production"
+master_key = "##CHANGE_ME##"
+db_path = "/var/lib/meilisearch/data"
+dump_dir = "/var/lib/meilisearch/dumps"
+snapshot_dir = "/var/lib/meilisearch/snapshots"
