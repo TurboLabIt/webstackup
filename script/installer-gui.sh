@@ -7,6 +7,7 @@ OPTIONS=(
   1 "💿  node.js, yarn, webpack"
   2 "💿  MySQL"
   3 "💿  Pure-FTPd"
+  4 "💿  Meilisearch"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -14,5 +15,6 @@ source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
 case $CHOICE in
   1)bash "${WEBSTACKUP_SCRIPT_DIR}node.js/install.sh";;
   2)bash "${WEBSTACKUP_SCRIPT_DIR}mysql/install.sh";;
-  2)bash "${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh";;
+  3)bash "${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh";;
+  4)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/install.sh";;
 esac

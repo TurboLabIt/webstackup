@@ -186,6 +186,14 @@ else
 fi
 
 
+fxTitle "Installing MEILISEARCH..."
+if [ "$INSTALL_MEILISEARCH" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}meilisearch/install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing PURE-FTPD..."
 if [ "$INSTALL_PUREFTPD" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh
