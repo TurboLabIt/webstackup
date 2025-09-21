@@ -1,5 +1,3 @@
-# [Motore di ricerca interno](https://github.com/TurboLabIt/TurboLab.it/blob/main/docs/search.md)
-
 #!/usr/bin/env bash
 ### AUTOMATIC MEILISEARCH INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/meilisearch/install.sh
