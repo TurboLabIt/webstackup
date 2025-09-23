@@ -22,4 +22,4 @@ sudo -u $EXPECTED_USER -H node --version
 
 
 fxTitle "💿 yarn install..."
-echo "y" | sudo -u $EXPECTED_USER -H yarn install
+sudo -u $EXPECTED_USER -H COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
