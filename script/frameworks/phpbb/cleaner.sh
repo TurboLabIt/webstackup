@@ -59,11 +59,11 @@ mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
 mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
   SELECT
       user_id AS id, username, user_email AS email,
+      DATE(FROM_UNIXTIME(user_regdate)) as reg_date,
       CASE 
         WHEN user_lastvisit = 0 THEN 'Never visited' 
         ELSE DATE(FROM_UNIXTIME(user_lastvisit)) 
       END as last_visit,
-      DATE(FROM_UNIXTIME(user_regdate)) as reg_date,
       CASE
         WHEN user_lastvisit = 0 THEN 'Never logged in'
         ELSE CONCAT('Inactive for ', DATEDIFF(NOW(), FROM_UNIXTIME(user_lastvisit)), ' days')
