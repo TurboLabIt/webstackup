@@ -31,7 +31,11 @@ fi
 
 
 fxTitle "Deleting anonymous user sessions..."
-mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1"
+mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
+  DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1;
+
+  SELECT ROW_COUNT() as 'Sessions deleted'
+"
 
 
 fxTitle "Invalidate passwords for users: 《 inactive 2+ years 》 OR 《 never logged in but registered 6+ months ago 》..."
@@ -68,4 +72,26 @@ mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
   WHERE
     user_password = '${WSU_PHPBB_INVALIDATED_PASSWORD}.${WSU_PHPBB_INVALIDATED_DATE}'
   ORDER BY user_id ASC
+"
+
+
+fxTitle "Deleting sessions for users with an invalidated password..."
+mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
+  DELETE ${PHPBB_DB_NAME}.phpbb_sessions
+  FROM ${PHPBB_DB_NAME}.phpbb_sessions
+  INNER JOIN ${PHPBB_DB_NAME}.phpbb_users
+  ON ${PHPBB_DB_NAME}.phpbb_sessions.session_user_id = ${PHPBB_DB_NAME}.phpbb_users.user_id
+  WHERE
+     ${PHPBB_DB_NAME}.phpbb_users.user_password LIKE '${WSU_PHPBB_INVALIDATED_PASSWORD}%';
+
+  SELECT ROW_COUNT() as 'Sessions deleted';
+
+  DELETE ${PHPBB_DB_NAME}.phpbb_sessions_keys
+  FROM ${PHPBB_DB_NAME}.phpbb_sessions_keys
+  INNER JOIN ${PHPBB_DB_NAME}.phpbb_users
+  ON ${PHPBB_DB_NAME}.phpbb_sessions_keys.user_id = ${PHPBB_DB_NAME}.phpbb_users.user_id
+  WHERE
+     ${PHPBB_DB_NAME}.phpbb_users.user_password LIKE '${WSU_PHPBB_INVALIDATED_PASSWORD}%';
+
+  SELECT ROW_COUNT() as 'Remember-me tokens deleted';
 "
