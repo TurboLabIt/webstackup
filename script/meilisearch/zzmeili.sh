@@ -4,7 +4,7 @@
 
 TITLE="Meilisearch management GUI"
 OPTIONS=(
-  1 "🧨  Wipe the data folder (preserve API keys)"
+  1 "🧨  Wipe the data folder"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"

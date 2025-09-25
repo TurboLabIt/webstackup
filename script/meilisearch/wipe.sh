@@ -15,11 +15,20 @@ fi
 
 fxHeader "🧨 MEILISEARCH data wiper"
 rootCheck
-
+fxAskConfirmation
 MEILISEARCH_DATA_PATH=/var/lib/meilisearch/
 
 
-fxAskConfirmation
+fxTitle "🔑 Extracting the master key..."
+MEILISEARCH_MASTERKEY=$(
+  grep '^[[:space:]]*master_key[[:space:]]*=' "/etc/meilisearch.toml" | \
+  sed 's/^[[:space:]]*master_key[[:space:]]*=[[:space:]]*"\(.*\)"[[:space:]]*$/\1/' 
+)
+
+
+if [ -z "${MEILISEARCH_MASTERKEY}" ]; then
+  fxCatastrophicError "Master key extraction failed"
+fi
 
 
 fxTitle "Installing prerequisites..."
@@ -29,10 +38,6 @@ apt install jq -y
 
 fxTitle "🛑 Stopping the service..."
 service meilisearch stop
-
-
-fxTitle "🗝️ Preserving the API keys..."
-mv "${MEILISEARCH_DATA_PATH}data/auth" "${MEILISEARCH_DATA_PATH}backup_auth"
 
 
 fxTitle "🧨 Nuking the data folder..."
@@ -50,10 +55,6 @@ chmod ugo= "${MEILISEARCH_DATA_PATH}data" -R
 chmod u=rwX,go=rX "${MEILISEARCH_DATA_PATH}data" -R
 
 
-fxTitle "🔃 Restoring the API keys..."
-mv "${MEILISEARCH_DATA_PATH}backup_auth" "${MEILISEARCH_DATA_PATH}data/auth"
-
-
 fxTitle "🏁 Starting the service...."
 systemctl start meilisearch
 systemctl --no-pager status meilisearch
@@ -62,6 +63,11 @@ systemctl --no-pager status meilisearch
 fxTitle "Testing..."
 sleep 5
 curl -s http://127.0.0.1:7700/health | jq
+
+
+fxTitle "Listing API keys..."
+curl -s -H "Authorization: Bearer ${MEILISEARCH_MASTERKEY}" \
+  "http://localhost:7700/keys" | jq
 
 
 fxOK "System ready!"
