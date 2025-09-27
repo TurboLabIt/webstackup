@@ -6,6 +6,8 @@
 #
 
 ## bash-fx
+if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
+
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
 else
@@ -32,8 +34,7 @@ fi
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
-apt install jq -y
+if [ -z $(command -v jq) ]; then sudo apt update && sudo apt install jq -y; fi
 
 
 fxTitle "🛑 Stopping the service..."
