@@ -10,6 +10,7 @@ OPTIONS=(
   4 "📜  Show email logs"
   5 "🔏  Activate Let's Encrypt certificate"
   6 "📧  DKIM a domain"
+  7 "📮  Activate external relay"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -21,4 +22,5 @@ case $CHOICE in
   4) fxTitle "📜 Mail log" && tail -f /var/log/mail.log /var/log/dovecot.log;;
   5) bash ${WEBSTACKUP_SCRIPT_DIR}dovecot/replace-certificate.sh;;
   6) bash ${WEBSTACKUP_SCRIPT_DIR}mail/dkim.sh;;
+  7) bash ${WEBSTACKUP_SCRIPT_DIR}mail/postfix-external-relay.sh;;
 esac
