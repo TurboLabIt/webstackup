@@ -20,7 +20,8 @@ sudo apt update && sudo apt install nano -y && \
 ````
 ## Send via 3rd-party relay server by WEBSTACK.UP
 #================================================
-relayhost = [smtp.gmail.com]:587
+# relayhost = [smtp.gmail.com]:587
+# relayhost = [smtp-mail.outlook.com]:587
 # relayhost = [smtp-out.mailserver.it]:25
 smtp_use_tls = yes
 smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
@@ -33,8 +34,8 @@ smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 ## /etc/postfix/sasl_passwd
 
 ````
-#[smtp.gmail.com]:587 username@gmail.com:app-password
-#[smtp-mail.outlook.com]:587 username@outlook.com:app-password
-#[smtp-out.mailserver.it]:25 username@mailserver.it:password
+# [smtp.gmail.com]:587 username@gmail.com:app-password
+# [smtp-mail.outlook.com]:587 username@outlook.com:app-password
+# [smtp-out.mailserver.it]:25 username@mailserver.it:password
 
 ````
