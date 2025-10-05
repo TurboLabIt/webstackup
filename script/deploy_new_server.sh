@@ -367,7 +367,7 @@ fi
 
 
 fxTitle "Restarting SSH..."
-sshd -t && service sshd restart
+sshd -t && service ssh restart
 
 
 fxTitle "REBOOTING..."
