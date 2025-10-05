@@ -11,9 +11,10 @@ OPTIONS=(
   7 "👮   Webpermissions a directory"
   8 "🔑   Show webstackup SSH pub key"
   9 "💌   Email GUI (zzmail) ☰"
-  10 "💿   Installer GUI ☰"
-  11 "🐫   my-app-template"
-  #12 "🧪   WSU Dev (MAP test)"
+  10 "🔍   Meilisearch GUI ☰"
+  11 "💿   Installer GUI ☰"
+  12 "🐫   my-app-template"
+  #13 "🧪   WSU Dev (MAP test)"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -48,10 +49,11 @@ case $CHOICE in
   7)bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh";;
   8)fxMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")";;
   9)bash "${WEBSTACKUP_SCRIPT_DIR}mail/zzmail.sh";;
-  10)bash "${WEBSTACKUP_SCRIPT_DIR}installer-gui.sh";;
-  11)
+  10)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/zzmeili.sh";;
+  11)bash "${WEBSTACKUP_SCRIPT_DIR}installer-gui.sh";;
+  12)
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
     ;;
-  12)bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh";;
+  13)bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh";;
 esac

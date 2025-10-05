@@ -8,6 +8,8 @@
 # Based on: https://www.meilisearch.com/docs/guides/running_production#step-4-run-meilisearch-as-a-service
 
 ## bash-fx
+if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
+
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
   source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
 else
@@ -24,18 +26,12 @@ fxTitle "Removing any old previous instance..."
 apt purge --auto-remove meilisearch* -y
 
 
-fxTitle "Installing prerequisites..."
-apt update -qq
-apt install jq -y
-
-
 fxTitle "Adding the meilisearch repository..."
 echo "deb [trusted=yes] https://apt.fury.io/meilisearch/ /" > /etc/apt/sources.list.d/fury.list
 
 
 fxTitle "apt install meilisearch..."
-apt update -qq
-apt install meilisearch -y
+apt update -qq && apt install jq meilisearch -y
 
 
 fxTitle "Creating the meilisearch user..."
