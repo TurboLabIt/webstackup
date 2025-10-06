@@ -37,6 +37,10 @@ else
 
   sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
   sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
+fi
+
+
+if [ "$1" != "fast" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Stopping services..."
   sudo nginx -t && sudo service nginx stop
