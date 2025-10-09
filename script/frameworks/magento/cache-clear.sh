@@ -171,6 +171,8 @@ wsuMage cache:flush
 
 
 fxTitle "🐧 Setting permissions..."
+sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chgrp www-data {} + > /dev/null 2>&1
+sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chgrp www-data {} + > /dev/null 2>&1
 sudo -b find var generated vendor pub/static pub/media app/etc -type f -exec chmod g+w {} + > /dev/null 2>&1
 sudo -b find var generated vendor pub/static pub/media app/etc -type d -exec chmod g+ws {} + > /dev/null 2>&1
 
