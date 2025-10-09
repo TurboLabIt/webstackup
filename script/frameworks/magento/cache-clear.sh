@@ -117,55 +117,45 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   ## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
   # https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
   wsuMage config:set system/security/max_session_size_admin 512000
-
-
-  fxTitle "🧹 Removing Magento folders..."
-  sudo rm -rf \
-    "pub/static/frontend/" \
-    "pub/static/adminhtml/" \
-    "pub/static/_requirejs" \
-    "pub/static/deployed_version.txt" \
-    "var/cache/" \
-    "var/page_cache/" \
-    "generated/" \
-    "var/view_preprocessed/" \
-    "var/session/" \
-    "var/di/"
-
-  wsuComposer install
-  wsuMage setup:upgrade
-
-  fxTitle "Disabling module(s)..."
-  if [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
-
-    ## explode string to array
-    readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
-
-    for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
-
-      ## trim the last element (?!?)
-      MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
-      if [ ! -z "${MOD_TO_DISABLE}" ]; then
-        wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
-      fi
-
-    done
-
-  else
-
-    fxWarning "No modules to disable defined"
-  fi
-
-
-  wsuMage setup:di:compile
-  wsuMage setup:static-content:deploy --area adminhtml ${MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN} --jobs 8 -f
-  wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} --jobs 8 -f
-
-else
-
-  fxInfo "Build phase skipped (fast mode)"
 fi
 
+
+fxTitle "🧹 Removing Magento folders..."
+sudo rm -rf \
+  "pub/static/frontend/" \
+  "pub/static/adminhtml/" \
+  "pub/static/_requirejs" \
+  "pub/static/deployed_version.txt" \
+  "var/cache/" \
+  "var/page_cache/" \
+  "generated/" \
+  "var/view_preprocessed/" \
+  "var/session/" \
+  "var/di/"
+
+wsuComposer install
+wsuMage setup:upgrade
+
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
+  fxTitle "Disabling module(s)..."
+  ## explode string to array
+  readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
+
+  for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
+
+    ## trim the last element (?!?)
+    MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
+    if [ ! -z "${MOD_TO_DISABLE}" ]; then
+      wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
+    fi
+
+  done
+
+fi
+
+wsuMage setup:di:compile
+wsuMage setup:static-content:deploy --area adminhtml ${MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN} --jobs 8 -f
+wsuMage setup:static-content:deploy -t ${MAGENTO_STATIC_CONTENT_DEPLOY} --jobs 8 -f
 
 wsuMage cache:flush
 
