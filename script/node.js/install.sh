@@ -2,12 +2,12 @@
 ### AUTOMATIC NODE.JS INSTALLER BY WEBSTACK.UP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
 #
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh | sudo NODEJS_VER=23 bash
+# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh | sudo NODEJS_VER=25 bash
 #
 # Based on: https://github.com/nodesource/distributions/blob/master/README.md#installation-instructions
 
 ## https://github.com/nodesource/distributions/blob/master/README.md#debinstall
-NODEJS_LATEST_VERSION=23
+NODEJS_LATEST_VERSION=25
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
