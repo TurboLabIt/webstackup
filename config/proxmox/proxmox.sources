@@ -1,0 +1,9 @@
+## Proxmox no-subscription ("free") apt repository by Webstackup
+# apt update && apt install curl -y && sudo curl -o /etc/apt/sources.list.d/proxmox.sources https://github.com/TurboLabIt/webstackup/blob/master/config/proxmox/pve-no-subscription.sources
+# Based on https://turbolab.it/4434 | https://pve.proxmox.com/wiki/Upgrade_from_8_to_9#In-place_upgrade
+#
+Types: deb
+URIs: http://download.proxmox.com/debian/pve
+Suites: trixie
+Components: pve-no-subscription
+Signed-By: /usr/share/keyrings/proxmox-archive-keyring.gpg
