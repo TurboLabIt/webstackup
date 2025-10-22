@@ -32,6 +32,10 @@ fxTitle "Removing config..."
 rm -rf /etc/*mysql*
 
 
+fxTitle "Removing logs..."
+rm -rf /var/log/mysql
+
+
 fxTitle "Removing repository-related files..."
 rm -rf /etc/apt/trusted.gpg.d/*mysql*
 rm -rf /etc/apt/sources.list.d/*mysql*
@@ -43,5 +47,6 @@ rm -rf /etc/cron.d/*mysql*
 
 fxTitle "Reloading service list..."
 systemctl daemon-reload
+
 
 fxEndFooter
