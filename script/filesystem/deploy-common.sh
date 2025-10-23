@@ -444,12 +444,14 @@ if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish
 
   fxTitle "🪣 Deploying custom Varnish service unit file for the ${APP_ENV} env..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
+  rm -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
   cp "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 
 elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service" ]; then
 
   fxTitle "🪣 Deploying custom Varnish service unit file..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
+  rm -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
   cp "${PROJECT_DIR}config/custom/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 fi
 
