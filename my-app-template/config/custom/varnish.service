@@ -18,14 +18,16 @@
 [Service]
 LimitNOFILE=65535
 LimitMEMLOCK=85983232
+## When overriding ExecStart in a drop-in, you need to clear it first with an empty ExecStart= line, then define your new one
+ExecStart=
 ExecStart=/usr/sbin/varnishd \
-  -j unix,user=vcache \
   -a 127.0.0.1:6081 \
   -T 127.0.0.1:6082 \
   -f /etc/varnish/default.vcl \
   -S /etc/varnish/secret \
+  -s malloc,1g \
+  -j unix,user=vcache \
   -p thread_pool_min=100 \
   -p thread_pool_max=500 \
   -p thread_pool_timeout=20 \
-  -p thread_pool_add_delay=1 \
-  -s malloc,1g
+  -p thread_pool_add_delay=1
