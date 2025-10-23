@@ -21,6 +21,7 @@ LimitMEMLOCK=85983232
 ## When overriding ExecStart in a drop-in, you need to clear it first with an empty ExecStart= line, then define your new one
 ExecStart=
 ExecStart=/usr/sbin/varnishd \
+  -P %t/%N/varnishd.pid \
   -a 127.0.0.1:6081 \
   -T 127.0.0.1:6082 \
   -f /etc/varnish/default.vcl \
