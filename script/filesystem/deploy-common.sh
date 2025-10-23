@@ -455,6 +455,8 @@ fi
 
 
 ## services restart
+systemctl daemon-reload
+
 fxTitle "🔃 Conditional nginx stop..."
 nginx -t && service nginx stop
 
