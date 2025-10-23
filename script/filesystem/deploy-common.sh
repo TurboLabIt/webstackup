@@ -427,30 +427,30 @@ fi
 ## varnish
 if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" ]; then
 
-  fxTitle "🪣 Linking custom Varnish config for the ${APP_ENV} env..."
+  fxTitle "🪣 Deploying custom Varnish config for the ${APP_ENV} env..."
   rm -f "/etc/varnish/default.vcl"
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/default.vcl"
+  cp "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl" "/etc/varnish/default.vcl"
 
 elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ]; then
 
-  fxTitle "🪣 Linking custom Varnish config..."
+  fxTitle "🪣 Deploying custom Varnish config..."
   rm -f "/etc/varnish/default.vcl"
-  ln -s "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/default.vcl"
+  cp "${PROJECT_DIR}config/custom/varnish.vcl" "/etc/varnish/default.vcl"
 fi
 
 
 WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/95_${APP_NAME}.conf
-if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
+if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ]; then
 
-  fxTitle "🪣 Linking custom Varnish service unit file for the ${APP_ENV} env..."
+  fxTitle "🪣 Deploying custom Varnish service unit file for the ${APP_ENV} env..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
-  ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
+  cp "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 
-elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service" ] && [ ! -f "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}" ]; then
+elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service" ]; then
 
-  fxTitle "🪣 Linking custom Varnish service unit file..."
+  fxTitle "🪣 Deploying custom Varnish service unit file..."
   mkdir -p "${WSU_VARNISH_SERVICE_OVERRIDE_PATH%/*}"
-  ln -s "${PROJECT_DIR}config/custom/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
+  cp "${PROJECT_DIR}config/custom/varnish.service" "${WSU_VARNISH_SERVICE_OVERRIDE_PATH}"
 fi
 
 
