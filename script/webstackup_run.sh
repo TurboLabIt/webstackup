@@ -13,8 +13,9 @@ OPTIONS=(
   9 "💌   Email GUI (zzmail) ☰"
   10 "🔍   Meilisearch GUI ☰"
   11 "💿   Installer GUI ☰"
-  12 "🐫   my-app-template"
-  #13 "🧪   WSU Dev (MAP test)"
+  12 "🪣   Varnish GUI ☰"
+  88 "🐫   my-app-template"
+  #99 "🧪   WSU Dev (MAP test)"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -51,9 +52,10 @@ case $CHOICE in
   9)bash "${WEBSTACKUP_SCRIPT_DIR}mail/zzmail.sh";;
   10)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/zzmeili.sh";;
   11)bash "${WEBSTACKUP_SCRIPT_DIR}installer-gui.sh";;
-  12)
+  12)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/zzvarn.sh";;
+  88)
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
     ;;
-  13)bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh";;
+  99)bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup_test.sh";;
 esac

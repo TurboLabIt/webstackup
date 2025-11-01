@@ -78,6 +78,12 @@ cp ${WSU_DIR}my-app-template/config/custom/varnish.vcl /etc/varnish/default.vcl
 sed -i '0,/^# Based on/{/^# Based on/!d}' /etc/varnish/default.vcl
 
 
+fxTitle "Generating the secret..."
+dd if=/dev/random of=/etc/varnish/secret count=1 bs=128
+chown vcache /etc/varnish/secret
+chmod 0600 /etc/varnish/secret
+
+
 fxTitle "Final Varnish restart..."
 VARNISH_OUTPUT="$(varnishd -C -f /etc/varnish/default.vcl 2>&1)"
 
