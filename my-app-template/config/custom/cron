@@ -25,9 +25,6 @@ LOG_PATH=/var/www/my-app/var/log/cron_
 ## every minute: my-app-framework cron job
 * * * * * root bash ${SCRIPT_DIR}cron.sh >> ${LOG_PATH}my-app-framework.sh.log 2>&1
 
-## every minute: phpBB cron job
-* * * * * root bash ${SCRIPT_DIR}phpbb-cli.sh cron:run >> ${LOG_PATH}phpbb-cli-cron.sh.log 2>&1
-
 ## every xx hours: crawl the site (cache warming)
 #9 */1 * * * root bash ${SCRIPT_DIR}crawl.sh >> ${LOG_PATH}crawl.sh.log 2>&1
 

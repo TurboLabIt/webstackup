@@ -332,11 +332,6 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 fi
 
 
-if [ "${WSU_MAP_FRAMEWORK}" != "none" ] && [ "${WSU_MAP_FRAMEWORK}" != "symfony" ]; then
-  rm -f ${WSU_MAP_TMP_DIR}scripts/*phpbb*
-fi
-
-
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 mkdir -p "${WSU_MAP_DEPLOY_TO_PATH}"
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"

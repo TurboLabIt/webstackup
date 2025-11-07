@@ -234,14 +234,6 @@ else
 fi
 
 
-fxTitle "Installing pbpBB Upgrader"
-if [ "$INSTALL_PHPBB_UPGRADER" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/phpbb-upgrader/master/setup.sh | sudo bash
-else
-  fxInfo "Skipped (disabled in config)"
-fi
-
-
 fxTitle "Installing XDEBUG..."
 if [ "$INSTALL_XDEBUG" = 1 ]; then
 
