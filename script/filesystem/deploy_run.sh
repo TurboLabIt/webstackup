@@ -87,3 +87,7 @@ fi
 if [ -f "${SCRIPT_DIR}notify.sh" ]; then
   bash ${SCRIPT_DIR}notify.sh "deploy-end" "$1"
 fi
+
+if [ -f "${SCRIPT_DIR}crawl.sh" ]; then
+  bash "${SCRIPT_DIR}crawl.sh"
+fi
