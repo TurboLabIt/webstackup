@@ -3,7 +3,7 @@
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/monitor-cache.sh | sudo bash
 #
 
-sudo watch --color -n 2 'bash -c "
+sudo watch --color -t -n 2 'bash -c "
 if [ -f \"/usr/local/turbolab.it/bash-fx/bash-fx.sh\" ]; then
   source \"/usr/local/turbolab.it/bash-fx/bash-fx.sh\"
 else
