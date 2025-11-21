@@ -12,23 +12,23 @@ fi
 
 fxHeader \"👁️‍🗨️ VARNISH CACHE MONITOR\"
 
-varnishstat -1 -f SMA.s0.g_bytes -f SMA.s0.g_space -f SMA.s0.c_bytes | awk \"
+varnishstat -1 -f SMA.s0.g_bytes -f SMA.s0.g_space | awk \"
 BEGIN {
     print \\\"\\\"
-}
-/SMA.s0.c_bytes/ {
-    total = \\\$2 / 1024 / 1024
-    printf \\\"Varnish cache size:      %.2f MB\\\n\\\", total
+    used = 0
+    available = 0
 }
 /SMA.s0.g_bytes/ {
     used = \\\$2 / 1024 / 1024
-    printf \\\"Varnish cache used:      %.2f MB\\\n\\\", used
 }
 /SMA.s0.g_space/ {
     available = \\\$2 / 1024 / 1024
-    printf \\\"Varnish cache available: %.2f MB\\\n\\\", available
 }
 END {
+    total = used + available
+    printf \\\"Varnish cache size:      %.2f MB\\\n\\\", total
+    printf \\\"Varnish cache used:      %.2f MB\\\n\\\", used
+    printf \\\"Varnish cache available: %.2f MB\\\n\\\", available
     if (total > 0) {
         percent = (used / total) * 100
         printf \\\"\\\n\\\\033[46;30mCache usage:             %.2f%%\\\\033[0m\\\n\\\", percent
