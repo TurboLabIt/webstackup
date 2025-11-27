@@ -87,12 +87,21 @@ fxTitle "Adding extra configs to wp-config.php"
 WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
+WPINST_WP_CONFIG="${WEBROOT_DIR}wp-config.php"
+WPINST_SEARCH_STRING="Webstackup -- Fix install"
 
-echo "/** Webstackup -- Fix install plugins/themes via admin */" >> "${WEBROOT_DIR}wp-config.php"
-echo "define('FS_METHOD', 'direct');" >> "${WEBROOT_DIR}wp-config.php"
-echo "" >> "${WEBROOT_DIR}wp-config.php"
-echo "/** Webstackup -- Auto-update: security and minor only */" >> "${WEBROOT_DIR}wp-config.php"
-echo "define('WP_AUTO_UPDATE_CORE', 'minor');" >> "${WEBROOT_DIR}wp-config.php"
+if ! grep -q "$WPINST_SEARCH_STRING" "$WPINST_WP_CONFIG"; then
+  sed -i "/\/\* That's all, stop editing/i \\
+/** Webstackup -- Fix install plugins/themes via admin */\\
+define('FS_METHOD', 'direct');\\
+\\
+/** Webstackup -- Auto-update: security and minor only */\\
+define('WP_AUTO_UPDATE_CORE', 'minor');\\
+" "$WPINST_WP_CONFIG"
+  fxOK "Webstackup configuration injected."
+else
+  fxInfo "Webstackup configuration already exists. Skipping."
+fi
 
 
 if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
@@ -137,13 +146,14 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/redirection/
 # https://wordpress.org/plugins/safe-svg/
 # https://wordpress.org/plugins/folders/
+# https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
   webp-express timber-library \
   google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
-  redirection safe-svg folders \
+  redirection safe-svg folders ultimate-addons-for-contact-form-7 \
   --activate-network --activate
 
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
