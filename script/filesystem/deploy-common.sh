@@ -191,7 +191,10 @@ fi
 
 ## removing cron
 fxTitle "🧹 Removing ${APP_NAME} cron files..."
-sudo rm -f /etc/cron.d/${APP_NAME}*
+sudo rm -f /etc/cron.d/${APP_NAME}
+
+fxTitle "🧹 Removing ${APP_NAME}_${APP_ENV} cron files..."
+sudo rm -f /etc/cron.d/${APP_NAME}_${APP_ENV}
 
 fxTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
