@@ -191,7 +191,10 @@ fi
 
 ## removing cron
 fxTitle "🧹 Removing ${APP_NAME} cron files..."
-sudo rm -f /etc/cron.d/${APP_NAME}*
+sudo rm -f /etc/cron.d/${APP_NAME}
+
+fxTitle "🧹 Removing ${APP_NAME}_${APP_ENV} cron files..."
+sudo rm -f /etc/cron.d/${APP_NAME}_${APP_ENV}
 
 fxTitle "📂 Listing /etc/cron.d/..."
 ls -l "/etc/cron.d/"
@@ -223,9 +226,15 @@ fxTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
 
 
-if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zz_${APP_NAME}.conf" ]; then
+if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zzz_${APP_NAME}.conf" ]; then
   fxTitle "🔨 Linking PHP FPM custom config..."
-  ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zz_${APP_NAME}.conf"
+  ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz_${APP_NAME}.conf"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" ]  && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf" ]; then
+
+  fxTitle "🔨 Linking PHP FPM ${APP_ENV} php-fpm..."
+  ln -s  "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf"
 fi
 
 
