@@ -14,6 +14,8 @@ OPTIONS=(
   10 "🔍   Meilisearch GUI ☰"
   11 "💿   Installer GUI ☰"
   12 "🪣   Varnish GUI ☰"
+  13 "🔬   URL checker"
+  14 "🗺️   IP checker"
   88 "🐫   my-app-template"
   #99 "🧪   WSU Dev (MAP test)"
 )
@@ -53,6 +55,8 @@ case $CHOICE in
   10)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/zzmeili.sh";;
   11)bash "${WEBSTACKUP_SCRIPT_DIR}installer-gui.sh";;
   12)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/zzvarn.sh";;
+  13)bash "${WEBSTACKUP_SCRIPT_DIR}https/url-checker.sh";;
+  14)bash "${WEBSTACKUP_SCRIPT_DIR}network/ip-checker.sh";;
   88)
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
