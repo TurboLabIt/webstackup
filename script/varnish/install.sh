@@ -108,6 +108,7 @@ touch "/var/lib/varnish/ALERT! You're looking at the DISK! The ramdrive is NOT m
 
 
 fxTitle "Preparing the ramdrive (tempfs)..."
+## 📚 https://vinyl-cache.org/docs/trunk/installation/platformnotes.html#on-linux-use-tmpfs-for-the-workdir
 if grep -q "/var/lib/varnish" "/etc/fstab"; then
     fxInfo "Varnish entry already exists in /etc/fstab. Skipping 🦘"
 else
