@@ -84,7 +84,7 @@ chown vcache /etc/varnish/secret
 chmod 0600 /etc/varnish/secret
 
 
-fxTitle "Final Varnish restart..."
+fxTitle "First Varnish restart..."
 VARNISH_OUTPUT="$(varnishd -C -f /etc/varnish/default.vcl 2>&1)"
 
 if [ $? -eq 0 ]; then
@@ -96,6 +96,48 @@ else
 
   fxCatastrophicError "${VARNISH_OUTPUT}" proceed
 fi
+
+
+fxTitle "Stopping Varnish (to set its dir to ramdrive)..."
+service varnish stop
+
+
+fxTitle "Clearing the on-drive dir..."
+rm -rf /var/lib/varnish/*
+touch "/var/lib/varnish/ALERT! You're looking at the DISK! The ramdrive is NOT mounted!"
+
+
+fxTitle "Preparing the ramdrive (tempfs)..."
+if grep -q "/var/lib/varnish" "/etc/fstab"; then
+    fxInfo "Varnish entry already exists in /etc/fstab. Skipping 🦘"
+else
+    fxInfo "Adding Varnish ramdrive to /etc/fstab..."
+
+    cat <<EOT >> "/etc/fstab"
+
+## Varnish ramdrive (webstackup)
+tmpfs   /var/lib/varnish    tmpfs   rw,size=1G,mode=0750    0  0
+EOT
+    
+    fxOK "Entry added successfully."
+fi
+
+mount -a
+
+
+fxTitle "Final Varnish restart..."
+VARNISH_OUTPUT="$(varnishd -C -f /etc/varnish/default.vcl 2>&1)"
+
+if [ $? -eq 0 ]; then
+
+  service varnish restart
+  fxOK "Looking good!"
+
+else
+
+  fxCatastrophicError "${VARNISH_OUTPUT}" proceed
+fi
+
 
 
 fxTitle "Enabling Varnish integration with NGINX..."
