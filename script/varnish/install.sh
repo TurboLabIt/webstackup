@@ -123,6 +123,8 @@ EOT
     fxOK "Entry added successfully."
 fi
 
+
+systemctl daemon-reload
 mount -a
 
 
