@@ -117,7 +117,7 @@ else
     cat <<EOT >> "/etc/fstab"
 
 ## Varnish ramdrive (webstackup)
-tmpfs   /var/lib/varnish    tmpfs   rw,size=1G,mode=0750    0  0
+tmpfs   /var/lib/varnish    tmpfs   rw,size=1G,mode=0750,huge=never    0  0
 EOT
     
     fxOK "Entry added successfully."
