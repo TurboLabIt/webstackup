@@ -10,7 +10,7 @@ Group=root
 Restart=on-failure
 RestartSec=30
 WorkingDirectory=/var/www/bentopdf
-ExecStart=/usr/local/turbolab.it/webstackup/scripts/bentopdf/run.sh
+ExecStart=/usr/local/turbolab.it/webstackup/script/bentopdf/run.sh
 
 [Install]
 WantedBy=default.target
