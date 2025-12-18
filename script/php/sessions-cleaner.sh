@@ -24,9 +24,9 @@ fxInfo "Deleting files older than ##${PHP_SESSION_CLEANER_MAX_DAYS}## days from 
 
 if [ -d ${PHP_SESSIONS_DIR} ]; then
 
+  echo ""
   fxInfo "There are ##$( ls -1 ${PHP_SESSIONS_DIR} | wc -l)## files before the cleanse"
   sudo find ${PHP_SESSIONS_DIR} -type f -mtime +${PHP_SESSION_CLEANER_MAX_DAYS} -exec rm {} \;
-  echo ""
   fxOK "Cleanse completed ##$( ls -1 ${PHP_SESSIONS_DIR} | wc -l)## files remain"
 
 else
