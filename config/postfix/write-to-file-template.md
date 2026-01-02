@@ -24,4 +24,5 @@ default_transport = wsu_write_to_file_transport
 
 # Ensure local delivery is also caught
 relayhost =
+
 ````
