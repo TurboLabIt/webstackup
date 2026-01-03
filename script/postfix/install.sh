@@ -84,6 +84,11 @@ adduser postfix opendkim
 
 
 fxTitle "Wiring together opendkim and postfix..."
+cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+
+
 mkdir /var/spool/postfix/opendkim
 chown opendkim:postfix /var/spool/postfix/opendkim
 
@@ -93,10 +98,6 @@ echo "" >>  /etc/opendkim.conf
 echo "" >>  /etc/opendkim.conf
 echo "" >>  /etc/opendkim.conf
 cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/opendkim_to_be_appended.conf" >> /etc/opendkim.conf
-
-echo "" >>  /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
-cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
 
 sed -i -e 's|^SOCKET=|#SOCKET=|g' /etc/default/opendkim
 echo "" >> /etc/default/opendkim
