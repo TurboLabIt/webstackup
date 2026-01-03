@@ -14,12 +14,15 @@ else
 fi
 ## bash-fx is ready
 
+
 fxHeader "💿 Postfix installer"
 rootCheck
+
 
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove postfix* postfix mailutils opendkim opendkim-tools -y
 rm -rf /etc/postfix /etc/config/opendkim/ /etc/opendkim.conf
+
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
@@ -29,27 +32,56 @@ fi
 
 source "${WSU_DIR}script/base.sh"
 
+
 fxTitle "Automating..."
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
-  
+
+
 fxTitle "Installing..."
 apt update
 apt install postfix mailutils opendkim opendkim-tools -y
 
+
 fxMailNameWarning
+
 
 fxTitle "Removing references to ##${POSTFIX_MAIL_NAME}## from mydestination..."
 sed -i "s|${POSTFIX_MAIL_NAME}, ||g" /etc/postfix/main.cf
 sed -i "s|${POSTFIX_MAIL_NAME},||g" /etc/postfix/main.cf
 
+
 fxTitle "Replace default myhostname = $(hostname) with my own..."
 sed -i '/^myhostname\|^mydestination/ s/^/#/' /etc/postfix/main.cf
-echo "myhostname = ${POSTFIX_MAIL_NAME}" >>  /etc/postfix/main.cf
+echo "myhostname = ${POSTFIX_MAIL_NAME}" >> /etc/postfix/main.cf
 echo "mydestination = localhost.localdomain, localhost" >>  /etc/postfix/main.cf
+
+
+fxTitle "Appending default config..."
+echo "" >>  /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+cat "${WEBSTACKUP_INSTALL_DIR}config/postfix/maincf_to_be_appended.conf" >> /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+echo "" >>  /etc/postfix/main.cf
+
+
+fxTitle "Preparing aliases file..."
+cp "${WEBSTACKUP_INSTALL_DIR}config/postfix/virtual-regexp.conf" /etc/postfix/virtual-regexp
+sudo postmap /etc/postfix/virtual-regexp
+chown root:root /etc/postfix/virtual-regexp*
+chmod u=rw,go= /etc/postfix/virtual-regexp*
+
+
+fxTitle "Preparing external relay password file..."
+cp "${WEBSTACKUP_INSTALL_DIR}config/postfix/sasl_passwd.conf" /etc/postfix/sasl_passwd
+postmap /etc/postfix/sasl_passwd
+chown root:root /etc/postfix/sasl_passw*
+chmod u=rw,go= /etc/postfix/sasl_passw*
+
 
 fxTitle "Adding the postfix user to the opendkim group..."
 adduser postfix opendkim
+
 
 fxTitle "Wiring together opendkim and postfix..."
 mkdir /var/spool/postfix/opendkim
@@ -82,10 +114,12 @@ chown opendkim:opendkim /etc/opendkim/ -R
 chmod ug=rwX,o=rX /etc/opendkim/ -R
 chmod u=rwX,og=X /etc/opendkim/keys -R
 
+
 fxTitle "Enabling SMTPS port for end-users to use..."
 echo "" >>  /etc/postfix/master.cf
 echo "" >>  /etc/postfix/master.cf
 cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
+
 
 fxTitle "Restarting services..."
 service postfix restart
