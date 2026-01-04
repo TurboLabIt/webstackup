@@ -15,7 +15,7 @@ fi
 ## bash-fx is ready
 
 
-fxHeader "💿 Postfix installer"
+fxHeader "💿 POSTFIX INSTALLER"
 rootCheck
 
 
@@ -33,13 +33,10 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 
-fxTitle "Automating..."
+fxTitle "Installing..."
+apt update -qq
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
-
-
-fxTitle "Installing..."
-apt update
 apt install postfix mailutils opendkim opendkim-tools -y
 
 
@@ -60,9 +57,7 @@ echo "mydestination = localhost.localdomain, localhost" >>  /etc/postfix/main.cf
 fxTitle "Appending default config..."
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
-cat "${WEBSTACKUP_INSTALL_DIR}config/postfix/maincf_to_be_appended.conf" >> /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
+cat "${WEBSTACKUP_INSTALL_DIR}config/postfix/main.cf_extras.conf" >> /etc/postfix/main.cf
 
 
 fxTitle "Preparing aliases file..."
@@ -79,16 +74,8 @@ chown root:root /etc/postfix/sasl_passw*
 chmod u=rw,go= /etc/postfix/sasl_passw*
 
 
-fxTitle "Adding the postfix user to the opendkim group..."
+fxTitle "Wiring together OpenDKIM and postfix..."
 adduser postfix opendkim
-
-
-fxTitle "Wiring together opendkim and postfix..."
-cat "${WEBSTACKUP_INSTALL_DIR}config/opendkim/postfix_to_be_appended.conf" >> /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
-echo "" >>  /etc/postfix/main.cf
-
-
 mkdir /var/spool/postfix/opendkim
 chown opendkim:postfix /var/spool/postfix/opendkim
 
@@ -116,7 +103,7 @@ chmod ug=rwX,o=rX /etc/opendkim/ -R
 chmod u=rwX,og=X /etc/opendkim/keys -R
 
 
-fxTitle "Enabling SMTPS port for end-users to use..."
+fxTitle "Enabling SMTPS port for end-users..."
 echo "" >>  /etc/postfix/master.cf
 echo "" >>  /etc/postfix/master.cf
 cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
