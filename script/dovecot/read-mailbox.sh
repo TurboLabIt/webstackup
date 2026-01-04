@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC DOVECOT MAILBOX READER BY WEBSTACK.UP
+### AUTOMATIC DOVECOT MAILBOX READER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/dovecot/read-mailbox.sh
 
 ## bash-fx

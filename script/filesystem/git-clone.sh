@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### PROJECT STARTUP BY WEBSTACK.UP
+### PROJECT STARTUP BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/filesystem/git-clone.sh
 #
 # Variables

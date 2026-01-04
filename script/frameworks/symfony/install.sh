@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC SYMFONY-CLI INSSTALLER BY WEBSTACK.UP
+### AUTOMATIC SYMFONY-CLI INSSTALLER BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/frameworks/symfony/install.sh | sudo bash
 #
 # Source: https://symfony.com/download

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC MYSQL INSTALL BY WEBSTACK.UP
+### AUTOMATIC MYSQL INSTALL BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install.sh | sudo MYSQL_VER=8.4 bash

@@ -54,7 +54,7 @@ if [ "$INSTALL_PHP" = 1 ]; then
 fi
 
 
-fxTitle "Installing WEBSTACK.UP..."
+fxTitle "Installing WEBSTACKUP..."
 if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
 
   fxMessage "Installing dependencies..."

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC PHP INSTALLER BY WEBSTACK.UP
+### AUTOMATIC PHP INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/install.sh | sudo PHP_VER=8.5 bash

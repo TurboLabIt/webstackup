@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### VARNISH CACHE MONITOR BY WEBSTACK.UP
+### VARNISH CACHE MONITOR BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/monitor-cache.sh | sudo bash
 #
 

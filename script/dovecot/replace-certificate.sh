@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### USE LET'S ENCRYPT CERTIFICATE WITH DOVECOT BY WEBSTACK.UP
+### USE LET'S ENCRYPT CERTIFICATE WITH DOVECOT BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/dovecot/replace-certificate.sh
 
 ## bash-fx

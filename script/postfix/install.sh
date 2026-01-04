@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC POSTFIX INSTALLER BY WEBSTACK.UP
+### AUTOMATIC POSTFIX INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/postfix/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/postfix/install.sh | sudo POSTFIX_MAIL_NAME=mailserver.my-app.com bash

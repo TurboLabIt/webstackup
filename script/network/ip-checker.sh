@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### IP CHECKER BY WEBSTACK.UP
+### IP CHECKER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/network/ip-checker.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/network/ip-checker.sh | bash

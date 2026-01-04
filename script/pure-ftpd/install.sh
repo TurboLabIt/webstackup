@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACK.UP
+### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/pure-ftpd/install.sh | sudo bash
 # sudo pure-pw useradd USERNAME_TO_ADD -u www-data -d /var/www && sudo pure-pw mkdb && sudo pure-pw list
 

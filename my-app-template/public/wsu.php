@@ -11,10 +11,10 @@
 
   <body>
     <!--script src="js/scripts.js"></script-->
-    
+
     <h1>YES!</h1>
-    <p><a href="https://github.com/TurboLabIt/webstackup">WEBSTACK.UP</a> installed this test page for you, and it worked!</p>
-    
+    <p><a href="https://github.com/TurboLabIt/webstackup">WEBSTACKUP</a> installed this test page for you, and it worked!</p>
+
     <h1>PHP test</h1>
     <p>Check the current timestamp here: => <strong><?php echo date("c") ?></strong></p>
   </body>

@@ -22,7 +22,7 @@ sudo apt update && sudo apt install nano -y && \
 ## /etc/postfix/main.cf
 
 ````
-## Send via 3rd-party relay server by WEBSTACK.UP
+## Send via 3rd-party relay server by WEBSTACKUP
 #================================================
 # relayhost = [smtp.gmail.com]:587
 # relayhost = [smtp-mail.outlook.com]:587

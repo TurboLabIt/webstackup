@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC HTTP BASIC AUTH GENERATOR BY WEBSTACK.UP
+### AUTOMATIC HTTP BASIC AUTH GENERATOR BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/account/generate-http-basic-auth.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-http-basic-auth.sh | sudo bash

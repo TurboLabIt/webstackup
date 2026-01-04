@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC LET'S ENCRYPT UNINSTALLER BY WEBSTACK.UP
+### AUTOMATIC LET'S ENCRYPT UNINSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/letsencrypt-remove.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-remove.sh | sudo bash

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### GUIDED MySQL PASSWORD RESET BY WEBSTACK.UP
+### GUIDED MySQL PASSWORD RESET BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/password-reset.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/password-reset.sh | sudo bash

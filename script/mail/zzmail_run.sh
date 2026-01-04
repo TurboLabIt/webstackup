@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### EMAIL TOOLS GUI by WEBSTACK.UP
+### EMAIL TOOLS GUI by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/email/zzmail.sh
 
 TITLE="Email server management GUI"

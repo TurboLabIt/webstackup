@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC www-data GENERATOR BY WEBSTACK.UP
+### AUTOMATIC www-data GENERATOR BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/account/generate-www-data.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-www-data.sh | sudo bash

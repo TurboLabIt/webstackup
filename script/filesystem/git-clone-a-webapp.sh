@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### GUIDED PROJECT CLONING AND STARTUP BY WEBSTACK.UP
+### GUIDED PROJECT CLONING AND STARTUP BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/filesystem/git_cloner.sh
 #
 

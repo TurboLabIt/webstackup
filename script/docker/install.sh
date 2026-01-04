@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC DOCKER INSTALL BY WEBSTACK.UP
+### AUTOMATIC DOCKER INSTALL BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/docker/install.sh | sudo bash
 
 ## bash-fx

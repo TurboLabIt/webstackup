@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC PERCONA INSTALLER BY WEBSTACK.UP
+### AUTOMATIC PERCONA INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/install-percona.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/install-percona.sh | sudo MYSQL_VER=8.4 bash

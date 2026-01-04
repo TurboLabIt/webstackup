@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC NODE.JS INSTALLER BY WEBSTACK.UP
+### AUTOMATIC NODE.JS INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/node.js/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/node.js/install.sh | sudo NODEJS_VER=24 bash

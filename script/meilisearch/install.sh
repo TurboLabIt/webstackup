@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC MEILISEARCH INSTALLER BY WEBSTACK.UP
+### AUTOMATIC MEILISEARCH INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/meilisearch/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/meilisearch/install.sh | sudo bash

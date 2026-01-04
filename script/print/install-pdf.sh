@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC PDF SUPPORT INSTALLER BY WEBSTACK.UP
+### AUTOMATIC PDF SUPPORT INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/print/pdf-install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/print/install-pdf.sh | sudo bash

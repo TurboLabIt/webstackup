@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC COMPOSER INSTALLER BY WEBSTACK.UP
+### AUTOMATIC COMPOSER INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/composer-install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/php/composer-install.sh | sudo bash

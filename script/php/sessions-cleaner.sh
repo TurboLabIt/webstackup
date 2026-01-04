@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### PHP SESSIONS CLEANER BY WEBSTACK.UP
+### PHP SESSIONS CLEANER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/sessions-cleaner.sh
 
 ## bash-fx

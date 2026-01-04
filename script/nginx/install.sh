@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC NGINX INSTALLER BY WEBSTACK.UP
+### AUTOMATIC NGINX INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/nginx/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/install.sh | sudo bash

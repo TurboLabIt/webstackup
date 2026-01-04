@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### ADD EMOJI SUPPORT by WEBSTACK.UP
+### ADD EMOJI SUPPORT by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/system/emoji-support.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/system/emoji-support.sh | sudo bash
