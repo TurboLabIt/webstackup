@@ -33,7 +33,7 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 
-fxTitle "Installing..."
+fxTitle "Installing Postfix and OpenDKIM..."
 apt update -qq
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
