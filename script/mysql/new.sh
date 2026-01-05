@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### GUIDED MySQL USER CREATION BY WEBSTACK.UP
+### GUIDED MySQL USER CREATION BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/new.sh
 
 source "/usr/local/turbolab.it/webstackup/script/base.sh"

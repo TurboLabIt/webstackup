@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### SOFTWARE INSTALLER by WEBSTACK.UP
+### SOFTWARE INSTALLER by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/installer-gui.sh
 
 TITLE="Software installer"

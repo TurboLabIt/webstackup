@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC LINKWARDEN INSTALLER BY WEBSTACK.UP
+### AUTOMATIC LINKWARDEN INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/linkwarden/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/linkwarden/install.sh | sudo bash

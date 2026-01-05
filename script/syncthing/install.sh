@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC SYNCTHING INSTALL BY WEBSTACK.UP
+### AUTOMATIC SYNCTHING INSTALL BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/syncthing/install.sh | sudo bash
 #
 

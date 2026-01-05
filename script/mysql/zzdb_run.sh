@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### MySQL GUI by WEBSTACK.UP
+### MySQL GUI by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/zzdb.sh
 
 TITLE="MySQL management GUI"

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC VARNISH INSTALLER BY WEBSTACK.UP
+### AUTOMATIC VARNISH INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/varnish/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/install.sh | sudo VARNISH_VER=7.6 bash

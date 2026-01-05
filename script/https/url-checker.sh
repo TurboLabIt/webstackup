@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### URL CHECKER BY WEBSTACK.UP
+### URL CHECKER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/url-checker.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/url-checker.sh | bash

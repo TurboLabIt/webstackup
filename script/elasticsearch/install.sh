@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC ELASTICSEARCH INSTALLER BY WEBSTACK.UP
+### AUTOMATIC ELASTICSEARCH INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/elasticsearch/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/elasticsearch/install.sh | sudo bash

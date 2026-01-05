@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### MEILISEARCH TOOLS GUI by WEBSTACK.UP
+### MEILISEARCH TOOLS GUI by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/meilisearch/zzmeili.sh
 
 TITLE="Meilisearch management GUI"

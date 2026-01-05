@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### LINUX USERS ACCOUNT REMOVER BY WEBSTACK.UP
+### LINUX USERS ACCOUNT REMOVER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/account/delete-users.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/delete-users.sh | sudo bash -s -- "user1" "user2" "user3"

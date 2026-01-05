@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### MEILISEARCH DATA WIPER BY WEBSTACK.UP
+### MEILISEARCH DATA WIPER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/meilisearch/wipe.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/meilisearch/wipe.sh | sudo bash

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC LINKWARDEN UPDATER BY WEBSTACK.UP
+### AUTOMATIC LINKWARDEN UPDATER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/linkwarden/update.sh
 #
 # Run this via /etc/turbolab.it/zzupdate.conf : 

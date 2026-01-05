@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### HTTPS CERTIFICATE EXPIRATION DATE CHECKER BY WEBSTACK.UP
+### HTTPS CERTIFICATE EXPIRATION DATE CHECKER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/url-checker.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/certificate-date-checker.sh | bash

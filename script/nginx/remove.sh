@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC NGINX UNINSTALLER BY WEBSTACK.UP
+### AUTOMATIC NGINX UNINSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/nginx/remove.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/nginx/remove.sh | sudo bash

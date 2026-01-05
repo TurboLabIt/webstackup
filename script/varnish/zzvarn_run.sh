@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### VARNISH TOOLS GUI by WEBSTACK.UP
+### VARNISH TOOLS GUI by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/varnish/zzvarn.sh
 
 TITLE="Varnish server management GUI"

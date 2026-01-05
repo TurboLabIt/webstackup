@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC DOVECOT INSTALLER BY WEBSTACK.UP
+### AUTOMATIC DOVECOT INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/dovecot/install.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/dovecot/install.sh | sudo POSTFIX_MAIL_NAME=mailserver.my-app.com bash

@@ -11,7 +11,7 @@ sudo apt update && sudo apt install nano -y && \
 ## /etc/postfix/main.cf
 
 ````
-## Redirects by WEBSTACK.UP
+## Redirects by WEBSTACKUP
 ###########################
 virtual_alias_maps = regexp:/etc/postfix/virtual-regexp
 

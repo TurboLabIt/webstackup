@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### MEILISEARCH STATUS CHECKER BY WEBSTACK.UP
+### MEILISEARCH STATUS CHECKER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/meilisearch/status.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/meilisearch/status.sh | sudo bash

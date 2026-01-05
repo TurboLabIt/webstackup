@@ -1,4 +1,4 @@
-### AUTOMATIC WORDPRESS SETUP BY WEBSTACK.UP
+### AUTOMATIC WORDPRESS SETUP BY WEBSTACKUP
 ## This script must be sourced! Example: https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/wordpress-install.sh
 
 ### Variables:

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### LET'S ENCRYPT INSTALLER BY WEBSTACK.UP
+### LET'S ENCRYPT INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/letsencrypt-install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-install.sh | sudo bash

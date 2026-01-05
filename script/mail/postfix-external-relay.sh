@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### CONFIGURE EXTERNAL RELAY FOR LOCAL POSTFIX BY WEBSTACK.UP
+### CONFIGURE EXTERNAL RELAY FOR LOCAL POSTFIX BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mail/postfix-external-relay.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mail/postfix-external-relay.sh | sudo bash

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC DOVECOT MAILBOX CREATOR BY WEBSTACK.UP
+### AUTOMATIC DOVECOT MAILBOX CREATOR BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/dovecot/new-mailbox.sh
 
 ## bash-fx

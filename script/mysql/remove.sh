@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC MYSQL UNINSTALLER BY WEBSTACK.UP
+### AUTOMATIC MYSQL UNINSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/mysql/remove.sh
 #
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/mysql/remove.sh | sudo bash

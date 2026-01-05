@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC APACHE HTTP SERVER INSTALLER BY WEBSTACK.UP
+### AUTOMATIC APACHE HTTP SERVER INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/apache-httpd/install.sh
 #
 # sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/apache-httpd/install.sh | sudo WSU_HTTPD_ALT_PORTS=0 bash

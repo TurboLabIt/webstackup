@@ -1,4 +1,4 @@
-## KeyTable for OpenDIKIM by WEBSTACK.UP
+## KeyTable for OpenDKIM by WEBSTACKUP
 # edit this file and put your own keys path in.
 #
 # default._domainkey.turbolab.it turbolab.it:default:/etc/opendkim/keys/turbolab.it/default.private

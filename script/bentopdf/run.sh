@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### BENTOPDF RUNNER BY WEBSTACK.UP
+### BENTOPDF RUNNER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/bentopdf/run.sh
 clear
 

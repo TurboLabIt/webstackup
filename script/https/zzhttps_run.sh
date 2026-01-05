@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### HTTPS certificates tools GUI by WEBSTACK.UP
+### HTTPS certificates tools GUI by WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/https/zzhttps.sh
 
 TITLE="HTTPS certificates tools GUI"

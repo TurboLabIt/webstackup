@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC LINUX USER ACCOUNT PROVISIONING INSTALL BY WEBSTACK.UP
+### AUTOMATIC LINUX USER ACCOUNT PROVISIONING INSTALL BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/edit/master/script/account/create_and_copy_template.sh
 
 echo ""

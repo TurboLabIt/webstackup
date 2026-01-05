@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### AUTOMATIC SERVER BENCHMARK BY WEBSTACK.UP
+### AUTOMATIC SERVER BENCHMARK BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/performance/benchmark.sh | sudo bash
 #
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-### READY-TO-RUN, FULLY CUSTOMIZED PHP COMMANDS BY WEBSTACK.UP
+### READY-TO-RUN, FULLY CUSTOMIZED PHP COMMANDS BY WEBSTACKUP
 #
 # wsuMage cache:flush
 # wsuComposer install
