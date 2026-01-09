@@ -97,6 +97,9 @@ define('FS_METHOD', 'direct');\\
 \\
 /** Webstackup -- Auto-update: security and minor only */\\
 define('WP_AUTO_UPDATE_CORE', 'minor');\\
+\\
+/** Webstackup -- Disable wp-cron.php (use script/cron.sh instead) */\\
+define('DISABLE_WP_CRON', true);\\
 " "$WPINST_WP_CONFIG"
   fxOK "Webstackup configuration injected."
 else
