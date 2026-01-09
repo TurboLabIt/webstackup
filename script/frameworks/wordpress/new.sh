@@ -88,17 +88,22 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 WPINST_WP_CONFIG="${WEBROOT_DIR}wp-config.php"
-WPINST_SEARCH_STRING="/usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php"
+WPINST_WP_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php"
 
-if ! grep -q "$WPINST_SEARCH_STRING" "$WPINST_WP_CONFIG"; then
-  sed -i "/\/\* That's all, stop editing/i \\
-  /** WordPress extras by WEBSTACKUP **/\\
-  // https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wp-config-extras.php
-  require_once /usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php;\\
-  \\
-" "$WPINST_WP_CONFIG"
+# Check if the config already contains the search string
+if ! grep -q "$WPINST_WP_CONFIG_EXTRAS_PATH" "$WPINST_WP_CONFIG"; then
+  
+  WPINST_WP_CONFIG_EXTRAS_INCLUDE="/** WordPress extras by WEBSTACKUP **/
+// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wp-config-extras.php
+require_once '$WPINST_WP_CONFIG_EXTRAS_PATH';
+
+"
+
+  sed -i "/\/\* That's all, stop editing/i $WPINST_WP_CONFIG_EXTRAS_INCLUDE" "$WPINST_WP_CONFIG"
   fxOK "Webstackup configuration injected."
+
 else
+
   fxInfo "Webstackup configuration already exists. Skipping."
 fi
 
