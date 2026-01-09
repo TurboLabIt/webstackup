@@ -88,7 +88,7 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 WPINST_WP_CONFIG="${WEBROOT_DIR}wp-config.php"
-WPINST_WP_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php"
+WPINST_WP_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
 
 # Check if the config already contains the search string
 if ! grep -q "$WPINST_WP_CONFIG_EXTRAS_PATH" "$WPINST_WP_CONFIG"; then
@@ -188,6 +188,8 @@ fxTitle "Preparing ${APP_NAME} plugin directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
+mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
+ln -s "/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/disable-git-check.php" "${WEBROOT_DIR}wp-content/mu-plugins/disable-git-check.php"
 
 fxTitle "Adding .gitignore for WordPress..."
 ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
