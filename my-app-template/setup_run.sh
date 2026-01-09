@@ -249,6 +249,12 @@ fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
 fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
 echo ""
 
+fxTitle "Installing rsync..."
+if [ -z $(command -v rsync) ]; then
+  apt update -qq && apt install rsync -y
+else
+  fxOK
+fi
 
 fxTitle "📂 Copying the template data to the temporary directory..."
 rsync -a --exclude='/env' ${WSU_MAP_ORIGIN} "${WSU_MAP_TMP_DIR}"
