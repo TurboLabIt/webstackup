@@ -88,18 +88,14 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 WPINST_WP_CONFIG="${WEBROOT_DIR}wp-config.php"
-WPINST_SEARCH_STRING="Webstackup -- Fix install"
+WPINST_SEARCH_STRING="/usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php"
 
 if ! grep -q "$WPINST_SEARCH_STRING" "$WPINST_WP_CONFIG"; then
   sed -i "/\/\* That's all, stop editing/i \\
-/** Webstackup -- Fix install plugins/themes via admin */\\
-define('FS_METHOD', 'direct');\\
-\\
-/** Webstackup -- Auto-update: security and minor only */\\
-define('WP_AUTO_UPDATE_CORE', 'minor');\\
-\\
-/** Webstackup -- Disable wp-cron.php (use script/cron.sh instead) */\\
-define('DISABLE_WP_CRON', true);\\
+  /** WordPress extras by WEBSTACKUP **/\\
+  // https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wp-config-extras.php
+  require_once /usr/local/turbolab.it/webstackup/script/php-pages/wp-config-extras.php;\\
+  \\
 " "$WPINST_WP_CONFIG"
   fxOK "Webstackup configuration injected."
 else
