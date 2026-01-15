@@ -2,12 +2,6 @@
 #
 # Based on: https://docs.opensearch.org/latest/install-and-configure/install-opensearch/debian/#step-3-set-up-opensearch-in-your-environment
 
-# Path to directory where to store the data (separate multiple locations by comma):
-path.data: /var/lib/opensearch
-
-# Path to log files:
-path.logs: /var/log/opensearch
-
 # Bind OpenSearch to the correct network interface
 network.host: 127.0.0.1
 
