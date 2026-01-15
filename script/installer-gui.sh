@@ -10,6 +10,7 @@ OPTIONS=(
   4 "💿  Meilisearch"
   5 "💿  Let's Encrypt"
   6 "💿  Varnish"
+  7 "💿  OpenSearch"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -21,4 +22,5 @@ case $CHOICE in
   4)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/install.sh";;
   5)bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh";;
   6)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/install.sh";;
+  7)bash "${WEBSTACKUP_SCRIPT_DIR}opensearch/install.sh";;
 esac
