@@ -81,6 +81,13 @@ cat "${WEBSTACKUP_CONFIG_DIR}opensearch/opensearch.yml" >> /etc/opensearch/opens
 fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/opensearch/jvm.options.d/
 
 
+fxTitle "Service management..."
+systemctl enable opensearch
+service opensearch restart
+systemctl --no-pager status opensearch
+sleep 7
+
+
 fxTitle "Creating the ##wsu_app## account for the application to use..."
 curl -s -X PUT "https://localhost:9210/_plugins/_security/api/internalusers/wsu_app" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" \
   -H "Content-Type: application/json" \
@@ -122,16 +129,10 @@ curl -s -X PUT "https://localhost:9210/_plugins/_security/api/roles/wsu_app_acce
     }]
   }' --insecure | jq
 
+
 curl -s -X PUT "https://localhost:9210/_plugins/_security/api/rolesmapping/wsu_app_access" \
   -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" -H "Content-Type: application/json" \
   -d '{"users": ["wsu_app"]}' --insecure | jq
-
-
-fxTitle "Service management..."
-systemctl enable opensearch
-service opensearch restart
-systemctl --no-pager status opensearch
-sleep 7
 
 
 fxTitle "Testing (admin)..."
@@ -151,5 +152,7 @@ fxMessage "Port:          ##9210##"
 fxMessage "User:          ##wsu_app##"
 fxMessage "Password:      ##$OPENSEARCH_USER_PASSWORD##"
 
+## list all users
+# curl -s -X GET "https://localhost:9210/_plugins/_security/api/internalusers" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
 fxEndFooter
