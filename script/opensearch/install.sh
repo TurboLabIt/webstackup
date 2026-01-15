@@ -77,7 +77,7 @@ env OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD} apt-get insta
 
 fxTitle "Deploy a base config..."
 fxLink "${WEBSTACKUP_CONFIG_DIR}opensearch/opensearch.yml" /etc/opensearch/
-fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/elasticsearch/jvm.options.d/
+fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/opensearch/jvm.options.d/
 
 OPENSEARCH_USERS="$(<"${WEBSTACKUP_CONFIG_DIR%/}/opensearch/users.yml")"
 OPENSEARCH_USER_PASSWORD_HASH=$(mkpasswd -m bcrypt "${OPENSEARCH_USER_PASSWORD}")
