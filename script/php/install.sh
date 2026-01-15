@@ -164,6 +164,8 @@ else
   fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-1GB.conf" ${POOL_LINK}
 fi
 
+fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/fpm-pool-monitor.conf" /etc/php/${PHP_VER}/fpm/pool.d/zz_webstackup-fpm-pool-monitor.conf
+
 
 fxTitle "Create the socket directory..."
 mkdir -p /run/php/

@@ -46,6 +46,7 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
 fi
 
 
+## https://www.wpfastestcache.com/features/wp-cli-commands/
 wsuWordPress fastest-cache clear all and minified
 
 

@@ -88,18 +88,28 @@ WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
 WPINST_WP_CONFIG="${WEBROOT_DIR}wp-config.php"
-WPINST_SEARCH_STRING="Webstackup -- Fix install"
+WPINST_WP_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
 
-if ! grep -q "$WPINST_SEARCH_STRING" "$WPINST_WP_CONFIG"; then
-  sed -i "/\/\* That's all, stop editing/i \\
-/** Webstackup -- Fix install plugins/themes via admin */\\
-define('FS_METHOD', 'direct');\\
-\\
-/** Webstackup -- Auto-update: security and minor only */\\
-define('WP_AUTO_UPDATE_CORE', 'minor');\\
-" "$WPINST_WP_CONFIG"
+# Check if the config already contains the search string
+if ! grep -q "$WPINST_WP_CONFIG_EXTRAS_PATH" "$WPINST_WP_CONFIG"; then
+
+  WPINST_WP_CONFIG_EXTRAS_INCLUDE="
+/** 🔥 WordPress extras by WEBSTACKUP **/
+// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wp-config-extras.php
+require_once '$WPINST_WP_CONFIG_EXTRAS_PATH';
+
+"
+
+  WPINST_WP_CONFIG_EXTRAS_INCLUDE_TEMP_FILE=${WSU_TMP_DIR}wp-config-extras-require.txt
+  echo "$WPINST_WP_CONFIG_EXTRAS_INCLUDE" > "${WPINST_WP_CONFIG_EXTRAS_INCLUDE_TEMP_FILE}"
+
+  sed -i "/\/\* That's all, stop editing/e cat ${WPINST_WP_CONFIG_EXTRAS_INCLUDE_TEMP_FILE}" "$WPINST_WP_CONFIG"
+  rm "${WPINST_WP_CONFIG_EXTRAS_INCLUDE_TEMP_FILE}"
+
   fxOK "Webstackup configuration injected."
+
 else
+
   fxInfo "Webstackup configuration already exists. Skipping."
 fi
 
@@ -178,6 +188,8 @@ fxTitle "Preparing ${APP_NAME} plugin directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
+mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
+ln -s "/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/disable-git-check.php" "${WEBROOT_DIR}wp-content/mu-plugins/disable-git-check.php"
 
 fxTitle "Adding .gitignore for WordPress..."
 ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
