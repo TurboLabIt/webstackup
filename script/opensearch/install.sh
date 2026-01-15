@@ -78,14 +78,53 @@ env OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD} apt-get insta
 fxTitle "Deploy a base config..."
 echo "" >> /etc/opensearch/opensearch.yml
 cat "${WEBSTACKUP_CONFIG_DIR}opensearch/opensearch.yml" >> /etc/opensearch/opensearch.yml
-
 fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/opensearch/jvm.options.d/
 
-OPENSEARCH_USERS="$(<"${WEBSTACKUP_CONFIG_DIR}opensearch/users.yml")"
-OPENSEARCH_USER_PASSWORD_HASH=$(OPENSEARCH_JAVA_HOME=/usr/share/opensearch/jdk /usr/share/opensearch/plugins/opensearch-security/tools/hash.sh --password "${OPENSEARCH_USER_PASSWORD}")
-OPENSEARCH_USERS="${OPENSEARCH_USERS//##GENERATED_PASSWORD##/$OPENSEARCH_USER_PASSWORD_HASH}"
-echo "" >> /etc/opensearch/opensearch-security/internal_users.yml
-echo "${OPENSEARCH_USERS}" >> /etc/opensearch/opensearch-security/internal_users.yml
+
+fxTitle "Creating the ##wsu_app## account for the application to use..."
+curl -s -X PUT "https://localhost:9210/_plugins/_security/api/internalusers/wsu_app" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"password\": \"${OPENSEARCH_USER_PASSWORD}\",
+    \"description\": \"App user (webstackup)\"
+  }" --insecure | jq
+
+curl -s -X PUT "https://localhost:9210/_plugins/_security/api/roles/wsu_app_access" \
+  -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" -H "Content-Type: application/json" \
+  -d '{
+    "cluster_permissions": [
+      "cluster_composite_ops",
+      "cluster:monitor/main",
+      "cluster:monitor/health",
+      "cluster:monitor/state",
+      "cluster:monitor/nodes/info",
+      "indices:data/read/scroll*"
+    ],
+    "index_permissions": [{
+      "index_patterns": ["*"],
+      "allowed_actions": [
+        "indices:admin/create",
+        "indices:admin/delete",
+        "indices:admin/mapping/put",
+        "indices:admin/mappings/get",
+        "indices:admin/refresh",
+        "indices:admin/settings/update",
+        "indices:admin/get",
+        "indices:admin/exists",
+        "indices:data/write/index",
+        "indices:data/write/bulk",
+        "indices:data/write/delete",
+        "indices:data/write/update",
+        "indices:data/read/search",
+        "indices:data/read/get",
+        "indices:monitor/stats"
+      ]
+    }]
+  }' --insecure | jq
+
+curl -s -X PUT "https://localhost:9210/_plugins/_security/api/rolesmapping/wsu_app_access" \
+  -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" -H "Content-Type: application/json" \
+  -d '{"users": ["wsu_app"]}' --insecure | jq
 
 
 fxTitle "Service management..."
@@ -98,12 +137,19 @@ sleep 7
 fxTitle "Testing (admin)..."
 curl -s -X GET https://localhost:9210 -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
-fxTitle "Testing (opensearch_app)..."
-curl -s -X GET https://localhost:9210 -u "opensearch_app:${OPENSEARCH_USER_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
+fxTitle "Testing (wsu_app)..."
+curl -s -X GET https://localhost:9210 -u "wsu_app:${OPENSEARCH_USER_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
 
 fxTitle "Netstat..."
 ss -lpt | grep -i 'java\|open'
+
+
+fxTitle "Your credentials (for application use)"
+fxMessage "Host:          ##localhost##"
+fxMessage "Port:          ##9210##"
+fxMessage "User:          ##wsu_app##"
+fxMessage "Password:      ##$OPENSEARCH_USER_PASSWORD##"
 
 
 fxEndFooter
