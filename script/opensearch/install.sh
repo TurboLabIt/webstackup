@@ -57,7 +57,7 @@ echo -e "Package: *\nPin: origin artifacts.opensearch.org\nPin: release o=opense
 
 
 fxTitle "Dealing with the admin password..."
-if [ -f "/etc/turbolab.it/opensearch.conf" ]; then
+if [ ! -f "/etc/turbolab.it/opensearch.conf" ]; then
 
   OPENSEARCH_ADMIN_PASSWORD="$(fxPasswordGenerator)"
   echo "OPENSEARCH_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD}" > "/etc/turbolab.it/opensearch.conf"
