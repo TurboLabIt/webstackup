@@ -39,7 +39,7 @@ source "${WSU_DIR}script/base.sh"
 
 fxTitle "Installing prerequisites..."
 apt update -qq
-apt install apt-transport-https software-properties-common lsb-release ca-certificates curl gnupg2 jq whois -y
+apt install apt-transport-https software-properties-common lsb-release ca-certificates curl gnupg2 jq -y
 
 
 fxTitle "Importing the signing key..."
@@ -81,20 +81,25 @@ cat "${WEBSTACKUP_CONFIG_DIR}opensearch/opensearch.yml" >> /etc/opensearch/opens
 
 fxLink "${WEBSTACKUP_CONFIG_DIR}elasticsearch/jvm.options" /etc/opensearch/jvm.options.d/
 
-OPENSEARCH_USERS="$(<"${WEBSTACKUP_CONFIG_DIR%/}/opensearch/users.yml")"
-OPENSEARCH_USER_PASSWORD_HASH=$(mkpasswd -m bcrypt "${OPENSEARCH_USER_PASSWORD}")
+OPENSEARCH_USERS="$(<"${WEBSTACKUP_CONFIG_DIR}opensearch/users.yml")"
+OPENSEARCH_USER_PASSWORD_HASH=$(OPENSEARCH_JAVA_HOME=/usr/share/opensearch/jdk /usr/share/opensearch/plugins/opensearch-security/tools/hash.sh --password "${OPENSEARCH_USER_PASSWORD}")
 OPENSEARCH_USERS="${OPENSEARCH_USERS//##GENERATED_PASSWORD##/$OPENSEARCH_USER_PASSWORD_HASH}"
-echo "${OPENSEARCH}" >> /etc/opensearch/opensearch-security/internal_users.yml
+echo "" >> /etc/opensearch/opensearch-security/internal_users.yml
+echo "${OPENSEARCH_USERS}" >> /etc/opensearch/opensearch-security/internal_users.yml
 
 
 fxTitle "Service management..."
 systemctl enable opensearch
 service opensearch restart
 systemctl --no-pager status opensearch
+sleep 7
 
 
-fxTitle "Testing..."
-curl -X GET https://localhost:9210 -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq
+fxTitle "Testing (admin)..."
+curl -s -X GET https://localhost:9210 -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
+
+fxTitle "Testing (opensearch_app)..."
+curl -s -X GET https://localhost:9210 -u "opensearch_app:${OPENSEARCH_USER_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
 
 fxTitle "Netstat..."
