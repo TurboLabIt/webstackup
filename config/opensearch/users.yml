@@ -1,0 +1,5 @@
+opensearch_app:
+  hash: "##GENERATED_PASSWORD##"
+  reserved: false
+  backend_roles: []
+  description: "App user (webstackup)"

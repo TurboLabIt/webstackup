@@ -1,0 +1,25 @@
+## DEFAULT OPENSEARCH CONFIG BY WEBSTACKUP
+#
+# Based on: https://docs.opensearch.org/latest/install-and-configure/install-opensearch/debian/#step-3-set-up-opensearch-in-your-environment
+
+# Path to directory where to store the data (separate multiple locations by comma):
+path.data: /var/lib/opensearch
+
+# Path to log files:
+path.logs: /var/log/opensearch
+
+# Bind OpenSearch to the correct network interface
+network.host: 127.0.0.1
+
+# Unless you have already configured a cluster, you should set
+# discovery.type to single-node, or the bootstrap checks will
+# fail when you try to start the service.
+discovery.type: single-node
+
+# If you previously disabled the Security plugin in opensearch.yml,
+# be sure to re-enable it. Otherwise you can skip this setting.
+plugins.security.disabled: false
+
+# non-standard ports (to allow run side-by-side with ElasticSearch)
+http.port: 9210
+transport.port: 9310

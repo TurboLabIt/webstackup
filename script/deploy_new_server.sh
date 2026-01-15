@@ -186,6 +186,14 @@ else
 fi
 
 
+fxTitle "Installing OPENSEARCH..."
+if [ "$INSTALL_OPENSEARCH" = 1 ]; then
+  source ${WEBSTACKUP_SCRIPT_DIR}opensearch/install.sh
+else
+  fxInfo "Skipped (disabled in config)"
+fi
+
+
 fxTitle "Installing MEILISEARCH..."
 if [ "$INSTALL_MEILISEARCH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}meilisearch/install.sh
