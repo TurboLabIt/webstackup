@@ -35,7 +35,7 @@ if [ "$WSU_WORDPRESS_GIT_BLOCKS_AUTOUPDATE" != 1 ]; then
   sudo -u $EXPECTED_USER -H mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
   sudo -u $EXPECTED_USER -H rm -f "${WEBROOT_DIR}wp-content/mu-plugins/disable-git-check.php"
   sudo -u $EXPECTED_USER -H ln -s "/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/disable-git-check.php" "${WEBROOT_DIR}wp-content/mu-plugins/disable-git-check.php"
-  fxOK
+  fxOK "OK, mu-plugin activated"
 
 else
 
