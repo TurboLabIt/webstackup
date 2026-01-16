@@ -20,7 +20,7 @@ require_once '$WPINST_WP_CONFIG_EXTRAS_PATH';
 
   fxOK "Webstackup configuration injected 💉"
 
-elif [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" == 1 ]
+elif [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" == 1 ]; then
 
   fxInfo "Skipped (disabled in config) 🦘"
 
