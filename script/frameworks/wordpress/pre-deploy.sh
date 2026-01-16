@@ -5,7 +5,7 @@ WSU_WP_ANCHOR_REGEX="\/\* That's all, stop editing"
 
 
 if [ "$WSU_WP_WPCONFIG_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WP_ANCHOR_REGEX" "$WSU_WP_INSTANCE_WPCONFIG_PATH"; then
-  fxCatastrophicError "Cannot find anchor string '/* That's all, stop editing' in ##$WSU_WP_INSTANCE_WPCONFIG_PATH##!"
+  fxCatastrophicError "Cannot find anchor string ##/* That's all, stop editing! Happy publishing. */## in ##$WSU_WP_INSTANCE_WPCONFIG_PATH##!"
 fi
 
 
