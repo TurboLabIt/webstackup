@@ -2,13 +2,12 @@ fxTitle "Include Webstackup WordPress defaults in wp-config.php..."
 WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH="${WEBROOT_DIR}wp-config.php"
 WSU_WORDPRESS_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
 
-# Check if the config already contains the search string
-if [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" != 1 ] && [ ! grep -q "$WSU_WORDPRESS_CONFIG_EXTRAS_PATH" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH" ]; then
+if [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WORDPRESS_CONFIG_EXTRAS_PATH" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"; then
   
   WSU_WORDPRESS_CONFIG_EXTRAS_CODE="
 /** 🔥 WordPress extras by WEBSTACKUP **/
 // https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/wp-config-extras.php
-require_once '$WPINST_WP_CONFIG_EXTRAS_PATH';
+require_once '$WSU_WORDPRESS_CONFIG_EXTRAS_PATH';
 
 "
 
