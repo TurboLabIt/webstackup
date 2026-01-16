@@ -1,25 +1,32 @@
 fxTitle "Include Webstackup WordPress defaults in wp-config.php..."
-WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH="${WEBROOT_DIR}wp-config.php"
-WSU_WORDPRESS_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
+WSU_WP_INSTANCE_WPCONFIG_PATH="${WEBROOT_DIR}wp-config.php"
+WSU_WP_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
+WSU_WP_ANCHOR_REGEX="\/\* That's all, stop editing"
 
-if [ "$WSU_WORDPRESS_WPCONFIG_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WORDPRESS_CONFIG_EXTRAS_PATH" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"; then
+
+if [ "$WSU_WP_WPCONFIG_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WP_ANCHOR_REGEX" "$WSU_WP_INSTANCE_WPCONFIG_PATH"; then
+  fxCatastrophicError "Cannot find anchor string '/* That's all, stop editing' in ##$WSU_WP_INSTANCE_WPCONFIG_PATH##!"
+fi
+
+
+if [ "$WSU_WP_WPCONFIG_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WP_CONFIG_EXTRAS_PATH" "$WSU_WP_INSTANCE_WPCONFIG_PATH"; then
   
-  WSU_WORDPRESS_CONFIG_EXTRAS_CODE="
+  WSU_WP_CONFIG_EXTRAS_CODE="
 /** 🔥 WordPress extras by WEBSTACKUP **/
 // https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/wp-config-extras.php
-require_once '$WSU_WORDPRESS_CONFIG_EXTRAS_PATH';
-
+require_once '$WSU_WP_CONFIG_EXTRAS_PATH';
 "
 
-  WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH=/tmp/wp-config-extras-require$(date +%Y%m%d_%H%M%S).txt
-  echo "$WSU_WORDPRESS_CONFIG_EXTRAS_CODE" > "${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
+  WSU_WP_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH=/tmp/wp-config-extras-require$(date +%Y%m%d_%H%M%S).txt
+  echo "$WSU_WP_CONFIG_EXTRAS_CODE" > "${WSU_WP_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
 
-  sed -i "/\/\* That's all, stop editing/e cat ${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"
-  rm "${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
+  sed -i "/$WSU_WP_ANCHOR_REGEX/{h;s|.*|cat ${WSU_WP_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}|e;G;}" "$WSU_WP_INSTANCE_WPCONFIG_PATH"
+  
+  rm "${WSU_WP_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
 
   fxOK "Webstackup configuration injected 💉"
 
-elif [ "$WSU_WORDPRESS_WPCONFIG_DONT_INCLUDE_EXTRAS" == 1 ]; then
+elif [ "$WSU_WP_WPCONFIG_DONT_INCLUDE_EXTRAS" == 1 ]; then
 
   fxInfo "Skipped (disabled in config) 🦘"
 
@@ -30,7 +37,7 @@ fi
 
 
 fxTitle "Allow WordPress to auto-update even with .git..."
-if [ "$WSU_WORDPRESS_GIT_BLOCKS_AUTOUPDATE" != 1 ]; then
+if [ "$WSU_WP_GIT_BLOCKS_AUTOUPDATE" != 1 ]; then
 
   sudo -u $EXPECTED_USER -H mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
   sudo -u $EXPECTED_USER -H rm -f "${WEBROOT_DIR}wp-content/mu-plugins/disable-git-check.php"
