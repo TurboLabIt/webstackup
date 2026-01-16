@@ -95,7 +95,7 @@ if ! grep -q "$WPINST_WP_CONFIG_EXTRAS_PATH" "$WPINST_WP_CONFIG"; then
 
   WPINST_WP_CONFIG_EXTRAS_INCLUDE="
 /** 🔥 WordPress extras by WEBSTACKUP **/
-// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wp-config-extras.php
+// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/wp-config-extras.php
 require_once '$WPINST_WP_CONFIG_EXTRAS_PATH';
 
 "
