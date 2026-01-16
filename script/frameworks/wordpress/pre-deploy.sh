@@ -2,7 +2,7 @@ fxTitle "Include Webstackup WordPress defaults in wp-config.php..."
 WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH="${WEBROOT_DIR}wp-config.php"
 WSU_WORDPRESS_CONFIG_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/wp-config-extras.php"
 
-if [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WORDPRESS_CONFIG_EXTRAS_PATH" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"; then
+if [ "$WSU_WORDPRESS_WPCONFIG_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WORDPRESS_CONFIG_EXTRAS_PATH" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"; then
   
   WSU_WORDPRESS_CONFIG_EXTRAS_CODE="
 /** 🔥 WordPress extras by WEBSTACKUP **/
@@ -19,7 +19,7 @@ require_once '$WSU_WORDPRESS_CONFIG_EXTRAS_PATH';
 
   fxOK "Webstackup configuration injected 💉"
 
-elif [ "$WSU_WORDPRESS_WPCONFIG_INCLUDE_EXTRAS" == 1 ]; then
+elif [ "$WSU_WORDPRESS_WPCONFIG_DONT_INCLUDE_EXTRAS" == 1 ]; then
 
   fxInfo "Skipped (disabled in config) 🦘"
 
