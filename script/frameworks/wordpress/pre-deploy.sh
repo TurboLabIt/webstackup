@@ -14,7 +14,7 @@ require_once '$WSU_WORDPRESS_CONFIG_EXTRAS_PATH';
   WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH=/tmp/wp-config-extras-require$(date +%Y%m%d_%H%M%S).txt
   echo "$WSU_WORDPRESS_CONFIG_EXTRAS_CODE" > "${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
 
-  sed -i "/\/\* That's all, stop editing/e cat ${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}" "$WPINST_WP_CONFIG"
+  sed -i "/\/\* That's all, stop editing/e cat ${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}" "$WSU_WORDPRESS_INSTANCE_WPCONFIG_PATH"
   rm "${WSU_WORDPRESS_CONFIG_EXTRAS_CODE_TEMP_FILE_PATH}"
 
   fxOK "Webstackup configuration injected 💉"
