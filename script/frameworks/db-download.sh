@@ -33,7 +33,7 @@ if [ "${DISABLE_SSH_TEST}" != 1 ] ; then
 else
   
   fxTitle "🧪 Tesing remote host.."
-  fxInfo "Test disabled, skipping"
+  fxInfo "Test disabled, skipping 🦘"
 fi
 
 

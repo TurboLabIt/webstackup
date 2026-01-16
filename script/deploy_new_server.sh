@@ -85,7 +85,7 @@ if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
 
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -99,7 +99,7 @@ if [ ! -z "$INSTALL_HOSTNAME" ]; then
 
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -126,7 +126,7 @@ fxTitle "Installing NGINX..."
 if [ "$INSTALL_NGINX" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}nginx/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -134,7 +134,7 @@ fxTitle "Installing Apache HTTP Server..."
 if [ "$INSTALL_APACHE_HTTPD" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}apache-httpd/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -142,7 +142,7 @@ fxTitle "Installing Apache HTTP Server alternative ports..."
 if [ "$INSTALL_APACHE_HTTPD_ALT_PORTS" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}apache-httpd/alternative-ports.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -150,7 +150,7 @@ fxTitle "Installing PHP..."
 if [ "$INSTALL_PHP" = 1 ]; then
   PHP_VER=${PHP_VER} bash ${WEBSTACKUP_SCRIPT_DIR}php/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -158,7 +158,7 @@ fxTitle "Installing MySQL..."
 if [ "$INSTALL_MYSQL" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}mysql/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -166,7 +166,7 @@ fxTitle "Installing Varnish..."
 if [ "$INSTALL_VARNISH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}varnish/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -174,7 +174,7 @@ fxTitle "Installing Node.js..."
 if [ "$INSTALL_NODEJS" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}node.js/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -182,7 +182,7 @@ fxTitle "Installing ELASTICSEARCH..."
 if [ "$INSTALL_ELASTICSEARCH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}elasticsearch/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -190,7 +190,7 @@ fxTitle "Installing OPENSEARCH..."
 if [ "$INSTALL_OPENSEARCH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}opensearch/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -198,7 +198,7 @@ fxTitle "Installing MEILISEARCH..."
 if [ "$INSTALL_MEILISEARCH" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}meilisearch/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -206,7 +206,7 @@ fxTitle "Installing PURE-FTPD..."
 if [ "$INSTALL_PUREFTPD" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}pure-ftpd/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -214,7 +214,7 @@ fxTitle "Installing COMPOSER..."
 if [ "$INSTALL_COMPOSER" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}php/composer-install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -222,7 +222,7 @@ fxTitle "Installing SYMFONY..."
 if [ "$INSTALL_SYMFONY" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}frameworks/symfony/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -230,7 +230,7 @@ fxTitle "Installing ZZUPDATE..."
 if [ "$INSTALL_ZZUPDATE" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | sudo bash
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -238,7 +238,7 @@ fxTitle "Installing ZZMYSQLDUMP"
 if [ "$INSTALL_ZZMYSQLDUMP" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo bash
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -252,7 +252,7 @@ if [ "$INSTALL_XDEBUG" = 1 ]; then
 
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -260,7 +260,7 @@ fxTitle "Installing LET'S ENCRYPT..."
 if [ $INSTALL_LETSENCRYPT = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -268,7 +268,7 @@ fxTitle "Installing POSTFIX and OPENDKIM"
 if [ "$INSTALL_POSTFIX" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -276,7 +276,7 @@ fxTitle "Installing DOVECOT"
 if [ "$INSTALL_DOVECOT" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}dovecot/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -284,7 +284,7 @@ fxTitle "Installing ZZALIAS..."
 if [ "$INSTALL_ZZALIAS" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | sudo bash
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -293,7 +293,7 @@ if [ "$INSTALL_FIREWALL" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzfirewall/master/setup.sh | sudo bash
   sudo zzfirewall
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -301,7 +301,7 @@ fxTitle "Installing ZZDDNS..."
 if [ "$INSTALL_ZZDDNS" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzddns/master/setup.sh | sudo bash
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -309,7 +309,7 @@ fxTitle "Creating users..."
 if [ ! -z "$INSTALL_USERS_TEMPLATE_PATH" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$INSTALL_USERS_TEMPLATE_PATH"
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -318,7 +318,7 @@ if [ "$INSTALL_SSH_DISABLE_PASSWORD_LOGIN" = 1 ]; then
   ln -s "${WEBSTACKUP_INSTALL_DIR}config/ssh/disable-password-login.conf" /etc/ssh/sshd_config.d/webstackup-disable-password-login.conf
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -326,7 +326,7 @@ fxTitle "Installing CHROME..."
 if [ "$INSTALL_CHROME" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}chrome/install.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -334,7 +334,7 @@ fxTitle "Installing PDF SUPPORT..."
 if [ "$INSTALL_PDF_SUPPORT" = 1 ]; then
   source ${WEBSTACKUP_SCRIPT_DIR}script/print/install-pdf.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -346,7 +346,7 @@ if [ "$INSTALL_GIT_CLONE_WEBAPP" = 1 ]; then
 
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -354,7 +354,7 @@ fxTitle "Installing and running benchmark..."
 if [ "$INSTALL_BENCHMARK" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}performance/benchmark.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -362,7 +362,7 @@ fxTitle "Running Poweroff disabler..."
 if [ "$INSTALL_DISABLE_POWEROFF" = 1 ]; then
   bash ${WEBSTACKUP_SCRIPT_DIR}power/poweroff-disabler.sh
 else
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 
@@ -383,7 +383,7 @@ elif [ "$REBOOT" = "1" ]; then
 
 else
 
-  fxInfo "Skipped (disabled in config)"
+  fxInfo "Skipped (disabled in config) 🦘"
 fi
 
 

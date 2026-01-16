@@ -20,7 +20,7 @@ fxTitle "👨‍👩‍👧‍👧 Generating www-data (the group)..."
 if ! getent group "www-data" &>/dev/null; then
   groupadd --system www-data
 else
-  fxInfo "www-data group already exists, skipping"  
+  fxInfo "www-data group already exists, skipping 🦘"
 fi
 
 
@@ -28,7 +28,7 @@ fxTitle "👨‍🏭 Generating www-data (the user)..."
 if ! id "www-data" &>/dev/null; then
   useradd www-data -g www-data --shell=/usr/sbin/nologin --create-home --system
 else
-  fxInfo "www-data already exists, skipping"  
+  fxInfo "www-data already exists, skipping 🦘"
 fi
 
 groups www-data
@@ -57,7 +57,7 @@ if ! id "webstackup" &>/dev/null; then
   
 else
 
-  fxInfo "webstackup already exists, skipping"  
+  fxInfo "webstackup already exists, skipping 🦘"
 fi
 
 groups webstackup
@@ -81,7 +81,7 @@ if [ ! -d /home/www-data ]; then
   mkdir -p /home/www-data
 else
 
-  fxInfo "/home/www-data/ already exists, skipping"
+  fxInfo "/home/www-data/ already exists, skipping 🦘"
 fi
 
 
@@ -97,7 +97,7 @@ if [ ! -d /var/www ]; then
   
 else
 
-  fxInfo "/var/www/ already exists, skipping"
+  fxInfo "/var/www/ already exists, skipping 🦘"
 fi
 
 ls -lah /var/www/
@@ -117,7 +117,7 @@ function wwwdataFileMover()
     
   else
   
-    fxInfo "File doesn't exists, skipping"
+    fxInfo "File doesn't exists, skipping 🦘"
   fi
 }
 

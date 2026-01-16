@@ -198,7 +198,7 @@ if [ -d /etc/nginx/ ] && [ ! -z $(command -v nginx) ]; then
 
 else
 
-  fxInfo "NGINX not installed, skipping"  
+  fxInfo "NGINX not installed, skipping 🦘"
 fi
 
 
@@ -221,7 +221,7 @@ if [ -d /etc/apache2/ ] && [ ! -z $(command -v a2enconf) ]; then
 
 else
 
-  fxInfo "Apache HTTP Server not installed, skipping"  
+  fxInfo "Apache HTTP Server not installed, skipping 🦘"
 fi
 
 

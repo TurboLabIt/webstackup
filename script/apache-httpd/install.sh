@@ -97,7 +97,7 @@ if [ "${WSU_HTTPD_ALT_PORTS}" = 1 ]; then
   
 else
 
-  fxInfo "Alt. ports not requested, skipping"
+  fxInfo "Alt. ports not requested, skipping 🦘"
   
   fxTitle "Final restart..."
   apachectl configtest

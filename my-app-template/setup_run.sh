@@ -287,7 +287,7 @@ fxTitle "👓 Managing the .gitignore..."
 if [ ! -f "${WSU_MAP_TMP_DIR}.gitignore" ]; then
   curl -Lo "${WSU_MAP_TMP_DIR}.gitignore" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
 else
-  fxInfo "A .gitignore already exists, skipping"
+  fxInfo "A .gitignore already exists, skipping 🦘"
 fi
 
 
@@ -295,7 +295,7 @@ fxTitle "🌳 Dealing with the env file"
 if [ ! -d "${WSU_MAP_TMP_DIR}.git" ] && [ ! -f "${WSU_MAP_TMP_DIR}env" ]; then
   cp ${WSU_MAP_ORIGIN}env ${WSU_MAP_TMP_DIR}env
 else
-  fxOK "Good! Either a .git folder or an 'env' file exists, skipping"
+  fxOK "Good! Either a .git folder or an 'env' file exists, skipping 🦘"
 fi
 
 
