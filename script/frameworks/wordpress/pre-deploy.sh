@@ -49,3 +49,19 @@ else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
 
+
+fxTitle "Disable Installatron..."
+if [ "$WSU_WP_ALLOW_INSTALLATRON" == 1 ]; then
+
+  fxInfo "Installatron IS ALLOWED, skipping 🦘"
+
+elif [ ! -f "${WEBROOT_DIR}wp-content/mu-plugins/automation-by-installatron.php" ]; then
+
+  fxInfo "Skipped (Installatron not found) 🦘"
+
+else
+
+  rm -f "${PROJECT_DIR}backup/automation-by-installatron.php"
+  sudo -u $EXPECTED_USER -H mv "${WEBROOT_DIR}wp-content/mu-plugins/automation-by-installatron.php" "${PROJECT_DIR}backup/"
+  fxOK "OK, Installatron mu-plugin was found and moved to backup"
+fi
