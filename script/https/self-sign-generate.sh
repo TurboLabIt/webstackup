@@ -99,9 +99,9 @@ openssl req -x509 -key "${SELFSIGN_KEY}" \
   -out "${WSU_CERT_FILE_FULLPATH}" \
   -subj "/CN=${WSU_CERT_COMPLETE_DOMAIN}/O=webstackup/OU=self-sign-generate.sh" \
   -addext "subjectAltName=DNS:${WSU_CERT_COMPLETE_DOMAIN},DNS:${WSU_MAP_DOMAIN_DEFAULT}" \
-  -addext "keyUsage=digitalSignature" \
+  -addext "keyUsage=digitalSignature,keyCertSign" \
   -addext "extendedKeyUsage=serverAuth" \
-  -addext "basicConstraints=CA:FALSE"
+  -addext "basicConstraints=critical,CA:TRUE,pathlen:0"
 
 
 fxTitle "Self-signed certificate ready!"
