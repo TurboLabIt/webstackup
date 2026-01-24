@@ -4,15 +4,7 @@
 #
 # 📚 https://freshrss.github.io/FreshRSS/en/admins/08_FeedUpdates.html
 
-## bash-fx
-if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
-
-if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
-  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
-else
-  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
-fi
-## bash-fx is ready
+source /usr/local/turbolab.it/webstackup/script/base.sh
 
 fxHeader "📰 FreshRSS feed updater"
 rootCheck
