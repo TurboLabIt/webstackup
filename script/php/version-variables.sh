@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 ### SET PHP VARIABLES SUCH AS PHP_VER AND PHP_CLI BY WEBSTACKUP
-# source /usr/local/turbolab.it/webstackup/script/php/version-variables.sh
+# https://github.com/TurboLabIt/webstackup/blob/master/script/php/version-variables.sh
+#source /usr/local/turbolab.it/webstackup/script/php/version-variables.sh
+#showPHPVer
 #
 # PHP_VER = '8.2'
 # PHP_CLI = '/usr/bin/php8.2'

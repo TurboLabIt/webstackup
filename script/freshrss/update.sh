@@ -52,7 +52,10 @@ sudo -u www-data -H git status
 freshrssSetWebPermissions
 
 
+# https://github.com/TurboLabIt/webstackup/blob/master/script/php/version-variables.sh
 source /usr/local/turbolab.it/webstackup/script/php/version-variables.sh
+showPHPVer
+
 fxTitle "Restaring PHP-FPM (flush opcache)..."
 service $PHP_FPM restart
 

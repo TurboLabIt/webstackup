@@ -1,0 +1,9 @@
+MAILTO=""
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+## Update the feed every XX minutes during day time - hard minimum is 20 minutes
+*/21 6-23 * * * root bash /usr/local/turbolab.it/webstackup/script/freshrss/feed-update.sh > /var/log/freshrss-feed-update.sh.log 2>&1
+
+
+## 👇 If the last entry is missing a newline, cron will consider it broken and refuse to run it 👇
