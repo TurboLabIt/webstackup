@@ -117,7 +117,7 @@ fxTitle "Restarting ElasticSearch..."
 if [ "${ELASTICSEARCH_HOST}" = "localhost" ] || [ "${ELASTICSEARCH_HOST}" = "localhost" ]; then
   service elasticsearch restart
 else
-  fxWarning "ElasticSearch is not on localhost, skipping"
+  fxWarning "ElasticSearch is not on localhost, skipping 🦘"
 fi
 
 

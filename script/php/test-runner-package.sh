@@ -91,7 +91,7 @@ if [ "${PHPUNIT_RESULT}" = 0 ]; then
   if [ -f "${TEST_COMMAND_PATH}" ]; then
     ${PHP_CLI} tests/RunTestCommand.php
   else
-    fxInfo "##$TEST_COMMAND_PATH## not found, skipping"
+    fxInfo "##$TEST_COMMAND_PATH## not found, skipping 🦘"
   fi
 
   wsuPlayOKSound

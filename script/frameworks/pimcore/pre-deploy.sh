@@ -14,5 +14,5 @@ if [ ! -z "${PHP_VER}" ]; then
 
 else
 
-  fxWarning "PHP_VER is undefined, skipping"
+  fxWarning "PHP_VER is undefined, skipping 🦘"
 fi

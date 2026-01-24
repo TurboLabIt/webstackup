@@ -538,7 +538,7 @@ if [ "${DEPLOY_COPY_CRON}" != 0 ]; then
 
 else
 
-  fxWarning "DEPLOY_COPY_CRON is set to zero, skipping"
+  fxWarning "DEPLOY_COPY_CRON is set to zero, skipping 🦘"
 fi
 
 fxTitle "📂 Listing /etc/cron.d/..."

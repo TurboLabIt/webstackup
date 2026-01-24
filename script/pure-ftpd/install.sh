@@ -51,7 +51,7 @@ fi
 fxTitle "/var/www/ setup"
 if [ -d "/var/www" ]; then
 
-  fxOK "/var/www/ found, skipping"
+  fxOK "/var/www/ found, skipping 🦘"
   
 else
 
@@ -73,7 +73,7 @@ elif [ ! -f "/etc/pure-ftpd/conf/PassivePortRange" ]; then
   
 else
 
-  fxOK "PassivePortRange exists, skipping"
+  fxOK "PassivePortRange exists, skipping 🦘"
 fi
 
 
@@ -115,7 +115,7 @@ if [ ! -f "/etc/pure-ftpd/auth/20PureDB" ]; then
   
 else
 
-  fxOK "Auth exists, skipping"
+  fxOK "Auth exists, skipping 🦘"
 fi
 
 
@@ -161,7 +161,7 @@ if [ ! -f "/etc/ssl/private/pure-ftpd.pem" ]; then
   
 else
 
-  fxOK "Certificate file exists, skipping"
+  fxOK "Certificate file exists, skipping 🦘"
 fi
 
 
