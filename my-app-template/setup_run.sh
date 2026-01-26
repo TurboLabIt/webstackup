@@ -320,8 +320,6 @@ for WSU_MAP_UNCHOSEN_FRAMEWORK in "${WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
     ${WSU_MAP_TMP_DIR}config/custom/dev/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/staging/*${WSU_MAP_UNCHOSEN_FRAMEWORK}* ${WSU_MAP_TMP_DIR}config/custom/prod/*${WSU_MAP_UNCHOSEN_FRAMEWORK}*
 done
 
-mv ${WSU_MAP_TMP_DIR}config/custom/nginx-${WSU_MAP_FRAMEWORK}.conf ${WSU_MAP_TMP_DIR}config/custom/nginx.conf
-
 
 if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 
@@ -330,6 +328,7 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
   mkdir ${WSU_MAP_TMP_DIR}shop
 
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}scripts '${PROJECT_DIR}var' '${MAGENTO_DIR}var'
+  fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}config/custom '$PROJECT_DIR/public' "$PROJECT_DIR/shop"
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}config/custom "${WSU_MAP_DEPLOY_TO_PATH}var/" "${WSU_MAP_DEPLOY_TO_PATH}shop/var/"
   fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR}config/custom "dev0/${WSU_MAP_APP_NAME}/var/" "dev0/${WSU_MAP_APP_NAME}/shop/var/"
 
