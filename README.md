@@ -5,21 +5,12 @@ An unattended bash script for Ubuntu to setup a PHP-based web server stack for p
 
 ## How to
 
-sudo:
+Install webstackup, choose components, *bring the  web-stack-up*: 
 
 ````shell
-sudo -H -s
-
+wget https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh -O - | sudo -H bash && \
+  bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
 ````
-
-Clone the script, choose the components, run it
-
-````shell
-wget https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh -O - | bash && cp /usr/local/turbolab.it/webstackup/webstackup.default.conf /etc/turbolab.it/webstackup.conf && nano /etc/turbolab.it/webstackup.conf && bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
-
-````
-
-Your stack is now ready. Happy coding!
 
 
 ## Run the manager

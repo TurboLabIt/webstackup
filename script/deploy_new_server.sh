@@ -10,19 +10,14 @@ source ${WEBSTACKUP_INSTALL_DIR}webstackup.default.conf
 
 ## Default config error!
 if [[ $WEBSTACKUP_ENABLED != 1 ]]; then
-  catastrophicError "Default config file not available or script disabled"
+  fxCatastrophicError "Default config file not available or script disabled"
 fi
 
 
 ## Config file from CLI
 CONFIGFILE_FULLPATH=$1
 if [ ! -z "$CONFIGFILE_FULLPATH" ] && [ ! -f "$CONFIGFILE_FULLPATH" ]; then
-
-  catastrophicError "Config file not found!
-Please check if the following file exists and is accessible:
-
-$CONFIGFILE_FULLPATH"
-
+  fxCatastrophicError "Config file ##$CONFIGFILE_FULLPATH## not found!"
 fi
 
 
@@ -31,20 +26,20 @@ if [ ! -z "$CONFIGFILE_FULLPATH" ]; then
 
   fxTitle "Importing custom options"
   source "$CONFIGFILE_FULLPATH"
-
-  fxMessage "Custom options imported from $CONFIGFILE_FULLPATH"
+  fxInfo "Custom options imported from ##$CONFIGFILE_FULLPATH##"
 
 else
 
-  CONFIGFILE_NAME=webstackup.conf
-  CONFIGFILE_FULLPATH_ETC=/etc/turbolab.it/$CONFIGFILE_NAME
+  CONFIGFILE_FULLPATH_ETC=/etc/turbolab.it/webstackup.conf
+  if [ ! -f "$CONFIGFILE_FULLPATH_ETC" ]; then
 
-  for CONFIGFILE_FULLPATH in "$CONFIGFILE_FULLPATH_ETC"
-  do
-    if [ -f "$CONFIGFILE_FULLPATH" ]; then
-      source "$CONFIGFILE_FULLPATH"
-    fi
-  done
+    cp "${WEBSTACKUP_INSTALL_DIR}webstackup.default.conf" "$CONFIGFILE_FULLPATH_ETC"
+    if [ -z "$(command -v nano)" ]; then apt update ; apt install nano -y; fi
+    nano "$CONFIGFILE_FULLPATH_ETC"
+  fi
+
+  source "$CONFIGFILE_FULLPATH_ETC"
+  fxInfo "Custom options imported from ##$CONFIGFILE_FULLPATH_ETC##"
 fi
 
 
