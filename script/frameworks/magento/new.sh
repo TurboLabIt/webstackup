@@ -78,6 +78,7 @@ rm -rf "${WSU_TMP_DIR}"
 mkdir -p "${WSU_TMP_DIR}"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
+COMPOSER_JSON_FULLPATH=
 
 PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
@@ -113,13 +114,19 @@ MAGEINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 MAGENTO_ADMIN_NEW_SLUG=$(fxAlphanumOnly "${MAGENTO_ADMIN_NEW_SLUG}")
 
 
-fxTitle "Restarting ElasticSearch..."
+fxTitle "Restarting OpenSearch..."
 if [ "${ELASTICSEARCH_HOST}" = "localhost" ] || [ "${ELASTICSEARCH_HOST}" = "localhost" ]; then
-  service elasticsearch restart
+
+  ## workaround for https://magento.stackexchange.com/q/366082/50130
+  sudo sed -i 's/plugins.security.disabled: false/plugins.security.disabled: true/' /etc/opensearch/opensearch.yml
+  service opensearch restart
+
 else
-  fxWarning "ElasticSearch is not on localhost, skipping 🦘"
+
+  fxWarning "OpenSearch is not on localhost, skipping 🦘"
 fi
 
+source /etc/turbolab.it/opensearch.conf
 
 wsuMage setup:install \
   --base-url=${SITE_URL} \
@@ -136,9 +143,11 @@ wsuMage setup:install \
   --currency="${MAGENTO_CURRENCY}" \
   --timezone="${MAGENTO_TIMEZONE}" \
   --use-rewrites=1 \
-  --search-engine=elasticsearch7 \
-  --elasticsearch-host=${ELASTICSEARCH_HOST} \
-  --elasticsearch-port=9200 \
+  --opensearch-host=${ELASTICSEARCH_HOST} \
+  --opensearch-port=9210 \
+  --opensearch-enable-auth=true \
+  --opensearch-username=wsu_app \
+  --opensearch-password="${OPENSEARCH_USER_PASSWORD}" \
   --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
 
 
