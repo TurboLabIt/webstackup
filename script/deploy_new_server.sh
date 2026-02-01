@@ -223,7 +223,7 @@ fi
 
 fxTitle "Installing ZZUPDATE..."
 if [ "$INSTALL_ZZUPDATE" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | sudo bash
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | bash
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
@@ -231,7 +231,7 @@ fi
 
 fxTitle "Installing ZZMYSQLDUMP"
 if [ "$INSTALL_ZZMYSQLDUMP" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | sudo bash
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | bash
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
@@ -277,7 +277,7 @@ fi
 
 fxTitle "Installing ZZALIAS..."
 if [ "$INSTALL_ZZALIAS" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | sudo bash
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzalias/master/setup.sh | bash
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
@@ -285,8 +285,8 @@ fi
 
 fxTitle "Firewalling..."
 if [ "$INSTALL_FIREWALL" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzfirewall/master/setup.sh | sudo bash
-  sudo zzfirewall
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzfirewall/master/setup.sh | bash
+  zzfirewall
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
@@ -294,7 +294,7 @@ fi
 
 fxTitle "Installing ZZDDNS..."
 if [ "$INSTALL_ZZDDNS" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzddns/master/setup.sh | sudo bash
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzddns/master/setup.sh | bash
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
