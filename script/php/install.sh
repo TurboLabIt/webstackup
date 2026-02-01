@@ -17,8 +17,24 @@ fi
 fxHeader "💿 PHP installer"
 rootCheck
 
+
 if [ -z "${PHP_VER}" ]; then
-  fxCatastrophicError "PHP_VER is undefined! Cannot determine which version of PHP to install"
+  
+  fxTitle "🔢 Enter the PHP version to install"
+  fxInfo "For example: \"7.1\" or \"8.5\""
+  while [ -z "$PHP_VER" ]; do
+  
+    PHP_VER_DEFAULT=8.5
+    echo "🤖 Provide the PHP version to use or hit Enter for ##${PHP_VER_DEFAULT}##"
+    read -p ">> " PHP_VER  < /dev/tty
+  
+    if [ -z "$PHP_VER" ]; then
+      PHP_VER=${PHP_VER_DEFAULT}
+    fi
+  
+  done
+  
+  fxOK "OK, proceeding with PHP ##$PHP_VER##"
 fi
 
 PHP_VER_TO_INSTALL=${PHP_VER}
