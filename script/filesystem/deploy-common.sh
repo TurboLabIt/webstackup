@@ -84,11 +84,18 @@ if [ -z "${GIT_BRANCH}" ] && [ -d "${PROJECT_DIR}.git" ]; then
   GIT_BRANCH=$(sudo -u $EXPECTED_USER -H git -C $PROJECT_DIR branch | grep \* | cut -d ' ' -f2-)
 fi
 
+fxTitle "Fetching origin..."
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch origin
+
 if [ -z "${GIT_BRANCH}" ]; then
+
   fxTitle "🧹 Git reset (no remote branch set)..."
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
+  
 else
+
   fxTitle "🧹 Git reset to ##${GIT_BRANCH}##..."
+  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch origin
   sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard origin/${GIT_BRANCH}
 fi
 
