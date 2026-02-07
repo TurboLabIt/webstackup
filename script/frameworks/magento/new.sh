@@ -25,6 +25,7 @@
 # MAGENTO_LOCALE=
 # MAGENTO_CURRENCY=
 # MAGENTO_TIMEZONE=
+# MAGENTO_VERSION=
 
 fxHeader "🆕 Magento create-project"
 rootCheck
@@ -32,7 +33,7 @@ rootCheck
 
 if [ ! -z "$MYSQL_PASSWORD" ]; then
   MYSQL_PASSWORD_HIDDEN="${MYSQL_PASSWORD:0:2}**...**${MYSQL_PASSWORD: -2}"
-fi  
+fi
 
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
    [ -z "${MAGENTO_MARKET_PUBKEY}" ] || [ -z "${MAGENTO_MARKET_PRIVKEY}" ] || \
@@ -46,21 +47,21 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
   APP_NAME:                ##${APP_NAME}##
   PROJECT_DIR:             ##${PROJECT_DIR}##
   SITE_URL:                ##${SITE_URL}##
-  
+
   MAGENTO_MARKET_PUBKEY:   ##${MAGENTO_MARKET_PUBKEY}##
   MAGENTO_MARKET_PRIVKEY:  ##${MAGENTO_MARKET_PRIVKEY}##
-  
+
   MYSQL_USER:              ##${MYSQL_USER}##
   MYSQL_PASSWORD:          ##${MYSQL_PASSWORD_HIDDEN}##
   MYSQL_HOST:              ##${MYSQL_HOST}##
   MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
-  
+
   ELASTICSEARCH_HOST:      ##${ELASTICSEARCH_HOST}##
-  
+
   MAGENTO_ADMIN_USERNAME:  ##${MAGENTO_ADMIN_USERNAME}##
   MAGENTO_ADMIN_EMAIL:     ##${MAGENTO_ADMIN_EMAIL}##
   MAGENTO_ADMIN_NEW_SLUG:  ##${MAGENTO_ADMIN_NEW_SLUG}##
-  
+
   MAGENTO_LOCALE:          ##${MAGENTO_LOCALE}##
   MAGENTO_CURRENCY:        ##${MAGENTO_CURRENCY}##
   MAGENTO_TIMEZONE:        ##${MAGENTO_TIMEZONE}##"
@@ -83,7 +84,7 @@ COMPOSER_JSON_FULLPATH=
 PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
-wsuComposer create-project magento/project-community-edition ${APP_NAME} \
+wsuComposer create-project magento/project-community-edition=${MAGENTO_VERSION} ${APP_NAME} \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
   --ignore-platform-reqs
 
@@ -128,6 +129,7 @@ fi
 
 source /etc/turbolab.it/opensearch.conf
 
+## 📚 https://experienceleague.adobe.com/en/docs/commerce-operations/installation-guide/advanced#install-from-the-command-line
 wsuMage setup:install \
   --base-url=${SITE_URL} \
   --db-host=${MYSQL_HOST} \
