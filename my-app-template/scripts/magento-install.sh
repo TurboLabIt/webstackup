@@ -19,6 +19,7 @@ MAGENTO_TIMEZONE=Europe/Rome
 
 source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
 
+sudo rm -rf "${MAGENTO_DIR}"*
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/magento/new.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
