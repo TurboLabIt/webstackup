@@ -84,9 +84,24 @@ COMPOSER_JSON_FULLPATH=
 PROJECT_DIR=${WSU_TMP_DIR}
 fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 
+
+fxTitle "Magento version check..."
+if [ -z "${MAGENTO_VERSION}" ]; then
+
+  fxInfo "No specific version of Magento requested (good!) - I'm going to install the latest"
+
+else
+
+  fxWarning "Magento ver. ${MAGENTO_VERSION} requested"
+  MAGENTO_INSTALL_COMPOSER_SWITCHES="--no-audit --no-security-blocking"
+fi
+
+MAGENTO_INSTALL_COMPOSER_SWITCHES="--ignore-platform-reqs ${MAGENTO_INSTALL_COMPOSER_SWITCHES}"
+
+
 wsuComposer create-project magento/project-community-edition=${MAGENTO_VERSION} ${APP_NAME} \
   --repository-url=https://${MAGENTO_MARKET_PUBKEY}:${MAGENTO_MARKET_PRIVKEY}@repo.magento.com/ \
-  --ignore-platform-reqs
+  ${MAGENTO_INSTALL_COMPOSER_SWITCHES}
 
 MAGENTO_DIR=${PROJECT_DIR}${APP_NAME}/
 fxOK "MAGENTO_DIR is now ##${MAGENTO_DIR}##"
@@ -98,9 +113,9 @@ wsuComposer config http-basic.magefan.com "wsuMapReplaceWithPubKey" "wsuMapRepla
 
 ## workaround laminas
 rm -f "${MAGENTO_DIR}composer.lock"
-wsuComposer update
+wsuComposer update ${MAGENTO_INSTALL_COMPOSER_SWITCHES}
 
-wsuComposer require magento/quality-patches
+wsuComposer require magento/quality-patches ${MAGENTO_INSTALL_COMPOSER_SWITCHES}
 
 
 fxTitle "Rename fastcgi_backend in nginx.conf.sample..."

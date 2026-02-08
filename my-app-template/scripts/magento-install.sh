@@ -13,6 +13,8 @@ MAGENTO_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 MAGENTO_LOCALE=it_IT
 MAGENTO_CURRENCY=EUR
 MAGENTO_TIMEZONE=Europe/Rome
+## it's recommended to leave MAGENTO_VERSION= commented or empty to get the latest version.
+## But, if you need a specific Magento version, set it here 👇🏻
 #MAGENTO_VERSION=x.y.z
 
 source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
