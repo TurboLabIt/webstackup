@@ -163,16 +163,8 @@ fxTitle "Preparing ${APP_NAME} plugin directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
+## https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/wordpress/pre-deploy.sh
 source "/usr/local/turbolab.it/webstackup/script/frameworks/wordpress/pre-deploy.sh"
-
-fxTitle "Adding .gitignore for WordPress..."
-## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
-curl -o "${PROJECT_DIR}backup/.gitignore_wordpress_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
-sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}backup/.gitignore_wordpress_temp"
-echo "" >> "${PROJECT_DIR}.gitignore"
-cat "${PROJECT_DIR}backup/.gitignore_wordpress_temp" >> "${PROJECT_DIR}.gitignore"
-rm -f "${PROJECT_DIR}backup/.gitignore_wordpress_temp"
-
 
 fxTitle "Restoring PROJECT_DIR..."
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
@@ -185,6 +177,15 @@ fxOK "WEBROOT_DIR is now ##${WEBROOT_DIR}##"
 fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
+
+
+fxTitle "Adding .gitignore for WordPress..."
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
+curl -o "${PROJECT_DIR}.gitignore_wordpress_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
+sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}.gitignore_wordpress_temp"
+echo "" >> "${PROJECT_DIR}.gitignore"
+cat "${PROJECT_DIR}.gitignore_wordpress_temp" >> "${PROJECT_DIR}.gitignore"
+rm -f "${PROJECT_DIR}.gitignore_wordpress_temp"
 
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
