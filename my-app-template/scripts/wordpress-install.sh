@@ -14,6 +14,7 @@ WORDPRESS_ADMIN_NEW_SLUG=my-app$(date +"%Y")
 
 source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
 
+sudo rm -rf "${WEBROOT_DIR}"*
 source ${WEBSTACKUP_SCRIPT_DIR}frameworks/wordpress/new.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
