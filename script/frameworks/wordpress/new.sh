@@ -132,6 +132,7 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/safe-svg/
 # https://wordpress.org/plugins/folders/
 # https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
+# https://wordpress.org/plugins/better-search-replace/
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
@@ -139,6 +140,7 @@ wsuWordPress plugin install \
   google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   redirection safe-svg folders ultimate-addons-for-contact-form-7 \
+  better-search-replace \
   --activate-network --activate
 
 ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
