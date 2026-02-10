@@ -204,7 +204,7 @@ function wsuWordPress()
   echo "wp-cli $@"
   echo ""
 
-  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} ${WPCLI_FILE_PATH} --path="${WEBROOT_DIR%*/}/" --allow-root $@
+  sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} ${WPCLI_FILE_PATH} --path="${WEBROOT_DIR%*/}/" --allow-root "$@"
 
   cd "${CURR_DIR_BACKUP}"
 }
