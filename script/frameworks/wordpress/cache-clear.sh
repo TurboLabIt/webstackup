@@ -39,6 +39,8 @@ sudo chmod ugo= "${WEBROOT_DIR}" -R
 sudo chmod ug=rwX,o= "${WEBROOT_DIR}" -R
 sudo chmod g+s "${WEBROOT_DIR}"
 
+sudo chown www-data "${WEBROOT_DIR}wp-content" -R
+
 
 ## build
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
