@@ -16,10 +16,15 @@
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/zzcd_bookmarks.sh
 #
 PROJECT_DIR=/var/www/my-app/
-ZZCD_BOOKMARKS=("${PROJECT_DIR}" "Go"
-  "${PROJECT_DIR}shop" "Go"
-  "${PROJECT_DIR}var/log" "Go"
-  "/var/log/nginx" "Go"
-  "/etc/cron.d" "Go"
-  "/var/www" "Go"
-  "/etc/nginx/conf.d" "Go")
+ZZCD_BOOKMARKS=(
+  "${PROJECT_DIR}" "📌"
+  "${PROJECT_DIR}public" "🌐"
+  "${PROJECT_DIR}config/custom" "🛠️"
+  "${PROJECT_DIR}var/log" "📜"
+  "/var/log/nginx" "📜"
+  "/etc/cron.d" "🕒"
+  "/etc/nginx/conf.d" "🛠️"
+  "/etc/turbolab.it" "🧩"
+  "$HOME" "🏠"
+  "/root" "👑"
+)
