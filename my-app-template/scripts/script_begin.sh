@@ -8,13 +8,16 @@ PIMCORE_ECOMMERECE_BUNDLE_ENABLED=1
 ZZ_CMD_SUFFIX=0
 
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/script_begin_start.sh
-source "/usr/local/turbolab.it/webstackup/script/filesystem/script_begin_start.sh" 
+source "/usr/local/turbolab.it/webstackup/script/filesystem/script_begin_start.sh"
 
 USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
 
-## Enviroment variables and checks
+## Environment variables and checks
 if [ "$APP_ENV" = "prod" ]; then
+
   EMOJI=rocket
+
 elif [ "$APP_ENV" = "staging" ]; then
+
   EMOJI=cat
 fi
