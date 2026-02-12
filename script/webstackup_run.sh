@@ -2,8 +2,8 @@
 
 TITLE="Server management GUI"
 OPTIONS=(
-  1 "🔄   Web services turbo-restart"
-  2 "♻️   Web services safe restart"
+  1 "🔄   Web services re-start (zzws)"
+  2 "♻️   Web services re-load"
   3 "✔️   Self-update"
   4 "🐑   Git clone an existing app"
   5 "🛢️   MySQL GUI (zzdb) ☰"
@@ -35,7 +35,7 @@ function wsuzzws()
 
 case $CHOICE in
   1)wsuzzws;;
-  2)wsuzzws restart;;
+  2)wsuzzws reload;;
   3)
     git -C "${WEBSTACKUP_INSTALL_DIR}" reset --hard
     git -C "${WEBSTACKUP_INSTALL_DIR}" pull
