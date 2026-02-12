@@ -68,18 +68,6 @@ wsuSymfony composer require --no-interaction --dev \
   symfony/maker-bundle symfony/debug-pack phpunit brianium/paratest
 
 
-fxTitle "Adding .gitignore..."
-## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore
-curl -O https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
-
-## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_symfony
-curl -o "${PROJECT_DIR}backup/.gitignore_symfony_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_symfony
-sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}backup/.gitignore_symfony_temp"
-echo "" >> "${PROJECT_DIR}.gitignore"
-cat "${PROJECT_DIR}backup/.gitignore_symfony_temp" >> "${PROJECT_DIR}.gitignore"
-rm -f "${PROJECT_DIR}backup/.gitignore_symfony_temp"
-
-
 fxTitle "Adding webpack stuff..."
 sudo -u $EXPECTED_USER -H yarn add sass-loader sass file-loader
 sudo -u $EXPECTED_USER -H yarn install
@@ -94,6 +82,19 @@ fxOK "PROJECT_DIR is now ##${PROJECT_DIR}##"
 fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
+
+
+fxTitle "Adding .gitignore..."
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore
+curl -o "${PROJECT_DIR}.gitignore" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore
+
+## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_symfony
+curl -o "${PROJECT_DIR}.gitignore_symfony_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_symfony
+sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}.gitignore_symfony_temp"
+echo "" >> "${PROJECT_DIR}.gitignore"
+cat "${PROJECT_DIR}.gitignore_symfony_temp" >> "${PROJECT_DIR}.gitignore"
+rm -f "${PROJECT_DIR}.gitignore_symfony_temp"
+
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 
