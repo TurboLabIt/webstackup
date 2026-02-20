@@ -32,7 +32,7 @@ fi
 
 fxTitle "Deleting anonymous user sessions..."
 mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
-  DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1;
+  DELETE FROM ${PHPBB_DB_NAME}.phpbb_sessions WHERE session_user_id = 1 AND session_last_visit <= UNIX_TIMESTAMP(DATE_SUB(NOW(), INTERVAL 10 MINUTE));
 
   SELECT ROW_COUNT() as 'Sessions deleted'
 "
