@@ -134,6 +134,7 @@ sudo rm -rf \
   "var/di/"
 
 wsuComposer install
+wsuMage setup:db-schema:upgrade
 wsuMage setup:upgrade
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
