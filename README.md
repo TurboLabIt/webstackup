@@ -1,4 +1,6 @@
-# webstackup
+<p align="center">
+  <img src="https://i.postimg.cc/xd4SgKTt/wsu-icon.png" />
+</p>
 
 An unattended bash script for Ubuntu to setup a PHP-based web server stack for production or development.
 
