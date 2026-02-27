@@ -59,11 +59,16 @@ echo -e "Package: *\nPin: origin artifacts.opensearch.org\nPin: release o=opense
 fxTitle "Dealing with the admin password..."
 if [ ! -f "/etc/turbolab.it/opensearch.conf" ]; then
 
-  OPENSEARCH_ADMIN_PASSWORD="$(fxPasswordGenerator)"
-  echo "OPENSEARCH_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD}" > "/etc/turbolab.it/opensearch.conf"
+  echo "OPENSEARCH_USER=wsu_app" > "/etc/turbolab.it/opensearch.conf"
 
   OPENSEARCH_USER_PASSWORD="$(fxPasswordGenerator)"
   echo "OPENSEARCH_USER_PASSWORD=${OPENSEARCH_USER_PASSWORD}" >> "/etc/turbolab.it/opensearch.conf"
+
+  echo "OPENSEARCH_HOST=localhost" >> "/etc/turbolab.it/opensearch.conf"
+  echo "OPENSEARCH_PORT=9210" >> "/etc/turbolab.it/opensearch.conf"
+
+  OPENSEARCH_ADMIN_PASSWORD="$(fxPasswordGenerator)"
+  echo "OPENSEARCH_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD}" >> "/etc/turbolab.it/opensearch.conf"
 fi
 
 source "/etc/turbolab.it/opensearch.conf"
@@ -88,15 +93,15 @@ systemctl --no-pager status opensearch
 sleep 7
 
 
-fxTitle "Creating the ##wsu_app## account for the application to use..."
-curl -s -X PUT "https://localhost:9210/_plugins/_security/api/internalusers/wsu_app" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" \
+fxTitle "Creating the ##${OPENSEARCH_USER}## account for the application to use..."
+curl -s -X PUT "https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT}/_plugins/_security/api/internalusers/${OPENSEARCH_USER}" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" \
   -H "Content-Type: application/json" \
   -d "{
     \"password\": \"${OPENSEARCH_USER_PASSWORD}\",
     \"description\": \"App user (webstackup)\"
   }" --insecure | jq
 
-curl -s -X PUT "https://localhost:9210/_plugins/_security/api/roles/wsu_app_access" \
+curl -s -X PUT "https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT}/_plugins/_security/api/roles/${OPENSEARCH_USER}_access" \
   -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" -H "Content-Type: application/json" \
   -d '{
     "cluster_permissions": [
@@ -130,16 +135,16 @@ curl -s -X PUT "https://localhost:9210/_plugins/_security/api/roles/wsu_app_acce
   }' --insecure | jq
 
 
-curl -s -X PUT "https://localhost:9210/_plugins/_security/api/rolesmapping/wsu_app_access" \
+curl -s -X PUT "https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT}/_plugins/_security/api/rolesmapping/${OPENSEARCH_USER}_access" \
   -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" -H "Content-Type: application/json" \
-  -d '{"users": ["wsu_app"]}' --insecure | jq
+  -d '{"users": ["${OPENSEARCH_USER}"]}' --insecure | jq
 
 
 fxTitle "Testing (admin)..."
-curl -s -X GET https://localhost:9210 -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
+curl -s -X GET https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT} -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
-fxTitle "Testing (wsu_app)..."
-curl -s -X GET https://localhost:9210 -u "wsu_app:${OPENSEARCH_USER_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
+fxTitle "Testing (${OPENSEARCH_USER})..."
+curl -s -X GET https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT} -u "${OPENSEARCH_USER}:${OPENSEARCH_USER_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
 
 fxTitle "Netstat..."
@@ -147,12 +152,12 @@ ss -lpt | grep -i 'java\|open'
 
 
 fxTitle "Your credentials (for application use)"
-fxMessage "Host:          ##localhost##"
-fxMessage "Port:          ##9210##"
-fxMessage "User:          ##wsu_app##"
+fxMessage "Host:          ##${OPENSEARCH_HOST}##"
+fxMessage "Port:          ##$OPENSEARCH_PORT##"
+fxMessage "User:          ##${OPENSEARCH_USER}##"
 fxMessage "Password:      ##$OPENSEARCH_USER_PASSWORD##"
 
 ## list all users
-# curl -s -X GET "https://localhost:9210/_plugins/_security/api/internalusers" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
+# curl -s -X GET "https://${OPENSEARCH_HOST}:${OPENSEARCH_PORT}/_plugins/_security/api/internalusers" -u "admin:${OPENSEARCH_ADMIN_PASSWORD}" --insecure | jq -Rr 'fromjson? // .'
 
 fxEndFooter
