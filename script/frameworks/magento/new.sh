@@ -16,7 +16,10 @@
 # MYSQL_HOST=
 # MYSQL_DB_NAME=
 #
-# ELASTICSEARCH_HOST=
+# OPENSEARCH_USER=
+# OPENSEARCH_USER_PASSWORD=
+# OPENSEARCH_HOST=
+# OPENSEARCH_PORT=
 #
 # MAGENTO_ADMIN_USERNAME=
 # MAGENTO_ADMIN_EMAIL=
@@ -38,7 +41,7 @@ fi
 if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
    [ -z "${MAGENTO_MARKET_PUBKEY}" ] || [ -z "${MAGENTO_MARKET_PRIVKEY}" ] || \
    [ -z "${MYSQL_USER}" ] || [ -z "${MYSQL_PASSWORD}" ] || [ -z "${MYSQL_HOST}" ] || [ -z "${MYSQL_DB_NAME}" ] || \
-   [ -z "${ELASTICSEARCH_HOST}" ] ||
+   [ -z "${OPENSEARCH_USER}" ] || [ -z "${OPENSEARCH_USER_PASSWORD}" ] || [ -z "${OPENSEARCH_HOST}" ] || [ -z "${OPENSEARCH_PORT}" ] ||
    [ -z "${MAGENTO_ADMIN_USERNAME}" ] || [ -z "${MAGENTO_ADMIN_EMAIL}" ] || [ -z "${MAGENTO_ADMIN_NEW_SLUG}" ] || \
    [ -z "${MAGENTO_LOCALE}" ] || [ -z "${MAGENTO_CURRENCY}" ] || [ -z "${MAGENTO_TIMEZONE}" ] \
    ; then
@@ -56,7 +59,10 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ] || [ -z "${SITE_URL}" ] || \
   MYSQL_HOST:              ##${MYSQL_HOST}##
   MYSQL_DB_NAME:           ##${MYSQL_DB_NAME}##
 
-  ELASTICSEARCH_HOST:      ##${ELASTICSEARCH_HOST}##
+  OPENSEARCH_USER:         ##${OPENSEARCH_USER}##
+  OPENSEARCH_USER_PASSWORD:##${OPENSEARCH_USER_PASSWORD}##
+  OPENSEARCH_HOST:         ##${OPENSEARCH_HOST}##
+  OPENSEARCH_PORT:         ##${OPENSEARCH_PORT}##
 
   MAGENTO_ADMIN_USERNAME:  ##${MAGENTO_ADMIN_USERNAME}##
   MAGENTO_ADMIN_EMAIL:     ##${MAGENTO_ADMIN_EMAIL}##
@@ -131,7 +137,7 @@ MAGENTO_ADMIN_NEW_SLUG=$(fxAlphanumOnly "${MAGENTO_ADMIN_NEW_SLUG}")
 
 
 fxTitle "Restarting OpenSearch..."
-if [ "${ELASTICSEARCH_HOST}" = "localhost" ] || [ "${ELASTICSEARCH_HOST}" = "localhost" ]; then
+if [ "${OPENSEARCH_HOST}" = "localhost" ]; then
 
   ## workaround for https://magento.stackexchange.com/q/366082/50130
   sudo sed -i 's/plugins.security.disabled: false/plugins.security.disabled: true/' /etc/opensearch/opensearch.yml
@@ -160,10 +166,10 @@ wsuMage setup:install \
   --currency="${MAGENTO_CURRENCY}" \
   --timezone="${MAGENTO_TIMEZONE}" \
   --use-rewrites=1 \
-  --opensearch-host=${ELASTICSEARCH_HOST} \
-  --opensearch-port=9210 \
+  --opensearch-host=${OPENSEARCH_HOST} \
+  --opensearch-port=${OPENSEARCH_PORT} \
   --opensearch-enable-auth=true \
-  --opensearch-username=wsu_app \
+  --opensearch-username=${OPENSEARCH_USER} \
   --opensearch-password="${OPENSEARCH_USER_PASSWORD}" \
   --backend-frontname="${MAGENTO_ADMIN_NEW_SLUG}"
 
