@@ -5,7 +5,7 @@
 An unattended bash script for Ubuntu to setup a PHP-based web server stack for production or development.
 
 
-## How to
+## 💿 How to
 
 Install webstackup, choose components, *bring the  web-stack-up*: 
 
@@ -15,6 +15,6 @@ wget https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh -O 
 ````
 
 
-## Run the manager
+## 🆙 Run the manager
 
 `webstackup`
