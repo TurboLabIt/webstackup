@@ -49,7 +49,7 @@ if [ -f "${WSU_CRON_FILE}" ]; then
 else
 
   fxTitle "Downloading..."
-  curl -o "${CRON_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/cron/poweroff-disabler?$(date +%s)
+  curl -o "${CRON_FILE}" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/cron/poweroff-disabler
 fi
 
 
