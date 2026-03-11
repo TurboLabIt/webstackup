@@ -161,7 +161,7 @@ echo ""
 
 
 fxTitle "🐑🐑 Cloning ${GIT_CLONE_REPO_URL} into ${GIT_CLONE_TARGET_FOLDER}..."
-gitCloneGitCmd clone ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
+gitCloneGitCmd clone --depth 1 ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
 
 fxTitle "😡 Setting safe.directory..."
 gitCloneGitCmd config --global --add safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}"

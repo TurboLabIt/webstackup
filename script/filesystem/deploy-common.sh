@@ -79,30 +79,19 @@ echo "Hashing the sourcing script ##${0}##"
 DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
-## pulling and merging
-if [ -z "${GIT_BRANCH}" ] && [ -d "${PROJECT_DIR}.git" ]; then
-  GIT_BRANCH=$(sudo -u $EXPECTED_USER -H git -C $PROJECT_DIR branch | grep \* | cut -d ' ' -f2-)
-fi
 
 fxTitle "Fetching origin..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch origin
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch --depth 1
 
-if [ -z "${GIT_BRANCH}" ]; then
+fxTitle "Resetting to upstream..."
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard @{upstream}
 
-  fxTitle "🧹 Git reset (no remote branch set)..."
-  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard
-  
-else
+fxTitle "🗜️ Pruning..."
+sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --prune=all
 
-  fxTitle "🧹 Git reset to ##${GIT_BRANCH}##..."
-  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch origin
-  sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard origin/${GIT_BRANCH}
-fi
-
-fxTitle "⏬ Git pull..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" pull --no-rebase
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --aggressive
+fxTitle "Setting git fileMode: false"
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" config core.fileMode false
+
 
 fxTitle "#️⃣ Post-pull hashing"
 echo "Hashing the sourcing script ##${0}##"
