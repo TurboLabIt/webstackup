@@ -29,5 +29,7 @@ rm -rf /etc/apt/sources.list.d/elasticsearch.list
 rm -rf /etc/apt/preferences.d/99elasticsearch
 rm -rf /var/lib/elasticsearch
 
+fxOk "OK"
+
 
 fxEndFooter
