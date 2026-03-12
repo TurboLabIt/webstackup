@@ -23,11 +23,11 @@ fxTitle "Removing elasticsearch..."
 service elasticsearch stop
 DEBIAN_FRONTEND=noninteractive apt purge --auto-remove elasticsearch* -y
 
-rm -f /etc/elasticsearch
-rm -f /usr/share/keyrings/elasticsearch.gpg
-rm -f /etc/apt/sources.list.d/elasticsearch.list
-rm -f /etc/apt/preferences.d/99elasticsearch
-rm -f /var/lib/elasticsearch
+rm -rf /etc/elasticsearch
+rm -rf /usr/share/keyrings/elasticsearch.gpg
+rm -rf /etc/apt/sources.list.d/elasticsearch.list
+rm -rf /etc/apt/preferences.d/99elasticsearch
+rm -rf /var/lib/elasticsearch
 
 
 fxEndFooter
