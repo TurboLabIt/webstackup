@@ -183,7 +183,10 @@ function wsuSymfony()
 ## WordPress CLI
 function wsuWordPress()
 {
-  fxTitle "📰 Running wp-cli..."
+  if [ "${WSU_WPCLI_DEBUG_MODE}" == 1 ]; then
+    fxTitle "📰 Running wp-cli..."
+  fi
+
   expectedUserSetCheck
 
   if [ -z "${WEBROOT_DIR}" ] || [ ! -d "${WEBROOT_DIR}" ]; then
@@ -200,9 +203,12 @@ function wsuWordPress()
 
   cd "${WEBROOT_DIR}"
 
-  fxInfo "$(pwd)"
-  echo "wp-cli $@"
-  echo ""
+  if [ "${WSU_WPCLI_DEBUG_MODE}" == 1 ]; then
+
+    fxInfo "$(pwd)"
+    echo "wp-cli $@"
+    echo ""
+  fi
 
   sudo -u $EXPECTED_USER -H XDEBUG_MODE=off ${PHP_CLI} ${WPCLI_FILE_PATH} --path="${WEBROOT_DIR%*/}/" --allow-root "$@"
 
