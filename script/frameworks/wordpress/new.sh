@@ -162,10 +162,17 @@ cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 
 fxTitle "Adding packages via composer..."
+function wsuComposerWp()
+{
+  COMPOSER=composer.json XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 \
+    ${PHP_CLI} /usr/local/bin/composer \
+    --working-dir="${WEBROOT_DIR}wp-content/themes/${APP_NAME}" \
+    "$@" \
+    --no-interaction
+}
+
 ## 📚 https://timber.github.io/docs/v2/installation/installation/
-echo '{}' > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
-chmod ugo=rw "${WEBROOT_DIR}wp-content/themes/${APP_NAME}" -R
-wsuComposer require timber/timber:@stable
+wsuComposerWp require timber/timber:@stable
 
 
 fxTitle "Including WordPress extras for functions.php..."
