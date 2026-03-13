@@ -122,7 +122,6 @@ fxTitle "Installing WordPress plugin..."
 # https://wordpress.org/plugins/duracelltomi-google-tag-manager/
 # https://wordpress.org/plugins/seo-by-rank-math/
 # https://wordpress.org/plugins/webp-express/
-# https://wordpress.org/plugins/timber-library/
 # https://wordpress.org/plugins/google-authenticator/
 # https://wordpress.org/plugins/classic-editor/
 # https://wordpress.org/plugins/radio-buttons-for-taxonomies/
@@ -136,7 +135,7 @@ fxTitle "Installing WordPress plugin..."
 
 wsuWordPress plugin install \
   wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
-  webp-express timber-library \
+  webp-express \
   google-authenticator classic-editor \
   radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
   redirection safe-svg folders ultimate-addons-for-contact-form-7 \
@@ -159,11 +158,32 @@ wsuWordPress option update \
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
-echo "Put your own theme here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/readme.md"
+cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
+
+
+fxTitle "Adding packages via composer..."
+## 📚 https://timber.github.io/docs/v2/installation/installation/
+wsuComposer require timber/timber:@stable
+
+
+fxTitle "Including WordPress extras for functions.php..."
+if [ !-f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php" ]; then
+  echo '<?php' > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+fi
+
+WSU_WP_FUNCTIONS_EXTRAS_CODE="
+/** 🔥 WordPress extras for functions.php by WEBSTACKUP **/
+// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/functions-extras.php
+require_once '/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/functions-extras.php';
+"
+
+echo "${WSU_WP_FUNCTIONS_EXTRAS_CODE}" >> "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
+cd "${WEBROOT_DIR}"
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
-echo "Put your own plugin here. It will be Git-commitable" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
+echo "Put your own plugin here" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/wordpress/pre-deploy.sh
 source "/usr/local/turbolab.it/webstackup/script/frameworks/wordpress/pre-deploy.sh"
