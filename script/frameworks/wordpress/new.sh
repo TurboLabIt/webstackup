@@ -163,7 +163,7 @@ cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 fxTitle "Adding packages via composer..."
 ## 📚 https://timber.github.io/docs/v2/installation/installation/
-touch "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
+echo '{}' > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
 chmod ugo=rw "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
 wsuComposer require timber/timber:@stable
 
