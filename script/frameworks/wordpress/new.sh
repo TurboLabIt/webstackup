@@ -70,10 +70,12 @@ mkdir -p "${WEBROOT_DIR}"
 chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WEBROOT_DIR}"
 
+fxTitle "Downloading WordPress..."
 # https://developer.wordpress.org/cli/commands/core/download/
 wsuWordPress core download --locale="${WORDPRESS_LOCALE}"
-wsuWordPress core version
 
+
+fxTitle "Generating wp-config.php..."
 ## https://developer.wordpress.org/cli/commands/config/create/
 wsuWordPress config create \
   --dbname="${MYSQL_DB_NAME}" \
@@ -83,7 +85,7 @@ wsuWordPress config create \
   --locale="${WORDPRESS_LOCALE}"
   
 
-fxTitle "Adding extra configs to wp-config.php"
+fxTitle "Computing additional parameters..."
 WPINST_FIRST_ADMIN_PASSWORD=$(fxPasswordGenerator)
 #WPINST_SITE_DOMAIN=$(echo $SITE_URL | sed 's/https\?:\/\///')
 #WPINST_SITE_DOMAIN=${WPINST_SITE_DOMAIN%*/}
@@ -107,6 +109,7 @@ if [ "$WORDPRESS_MULTISITE_MODE" = "subdomains" ] || [ "$WORDPRESS_MULTISITE_MOD
 fi
 
 
+fxTitle "Installing WordPress..."
 wsuWordPress core $WPINST_WORDPRESS_INSTALL_MODE $WPINST_WORDPRESS_MULTISITE_MODE_ARGUMENT \
   --url="${SITE_URL}" \
   --title="${WORDPRESS_SITE_NAME}" \
@@ -116,52 +119,70 @@ wsuWordPress core $WPINST_WORDPRESS_INSTALL_MODE $WPINST_WORDPRESS_MULTISITE_MOD
   --skip-email
 
 
-fxTitle "Installing WordPress plugin..."
-## https://developer.wordpress.org/cli/commands/plugin/install/
-# https://wordpress.org/plugins/wps-hide-login/
-# https://wordpress.org/plugins/duracelltomi-google-tag-manager/
-# https://wordpress.org/plugins/seo-by-rank-math/
-# https://wordpress.org/plugins/webp-express/
-# https://wordpress.org/plugins/google-authenticator/
-# https://wordpress.org/plugins/classic-editor/
-# https://wordpress.org/plugins/radio-buttons-for-taxonomies/
-# https://wordpress.org/plugins/regenerate-thumbnails/
-# https://wordpress.org/plugins/wp-fastest-cache/
-# https://wordpress.org/plugins/redirection/
-# https://wordpress.org/plugins/safe-svg/
-# https://wordpress.org/plugins/folders/
-# https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
-# https://wordpress.org/plugins/better-search-replace/
-
-wsuWordPress plugin install \
-  wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
-  webp-express \
-  google-authenticator classic-editor \
-  radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
-  redirection safe-svg folders ultimate-addons-for-contact-form-7 \
-  better-search-replace \
-  --activate-network --activate
-
-## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
-wsuWordPress plugin auto-updates enable --all
+fxTitle "Remove the built-in plugins..."
+wsuWordPress plugin uninstall akismet hello --deactivate
 
 
-## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
-wsuWordPress option update \
-  whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
-  --skip-plugins --skip-themes
+fxTitle "Installing additional plugins..."
+if [ "$WORDPRESS_SKIP_PLUGIN_BUNDLE_INSTALL" != 1 ]; then
 
-## Enable "Folders" on "Media" only
-wsuWordPress option update \
-  folders_settings '["attachment"]' --format=json \
-  --skip-plugins --skip-themes
+  ## https://developer.wordpress.org/cli/commands/plugin/install/
+  # https://wordpress.org/plugins/wps-hide-login/
+  # https://wordpress.org/plugins/duracelltomi-google-tag-manager/
+  # https://wordpress.org/plugins/seo-by-rank-math/
+  # https://wordpress.org/plugins/webp-express/
+  # https://wordpress.org/plugins/google-authenticator/
+  # https://wordpress.org/plugins/classic-editor/
+  # https://wordpress.org/plugins/radio-buttons-for-taxonomies/
+  # https://wordpress.org/plugins/regenerate-thumbnails/
+  # https://wordpress.org/plugins/wp-fastest-cache/
+  # https://wordpress.org/plugins/redirection/
+  # https://wordpress.org/plugins/safe-svg/
+  # https://wordpress.org/plugins/folders/
+  # https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
+  # https://wordpress.org/plugins/better-search-replace/
+
+  wsuWordPress plugin install \
+    wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
+    webp-express \
+    google-authenticator classic-editor \
+    radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
+    redirection safe-svg folders ultimate-addons-for-contact-form-7 \
+    better-search-replace \
+    --activate-network --activate
+
+  fxTitle "Activating plugins auto-update..."
+  ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
+  wsuWordPress plugin auto-updates enable --all
+
+  ## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
+  wsuWordPress option update \
+    whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
+    --skip-plugins --skip-themes
+
+  ## Enable "Folders" on "Media" only
+  wsuWordPress option update \
+    folders_settings '["attachment"]' --format=json \
+    --skip-plugins --skip-themes
+
+else
+
+  fxInfo "Skipped (disabled in config) 🦘"
+fi
+
+
  
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
+echo "/*
+  Theme Name: ${APP_NAME}
+*/" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
+echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
 
-fxTitle "Adding packages via composer..."
+
+fxTitle "Adding packages via composer to my theme..."
 function wsuComposerWp()
 {
   COMPOSER=composer.json XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1 \
@@ -175,18 +196,17 @@ function wsuComposerWp()
 wsuComposerWp require timber/timber:@stable
 
 
-fxTitle "Including WordPress extras for functions.php..."
-if [ ! -f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php" ]; then
-  echo '<?php' > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
-fi
+fxTitle "Enabling my own ##${APP_NAME}## theme..."
+wsuWordPress theme activate "${APP_NAME}"
 
-WSU_WP_FUNCTIONS_EXTRAS_CODE="
-/** 🔥 WordPress extras for functions.php by WEBSTACKUP **/
-// https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/functions-extras.php
-require_once '/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/functions-extras.php';
-"
 
-echo "${WSU_WP_FUNCTIONS_EXTRAS_CODE}" >> "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+fxTitle "Deleting the other, built-in themes..."
+WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | \
+  while read -r theme; do
+    if [[ -n "$theme" ]]; then
+      wsuWordPress theme delete "$theme"
+    fi
+  done
 
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
@@ -194,8 +214,10 @@ cd "${WEBROOT_DIR}"
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
 echo "Put your own plugin here" > "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}/readme.md"
 
+
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/frameworks/wordpress/pre-deploy.sh
 source "/usr/local/turbolab.it/webstackup/script/frameworks/wordpress/pre-deploy.sh"
+
 
 fxTitle "Restoring PROJECT_DIR..."
 PROJECT_DIR=${PROJECT_DIR_BACKUP}
