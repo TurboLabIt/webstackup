@@ -163,11 +163,13 @@ cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 fxTitle "Adding packages via composer..."
 ## 📚 https://timber.github.io/docs/v2/installation/installation/
+touch "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
+chmod ugo=rw "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
 wsuComposer require timber/timber:@stable
 
 
 fxTitle "Including WordPress extras for functions.php..."
-if [ !-f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php" ]; then
+if [ ! -f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php" ]; then
   echo '<?php' > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
 fi
 
