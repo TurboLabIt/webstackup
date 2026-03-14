@@ -76,8 +76,7 @@ if [ "$WSU_WP_FUNCTIONS_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WP_FUNCTI
   WSU_WP_FUNCTIONS_EXTRAS_CODE="
 /** 🔥 WordPress extras for functions.php by WEBSTACKUP **/
 // https://github.com/TurboLabIt/webstackup/tree/master/script/php-pages/wordpress/functions-extras.php
-require_once '/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/functions-extras.php';
-"
+require_once '/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/functions-extras.php';"
 
   WSU_WP_FUNCTIONS_EXTRAS_CODE_TEMP_FILE_PATH=/tmp/wp-functions-extras-require$(date +%Y%m%d_%H%M%S).txt
   echo "$WSU_WP_FUNCTIONS_EXTRAS_CODE" > "${WSU_WP_FUNCTIONS_EXTRAS_CODE_TEMP_FILE_PATH}"

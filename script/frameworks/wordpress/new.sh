@@ -189,21 +189,18 @@ cp "${WEBSTACKUP_SCRIPT_DIR}node.js/package-webpack-extract-css.json" "${WEBROOT
 cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/webpack.config.js"
 const sharedConfig = require('/usr/local/turbolab.it/webstackup/script/node.js/webpack-extract-css.config.js');
 module.exports = sharedConfig;
-
 EOF
 
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/js"
 cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/js/main.js"
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
-
 EOF
 
 
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/scss"
 cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/scss/style.scss"
 @use "bootstrap/scss/bootstrap" as bootstrap;
-
 EOF
 
 
