@@ -179,8 +179,20 @@ cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 echo "/*
   Theme Name: ${APP_NAME}
 */" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
+
+cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json"
+{
+  "name": "${APP_NAME}",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "private": true
+}
+EOF
+
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+
+ls -l "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 
 fxTitle "Adding packages via composer to my theme..."

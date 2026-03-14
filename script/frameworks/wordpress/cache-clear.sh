@@ -49,18 +49,18 @@ sudo chmod g+s "${WEBROOT_DIR}"
 sudo chown www-data "${WEBROOT_DIR}wp-content" -R
 
 
-## build
-if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
-  bash "${SCRIPT_DIR}build.sh"
-fi
-
-
 if [ "$APP_ENV" = "dev" ]; then
 
   fxTitle "chown dev..."
   sudo chown $(logname):www-data "${PROJECT_DIR}" -R
   sudo chmod ugo= "${PROJECT_DIR}" -R
   sudo chmod ugo=rwx "${PROJECT_DIR}" -R
+fi
+
+
+## build
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
+  bash "${SCRIPT_DIR}build.sh"
 fi
 
 

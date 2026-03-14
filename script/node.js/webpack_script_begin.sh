@@ -1,8 +1,17 @@
+fxTitle "Framework..."
+echo "${PROJECT_FRAMEWORK}"
+
+
 if [ "${PROJECT_FRAMEWORK}" == "wordpress" ] && [ -f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json" ]; then
 
-  fxTitle "📰 Custom WordPress theme detected!"
+  echo ""
+  fxOK "📰 Custom WordPress theme detected!"
   fxInfo "Switching to ##${WEBROOT_DIR}wp-content/themes/${APP_NAME}##"
   cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
+
+elif [ "${PROJECT_FRAMEWORK}" == "wordpress" ]; then
+
+  fxWarning "No package.json detected in ##${WEBROOT_DIR}wp-content/themes/${APP_NAME}##"
 fi
 
 
