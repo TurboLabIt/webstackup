@@ -1,5 +1,9 @@
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+// A helper function to dynamically require modules from the project's folder
+const reqLocal = (moduleName) => require(require.resolve(moduleName, { paths: [process.cwd()] }));
+
+const MiniCssExtractPlugin = reqLocal("mini-css-extract-plugin");
+const CssMinimizerPlugin = reqLocal("css-minimizer-webpack-plugin");
+
 const path = require('path');
 
 // Define base source paths
