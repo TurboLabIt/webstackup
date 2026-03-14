@@ -8,6 +8,8 @@
     "watch": "webpack --watch --mode development"
   },
   "dependencies": {
+    "@popperjs/core": "*",
+    "bootstrap": "*",
     "@babel/core": "*",
     "@babel/preset-env": "*",
     "babel-loader": "*",

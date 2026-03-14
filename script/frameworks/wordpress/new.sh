@@ -171,7 +171,6 @@ else
 fi
 
 
- 
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
@@ -180,6 +179,11 @@ echo "/*
   Theme Name: ${APP_NAME}
 */" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
 
+echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
+echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+
+
+## package and webpack
 cp "${WEBSTACKUP_SCRIPT_DIR}node.js/package-webpack-extract-css.json" "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json"
 
 cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/webpack.config.js"
@@ -187,8 +191,17 @@ cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/webpack.config.js"
   module.exports = sharedConfig;
 EOF
 
-echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
-echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
+mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/js"
+cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/js/main.js"
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
+EOF
+
+
+mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/scss"
+cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/scss/style.scss"
+@use "../../node_modules/bootstrap/scss/bootstrap" as bootstrap;
+EOF
 
 
 fxTitle "Adding packages via composer to my theme..."
