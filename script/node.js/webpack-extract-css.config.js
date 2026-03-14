@@ -52,7 +52,18 @@ module.exports = {
             // SCSS Compilation
             {
                 test: /\.(sass|scss)$/,
-                use: [MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
+                use: [
+                    MiniCssExtractPlugin.loader, 'css-loader',
+                    {
+                        loader: 'sass-loader',
+                        options: {
+                            sassOptions: {
+                                // Mutes warnings from files loaded out of node_modules
+                                quietDeps: true
+                            }
+                        }
+                    }
+                ]
             },
             // Webpack 5 Native Asset Modules for Fonts
             {
