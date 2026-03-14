@@ -5,7 +5,7 @@ echo "${PROJECT_FRAMEWORK}"
 if [ "${PROJECT_FRAMEWORK}" == "wordpress" ] && [ -f "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json" ]; then
 
   echo ""
-  fxOK "📰 Custom WordPress theme detected!"
+  fxOK "Custom WordPress theme detected!"
   fxInfo "Switching to ##${WEBROOT_DIR}wp-content/themes/${APP_NAME}##"
   cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
