@@ -68,9 +68,8 @@ fi
 
 
 fxTitle "Include Webstackup WordPress defaults in functions.php..."
-WSU_WP_INSTANCE_FUNCTIONS_PATH="${WEBROOT_DIR}theme/${APP_NAME}/functions.php"
+WSU_WP_INSTANCE_FUNCTIONS_PATH="${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
 WSU_WP_FUNCTIONS_EXTRAS_PATH="/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/functions-extras.php"
-WSU_WP_ANCHOR_REGEX="<?php"
 
 if [ "$WSU_WP_FUNCTIONS_DONT_INCLUDE_EXTRAS" != 1 ] && ! grep -q "$WSU_WP_FUNCTIONS_EXTRAS_PATH" "$WSU_WP_INSTANCE_FUNCTIONS_PATH"; then
 

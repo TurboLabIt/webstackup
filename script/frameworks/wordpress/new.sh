@@ -180,6 +180,7 @@ echo "/*
   Theme Name: ${APP_NAME}
 */" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
+echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
 
 
 fxTitle "Adding packages via composer to my theme..."
@@ -234,11 +235,18 @@ rm -rf "${WSU_TMP_DIR}"
 
 fxTitle "Adding .gitignore for WordPress..."
 ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_wordpress
-curl -o "${PROJECT_DIR}.gitignore_wordpress_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
-sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}.gitignore_wordpress_temp"
-echo "" >> "${PROJECT_DIR}.gitignore"
-cat "${PROJECT_DIR}.gitignore_wordpress_temp" >> "${PROJECT_DIR}.gitignore"
-rm -f "${PROJECT_DIR}.gitignore_wordpress_temp"
+if ! grep -q "### WordPress webdev-gitignore" "${PROJECT_DIR}.gitignore"; then
+
+  curl -o "${PROJECT_DIR}.gitignore_wordpress_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_wordpress
+  sed -i "s/my-app/${APP_NAME}/g" "${PROJECT_DIR}.gitignore_wordpress_temp"
+  echo "" >> "${PROJECT_DIR}.gitignore"
+  cat "${PROJECT_DIR}.gitignore_wordpress_temp" >> "${PROJECT_DIR}.gitignore"
+  rm -f "${PROJECT_DIR}.gitignore_wordpress_temp"
+
+else
+
+  fxInfo "Skipped (.gitignore for WordPress is already there) 🦘"
+fi
 
 
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
