@@ -180,19 +180,15 @@ echo "/*
   Theme Name: ${APP_NAME}
 */" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
 
-cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json"
-{
-  "name": "${APP_NAME}",
-  "version": "1.0.0",
-  "license": "UNLICENSED",
-  "private": true
-}
+cp "${WEBSTACKUP_SCRIPT_DIR}node.js/package-webpack-extract-css.json" "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/package.json"
+
+cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/webpack.config.js"
+  const sharedConfig = require('/usr/local/turbolab.it/webstackup/script/node.js/webpack-extract-css.config.js');
+  module.exports = sharedConfig;
 EOF
 
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/functions.php"
-
-ls -l "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 
 fxTitle "Adding packages via composer to my theme..."
@@ -209,9 +205,11 @@ function wsuComposerWp()
 wsuComposerWp require timber/timber:@stable
 
 
+fxList "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
+
+
 fxTitle "Enabling my own ##${APP_NAME}## theme..."
 wsuWordPress theme activate "${APP_NAME}"
-
 
 fxTitle "Deleting the other, built-in themes..."
 WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | \
