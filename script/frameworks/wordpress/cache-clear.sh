@@ -33,6 +33,13 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 fi
 
 
+## composer install
+COMPOSER_JSON_FULLPATH="${WEBROOT_DIR}wp-content/themes/${APP_NAME}/composer.json"
+if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${COMPOSER_JSON_FULLPATH}" ]; then
+  wsuComposer install
+fi
+
+
 fxTitle "👮 Setting permissions on WordPress dir..."
 sudo chown -R webstackup:www-data "${WEBROOT_DIR}" -R
 sudo chmod ugo= "${WEBROOT_DIR}" -R
@@ -48,6 +55,16 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
 fi
 
 
+if [ "$APP_ENV" = "dev" ]; then
+
+  fxTitle "chown dev..."
+  sudo chown $(logname):www-data "${PROJECT_DIR}" -R
+  sudo chmod ugo= "${PROJECT_DIR}" -R
+  sudo chmod ugo=rwx "${PROJECT_DIR}" -R
+fi
+
+
+fxTitle "Clearing wp-fastest-cache (plugin)..."
 ## https://www.wpfastestcache.com/features/wp-cli-commands/
 wsuWordPress fastest-cache clear all and minified
 
@@ -57,15 +74,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   fxTitle "⚙️ Restarting services..."
   sudo service ${PHP_FPM} restart
   sudo nginx -t && sudo service nginx start
-fi
-
-
-if [ "$APP_ENV" = "dev" ]; then
-
-  fxTitle "chown dev..."
-  sudo chown $(logname):www-data "${PROJECT_DIR}" -R
-  sudo chmod ugo= "${PROJECT_DIR}" -R
-  sudo chmod ugo=rwx "${PROJECT_DIR}" -R
 fi
 
 
