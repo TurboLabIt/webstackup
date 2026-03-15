@@ -139,6 +139,7 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
   # https://wordpress.org/plugins/redirection/
   # https://wordpress.org/plugins/safe-svg/
   # https://wordpress.org/plugins/folders/
+  # https://wordpress.org/plugins/contact-form-7/
   # https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
   # https://wordpress.org/plugins/better-search-replace/
 
@@ -147,7 +148,8 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
     webp-express \
     google-authenticator classic-editor \
     radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
-    redirection safe-svg folders ultimate-addons-for-contact-form-7 \
+    redirection safe-svg folders \
+    contact-form-7 ultimate-addons-for-contact-form-7 \
     better-search-replace \
     --activate-network --activate
 
