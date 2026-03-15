@@ -234,8 +234,8 @@ WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | 
 
 
 fxTitle "Deleting the sample content..."
-wsuWordPress post delete 1 --force
 wsuWordPress comment delete 1 --force
+wsuWordPress post delete 1 --force
 
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
