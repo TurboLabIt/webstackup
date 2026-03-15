@@ -12,6 +12,15 @@ if ( class_exists( 'Timber\Timber' ) ) {
 
 
 /**
+ * Completely remove the "WordPress Events and News" dashboard widget.
+ * This prevents the UI from rendering AND stops the external HTTP requests to WordPress.org.
+ */
+add_action( 'wp_dashboard_setup', function() {
+    remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+}, 999 );
+
+
+/**
  * Utility to dynamically find and return the URL of a hashed Webpack asset.
  * @param string $directory The sub-directory inside build (e.g., 'js' or 'css').
  * @param string $prefix The base name of the file (e.g., 'main.min').
