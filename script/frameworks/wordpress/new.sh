@@ -247,7 +247,6 @@ wsuWordPress option update default_ping_status closed
 
 fxTitle "Switching the URLs structure to \"post name\" (use slugs instead of IDs)"
 wsuWordPress rewrite structure '/%postname%/'
-wsuWordPress rewrite flush --hard
 
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
@@ -271,6 +270,7 @@ fxOK "WEBROOT_DIR is now ##${WEBROOT_DIR}##"
 fxTitle "🚚 Moving the built directory to ##${PROJECT_DIR}##..."
 rsync -a "${WSU_TMP_DIR}${APP_NAME}/" "${PROJECT_DIR}"
 rm -rf "${WSU_TMP_DIR}"
+cd "${PROJECT_DIR}"
 
 
 fxTitle "Adding .gitignore for WordPress..."
