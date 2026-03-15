@@ -238,7 +238,7 @@ wsuWordPress comment delete 1 --force
 wsuWordPress post delete 1 --force
 
 
-echo "Disabling comments and pingbacks by default..."
+fxTitle "Disabling comments and pingbacks by default..."
 wsuWordPress option update default_comment_status closed
 wsuWordPress option update default_ping_status closed
 
