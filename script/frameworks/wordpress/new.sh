@@ -245,6 +245,11 @@ wsuWordPress option update default_comment_status closed
 wsuWordPress option update default_ping_status closed
 
 
+fxTitle "Switching the URLs structure to \"post name\" (use slugs instead of IDs)"
+wsuWordPress rewrite structure '/%postname%/'
+wsuWordPress rewrite flush --hard
+
+
 fxTitle "Preparing ${APP_NAME} plugin directory..."
 cd "${WEBROOT_DIR}"
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"
@@ -288,10 +293,14 @@ fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 chmod g+w "${WEBROOT_DIR}" -R
 
 
+bash "${SCRIPT_DIR}cache-clear.sh"
+
+
 fxTitle "The WordPress instance is ready"
 fxMessage "Your admin username is: ${WORDPRESS_ADMIN_USERNAME}"
 fxMessage "Your admin password is: ${WPINST_FIRST_ADMIN_PASSWORD}"
 echo ""
 echo "Please login at ${SITE_URL}${WORDPRESS_ADMIN_NEW_SLUG}"
+
 
 cd "${CURRENT_DIR_BACKUP}"

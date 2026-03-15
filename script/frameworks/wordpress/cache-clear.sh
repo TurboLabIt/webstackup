@@ -64,6 +64,10 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
 fi
 
 
+fxTitle "Permalinks rewriting..."
+wsuWordPress rewrite flush --hard
+
+
 fxTitle "Clearing wp-fastest-cache (plugin)..."
 ## https://www.wpfastestcache.com/features/wp-cli-commands/
 wsuWordPress fastest-cache clear all and minified
