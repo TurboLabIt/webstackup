@@ -95,11 +95,13 @@ if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
 
   # https://developer.wordpress.org/cli/commands/core/multisite-install/
   WPINST_WORDPRESS_INSTALL_MODE=multisite-install
+  WPINST_WORDPRESS_PLUGIN_ACTIVATE_MODE="--activate-network --activate"
   
 else
 
   # https://developer.wordpress.org/cli/commands/core/install/
   WPINST_WORDPRESS_INSTALL_MODE=install
+  WPINST_WORDPRESS_PLUGIN_ACTIVATE_MODE=--activate
 fi
 
 if [ "$WORDPRESS_MULTISITE_MODE" = "subdomains" ] || [ "$WORDPRESS_MULTISITE_MODE" = "subdomain" ]; then
@@ -151,7 +153,7 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
     redirection safe-svg folders \
     contact-form-7 ultimate-addons-for-contact-form-7 \
     better-search-replace \
-    --activate-network --activate
+    $WPINST_WORDPRESS_PLUGIN_ACTIVATE_MODE
 
   fxTitle "Activating plugins auto-update..."
   ## https://developer.wordpress.org/cli/commands/plugin/auto-updates/
