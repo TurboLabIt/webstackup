@@ -103,14 +103,14 @@ function wsu_theme_enqueue_assets()
     if ($css_url) {
         // Notice the 4th parameter (version) is 'null'.
         // We don't need WP's native ?ver= cache-busting because our filename has the hash!
-        wp_enqueue_style('my-theme-style', $css_url, array(), null);
+        wp_enqueue_style('wsu-webpack-theme-style', $css_url, array(), null);
     }
 
     // 2. Enqueue the compiled JS
     $js_url = get_webpack_hashed_asset('js', 'main.min', 'js');
     if ($js_url) {
         // Load in footer (true) and declare jQuery as a dependency (since we excluded it in Webpack)
-        wp_enqueue_script('my-theme-script', $js_url, array('jquery'), null, true);
+        wp_enqueue_script('wsu-webpack-theme-script', $js_url, array('jquery'), null, true);
     }
 }
 
