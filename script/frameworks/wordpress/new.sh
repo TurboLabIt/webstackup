@@ -124,7 +124,7 @@ wsuWordPress plugin uninstall akismet hello --deactivate
 
 
 fxTitle "Installing additional plugins..."
-if [ "$WORDPRESS_SKIP_PLUGIN_BUNDLE_INSTALL" != 1 ]; then
+if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
 
   ## https://developer.wordpress.org/cli/commands/plugin/install/
   # https://wordpress.org/plugins/wps-hide-login/
@@ -224,13 +224,18 @@ fxList "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 fxTitle "Enabling my own ##${APP_NAME}## theme..."
 wsuWordPress theme activate "${APP_NAME}"
 
-fxTitle "Deleting the other, built-in themes..."
+fxTitle "Deleting the other, bundled themes..."
 WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | \
   while read -r theme; do
     if [[ -n "$theme" ]]; then
       wsuWordPress theme delete "$theme"
     fi
   done
+
+
+fxTitle "Deleting the sample content..."
+wsuWordPress post delete 1 --force
+wsuWordPress comment delete 1 --force
 
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."

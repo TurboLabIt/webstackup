@@ -11,6 +11,7 @@ WORDPRESS_ADMIN_EMAIL=admin@my-app.com
 ## <null>|subdomains
 WORDPRESS_MULTISITE_MODE=
 WORDPRESS_ADMIN_NEW_SLUG=my-app$(date +"%Y")
+WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL=0
 
 source "/etc/turbolab.it/mysql-${APP_NAME}.conf"
 
