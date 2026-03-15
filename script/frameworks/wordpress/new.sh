@@ -175,12 +175,26 @@ else
 fi
 
 
+fxTitle "Installing Genesis theme..."
+if [ "$WORDPRESS_INSTALL_GENESIS_THEME" != 0 ]; then
+
+  wsuWordPress theme install "${WEBSTACKUP_INSTALL_DIR}asset/wordpress/themes/genesis.zip"
+  WSU_WORDPRESS_THEME_CSS_CONTENT="Template: genesis"
+
+else
+
+  fxInfo "Skipped (disabled in config) 🦘"
+fi
+
+
 fxTitle "Preparing ${APP_NAME} theme directory..."
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 cd "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 echo "/*
   Theme Name: ${APP_NAME}
+  Version: 1.0.0
+  ${WSU_WORDPRESS_THEME_CSS_CONTENT}
 */" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/style.css"
 
 echo "<?php" > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/index.php"
