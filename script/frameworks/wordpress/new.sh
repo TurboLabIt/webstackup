@@ -238,6 +238,11 @@ wsuWordPress comment delete 1 --force
 wsuWordPress post delete 1 --force
 
 
+echo "Disabling comments and pingbacks by default..."
+wsuWordPress option update default_comment_status closed
+wsuWordPress option update default_ping_status closed
+
+
 fxTitle "Preparing ${APP_NAME} plugin directory..."
 cd "${WEBROOT_DIR}"
 mkdir -p "${WEBROOT_DIR}wp-content/plugins/${APP_NAME}"

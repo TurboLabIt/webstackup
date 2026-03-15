@@ -1,9 +1,15 @@
 <?php
+if( !defined('ABSPATH') ) {
+    exit;
+}
+
+// composer autoloader
 const WSU_AUTOLOADER_FILE = __DIR__ . '/vendor/autoload.php';
 
 if( is_readable(WSU_AUTOLOADER_FILE) ) {
     require_once WSU_AUTOLOADER_FILE;
 }
+
 
 // Initialize Timber.
 if ( class_exists( 'Timber\Timber' ) ) {
@@ -11,17 +17,49 @@ if ( class_exists( 'Timber\Timber' ) ) {
 }
 
 
+// Conditionally remove "Comments" from the top admin bar if the comments are disabled (renders on frontend too)
+if ( get_option( 'default_comment_status' ) === 'closed' ) {
+    add_action( 'wp_before_admin_bar_render', function() {
+        global $wp_admin_bar;
+        $wp_admin_bar->remove_menu( 'comments' );
+    } );
+}
+
+
 /**
  * Completely remove the "WordPress Events and News" dashboard widget.
  * This prevents the UI from rendering AND stops the external HTTP requests to WordPress.org.
  */
-add_action( 'wp_dashboard_setup', function() {
-    remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
-}, 999 );
+if ( is_admin() ) {
+    add_action( 'wp_dashboard_setup', function() {
+        remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+    }, 999 );
+}
 
 
 /**
- * Utility to dynamically find and return the URL of a hashed Webpack asset.
+ * Conditionally remove the Comments UI from admin ONLY if comments are closed by default
+ */
+if ( is_admin() && get_option( 'default_comment_status' ) === 'closed' ) {
+
+    // Remove "Comments" from the left admin sidebar
+    add_action( 'admin_menu', function() {
+        remove_menu_page( 'edit-comments.php' );
+    } );
+
+    // Redirect any user who tries to manually visit the comments page
+    add_action( 'admin_init', function() {
+        global $pagenow;
+        if ( $pagenow === 'edit-comments.php' ) {
+            wp_safe_redirect( admin_url() );
+            exit;
+        }
+    } );
+}
+
+
+/**
+ * WEBPACK - Utility to dynamically find and return the URL of a hashed Webpack asset.
  * @param string $directory The sub-directory inside build (e.g., 'js' or 'css').
  * @param string $prefix The base name of the file (e.g., 'main.min').
  * @param string $extension The file extension (e.g., 'js' or 'css').
@@ -51,11 +89,10 @@ function get_webpack_hashed_asset($directory, $prefix, $extension)
 
 
 /**
- * Enqueue the theme's CSS and JS files.
+ * WEBPACK - Enqueue the theme's CSS and JS files.
  */
 function wsu_theme_enqueue_assets()
 {
-
     // 1. Enqueue the compiled SCSS -> CSS
     $css_url = get_webpack_hashed_asset('css', 'main.min', 'css');
     if ($css_url) {
