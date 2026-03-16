@@ -206,7 +206,21 @@ cp "${WEBSTACKUP_SCRIPT_DIR}node.js/package-webpack-extract-css.json" "${WEBROOT
 
 cat <<EOF > "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/webpack.config.js"
 const sharedConfig = require('/usr/local/turbolab.it/webstackup/script/node.js/webpack-extract-css.config.js');
-module.exports = sharedConfig;
+module.exports = {
+    // Unpack the base configuration
+    ...sharedConfig,
+
+    // Override the entry points
+    /*entry: {
+        'main': [
+            './assets/js/main.js',
+            './assets/scss/style.scss',
+        ],
+        'checkout': [
+            './assets/js/custom-checkout.js'
+        ]
+    }*/
+};
 EOF
 
 mkdir -p "${WEBROOT_DIR}wp-content/themes/${APP_NAME}/assets/js"
