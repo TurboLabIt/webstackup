@@ -75,16 +75,18 @@ function wsuMirrorFromSsh()
   fi
 
   local RCLONE_SOURCE=":sftp,host=${2},user=${1}:${3}"
+  local -a RCLONE_FULL_COMMAND=(rclone sync --progress --exclude '*.log' --exclude '*.log.[0-9]*' "${RCLONE_SOURCE}" "$4")
 
   fxTitle "Mirroring!"
   echo "From: ${1}@${2}:${3}"
   echo "To:   ${4}"
+  echo "${RCLONE_FULL_COMMAND[@]}"
 
   if [ "${5}" != "no-delay" ]; then
     fxCountdown
   fi
-
-  rclone sync --progress --exclude '*.log' --exclude '*.log.[0-9]*' "${RCLONE_SOURCE}" "$4"
+exit
+  "${RCLONE_FULL_COMMAND[@]}"
 }
 
 
