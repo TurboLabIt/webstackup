@@ -55,7 +55,29 @@ HOSTNAME="$(hostname)"
 CURRENT_LANG=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
-ZZMIRROR_OPTIONS="--archive --compress --delete --partial --progress --verbose --exclude '*.log'"
+
+WSUMIRROR_OPTIONS=(--archive --compress --delete --partial --info=progress2 --exclude '*.log' --exclude '*.log.[0-9]*')
+function wsuMirror()
+{
+  if [ -z "${1}" ]; then
+    fxCatastrophicError "Please provide the source!"
+  fi
+
+  if [ -z "${2}" ]; then
+    fxCatastrophicError "Please provide the target!"
+  fi
+
+  fxTitle "Mirroring!"
+  echo "From: ${1}"
+  echo "To:   ${2}"
+
+  if [ "${3}" != "no-delay" ]; then
+    fxCountdown
+  fi
+
+  rsync "${WSUMIRROR_OPTIONS[@]}" "$1" "$2"
+}
+
 
 ## dialog default
 HEIGHT=25
