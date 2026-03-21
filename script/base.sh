@@ -55,6 +55,7 @@ HOSTNAME="$(hostname)"
 CURRENT_LANG=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
+ZZMIRROR_OPTIONS="--archive --compress --delete --partial --progress --verbose --exclude '*.log'"
 
 ## dialog default
 HEIGHT=25
