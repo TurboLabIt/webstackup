@@ -82,7 +82,22 @@ function wsuMirrorFromSsh()
     fxCatastrophicError "Please provide the local destination"
   fi
 
-  local -a RCLONE_FULL_COMMAND=(rclone sync --sftp-ssh "ssh ${1}@${2}" --create-empty-src-dirs --links --transfers 16 --checkers 32 --retries 5 --low-level-retries 10 --log-level ERROR --progress --sftp-disable-hashcheck --exclude '*.log' --exclude '*.log.[0-9]*' --exclude '*.partial' ":sftp:${3}" "$4")
+  local -a RCLONE_FULL_COMMAND=(
+    rclone sync
+    --sftp-ssh "ssh ${1}@${2}"
+    --sftp-disable-hashcheck
+    --create-empty-src-dirs
+    --links
+    --transfers 32 --checkers 64
+    --retries 5 --low-level-retries 10
+    --log-level ERROR
+    --progress
+    --exclude '*.log' --exclude '*.log.[0-9]*'
+    --exclude "**/logs/**" --exclude "**/log/**"
+    --exclude "**/cache/**" --exclude "**/tmp/**"
+    ":sftp:${3}"
+    "$4"
+  )
 
   echo "From: ${1}@${2}:${3}"
   echo "To:   ${4}"
