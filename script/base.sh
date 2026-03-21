@@ -86,15 +86,15 @@ function wsuMirrorFromSsh()
 
   echo "From: ${1}@${2}:${3}"
   echo "To:   ${4}"
+  echo ""
 
   if [ "${5}" != "no-delay" ]; then
 
-    echo ""
     echo "${RCLONE_FULL_COMMAND[@]}"
+    echo ""
     fxCountdown
   fi
 
-  echo ""
   "${RCLONE_FULL_COMMAND[@]}"
 }
 
