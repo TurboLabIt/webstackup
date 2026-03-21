@@ -5,7 +5,7 @@ source $(dirname $(readlink -f $0))/script_begin.sh
 
 MIRROR_REMOTE_USER="$(whoami)"
 MIRROR_REMOTE_HOSTNAME="my-app.com"
-MIRROR_LOCAL_DESTINATION_PATH="${PROJECT_DIR}backup/rsync-backup/"
+MIRROR_LOCAL_DESTINATION_PATH="${PROJECT_DIR}backup/mirror-backup/"
 
 mkdir -p "${MIRROR_LOCAL_DESTINATION_PATH}"
 
