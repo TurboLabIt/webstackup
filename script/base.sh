@@ -56,26 +56,35 @@ CURRENT_LANG=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 
-WSUMIRROR_OPTIONS=(--archive --compress --delete --partial --info=progress2 --exclude '*.log' --exclude '*.log.[0-9]*')
-function wsuMirror()
+function wsuMirrorFromSsh()
 {
   if [ -z "${1}" ]; then
-    fxCatastrophicError "Please provide the source!"
+    fxCatastrophicError "Please provide the remote username"
   fi
 
   if [ -z "${2}" ]; then
-    fxCatastrophicError "Please provide the target!"
+    fxCatastrophicError "Please provide the remote hostname"
   fi
 
-  fxTitle "Mirroring!"
-  echo "From: ${1}"
-  echo "To:   ${2}"
+  if [ -z "${3}" ]; then
+    fxCatastrophicError "Please provide the remote path"
+  fi
 
-  if [ "${3}" != "no-delay" ]; then
+  if [ -z "${4}" ]; then
+    fxCatastrophicError "Please provide the local destination"
+  fi
+
+  local RCLONE_SOURCE=":sftp,host=${2},user=${1}:${3}"
+
+  fxTitle "Mirroring!"
+  echo "From: ${1}@${2}:${3}"
+  echo "To:   ${4}"
+
+  if [ "${5}" != "no-delay" ]; then
     fxCountdown
   fi
 
-  rsync "${WSUMIRROR_OPTIONS[@]}" "$1" "$2"
+  rclone sync --progress --exclude '*.log' --exclude '*.log.[0-9]*' "${RCLONE_SOURCE}" "$4"
 }
 
 
