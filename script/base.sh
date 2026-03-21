@@ -95,6 +95,7 @@ function wsuMirrorFromSsh()
     --exclude '*.log' --exclude '*.log.[0-9]*'
     --exclude "**/logs/**" --exclude "**/log/**"
     --exclude "**/cache/**" --exclude "**/tmp/**"
+    --exclude "**/session/**"
     ":sftp:${3}"
     "$4"
   )
