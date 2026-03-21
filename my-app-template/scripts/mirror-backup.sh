@@ -14,4 +14,3 @@ wsuMirrorDirectoryFromSsh "${MIRROR_REMOTE_USER}" "${MIRROR_REMOTE_HOSTNAME}" "/
 wsuMirrorDirectoryFromSsh "${MIRROR_REMOTE_USER}" "${MIRROR_REMOTE_HOSTNAME}" "/var/www" "${MIRROR_LOCAL_DESTINATION_PATH}"
 
 source "${SCRIPT_DIR}script_end.sh"
-
