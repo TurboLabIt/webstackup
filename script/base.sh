@@ -56,8 +56,17 @@ CURRENT_LANG=$(grep '^LANG=' /etc/default/locale | cut -d= -f2 | tr -d '"')
 INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo)
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 
+
 function wsuMirrorFromSsh()
 {
+  fxTitle "🪞 Mirroring!"
+  if [ -z "$(command -v rclone)" ]; then
+
+    fxWarning "rclone is not installed. Installing it now..."
+    sudo apt update -qq
+    sudo apt install rclone -y -qq
+  fi
+
   if [ -z "${1}" ]; then
     fxCatastrophicError "Please provide the remote username"
   fi
@@ -77,15 +86,16 @@ function wsuMirrorFromSsh()
   local RCLONE_SOURCE=":sftp,host=${2},user=${1}:${3}"
   local -a RCLONE_FULL_COMMAND=(rclone sync --progress --exclude '*.log' --exclude '*.log.[0-9]*' "${RCLONE_SOURCE}" "$4")
 
-  fxTitle "Mirroring!"
   echo "From: ${1}@${2}:${3}"
   echo "To:   ${4}"
-  echo "${RCLONE_FULL_COMMAND[@]}"
 
   if [ "${5}" != "no-delay" ]; then
+
+    echo ""
+    echo "${RCLONE_FULL_COMMAND[@]}"
     fxCountdown
   fi
-exit
+
   "${RCLONE_FULL_COMMAND[@]}"
 }
 
