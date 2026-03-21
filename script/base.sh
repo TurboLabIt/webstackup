@@ -63,8 +63,7 @@ function wsuMirrorFromSsh()
   if [ -z "$(command -v rclone)" ]; then
 
     fxWarning "rclone is not installed. Installing it now..."
-    sudo apt update -qq
-    sudo apt install rclone -y -qq
+    curl https://rclone.org/install.sh | sudo bash
   fi
 
   if [ -z "${1}" ]; then
