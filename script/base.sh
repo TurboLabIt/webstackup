@@ -82,6 +82,7 @@ function wsuMirrorFromSsh()
     fxCatastrophicError "Please provide the local destination"
   fi
 
+  ## cache, session cannot be excluded due code patterns like "/src/classes/cache/cache-handler.php"
   local -a RCLONE_FULL_COMMAND=(
     rclone sync
     --sftp-ssh "ssh ${1}@${2}"
@@ -93,9 +94,7 @@ function wsuMirrorFromSsh()
     --log-level ERROR
     --progress
     --exclude '*.log' --exclude '*.log.[0-9]*'
-    --exclude "**/logs/**" --exclude "**/log/**"
-    --exclude "**/cache/**" --exclude "**/tmp/**"
-    --exclude "**/session/**"
+    --exclude "**/logs/**" --exclude "**/log/**" --exclude "**/tmp/**"
     ":sftp:${3}"
     "$4"
   )
