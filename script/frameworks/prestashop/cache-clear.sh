@@ -44,7 +44,7 @@ wsuSymfony local:php:list
 
 ## composer install
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
-  wsuComposer install
+  wsuComposer install --ignore-platform-req=php
 fi
 
 
