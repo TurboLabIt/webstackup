@@ -55,15 +55,31 @@ cd "$WEBROOT_DIR"
 
 
 fxTitle "🧹 Removing the PrestaShop cache folder content..."
-sudo find "${WEBROOT_DIR}var/cache/" -mindepth 1 -maxdepth 1 ! -name ".gitignore" ! -name "CACHEDIR.TAG" -exec rm -rf {} +
+CACHE_DIRS=(
+  "${WEBROOT_DIR}var/cache"
+  "${WEBROOT_DIR}cache/smarty/compile"
+  "${WEBROOT_DIR}cache/smarty/cache"
+  "${WEBROOT_DIR}cache/cachefs"
+)
+
+# Add theme asset caches
+for theme_cache in "${WEBROOT_DIR}"themes/*/assets/cache; do
+  [ -d "$theme_cache" ] && CACHE_DIRS+=("$theme_cache")
+done
+
+for cache_dir in "${CACHE_DIRS[@]}"; do
+
+  if [ -d "$cache_dir" ]; then
+
+    fxInfo "$cache_dir"
+    sudo find "$cache_dir" -mindepth 1 -maxdepth 1 ! -name ".gitignore" ! -name "CACHEDIR.TAG" ! -name "index.php" -exec rm -rf {} +
+  fi
+
+done
 
 
 fxTitle "🌊 Symfony cache:clear..."
 sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console cache:clear
-
-
-fxTitle "🌊 PrestaShop cache:clear..."
-sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console prestashop:cache:clear
 
 
 ## migrate
