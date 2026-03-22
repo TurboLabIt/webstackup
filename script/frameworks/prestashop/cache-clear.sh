@@ -37,11 +37,6 @@ fxTitle "Temporary open permissions on cache..."
 sudo chmod ugo=rwx "${WEBROOT_DIR}var/cache" -R
 
 
-fxTitle "Refresh the list of installed PHP versions know to Symfony..."
-wsuSymfony local:php:refresh
-wsuSymfony local:php:list
-
-
 ## composer install
 if [ -z "${FAST_CACHE_CLEAR}" ]; then
   wsuComposer install --ignore-platform-req=php
