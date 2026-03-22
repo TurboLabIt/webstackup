@@ -48,12 +48,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
 fi
 
 
-## dump-env
-if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
-  wsuComposer dump-env ${APP_ENV}
-fi
-
-
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Stopping services..."
@@ -66,11 +60,11 @@ sudo find "${WEBROOT_DIR}var/cache/" -mindepth 1 -maxdepth 1 ! -name ".gitignore
 
 
 fxTitle "🌊 Symfony cache:clear..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
+sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear
 
 
 fxTitle "🌊 PrestaShop cache:clear..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console prestashop:cache:clear --no-optional-warmers
+sudo -u www-data -H XDEBUG_MODE=off symfony console prestashop:cache:clear
 
 
 ## migrate
@@ -104,11 +98,6 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   sudo service ${PHP_FPM} restart
   sudo nginx -t && sudo service nginx start
 fi
-
-
-fxTitle "🔥 Cache warmup..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console cache:warmup
-sudo -u www-data -H XDEBUG_MODE=off symfony console prestashop:cache:warmup
 
 
 if [ "$APP_ENV" = "dev" ]; then
