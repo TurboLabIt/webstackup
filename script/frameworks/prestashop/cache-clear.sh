@@ -55,7 +55,8 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
   sudo service ${PHP_FPM} restart
 fi
 
-## remove cache/*
+
+fxTitle "🧹 Removing the PrestaShop cache folder content..."
 sudo find "${WEBROOT_DIR}var/cache/" -mindepth 1 -maxdepth 1 ! -name ".gitignore" ! -name "CACHEDIR.TAG" -exec rm -rf {} +
 
 
