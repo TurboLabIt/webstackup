@@ -84,6 +84,7 @@ function wsuMirrorFromSsh()
 
   local -a RCLONE_FULL_COMMAND=(
     rclone sync
+    #--dry-run --dump filters
     --sftp-ssh "ssh ${1}@${2}"
     --sftp-disable-hashcheck
     --create-empty-src-dirs
@@ -92,13 +93,14 @@ function wsuMirrorFromSsh()
     --retries 5 --low-level-retries 10
     --log-level ERROR
     --progress
+    --delete-excluded
     --exclude '*.log' --exclude '*.log.[0-9]*'
-    --filter "+ **/var/log/.gitignore" --filter "- **/var/log/**"
-    --filter "+ **/var/logs/.gitignore" --filter "- **/var/logs/**"
-    --filter "+ **/var/cache/.gitignore" --filter "- **/var/cache/**"
-    --filter "+ **/var/tmp/.gitignore" --filter "- **/var/tmp/**"
-    --filter "+ **/var/session/.gitignore" --filter "- **/var/session/**"
-    --filter "+ **/var/sessions/.gitignore" --filter "- **/var/sessions/**"
+    --filter='+ var/log/.gitignore' --filter='- var/log/**'
+    --filter='+ var/logs/.gitignore' --filter='- var/logs/**'
+    --filter='+ var/cache/.gitignore' --filter='- var/cache/**'
+    --filter='+ var/tmp/.gitignore' --filter='- var/tmp/**'
+    --filter='+ var/session/.gitignore' --filter='- var/session/**'
+    --filter='+ var/sessions/.gitignore' --filter='- var/sessions/**'
     ":sftp:${3}"
     "$4"
   )
