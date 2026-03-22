@@ -61,11 +61,11 @@ sudo find "${WEBROOT_DIR}var/cache/" -mindepth 1 -maxdepth 1 ! -name ".gitignore
 
 
 fxTitle "🌊 Symfony cache:clear..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear
+sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console cache:clear
 
 
 fxTitle "🌊 PrestaShop cache:clear..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console prestashop:cache:clear
+sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console prestashop:cache:clear
 
 
 ## migrate
@@ -76,14 +76,14 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🚚 Migrating..."
-  wsuSymfony console doctrine:migrations:migrate --no-interaction
+  sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console doctrine:migrations:migrate --no-interaction
 fi
 
 
 fxTitle "👮 Setting final permissions on var/cache..."
 sudo chown webstackup:www-data "${WEBROOT_DIR}var/cache" -R
 sudo chmod ugo= "${WEBROOT_DIR}var/cache" -R
-sudo chmod ug=rwX,o= "${WEBROOT_DIR}var/cache" -R
+sudo chmod ug=rwX,o=rX "${WEBROOT_DIR}var/cache" -R
 sudo chmod g+s "${WEBROOT_DIR}var/cache"
 
 
