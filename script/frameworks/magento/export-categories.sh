@@ -2,7 +2,7 @@
 ## Export Magento 1.9 categories to CSV by WEBSTACKUP
 #
 
-if [ -z "${}" ]; then
+if [ -z "${MAGENTO_STOREVIEW}" ]; then
   MAGENTO_STOREVIEW=1
 fi
 
