@@ -2,7 +2,9 @@
 ## Export Magento 1.9 categories to CSV by WEBSTACKUP
 #
 
-MAGENTO_STOREVIEW=1
+if [ -z "${}" ]; then
+  MAGENTO_STOREVIEW=1
+fi
 
 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" -e "
 -- 1. Define target store dynamically using the Bash variable
