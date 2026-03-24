@@ -103,4 +103,4 @@ LEFT JOIN eav_attribute a ON a.attribute_id IN (v.attribute_id, i.attribute_id, 
 WHERE e.level > 0
 AND (e.path LIKE CONCAT('1/', @root_cat, '/%') OR e.entity_id = @root_cat)
 GROUP BY e.entity_id;
-" > ${MAGENTO_STOREVIEW}_categories_export.tsv
+" > magento_storeview${MAGENTO_STOREVIEW}_categories_export.tsv
