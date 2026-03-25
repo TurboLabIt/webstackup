@@ -9,7 +9,7 @@ fi
 
 ## CATEGORIES
 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" -e "
-SET SESSION group_concat_max_len = 65535;
+SET SESSION group_concat_max_len = 999999999;
 
 -- 1. Define target store dynamically using the Bash variable
 SET @target_store = ${MAGENTO_STOREVIEW};
@@ -112,7 +112,7 @@ GROUP BY e.entity_id;
 
 ## PRODUCTS
 mysql -u "${MYSQL_USER}" -p"${MYSQL_PASSWORD}" "${MYSQL_DATABASE}" -e "
-SET SESSION group_concat_max_len = 65535;
+SET SESSION group_concat_max_len = 999999999;
 
 -- 1. Define target store
 SET @target_store = ${MAGENTO_STOREVIEW};
