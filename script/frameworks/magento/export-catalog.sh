@@ -132,7 +132,7 @@ SET @tax_inc_web = (SELECT value FROM core_config_data WHERE path = 'tax/calcula
 SET @tax_inc_def = (SELECT value FROM core_config_data WHERE path = 'tax/calculation/price_includes_tax' AND scope = 'default' LIMIT 1);
 SET @tax_included = IFNULL(COALESCE(@tax_inc_web, @tax_inc_def), 0);
 
--- 3. PRE-FETCH EVERY ATTRIBUTE ID
+-- 3. PRE-FETCH EVERY ATTRIBUTE ID (Added EAN and Weight here)
 SET @etype = (SELECT entity_type_id FROM eav_entity_type WHERE entity_type_code = 'catalog_product' LIMIT 1);
 SET @a_name = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'name' LIMIT 1);
 SET @a_status = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'status' LIMIT 1);
@@ -144,6 +144,8 @@ SET @a_urlk = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @et
 SET @a_img = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'image' LIMIT 1);
 SET @a_sdesc = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'short_description' LIMIT 1);
 SET @a_desc = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'description' LIMIT 1);
+SET @a_weight = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'weight' LIMIT 1);
+SET @a_ean = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'ean' LIMIT 1);
 
 -- 4. Run the lightning-fast correlated export
 SELECT 
@@ -179,6 +181,19 @@ SELECT
     GROUP_CONCAT(DISTINCT cpsl.parent_id SEPARATOR ', ') AS 'Parent ID',
     
     e.sku AS 'SKU',
+
+    -- Added EAN and Weight block
+    COALESCE(
+        (SELECT value FROM catalog_product_entity_varchar WHERE entity_id = e.entity_id AND attribute_id = @a_ean AND store_id = @target_store),
+        (SELECT value FROM catalog_product_entity_varchar WHERE entity_id = e.entity_id AND attribute_id = @a_ean AND store_id = 0)
+    ) AS 'EAN',
+
+    COALESCE(
+        (SELECT value FROM catalog_product_entity_decimal WHERE entity_id = e.entity_id AND attribute_id = @a_weight AND store_id = @target_store),
+        (SELECT value FROM catalog_product_entity_decimal WHERE entity_id = e.entity_id AND attribute_id = @a_weight AND store_id = 0)
+    ) AS 'Weight',
+    -- End of EAN and Weight block
+
     GROUP_CONCAT(DISTINCT parent_e.sku SEPARATOR ', ') AS 'Parent SKU(s)',
     e.type_id AS 'Type',
 
