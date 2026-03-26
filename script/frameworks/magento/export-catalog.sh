@@ -132,7 +132,7 @@ SET @tax_inc_web = (SELECT value FROM core_config_data WHERE path = 'tax/calcula
 SET @tax_inc_def = (SELECT value FROM core_config_data WHERE path = 'tax/calculation/price_includes_tax' AND scope = 'default' LIMIT 1);
 SET @tax_included = IFNULL(COALESCE(@tax_inc_web, @tax_inc_def), 0);
 
--- 3. PRE-FETCH EVERY ATTRIBUTE ID (Added EAN and Weight here)
+-- 3. PRE-FETCH EVERY ATTRIBUTE ID (Added Manufacturer here)
 SET @etype = (SELECT entity_type_id FROM eav_entity_type WHERE entity_type_code = 'catalog_product' LIMIT 1);
 SET @a_name = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'name' LIMIT 1);
 SET @a_status = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'status' LIMIT 1);
@@ -146,6 +146,7 @@ SET @a_sdesc = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @e
 SET @a_desc = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'description' LIMIT 1);
 SET @a_weight = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'weight' LIMIT 1);
 SET @a_ean = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'ean' LIMIT 1);
+SET @a_manufacturer = (SELECT attribute_id FROM eav_attribute WHERE entity_type_id = @etype AND attribute_code = 'manufacturer' LIMIT 1);
 
 -- 4. Run the lightning-fast correlated export
 SELECT 
@@ -182,7 +183,6 @@ SELECT
     
     e.sku AS 'SKU',
 
-    -- Added EAN and Weight block
     COALESCE(
         (SELECT value FROM catalog_product_entity_varchar WHERE entity_id = e.entity_id AND attribute_id = @a_ean AND store_id = @target_store),
         (SELECT value FROM catalog_product_entity_varchar WHERE entity_id = e.entity_id AND attribute_id = @a_ean AND store_id = 0)
@@ -192,7 +192,18 @@ SELECT
         (SELECT value FROM catalog_product_entity_decimal WHERE entity_id = e.entity_id AND attribute_id = @a_weight AND store_id = @target_store),
         (SELECT value FROM catalog_product_entity_decimal WHERE entity_id = e.entity_id AND attribute_id = @a_weight AND store_id = 0)
     ) AS 'Weight',
-    -- End of EAN and Weight block
+
+    IFNULL(cisi.qty, 0) AS 'Quantity',
+
+    -- <--- ADDED MANUFACTURER HERE (Handles Dropdown Translation) --->
+    (SELECT v.value 
+     FROM catalog_product_entity_int i 
+     JOIN eav_attribute_option_value v ON i.value = v.option_id 
+     WHERE i.entity_id = e.entity_id 
+       AND i.attribute_id = @a_manufacturer 
+       AND i.store_id IN (0, @target_store)
+       AND v.store_id IN (0, @target_store)
+     ORDER BY i.store_id DESC, v.store_id DESC LIMIT 1) AS 'Manufacturer',
 
     GROUP_CONCAT(DISTINCT parent_e.sku SEPARATOR ', ') AS 'Parent SKU(s)',
     e.type_id AS 'Type',
@@ -242,5 +253,6 @@ FROM catalog_product_entity e
 JOIN catalog_product_website cpw ON e.entity_id = cpw.product_id AND cpw.website_id = @web_id
 LEFT JOIN catalog_product_super_link cpsl ON e.entity_id = cpsl.product_id
 LEFT JOIN catalog_product_entity parent_e ON cpsl.parent_id = parent_e.entity_id
+LEFT JOIN cataloginventory_stock_item cisi ON e.entity_id = cisi.product_id AND cisi.stock_id = 1
 GROUP BY e.entity_id;
 " > magento_storeview${MAGENTO_STOREVIEW}_products_export.tsv
