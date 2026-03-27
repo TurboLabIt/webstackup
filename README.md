@@ -14,6 +14,7 @@ sudo apt update && sudo apt install curl -y && \
   curl -sL wsu.turbolab.it | sudo bash
 ````
 
+
 Access the features:
 
 ````shell
