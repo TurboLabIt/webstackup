@@ -11,8 +11,8 @@ if [ ! -d "/var/lib/php/sessions" ]; then
   fxCatastrophicError "/var/lib/php/sessions is missing!"
 fi
 
-nginx -t
-if [ $? -neq 0 ]; then
+
+if ! nginx -t; then
   fxCatastrophicError "NGINX config is failing, cannot proceed"
 fi
 
