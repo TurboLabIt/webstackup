@@ -57,8 +57,15 @@ INSTALLED_RAM=$(awk '/MemFree/ { printf "%.3f \n", $2/1024/1024 }' /proc/meminfo
 INSTALLED_RAM="${INSTALLED_RAM//.}"
 
 
-function wsuMirrorFromSsh()
+function wsuMirrorSsh()
 {
+  local DIRECTION="${1}"
+  local REMOTE_USER="${2}"
+  local REMOTE_HOST="${3}"
+  local REMOTE_PATH="${4}"
+  local LOCAL_PATH="${5}"
+  local DELAY_OPT="${6}"
+
   fxTitle "🪞 Mirroring!"
   if [ -z "$(command -v rclone)" ]; then
 
@@ -66,26 +73,47 @@ function wsuMirrorFromSsh()
     curl https://rclone.org/install.sh | sudo bash
   fi
 
-  if [ -z "${1}" ]; then
+  if [ -z "${REMOTE_USER}" ]; then
     fxCatastrophicError "Please provide the remote username"
   fi
 
-  if [ -z "${2}" ]; then
+  if [ -z "${REMOTE_HOST}" ]; then
     fxCatastrophicError "Please provide the remote hostname"
   fi
 
-  if [ -z "${3}" ]; then
+  if [ -z "${REMOTE_PATH}" ]; then
     fxCatastrophicError "Please provide the remote path"
   fi
 
-  if [ -z "${4}" ]; then
-    fxCatastrophicError "Please provide the local destination"
+  if [ -z "${LOCAL_PATH}" ]; then
+    fxCatastrophicError "Please provide the local path"
+  fi
+
+  local SFTP_PATH=":sftp:${REMOTE_PATH}"
+  local SRC DST LABEL_FROM LABEL_TO
+
+  if [ "${DIRECTION}" = "from" ]; then
+
+    SRC="${SFTP_PATH}"
+    DST="${LOCAL_PATH}"
+    LABEL_FROM="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
+    LABEL_TO="${LOCAL_PATH}"
+
+  elif [ "${DIRECTION}" = "to" ]; then
+
+    SRC="${LOCAL_PATH}"
+    DST="${SFTP_PATH}"
+    LABEL_FROM="${LOCAL_PATH}"
+    LABEL_TO="${REMOTE_USER}@${REMOTE_HOST}:${REMOTE_PATH}"
+
+  else
+
+    fxCatastrophicError "Direction must be 'from' or 'to'"
   fi
 
   local -a RCLONE_FULL_COMMAND=(
     rclone sync
-    #--dry-run --dump filters
-    --sftp-ssh "ssh ${1}@${2}"
+    --sftp-ssh "ssh ${REMOTE_USER}@${REMOTE_HOST}"
     --sftp-disable-hashcheck
     --create-empty-src-dirs
     --links
@@ -101,15 +129,15 @@ function wsuMirrorFromSsh()
     --filter='+ var/tmp/.gitignore' --filter='- var/tmp/**'
     --filter='+ var/session/.gitignore' --filter='- var/session/**'
     --filter='+ var/sessions/.gitignore' --filter='- var/sessions/**'
-    ":sftp:${3}"
-    "$4"
+    "${SRC}"
+    "${DST}"
   )
 
-  echo "From: ${1}@${2}:${3}"
-  echo "To:   ${4}"
+  echo "From: ${LABEL_FROM}"
+  echo "To:   ${LABEL_TO}"
   echo ""
 
-  if [ "${5}" != "no-delay" ]; then
+  if [ "${DELAY_OPT}" != "no-delay" ]; then
 
     echo "${RCLONE_FULL_COMMAND[@]}"
     echo ""
@@ -117,6 +145,18 @@ function wsuMirrorFromSsh()
   fi
 
   "${RCLONE_FULL_COMMAND[@]}"
+}
+
+
+function wsuMirrorFromSsh()
+{
+  wsuMirrorSsh "from" "$1" "$2" "$3" "$4" "$5"
+}
+
+
+function wsuMirrorToSsh()
+{
+  wsuMirrorSsh "to" "$1" "$2" "$3" "$4" "$5"
 }
 
 
