@@ -14,8 +14,7 @@ sudo apt update && sudo apt install curl -y && \
   curl -sL wsu.turbolab.it | sudo bash
 ````
 
-
-Access the menu with all the functions:
+Access the features:
 
 ````shell
 webstackup
