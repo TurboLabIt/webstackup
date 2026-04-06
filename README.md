@@ -5,16 +5,25 @@
 An unattended bash script for Ubuntu to setup a PHP-based web server stack for production or development.
 
 
-## 💿 How to
+## Quick startup guide
 
-Install webstackup, choose components, *bring the web-stack-up*: 
+Install it:
 
 ````shell
-wget https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh -O - | sudo -H bash && \
-  sudo -H bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
+sudo apt update && sudo apt install curl -y && \
+  curl -sL wsu.turbolab.it | sudo bash
 ````
 
 
-## 🆙 Run the manager
+Access the features:
 
-`webstackup`
+````shell
+webstackup
+````
+
+
+To choose the components and provision your NEW server:
+
+````shell
+sudo -H bash /usr/local/turbolab.it/webstackup/script/deploy_new_server.sh
+````

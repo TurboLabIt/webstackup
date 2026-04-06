@@ -544,3 +544,7 @@ ls -l "/etc/cron.d/"
 ## delete test files
 fxTitle "👮 Deleting test.php, phpinfo.php and similar..."
 rm -f "${WEBROOT_DIR}test.php" "${WEBROOT_DIR}phpinfo.php"
+
+if [ ! -z "$SITE_URL" ]; then
+  fxCheckHttpsCertMulti "$SITE_URL"
+fi

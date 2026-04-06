@@ -90,7 +90,7 @@ fi
 fxTitle "👮 Setting final permissions on var/cache..."
 sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
 sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
-sudo chmod ug=rwX,o= "${PROJECT_DIR}var/cache" -R
+sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var/cache" -R
 sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 

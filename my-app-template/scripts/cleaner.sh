@@ -7,6 +7,7 @@ source $(dirname $(readlink -f $0))/script_begin.sh
 fxHeader "🧹 ${SCRIPT_NAME}"
 rootCheck
 
+#PHP_SESSION_CLEANER_MAX_DAYS=
 wsuSourceFrameworkScript cleaner
 
 #fxTitle "Deleting processed file..."
