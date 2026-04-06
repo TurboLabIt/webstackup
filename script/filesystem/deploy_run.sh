@@ -4,12 +4,7 @@
 # ⚠️ Don't run this script directly! Run https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/scripts/deploy_run.sh instead!
 
 fxHeader "🤖 ${APP_NAME} deploy script"
-fxTitle "Running on ${APP_ENV} ($HOSTNAME)"
 rootCheck
-
-if [ -f "${SCRIPT_DIR}deploy_moment_010.sh" ]; then
-  source "${SCRIPT_DIR}deploy_moment_010.sh"
-fi
 
 if [ -z "${PROJECT_DIR}" ] || [ -z "${APP_ENV}" ] || [ -z "${APP_NAME}" ]; then
 
@@ -19,10 +14,28 @@ if [ -z "${PROJECT_DIR}" ] || [ -z "${APP_ENV}" ] || [ -z "${APP_NAME}" ]; then
   APP_NAME:       ##${APP_NAME}##"
 fi
 
+fxInfo "Running on ${APP_ENV} ($HOSTNAME)"
+
+fxEnvNotDev
+
 if [ ! -d "$PROJECT_DIR" ]; then
   fxCatastrophicError "PROJECT_DIR ##${PROJECT_DIR}## doesn't exist!"
 fi
 
+
+if [ "$APP_ENV" == "prod" ]; then
+  fxAskConfirmation "You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME)"
+fi
+
+if [ -z "${LOCKFILE}" ]; then
+  LOCKFILE=/tmp/deploy-${APP_NAME}
+fi
+
+lockCheck "${LOCKFILE}"
+
+if [ -f "${SCRIPT_DIR}deploy_moment_010.sh" ]; then
+  source "${SCRIPT_DIR}deploy_moment_010.sh"
+fi
 
 fxTitle "Fast mode check..."
 if [ "$1" = "fast" ]; then
@@ -35,20 +48,6 @@ else
   fxOK "🐢 Slow mode (non-fast)"
   IS_FAST=0
 fi
-
-
-fxTitle "Env check..."
-fxOK "$APP_ENV"
-if [ "$APP_ENV" == "prod" ]; then
-  fxAskConfirmation "You are about to deploy ${APP_NAME} on PRODUCTION ($HOSTNAME)"
-fi
-
-
-if [ -z "${LOCKFILE}" ]; then
-  LOCKFILE=/tmp/deploy-${APP_NAME}
-fi
-
-lockCheck "${LOCKFILE}"
 
 if [ -f "${SCRIPT_DIR}notify.sh" ]; then
   bash "${SCRIPT_DIR}notify.sh" "deploy-start" "$1"
