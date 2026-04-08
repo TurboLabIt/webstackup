@@ -114,9 +114,9 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   ## Passwords should never expire
   wsuMage config:set admin/security/password_lifetime ''
 
-  ## main.WARNING: Session size of 336381 exceeded allowed session max size of 256000
-  # https://github.com/magento/magento2/issues/33748 (increase to 0.5 MB)
-  wsuMage config:set system/security/max_session_size_admin 512000
+  ## main.WARNING: Session size of 336381 exceeded allowed session max size of xxx
+  # https://github.com/magento/magento2/issues/33748
+  wsuMage config:set system/security/max_session_size_admin 1024000
 fi
 
 
