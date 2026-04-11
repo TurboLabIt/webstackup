@@ -4,10 +4,10 @@ fxHeader "🗄️️ Remote database dump-and-download"
 
 
 echo "🖥 REMOTE_SERVER:         ##${REMOTE_SERVER}##"
-echo "📂 REMOTE_PROJECT_DIR:    ##${REMOTE_PROJECT_DIR}##"
-echo "🌳 REMOTE_APP_ENV:        ##${REMOTE_APP_ENV}##"
-echo "👤 REMOTE_SSH_USERNAME:   ##${REMOTE_SSH_USERNAME}"
-echo "💨 DISABLE_SSH_TEST:      ##${DISABLE_SSH_TEST}##"
+echo "📂 REMOTE_PROJECT_DIR:   ##${REMOTE_PROJECT_DIR}##"
+echo "🌳 REMOTE_APP_ENV:       ##${REMOTE_APP_ENV}##"
+echo "👤 REMOTE_SSH_USERNAME:  ##${REMOTE_SSH_USERNAME}"
+echo "💨 DISABLE_SSH_TEST:     ##${DISABLE_SSH_TEST}##"
 
 
 if [ -z "${REMOTE_SERVER}" ] || [ -z "${REMOTE_PROJECT_DIR}" ] || [ -z "${REMOTE_APP_ENV}" ]; then
