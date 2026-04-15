@@ -301,9 +301,9 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/nginx-http.conf" ]; then
-  fxTitle "🌎 Linking nginx HTTP from /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf..."
-  rm -f /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf
-  ln -s "${PROJECT_DIR}config/custom/nginx-http.conf" /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf
+  fxTitle "🌎 Linking nginx HTTP from /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf..."
+  rm -f /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf
+  ln -s "${PROJECT_DIR}config/custom/nginx-http.conf" /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf
 fi
 
 
