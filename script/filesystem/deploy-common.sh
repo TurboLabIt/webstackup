@@ -32,6 +32,7 @@
 # ${PROJECT_DIR}config/custom/logrotate.conf
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf
+# ${PROJECT_DIR}config/custom/nginx-http.conf
 
 # AUTODEPLOY https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 
@@ -286,6 +287,12 @@ fi
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf" ]; then
   fxTitle "🌎 Linking nginx server {} from ${NGINX_ETC_CONFD_FULLPATH}..."
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf"
+fi
+
+if [ -f "${PROJECT_DIR}config/custom/nginx-http.conf" ]; then
+  fxTitle "🌎 Linking nginx HTTP from /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf..."
+  rm -f /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf
+  ln -s "${PROJECT_DIR}config/custom/nginx-http.conf" /etc/turbolab.it/webstackup-nginx-http-${PROJECT_NAME}.conf
 fi
 
 
