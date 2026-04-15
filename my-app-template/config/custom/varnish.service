@@ -28,6 +28,9 @@ ExecStart=/usr/sbin/varnishd \
   -S /etc/varnish/secret \
   -s malloc,4g \
   -j unix,user=vcache \
+  -p http_req_hdr_len=32768 \
+  -p http_req_size=65536 \
+  -p workspace_client=256k \
   -p thread_pool_min=100 \
   -p thread_pool_max=500 \
   -p thread_pool_timeout=20 \
