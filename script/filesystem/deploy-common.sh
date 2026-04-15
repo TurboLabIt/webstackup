@@ -462,7 +462,7 @@ elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ]; 
 fi
 
 
-WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/varnish.service
+WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/95_${APP_NAME}.conf
 if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ]; then
 
   fxTitle "🪣 Deploying custom Varnish service unit file for the ${APP_ENV} env..."
