@@ -54,7 +54,6 @@
 # ${PROJECT_DIR}config/custom/varnish.vcl
 
 
-
 fxHeader "DEPLOY-COMMON"
 
 
@@ -105,6 +104,18 @@ fi
 
 if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
   fxCatastrophicError "The deploy script has been updated by the pull! Please run it again!"
+fi
+
+
+if [ "$1" = "fast" ]; then
+
+  fxOK "🐇 Fast mode"
+  WSU_DEPLOY_COMMON_FAST=fast
+
+else
+
+  fxOK "🐢 Slow mode (non-fast)"
+  WSU_DEPLOY_COMMON_FAST=
 fi
 
 
@@ -517,7 +528,7 @@ fi
 
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
-  bash "${SCRIPT_DIR}cache-clear.sh"
+  bash "${SCRIPT_DIR}cache-clear.sh" "WSU_DEPLOY_COMMON_FAST"
 fi
 
 
