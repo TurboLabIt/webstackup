@@ -32,6 +32,7 @@
 # ${PROJECT_DIR}config/custom/logrotate.conf
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf
+# ${PROJECT_DIR}config/custom/nginx-http.conf
 
 # AUTODEPLOY https://github.com/TurboLabIt/webstackup/blob/master/script/php-pages/readme.md#how-to-autodeploy
 
@@ -51,7 +52,6 @@
 
 # ${PROJECT_DIR}config/custom/${APP_ENV}/varnish.vcl
 # ${PROJECT_DIR}config/custom/varnish.vcl
-
 
 
 fxHeader "DEPLOY-COMMON"
@@ -104,6 +104,18 @@ fi
 
 if [ "${DEPLOY_SCRIPT_PREPULL_HASH}" != "${DEPLOY_SCRIPT_POSTPULL_HASH}" ]; then
   fxCatastrophicError "The deploy script has been updated by the pull! Please run it again!"
+fi
+
+
+if [ "$1" = "fast" ]; then
+
+  fxOK "🐇 Fast mode"
+  WSU_DEPLOY_COMMON_FAST=fast
+
+else
+
+  fxOK "🐢 Slow mode (non-fast)"
+  WSU_DEPLOY_COMMON_FAST=
 fi
 
 
@@ -288,6 +300,12 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" ] && [ ! -f "${NGINX
   ln -s "${PROJECT_DIR}config/custom/${APP_ENV}/nginx.conf" "${NGINX_ETC_CONFD_FULLPATH}${APP_NAME}.conf"
 fi
 
+if [ -f "${PROJECT_DIR}config/custom/nginx-http.conf" ]; then
+  fxTitle "🌎 Linking nginx HTTP from /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf..."
+  rm -f /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf
+  ln -s "${PROJECT_DIR}config/custom/nginx-http.conf" /etc/turbolab.it/webstackup-nginx-http-${APP_NAME}.conf
+fi
+
 
 ## Let's Encrypt renewal
 if [ -d /etc/letsencrypt ] && [ ! -f /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh ]; then
@@ -444,7 +462,7 @@ elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.vcl" ]; 
 fi
 
 
-WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/varnish.service
+WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/95_${APP_NAME}.conf
 if [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/varnish.service" ]; then
 
   fxTitle "🪣 Deploying custom Varnish service unit file for the ${APP_ENV} env..."
@@ -510,7 +528,7 @@ fi
 
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
-  bash "${SCRIPT_DIR}cache-clear.sh"
+  bash "${SCRIPT_DIR}cache-clear.sh" "WSU_DEPLOY_COMMON_FAST"
 fi
 
 
