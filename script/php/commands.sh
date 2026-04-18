@@ -172,11 +172,13 @@ function wsuSymfony()
   fi
 
 
-  if [ "$EXPECTED_USER" = "$(whoami)" ]; then
-    symfony "$@"
-  else
-    sudo -u "$EXPECTED_USER" -H symfony "$@"
+  local AS_USER=""
+  if [ "$EXPECTED_USER" != "$(whoami)" ]; then
+    AS_USER="sudo -u $EXPECTED_USER -H"
   fi
+
+  $AS_USER bash -c '[ -d "$HOME/.symfony5" ] && mv "$HOME/.symfony5" "$HOME/.config/symfony-cli"'
+  $AS_USER symfony "$@"
 }
 
 
