@@ -95,3 +95,13 @@ mysql -u"${MYSQL_USER}" -p"${MYSQL_PASSWORD}" -h "${MYSQL_HOST}" -e "
 
   SELECT ROW_COUNT() as 'Remember-me tokens deleted';
 "
+
+
+fxTitle "Resetting users uploaded files permissions..."
+sudo chown -R webstackup:www-data "${FORUM_DIR}files"
+sudo find "${FORUM_DIR}files" -type d -exec chmod u=rwx,g=rwxs,o=rx {} +
+sudo find "${FORUM_DIR}files" -type f -exec chmod ug=rw,o=r {} +
+
+sudo chown -R webstackup:www-data "${FORUM_DIR}images/avatars/upload"
+sudo find "${FORUM_DIR}images/avatars/upload" -type d -exec chmod u=rwx,g=rwxs,o=rx {} +
+sudo find "${FORUM_DIR}images/avatars/upload" -type f -exec chmod ug=rw,o=r {} +
