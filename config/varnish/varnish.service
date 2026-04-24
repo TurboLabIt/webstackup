@@ -10,7 +10,7 @@
 #  sudo systemctl daemon-reload && sudo service varnish restart
 
 [Service]
-LimitNOFILE=65535
+LimitNOFILE=131072
 LimitMEMLOCK=85983232
 
 ## When overriding ExecStart in a drop-in, you need to 
