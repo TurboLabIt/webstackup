@@ -1,5 +1,13 @@
-## VARNISH DEFAULT SERVICE CONFIG BY WEBSTACKUP
+## VARNISH SERVICE CONFIG BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/blob/master/config/varnish/varnish.service
+#
+# This gets activated on install https://github.com/TurboLabIt/webstackup/blob/master/script/varnish/install.sh
+#
+# To activate it manually:
+#
+#  sudo mkdir -p /etc/systemd/system/varnish.service.d
+#  sudo ln -s /usr/local/turbolab.it/webstackup/config/varnish/varnish.service /etc/systemd/system/varnish.service.d/30-webstackup.conf
+#  sudo systemctl daemon-reload && sudo service varnish restart
 
 [Service]
 LimitNOFILE=65535
@@ -9,25 +17,25 @@ LimitMEMLOCK=85983232
 ## clear it first with an empty ExecStart= line, then define your new one
 ExecStart=
 
-ExecStart=/usr/sbin/varnishd \                            
-  -P %t/%N/varnishd.pid \                                                                                                                                                                   
-  -j unix,user=vcache \                                                                                                                                                                     
-  -a 127.0.0.1:6081 \                                                                                                                                                                       
-  -T 127.0.0.1:6082 \                                                                                                                                                                       
-  -S /etc/varnish/secret \                                                                                                                                                                  
-  -f /etc/varnish/default.vcl \                           
-  -s malloc,16g \                                                                                                                                                                           
-  -p thread_pool_min=100 \                                
-  -p thread_pool_max=500 \                                                                                                                                                                  
-  -p thread_pool_timeout=20 \                             
-  -p thread_pool_add_delay=1 \                                                                                                                                                              
-  -p thread_pools=6 \                                                                                                                                                                       
-  -p ban_lurker_sleep=0.1 \                                                                                                                                                                 
-  -p ban_lurker_batch=500 \                                                                                                                                                                 
-  -p http_req_hdr_len=131072 \                                                                                                                                                              
+ExecStart=/usr/sbin/varnishd \
+  -P %t/%N/varnishd.pid \
+  -j unix,user=vcache \
+  -a 127.0.0.1:6081 \
+  -T 127.0.0.1:6082 \
+  -S /etc/varnish/secret \
+  -f /etc/varnish/default.vcl \
+  -s malloc,16g \
+  -p thread_pool_min=100 \
+  -p thread_pool_max=500 \
+  -p thread_pool_timeout=20 \
+  -p thread_pool_add_delay=1 \
+  -p thread_pools=6 \
+  -p ban_lurker_sleep=0.1 \
+  -p ban_lurker_batch=500 \
+  -p http_req_hdr_len=131072 \
   -p http_req_size=262144 \
-  -p http_resp_hdr_len=131072 \                                                                                                                                                             
-  -p http_resp_size=262144 \                              
-  -p http_max_hdr=256 \                                                                                                                                                                     
+  -p http_resp_hdr_len=131072 \
+  -p http_resp_size=262144 \
+  -p http_max_hdr=256 \
   -p workspace_client=512k \
   -p workspace_backend=512k
