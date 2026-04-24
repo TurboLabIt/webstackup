@@ -2,7 +2,7 @@
 ### AUTOMATIC VARNISH INSTALLER BY WEBSTACKUP
 # https://github.com/TurboLabIt/webstackup/tree/master/script/varnish/install.sh
 #
-# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/install.sh | sudo VARNISH_VER=7.6 bash
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/install.sh | sudo VARNISH_VER=8.0 bash
 #
 # Based on: https://turbolab.it/4221 | https://www.varnish-software.com/developers/tutorials/installing-varnish-ubuntu/
 
@@ -48,7 +48,7 @@ apt install software-properties-common openssl zip unzip nano -y
 fxTitle "Selecting the version..."
 if [ -z "${VARNISH_VER}" ]; then
 
-  VARNISH_VER=7.6
+  VARNISH_VER=8.0
   fxImportantMessage "VARNISH_VER is not set - defaulting to Varnish ${VARNISH_VER}"
 
 else
