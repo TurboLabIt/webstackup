@@ -33,7 +33,8 @@ fxTitle "Removing any old previous instance..."
 fxInfo "Note: this will display some errors if Varnish is not installed yet."
 fxInfo "This is expected, don't freak out"
 apt purge --auto-remove 'varnish*' -y
-rm -rf /etc/varnish /var/log/varnish
+WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/
+rm -rf /etc/varnish /var/log/varnish $WSU_VARNISH_SERVICE_OVERRIDE_PATH
 
 
 fxTitle "Installing prerequisites..."
@@ -82,6 +83,13 @@ fxTitle "Generating the secret..."
 dd if=/dev/random of=/etc/varnish/secret count=1 bs=128
 chown vcache /etc/varnish/secret
 chmod 0600 /etc/varnish/secret
+
+
+fxTitle "Linking the custom service file from ###${WSU_VARNISH_SERVICE_OVERRIDE_PATH}###..."
+sudo mkdir -p $WSU_VARNISH_SERVICE_OVERRIDE_PATH
+sudo ln -s ${WEBSTACKUP_CONFIG_DIR}varnish/varnish.service ${WSU_VARNISH_SERVICE_OVERRIDE_PATH}30-webstackup.conf
+sudo systemctl daemon-reload
+sudo systemctl show -p FragmentPath -p DropInPaths varnish
 
 
 fxTitle "First Varnish restart..."
