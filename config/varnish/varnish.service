@@ -18,7 +18,6 @@ LimitMEMLOCK=85983232
 ExecStart=
 
 ExecStart=/usr/sbin/varnishd \
-  -P %t/%N/varnishd.pid \
   -j unix,user=vcache \
   -a 127.0.0.1:6081 \
   -T 127.0.0.1:6082 \
