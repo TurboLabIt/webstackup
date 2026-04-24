@@ -23,7 +23,8 @@ ExecStart=/usr/sbin/varnishd \
   -T 127.0.0.1:6082 \
   -S /etc/varnish/secret \
   -f /etc/varnish/default.vcl \
-  -s malloc,16g \
+  -s malloc,14g \
+  -s Transient=malloc,4g \
   -p thread_pool_min=100 \
   -p thread_pool_max=500 \
   -p thread_pool_timeout=20 \
