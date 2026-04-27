@@ -10,6 +10,8 @@
 #  sudo systemctl daemon-reload && sudo service varnish restart
 
 [Service]
+Type=simple
+
 LimitNOFILE=131072
 LimitMEMLOCK=85983232
 
@@ -18,6 +20,7 @@ LimitMEMLOCK=85983232
 ExecStart=
 
 ExecStart=/usr/sbin/varnishd \
+  -F \
   -j unix,user=vcache \
   -a 127.0.0.1:6081 \
   -T 127.0.0.1:6082 \
