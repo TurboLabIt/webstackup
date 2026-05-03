@@ -65,14 +65,12 @@ fi
 ## https://github.com/symfony/monolog-bundle/issues/288
 fxTitle "🧹 Removing the Symfony cache folder..."
 sudo rm -rf "${PROJECT_DIR}var/cache"
-
-fxTitle "☀ Creating the Symfony cache folder anew..."
-sudo mkdir -p "${PROJECT_DIR}var/cache"
-sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
+sudo rm -rf "${PROJECT_DIR}var/share"
 
 
 fxTitle "🌊 Symfony cache:clear..."
 sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
+sudo -u www-data -H XDEBUG_MODE=off symfony console cache:pool:clear --all
 
 
 ## migrate
