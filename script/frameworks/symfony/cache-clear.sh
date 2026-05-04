@@ -29,12 +29,15 @@ cd "$PROJECT_DIR"
 
 
 fxTitle "Setting var/log permissions..."
+sudo mkdir -p "${PROJECT_DIR}var/log"
 sudo chmod ugo= "${PROJECT_DIR}var/log" -R
 sudo chmod ugo=rwX "${PROJECT_DIR}var/log" -R
 
 
 fxTitle "Temporary open permissions on cache..."
+sudo mkdir -p "${PROJECT_DIR}var/cache"
 sudo chmod ugo=rwX "${PROJECT_DIR}var/cache" -R
+sudo mkdir -p "${PROJECT_DIR}var/share"
 sudo chmod ugo=rwX "${PROJECT_DIR}var/share" -R
 
 
@@ -66,14 +69,13 @@ fi
 ## https://github.com/symfony/monolog-bundle/issues/288
 fxTitle "🧹 Removing the Symfony cache folder..."
 sudo rm -rf "${PROJECT_DIR}var/cache"
-sudo rm -rf "${PROJECT_DIR}var/share"
+sudo rm -rf "${PROJECT_DIR}var/share/pools"
+sudo rm -rf "${PROJECT_DIR}var/share/http_cache"
 
 
 fxTitle "☀ Creating the Symfony cache folders anew..."
 sudo mkdir -p "${PROJECT_DIR}var/cache"
 sudo chmod ugo=rwX "${PROJECT_DIR}var/cache" -R
-sudo mkdir -p "${PROJECT_DIR}var/share"
-sudo chmod ugo=rwX "${PROJECT_DIR}var/share" -R
 
 
 fxTitle "🌊 Symfony cache:clear..."
@@ -108,7 +110,7 @@ fi
 
 
 fxTitle "🔥 Cache warmup..."
-sudo -u www-data -H XDEBUG_MODE=off symfony console cache:warmup 
+sudo -u www-data -H XDEBUG_MODE=off symfony console cache:warmup
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
 
 
