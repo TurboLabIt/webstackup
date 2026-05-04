@@ -34,7 +34,8 @@ sudo chmod ugo=rwX "${PROJECT_DIR}var/log" -R
 
 
 fxTitle "Temporary open permissions on cache..."
-sudo chmod ugo=rwx "${PROJECT_DIR}var/cache" -R
+sudo chmod ugo=rwX "${PROJECT_DIR}var/cache" -R
+sudo chmod ugo=rwX "${PROJECT_DIR}var/share" -R
 
 
 fxTitle "Refresh the list of installed PHP versions know to Symfony..."
@@ -68,6 +69,13 @@ sudo rm -rf "${PROJECT_DIR}var/cache"
 sudo rm -rf "${PROJECT_DIR}var/share"
 
 
+fxTitle "☀ Creating the Symfony cache folders anew..."
+sudo mkdir -p "${PROJECT_DIR}var/cache"
+sudo chmod ugo=rwX "${PROJECT_DIR}var/cache" -R
+sudo mkdir -p "${PROJECT_DIR}var/share"
+sudo chmod ugo=rwX "${PROJECT_DIR}var/share" -R
+
+
 fxTitle "🌊 Symfony cache:clear..."
 sudo -u www-data -H XDEBUG_MODE=off symfony console cache:clear --no-optional-warmers
 sudo -u www-data -H XDEBUG_MODE=off symfony console cache:pool:clear --all
@@ -83,13 +91,6 @@ elif [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "🚚 Migrating..."
   wsuSymfony console doctrine:migrations:migrate --no-interaction
 fi
-
-
-fxTitle "👮 Setting final permissions on var/cache..."
-sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
-sudo chmod ugo= "${PROJECT_DIR}var/cache" -R
-sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var/cache" -R
-sudo chmod g+s "${PROJECT_DIR}var/cache"
 
 
 ## build
@@ -111,6 +112,15 @@ sudo -u www-data -H XDEBUG_MODE=off symfony console cache:warmup
 #&> "${PROJECT_DIR}var/log/cache-warmer.log" &
 
 
+fxTitle "👮 Setting final permissions..."
+sudo chown webstackup:www-data "${PROJECT_DIR}var/cache" -R
+sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var/cache" -R
+sudo chmod g+s "${PROJECT_DIR}var/cache"
+sudo chown webstackup:www-data "${PROJECT_DIR}var/share" -R
+sudo chmod ug=rwX,o=rX "${PROJECT_DIR}var/share" -R
+sudo chmod g+s "${PROJECT_DIR}var/share"
+
+
 if [ "$APP_ENV" = "dev" ]; then
 
   fxTitle "chown dev..."
@@ -127,3 +137,4 @@ sudo rm -rf /tmp/symfony-cache
 fxTitle "Final status..."
 ls -ld "${PROJECT_DIR}var"
 ls -la "${PROJECT_DIR}var/cache"
+ls -la "${PROJECT_DIR}var/share"
