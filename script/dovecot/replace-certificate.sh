@@ -54,4 +54,8 @@ fxTitle "Current certificate..."
 ls -l /etc/dovecot/private/
 
 
+fxTitle "Reloading..."
+service dovecot reload
+
+
 fxEndFooter
