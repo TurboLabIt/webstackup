@@ -79,7 +79,7 @@ fxOK "Log files created"
 fxMessage "Use ##tail -f /var/log/dovecot* /var/log/mail.log## to see the logs"
 
 fxTitle "Linking the Webstackup config..."
-fxLink "${WEBSTACKUP_CONFIG_DIR}dovecot/virtual-users.conf" /etc/dovecot/conf.d/00-webstackup.conf
+fxLink "${WEBSTACKUP_CONFIG_DIR}dovecot/virtual-users.conf" /etc/dovecot/conf.d/99-webstackup.conf
 
 fxTitle "Installing Postfix..."
 if [ ! -f /usr/sbin/postfix ]; then
