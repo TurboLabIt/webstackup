@@ -67,6 +67,12 @@ chown root:root /etc/postfix/virtual-regexp*
 chmod u=rw,go= /etc/postfix/virtual-regexp*
 
 
+fxTitle "Preparing sender-transport file (discard outgoing bounces)..."
+cp "${WEBSTACKUP_INSTALL_DIR}config/postfix/sender-transport.conf" /etc/postfix/sender-transport
+chown root:root /etc/postfix/sender-transport
+chmod u=rw,go= /etc/postfix/sender-transport
+
+
 fxTitle "Preparing external relay password file..."
 cp "${WEBSTACKUP_INSTALL_DIR}config/postfix/sasl_passwd.conf" /etc/postfix/sasl_passwd
 postmap /etc/postfix/sasl_passwd
