@@ -18,13 +18,24 @@ rootCheck
 ################################
 
 # Add the release PGP keys:
+rm -f /usr/share/keyrings/*syncthing*
 curl -o /usr/share/keyrings/syncthing-archive-keyring.gpg https://syncthing.net/release-key.gpg
 
+
 # Add the "stable" channel to your APT sources:
-echo "deb [signed-by=/usr/share/keyrings/syncthing-archive-keyring.gpg] https://apt.syncthing.net/ syncthing stable" | sudo tee /etc/apt/sources.list.d/syncthing.list
+rm -f /etc/apt/sources.list.d/*syncthing*
+cat <<EOF | sudo tee /etc/apt/sources.list.d/webstackup-syncthing.sources
+Types: deb
+URIs: https://apt.syncthing.net/
+Suites: syncthing
+Components: stable-v2
+Signed-By: /usr/share/keyrings/syncthing-archive-keyring.gpg
+EOF
+
 
 # Increase preference of Syncthing's packages ("pinning")
 printf "Package: *\nPin: origin apt.syncthing.net\nPin-Priority: 990\n" | sudo tee /etc/apt/preferences.d/syncthing
+
 
 # Update and install syncthing:
 sudo apt-get update
