@@ -27,7 +27,10 @@ apt purge --auto-remove meilisearch* -y
 
 
 fxTitle "Adding the meilisearch repository..."
-echo "deb [trusted=yes] https://apt.fury.io/meilisearch/ /" > /etc/apt/sources.list.d/fury.list
+rm -rf /etc/apt/sources.list.d/*meilisearch*
+echo "deb [trusted=yes lang=none] https://apt.fury.io/meilisearch/ /" > /etc/apt/sources.list.d/webstackup-meilisearch.list
+
+ls -la /etc/apt/sources.list.d/
 
 
 fxTitle "apt install meilisearch..."
