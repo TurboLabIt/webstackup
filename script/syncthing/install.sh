@@ -2,6 +2,7 @@
 ### AUTOMATIC SYNCTHING INSTALL BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/syncthing/install.sh | sudo bash
 #
+# Based on: https://apt.syncthing.net
 
 ## bash-fx
 if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
@@ -14,8 +15,6 @@ fi
 fxHeader "🔄 Syncthing automatic installer"
 rootCheck
 
-## https://apt.syncthing.net/ ##
-################################
 
 # Add the release PGP keys:
 rm -f /usr/share/keyrings/*syncthing*
