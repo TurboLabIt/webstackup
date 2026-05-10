@@ -94,6 +94,11 @@ if [ "${PHP_OS_DETECTED}" == 'ubuntu' ]; then
 
   LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
 
+  ## packages for Ubuntu 26.04 are not available yet
+  if [ "$(lsb_release -sc)" = "resolute" ]; then
+    sed -i 's/Suites: resolute/Suites: noble/g' /etc/apt/sources.list.d/ondrej-ubuntu-php-resolute.sources
+  fi
+
 elif [ "${PHP_OS_DETECTED}" == 'debian' ]; then
 
   sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/webstackup-php-debian.list' 

@@ -33,6 +33,7 @@ fxTitle "Removing any old previous instance..."
 apt purge --auto-remove nginx* -y
 rm -rf /etc/nginx
 
+
 fxTitle "Installing prerequisites..."
 apt update -qq
 apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
@@ -40,15 +41,28 @@ apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 fxTitle "Installing additional utilities..."
 apt install software-properties-common openssl zip unzip nano -y
 
+
 fxTitle "Import the official nginx signing key..."
+rm -rf /usr/share/keyrings/*nginx*
 curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor | sudo tee /usr/share/keyrings/nginx-archive-keyring.gpg >/dev/null
+
 
 fxTitle "Verify that the downloaded file contains the proper key..."
 gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
 
+
 fxTitle "Selecting mainline..."
-echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
-http://nginx.org/packages/mainline/ubuntu `lsb_release -cs` nginx" | sudo tee /etc/apt/sources.list.d/nginx.list
+rm -rf /etc/apt/sources.list.d/*nginx*
+cat <<EOF | sudo tee /etc/apt/sources.list.d/webstackup-nginx.sources
+Types: deb
+URIs: http://nginx.org/packages/mainline/ubuntu
+Suites: $(lsb_release -cs)
+Components: nginx
+Signed-By: /usr/share/keyrings/nginx-archive-keyring.gpg
+EOF
+
+ls -la /etc/apt/sources.list.d/
+
 
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx

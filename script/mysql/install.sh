@@ -21,9 +21,12 @@ fxTitle "Removing any old previous instance..."
 apt purge --auto-remove mysql* -y
 rm -rf /etc/mysql
 
+
 fxTitle "Import an official signing key..."
-curl https://raw.githubusercontent.com/TurboLabIt/webstackup/refs/heads/master/config/mysql/key.pgp \
-  | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-mysql.gpg > /dev/null
+rm -rf /usr/share/keyrings/*mysql*
+curl https://raw.githubusercontent.com/TurboLabIt/webstackup/refs/heads/master/config/mysql/key.pgp | \
+  gpg --dearmor | sudo tee /usr/share/keyrings/mysql.gpg >/dev/null
+
 
 fxTitle "Selecting the version..."
 if [ -z "${MYSQL_VER}" ]; then
@@ -38,11 +41,10 @@ fi
 
 
 fxTitle "Setting up the repo..."
+rm -rf /etc/apt/sources.list.d/*mysql*
 ## https://dev.mysql.com/doc/mysql-apt-repo-quick-guide/en/#apt-repo-fresh-install
 
-WSU_MYSQL_APT_FILE=/etc/apt/sources.list.d/webstackup.mysql.list
-
-echo "### webstackup" > ${WSU_MYSQL_APT_FILE}
+WSU_MYSQL_APT_FILE=/etc/apt/sources.list.d/webstackup-mysql.sources
 
 if [ "${MYSQL_VER}" = "5.7" ]; then
 
@@ -66,10 +68,29 @@ if [ "${MYSQL_VER}" = "8.4" ]; then
   MYSQL_VER=8.4-lts
 fi
 
-WSU_MYSQL_APT_FILE=/etc/apt/sources.list.d/webstackup.mysql.list
-echo "deb http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
-echo "deb-src http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-${MYSQL_VER}" >> ${WSU_MYSQL_APT_FILE}
-echo "deb http://repo.mysql.com/apt/ubuntu/ $WSU_MYSQL_LSB_RELEASE mysql-tools" >> ${WSU_MYSQL_APT_FILE}
+
+## packages for Ubuntu 26.04 are not available yet
+if [ "${WSU_MYSQL_LSB_RELEASE}" = "resolute" ]; then
+  WSU_MYSQL_LSB_RELEASE=noble
+fi
+
+
+cat <<EOF | sudo tee -a ${WSU_MYSQL_APT_FILE}
+Types: deb deb-src
+URIs: http://repo.mysql.com/apt/ubuntu/
+Suites: $WSU_MYSQL_LSB_RELEASE
+Components: mysql-${MYSQL_VER}
+Signed-By: /usr/share/keyrings/mysql.gpg
+
+Types: deb
+URIs: http://repo.mysql.com/apt/ubuntu/
+Suites: $WSU_MYSQL_LSB_RELEASE
+Components: mysql-tools
+Signed-By: /usr/share/keyrings/mysql.gpg
+EOF
+
+ls -la /etc/apt/sources.list.d/
+
 
 fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
 echo -e "Package: *\nPin: origin repo.mysql.com\nPin: release o=mysql\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99mysql

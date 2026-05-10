@@ -32,8 +32,6 @@ if [ ! -z "$(command -v n)" ]; then
 fi
 
 apt purge --auto-remove nodejs* npm* -y
-rm -f /etc/apt/sources.list.d/nodesource*
-rm -f /etc/apt/keyrings/nodesource.gpg
 apt update
 rm -rf /usr/bin/node
 rm -rf /usr/local/bin/node
@@ -47,10 +45,22 @@ fxTitle "🔑 Downloading the Nodesource GPG key..."
 apt update
 apt install ca-certificates curl gnupg -y
 mkdir -p /etc/apt/keyrings
+rm -rf /etc/apt/keyrings/*nodesource*
 curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | sudo gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
 
+
 fxTitle "🔗 Creating the deb repository..."
-echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODEJS_LATEST_VERSION.x nodistro main" > /etc/apt/sources.list.d/nodesource.list
+rm -f /etc/apt/sources.list.d/*nodesource*
+cat <<EOF | sudo tee /etc/apt/sources.list.d/webstackup-nodesource.sources
+Types: deb
+URIs: https://deb.nodesource.com/node_$NODEJS_LATEST_VERSION.x
+Suites: nodistro
+Components: main
+Signed-By: /etc/apt/keyrings/nodesource.gpg
+EOF
+
+ls -la /etc/apt/sources.list.d/
+
 
 fxTitle "💿 Installing Node.js..."
 apt update
