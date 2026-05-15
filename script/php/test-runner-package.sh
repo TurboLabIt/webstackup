@@ -49,6 +49,56 @@ XDEBUG_MODE=off ${PHP_CLI} ./vendor/bin/phpunit \
   --migrate-configuration
 
 
+if [ "${PROJECT_FRAMEWORK}" = "symfony" ]; then
+
+  fxTitle "🧹 Test DB - reset Doctrine migration history"
+
+  # Ask Symfony's test-env Doctrine connection for the name of its DB.
+  # The regex matches only names that actually end in _test (word boundary),
+  # so an unmatched grep === a non-test DB === skip the drop.
+  TEST_DB_NAME=$(wsuSymfony console dbal:run-sql "SELECT DATABASE()" \
+      --env=test --no-interaction --no-debug 2>/dev/null \
+      | grep -v '^[[:space:]]*$' \
+      | grep -v '^[[:space:]]*-' \
+      | grep -v 'DATABASE' \
+      | head -n1 \
+      | xargs)
+
+  fxInfo "Database name is ##${TEST_DB_NAME}##"
+
+
+  if [[ "${TEST_DB_NAME}" == *_test ]]; then
+
+    DO_DROP=1
+
+    if [ "${WSU_TEST_SKIP_TEST_DB_TRUNCATION_WARNING}" != "1" ]; then
+
+      fxWarning "About to DROP doctrine_migration_versions on ##${TEST_DB_NAME}##"
+      fxWarning "Press y/Y to confirm, anything else to skip (set WSU_TEST_SKIP_TEST_DB_TRUNCATION_WARNING=1 to bypass this prompt)"
+      read -p ">> " -n 1 -r < /dev/tty
+      echo
+
+      if [[ ! "$REPLY" =~ ^[Yy]$ ]]; then
+        DO_DROP=0
+        fxInfo "Migration history reset declined by user 🦘"
+      fi
+    fi
+
+    if [ "${DO_DROP}" = "1" ]; then
+
+      fxInfo "DB name ends in _test - dropping doctrine_migration_versions"
+      wsuSymfony console dbal:run-sql --env=test --no-interaction --no-debug \
+        "DROP TABLE IF EXISTS doctrine_migration_versions"
+      fxOK "Migration history cleared - every migration will run again"
+    fi
+
+  else
+
+    fxInfo "DB name does not end in _test, skipping migration history reset 🦘"
+  fi
+fi
+
+
 fxTitle "🐛 Xdebug"
 if [ "$APP_ENV" = dev ] && [ ! -z "$XDEBUG_PORT" ]; then
 
@@ -61,6 +111,18 @@ else
 
   export XDEBUG_MODE="off"
   fxInfo "Xdebug disabled (to enable: export XDEBUG_PORT=9999)"
+fi
+
+
+if [ "${PROJECT_FRAMEWORK}" = "symfony" ]; then
+
+  fxTitle "🚚 Database migration"
+
+  if [ "${WSU_TEST_SKIP_MIGRATION}" != "1" ]; then
+    wsuSymfony console doctrine:migrations:migrate --no-interaction --env test
+  else
+    fxInfo "Skipping migration - WSU_TEST_SKIP_MIGRATION=1 🦘"
+  fi
 fi
 
 
