@@ -54,7 +54,7 @@ fxTitle "🧹 Test DB - reset Doctrine migration history"
 # Ask Symfony's test-env Doctrine connection for the name of its DB.
 # The regex matches only names that actually end in _test (word boundary),
 # so an unmatched grep === a non-test DB === skip the drop.
-TEST_DB_NAME=$(wsuSymfony console doctrine:query:sql "SELECT DATABASE()" \
+TEST_DB_NAME=$(wsuSymfony console dbal:run-sql "SELECT DATABASE()" \
     --env=test --no-interaction --no-debug 2>/dev/null \
     | grep -v '^[[:space:]]*$' \
     | grep -v '^[[:space:]]*-' \
@@ -85,7 +85,7 @@ if [[ "${TEST_DB_NAME}" == *_test ]]; then
   if [ "${DO_DROP}" = "1" ]; then
 
     fxInfo "DB name ends in _test - dropping doctrine_migration_versions"
-    wsuSymfony console doctrine:query:sql --env=test --no-interaction --no-debug \
+    wsuSymfony console dbal:run-sql --env=test --no-interaction --no-debug \
       "DROP TABLE IF EXISTS doctrine_migration_versions"
     fxOK "Migration history cleared - every migration will run again"
   fi
