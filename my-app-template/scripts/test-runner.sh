@@ -15,6 +15,8 @@ fxHeader "🧪 ${APP_NAME} Test Runner"
 # https://github.com/TurboLabIt/webstackup/tree/master/script/php/test-runner-package.sh
 #export XDEBUG_PORT=
 #export WSU_TEST_RUNNER_PARALLEL=0
+#export WSU_TEST_SKIP_TEST_DB_TRUNCATION_WARNING=1
+#export WSU_TEST_SKIP_MIGRATION=1
 source "${WEBSTACKUP_SCRIPT_DIR}php/test-runner-package.sh"
 
 fxTitle "🧹 Cleaning up..."
