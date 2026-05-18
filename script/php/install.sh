@@ -196,17 +196,21 @@ fxTitle "Starting php-fpm service..."
 /usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
 systemctl --no-pager status php${PHP_VER}-fpm
 
-  
+
 fxTitle "Linking the PHP-FPM socket as php-fpm.sock..."
-if [ ! -e "/run/php/php-fpm.sock" ]; then
+rm -f /run/php/php-fpm.sock
 
-  fxLink /run/php/php${PHP_VER}-fpm.sock /run/php/php-fpm.sock
+# find the highest installed PHP-FPM socket
+# list all php*-fpm.sock files, sort by version, and grab the last one
+HIGHEST_SOCK=$(ls /run/php/php*-fpm.sock 2>/dev/null | sort -V | tail -n 1)
 
+if [ -n "$HIGHEST_SOCK" ]; then
+  fxLink "$HIGHEST_SOCK" /run/php/php-fpm.sock
 else
-
-  fxInfo "Link already exists"
-  ls -l "/run/php/php-fpm.sock"
+  fxWarning "No PHP-FPM sockets were found in /run/php/"
 fi
+
+ls -la /run/php/
 
 
 fxTitle "Enabling PHP integration with NGINX..."
