@@ -111,8 +111,8 @@ WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/00-webstackup.cnf
 
 if [ -f "$WSU_MYSQL_SOURCE_CONFIG" ]; then
 
-  ## this must be an HARD link to work
-  ln "$WSU_MYSQL_SOURCE_CONFIG" "${WSU_MYSQL_DEST_CONFIG}"
+  ## must cp: symlink is ignored (AppArmor), hardlink becomes stale after each pull (different inode)
+  cp "${WSU_MYSQL_DEST_CONFIG}" "$WSU_MYSQL_SOURCE_CONFIG"
 
 else
   
