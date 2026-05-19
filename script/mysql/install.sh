@@ -109,10 +109,10 @@ fxTitle "Enabling Webstackup custom config for MySQL..."
 WSU_MYSQL_SOURCE_CONFIG=${WEBSTACKUP_INSTALL_DIR}config/mysql/mysql.cnf
 WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/00-webstackup.cnf
 
-if [ ! -z "${WEBSTACKUP_INSTALL_DIR}" ] && [ -f "WSU_MYSQL_SOURCE_CONFIG" ]; then
+if [ -f "$WSU_MYSQL_SOURCE_CONFIG" ]; then
 
   ## this must be an HARD link to work
-  ln "${WSU_MYSQL_SOURCE_CONFIG}" "${WSU_MYSQL_DEST_CONFIG}"
+  ln "$WSU_MYSQL_SOURCE_CONFIG" "${WSU_MYSQL_DEST_CONFIG}"
 
 else
   
