@@ -124,6 +124,9 @@ if [ "${MYSQL_VER}" = "5.7" ]; then
   fxTitle "Disabling incompatible MySQL ${MYSQL_VER} parameters..."
   sed -i 's|mysqlx = off|#mysqlx = off|g' "${WSU_MYSQL_DEST_CONFIG}"
   sed -i 's|mysqlx-bind-address|#mysqlx-bind-address|g' "${WSU_MYSQL_DEST_CONFIG}"
+
+  ## prevent overwrite from webstackup update
+  mv "$WSU_MYSQL_DEST_CONFIG" /etc/mysql/mysql.conf.d/00-webstackup-legacy.cnf
 fi
 
 chmod u=rw,go=r /etc/mysql/mysql.conf.d/*.cnf
