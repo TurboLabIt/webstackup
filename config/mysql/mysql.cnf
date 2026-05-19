@@ -44,9 +44,17 @@ max_connections = 250
 innodb_buffer_pool_size = 4G
 
 
+## This is the memory buffer where InnoDB stores data before writing it to the redo log
+#
+# Check: select @@GLOBAL.innodb_log_buffer_size;
+innodb_log_buffer_size = 128M
+
+
 ## Total capacity of the redo log files.
 # REPLACES innodb_log_file_size for MySQL 8.0.30+ and 8.4.
 # A bigger log capacity is better for write performance, but increases crash recovery time.
+#
+# Check: select @@GLOBAL.innodb_redo_log_capacity;
 innodb_redo_log_capacity = 1G
 
 
@@ -63,11 +71,14 @@ innodb_buffer_pool_instances = 4
 ##
 # How MySQL Uses the Join Buffer Cache
 # https://dev.mysql.com/doc/internals/en/join-buffer-size.html
-join_buffer_size = 512kb
+#
+# Check: select @@GLOBAL.join_buffer_size;
+join_buffer_size = 2M
 
 
 ##
 # https://dev.mysql.com/doc/refman/8.0/en/stored-programs-logging.html
+#
 # Check: SELECT @@GLOBAL.log_bin_trust_function_creators
 log_bin_trust_function_creators = 1
 
