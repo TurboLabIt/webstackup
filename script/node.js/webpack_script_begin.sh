@@ -28,13 +28,22 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
   fxTitle "(dev) Upgrading yarn to latest stable version..."
   sudo -u $EXPECTED_USER -H yarn set version stable
 
+  fxTitle "(dev) Removing yarn.lock..."
+  sudo rm -f "${PROJECT_DIR}yarn.lock"
+fi
+
+fxTitle "💿 yarn install..."
+sudo -u $EXPECTED_USER -H yarn install
+
+
+if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
+
   fxTitle "(dev) npm-check-updates..."
   sudo -u $EXPECTED_USER -H yarn npm-check-updates -u
 
   fxTitle "(dev) Removing yarn.lock..."
   sudo rm -f "${PROJECT_DIR}yarn.lock"
 fi
-
 
 fxTitle "💿 yarn install..."
 sudo -u $EXPECTED_USER -H yarn install
