@@ -2,6 +2,9 @@ fxHeader "👀 ${APP_NAME} run prod"
 
 source "${WEBSTACKUP_SCRIPT_DIR}node.js/node_script_begin.sh"
 
+fxTitle "💿 npm install..."
+echo "y" | sudo -u $EXPECTED_USER -H npm install
+
 fxTitle "🏃 Running..."
 echo "y" | sudo -u $EXPECTED_USER -H npm run build
 echo "y" | sudo -u $EXPECTED_USER -H PORT=$NODE_PORT npm start

@@ -20,15 +20,29 @@ if [ ! -f "package.json" ]; then
 fi
 
 
-if [ ! -z "${NODEJS_VER}" ]; then
+source "${WEBSTACKUP_SCRIPT_DIR}node.js/node_script_begin.sh"
 
-  fxTitle "🤹 Setting node.js version..."
-  sudo n 20
+
+if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
+
+  fxTitle "(dev) Upgrading yarn to latest stable version..."
+  sudo -u $EXPECTED_USER -H yarn set version stable
+
+  fxTitle "(dev) npm-check-updates..."
+  sudo -u $EXPECTED_USER -H yarn npm-check-updates -u
+
+  fxTitle "(dev) Removing yarn.lock..."
+  sudo rm -f "${PROJECT_DIR}yarn.lock"
 fi
-
-fxTitle "🤹 node.js version in use"
-sudo -u $EXPECTED_USER -H node --version
 
 
 fxTitle "💿 yarn install..."
-sudo -u $EXPECTED_USER -H COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn install
+sudo -u $EXPECTED_USER -H yarn install
+
+
+fxTitle "👮 Fixing permissions on ##node_modules/*webpack*##"
+if ls node_modules/ | grep -q "webpack"; then
+  sudo chmod ug+x node_modules/*webpack* -R
+else
+  fxInfo "Skipped (not found) 🦘"
+fi

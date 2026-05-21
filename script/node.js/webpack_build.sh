@@ -3,12 +3,6 @@ fxHeader "🏗 ${APP_NAME} build"
 source "${WEBSTACKUP_SCRIPT_DIR}node.js/webpack_script_begin.sh"
 
 
-fxTitle "👮 Fixing permissions..."
-sudo chmod ug+x node_modules/.bin -R
-sudo chmod ug+x node_modules/webpack* -R
-sudo chmod ug+x node_modules/@webpack-cli -R
-
-
 fxTitle "🔨 building with yarn..."
 if grep -q '"dist":' package.json; then
 
