@@ -27,9 +27,6 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
 
   fxTitle "(dev) Upgrading yarn to latest stable version..."
   sudo -u $EXPECTED_USER -H yarn set version stable
-
-  fxTitle "(dev) Removing yarn.lock..."
-  sudo rm -f "${PROJECT_DIR}yarn.lock"
 fi
 
 fxTitle "💿 yarn install..."
@@ -41,17 +38,14 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
   fxTitle "(dev) npm-check-updates..."
   sudo -u $EXPECTED_USER -H yarn npm-check-updates -u
 
-  fxTitle "(dev) Removing yarn.lock..."
-  sudo rm -f "${PROJECT_DIR}yarn.lock"
-
-  fxTitle "💿 yarn install (updated packages)..."
+  fxTitle "(dev) 💿 yarn install (updated packages)..."
   sudo -u $EXPECTED_USER -H yarn install
 fi
 
 
 fxTitle "👮 Fixing permissions on ##node_modules/*webpack*##"
-if ls node_modules/ | grep -q "webpack"; then
-  sudo chmod ug+x node_modules/*webpack* -R
+if [ -d "node_modules" ] && ls node_modules/ | grep -q "webpack"; then
+  sudo chmod -R ug+x node_modules/*webpack*
 else
   fxInfo "Skipped (not found) 🦘"
 fi
