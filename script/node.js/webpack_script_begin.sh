@@ -43,10 +43,10 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
 
   fxTitle "(dev) Removing yarn.lock..."
   sudo rm -f "${PROJECT_DIR}yarn.lock"
-fi
 
-fxTitle "💿 yarn install..."
-sudo -u $EXPECTED_USER -H yarn install
+  fxTitle "💿 yarn install (updated packages)..."
+  sudo -u $EXPECTED_USER -H yarn install
+fi
 
 
 fxTitle "👮 Fixing permissions on ##node_modules/*webpack*##"
