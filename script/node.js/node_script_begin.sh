@@ -25,4 +25,4 @@ else
   fxInfo "Skipped (not found) 🦘"
 fi
 
-export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+YARN_CMD="sudo -u $EXPECTED_USER -H COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn"

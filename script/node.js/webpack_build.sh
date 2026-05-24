@@ -7,15 +7,15 @@ fxTitle "🔨 building with yarn..."
 if grep -q '"dist":' package.json; then
 
   fxInfo "yarn dist"
-  sudo -u $EXPECTED_USER -H yarn dist
+  $YARN_CMD dist
 
 elif grep -q '"build":' package.json; then
 
   fxInfo "yarn build"
-  sudo -u $EXPECTED_USER -H yarn build
+  $YARN_CMD build
   
 else
 
   fxInfo "yarn webpack"
-  sudo -u $EXPECTED_USER -H yarn webpack --mode production
+  $YARN_CMD webpack --mode production
 fi

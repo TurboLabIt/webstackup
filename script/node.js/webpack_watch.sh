@@ -8,10 +8,10 @@ fxTitle "🔨 watching with yarn..."
 if grep -q '"watch":' package.json; then
 
   fxInfo "yarn watch"
-  sudo -u $EXPECTED_USER -H yarn watch
+  $YARN_CMD watch
   
 else
 
   fxInfo "yarn webpack"
-  sudo -u $EXPECTED_USER -H yarn webpack --watch --mode development
+  $YARN_CMD webpack --watch --mode development
 fi

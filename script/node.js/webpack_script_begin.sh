@@ -26,20 +26,20 @@ source "${WEBSTACKUP_SCRIPT_DIR}node.js/node_script_begin.sh"
 if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
 
   fxTitle "(dev) Upgrading yarn to latest stable version..."
-  sudo -u $EXPECTED_USER -H yarn set version stable
+  $YARN_CMD set version stable
 fi
 
 fxTitle "💿 yarn install..."
-sudo -u $EXPECTED_USER -H yarn install
+$YARN_CMD install
 
 
 if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
 
   fxTitle "(dev) npm-check-updates..."
-  sudo -u $EXPECTED_USER -H yarn npm-check-updates -u
+  $YARN_CMD npm-check-updates -u
 
   fxTitle "(dev) 💿 yarn install (updated packages)..."
-  sudo -u $EXPECTED_USER -H yarn install
+  $YARN_CMD install
 fi
 
 
