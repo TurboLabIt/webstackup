@@ -69,9 +69,10 @@ wsuSymfony composer require --no-interaction --dev \
 
 
 fxTitle "Adding webpack stuff..."
-sudo -u $EXPECTED_USER -H yarn add sass-loader sass file-loader
-sudo -u $EXPECTED_USER -H yarn install
-sudo -u $EXPECTED_USER -H yarn webpack
+YARN_CMD="sudo -u $EXPECTED_USER -H COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn"
+$YARN_CMD add sass-loader sass file-loader
+$YARN_CMD install
+$YARN_CMD webpack
 
 
 fxTitle "Restoring PROJECT_DIR"

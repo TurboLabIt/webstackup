@@ -81,6 +81,8 @@ corepack enable
 
 fxTitle "Installing yarn via corepack..."
 ## https://yarnpkg.com/getting-started/install
+export COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+
 corepack prepare yarn@stable --activate
 yarn install
 
