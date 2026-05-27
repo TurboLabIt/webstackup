@@ -46,7 +46,7 @@ fxTitle "Consuming Magento cron queue..."
 wsuMage cron:run --group=consumers
 
 ## upgrade composer.json via Magento own composer plugin
-composer require-commerce magento/ product-community-edition $MAGENTO_UPGRADE_TO_VERSION --no-update --force-root-updates #[--interactive-root-conflicts]
+composer require-commerce magento/product-community-edition $MAGENTO_UPGRADE_TO_VERSION --no-update --force-root-updates #[--interactive-root-conflicts]
 
 ## regenerate composer.lock
 composer update --with-all-dependencies
