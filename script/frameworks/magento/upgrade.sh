@@ -49,7 +49,7 @@ wsuMage cron:run --group=consumers
 wsuComposer require-commerce magento/product-community-edition $MAGENTO_UPGRADE_TO_VERSION --no-update --force-root-updates #[--interactive-root-conflicts]
 
 ## regenerate composer.lock
-wsuComposer update --with-dependencies
+wsuComposer update "magento/*" --with-all-dependencies
 
 
 bash "${SCRIPT_DIR}cache-clear.sh"
