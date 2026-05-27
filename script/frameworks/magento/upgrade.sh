@@ -51,5 +51,5 @@ composer require-commerce magento/product-community-edition $MAGENTO_UPGRADE_TO_
 ## regenerate composer.lock
 composer update --with-all-dependencies
 
-
+MAGENTO_MODULE_DISABLE=""
 bash "${SCRIPT_DIR}cache-clear.sh"
