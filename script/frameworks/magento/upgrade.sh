@@ -15,6 +15,8 @@
 
 ## Based on: https://experienceleague.adobe.com/en/docs/commerce-operations/upgrade-guide/implementation/perform-upgrade
 
+fxHeader "🧙🆙 Upgrade Magento"
+
 if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
   MAGENTO_UPGRADE_TO_VERSION=$1
 fi
