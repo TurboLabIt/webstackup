@@ -16,4 +16,8 @@ fxHeader "🧙🕰️ Magento cron"
 showPHPVer
 
 fxTitle "Magento cron:run"
-wsuMage cron:run
+if [ -f "${MAGENTO_DIR}var/.maintenance.flag" ]; then
+  fxInfo "Maintenance mode ON — skipping cron:run"
+else
+  wsuMage cron:run
+fi

@@ -15,11 +15,11 @@
 
 ## Based on: https://experienceleague.adobe.com/en/docs/commerce-operations/upgrade-guide/implementation/perform-upgrade
 
-if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ];
+if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
   MAGENTO_UPGRADE_TO_VERSION=$1
 fi
 
-if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ];
+if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
   fxCatastrophicError "Provide the version to upgrade to: bash scripts/upgrade.sh 2.x.y-pZ"
 fi
 
@@ -29,7 +29,10 @@ fxInfo "Upgrading to ##${MAGENTO_UPGRADE_TO_VERSION}##"
 wsuMage maintenance:enable
 
 ## Starting the upgrade process while asynchronous processes are running may cause data corruption.
+fxTitle "Deleting Magento own cron file (we provide our own)..."
 wsuMage cron:remove
+
+fxTitle "Consuming Magento cron queue..."
 wsuMage cron:run --group=consumers
 
 ## upgrade composer.json via Magento own composer plugin

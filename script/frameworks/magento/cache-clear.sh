@@ -37,6 +37,12 @@ else
 
   sudo chmod ugo=rwx "${MAGENTO_DIR}var/cache" -R
   sudo chmod ugo=rwx "${MAGENTO_DIR}pub/static/_cache" -R
+
+  fxTitle "Deleting Magento own cron file (we provide our own)..."
+  wsuMage cron:remove
+
+  fxTitle "Consuming Magento cron queue..."
+  wsuMage cron:run --group=consumers
 fi
 
 

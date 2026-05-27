@@ -19,3 +19,9 @@ wsuMage maintenance:enable
 
 fxTitle "Replace fastcgi_backend (prevents naming conflicts)..."
 sed -i 's| fastcgi_backend;| fastcgi_backend_${APP_NAME};|g' ${MAGENTO_DIR}nginx.conf.sample
+
+fxTitle "Deleting Magento own cron file (we provide our own)..."
+wsuMage cron:remove
+
+fxTitle "Consuming Magento cron queue..."
+wsuMage cron:run --group=consumers
