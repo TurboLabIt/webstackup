@@ -17,6 +17,13 @@
 
 fxHeader "🧙🆙 Upgrade Magento"
 
+if [ -z "${MAGENTO_DIR}" ] || [ ! -d "${MAGENTO_DIR}" ]; then
+  fxCatastrophicError "📁 MAGENTO_DIR not set"
+fi
+
+cd "$MAGENTO_DIR"
+
+
 if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
   MAGENTO_UPGRADE_TO_VERSION=$1
 fi
@@ -26,6 +33,7 @@ if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
 fi
 
 fxInfo "Upgrading to ##${MAGENTO_UPGRADE_TO_VERSION}##"
+
 
 ## Entering maintenance mode
 wsuMage maintenance:enable
