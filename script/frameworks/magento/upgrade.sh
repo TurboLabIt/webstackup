@@ -35,8 +35,10 @@ fi
 fxInfo "Upgrading to ##${MAGENTO_UPGRADE_TO_VERSION}##"
 
 
-## Entering maintenance mode
-wsuMage maintenance:enable
+## Entering maintenance mode (skipped in dev to match cache-clear.sh, which won't disable it there)
+if [ "${APP_ENV}" != "dev" ]; then
+  wsuMage maintenance:enable
+fi
 
 ## Starting the upgrade process while asynchronous processes are running may cause data corruption.
 fxTitle "Deleting Magento own cron file (we provide our own)..."
@@ -46,7 +48,7 @@ fxTitle "Consuming Magento cron queue..."
 wsuMage cron:run --group=consumers
 
 ## upgrade composer.json via Magento own composer plugin
-wsuComposer require-commerce magento/product-community-edition $MAGENTO_UPGRADE_TO_VERSION --no-update --force-root-updates #[--interactive-root-conflicts]
+wsuComposer require-commerce magento/product-community-edition "$MAGENTO_UPGRADE_TO_VERSION" --no-update --force-root-updates #[--interactive-root-conflicts]
 
 ## regenerate composer.lock
 wsuComposer update "magento/*" --with-all-dependencies
