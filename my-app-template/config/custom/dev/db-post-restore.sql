@@ -10,6 +10,7 @@
 #USE my-app_dev0;
 #MAGENTO: UPDATE `core_config_data` SET `value` = 'https://dev0-next.my-app.com/' WHERE `path` IN('web/unsecure/base_url', 'web/secure/base_url');
 #WORDPRESS: UPDATE `wp_options` SET `option_value` = 'https://dev0-next.my-app.com/' WHERE `option_name` IN('siteurl', 'home');
+#WORDPRESS: UPDATE `wp_usermeta` SET `meta_value` = 'disabled' WHERE `meta_key` = 'googleauthenticator_enabled';
 
 
 #USE my-app_dev1;
