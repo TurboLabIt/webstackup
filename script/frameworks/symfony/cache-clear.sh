@@ -140,3 +140,8 @@ fxTitle "Final status..."
 ls -ld "${PROJECT_DIR}var"
 ls -la "${PROJECT_DIR}var/cache"
 ls -la "${PROJECT_DIR}var/share"
+
+
+if [ -n "${CLOUDFLARE_API_KEY}" ] && [ -n "${CLOUDFLARE_ZONE_ID}" ]; then
+  fxCloudFlareCacheClear "${CLOUDFLARE_API_KEY}" "${CLOUDFLARE_ZONE_ID}"
+fi

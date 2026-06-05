@@ -77,3 +77,8 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   fxTitle "⚙️ Restarting services.."
   sudo service ${PHP_FPM} restart
 fi
+
+
+if [ -n "${CLOUDFLARE_API_KEY}" ] && [ -n "${CLOUDFLARE_ZONE_ID}" ]; then
+  fxCloudFlareCacheClear "${CLOUDFLARE_API_KEY}" "${CLOUDFLARE_ZONE_ID}"
+fi

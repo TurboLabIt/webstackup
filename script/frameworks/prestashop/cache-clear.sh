@@ -132,3 +132,8 @@ sudo rm -rf /tmp/prestashop-cache
 fxTitle "Final status..."
 ls -ld "${WEBROOT_DIR}var"
 ls -la "${WEBROOT_DIR}var/cache"
+
+
+if [ -n "${CLOUDFLARE_API_KEY}" ] && [ -n "${CLOUDFLARE_ZONE_ID}" ]; then
+  fxCloudFlareCacheClear "${CLOUDFLARE_API_KEY}" "${CLOUDFLARE_ZONE_ID}"
+fi

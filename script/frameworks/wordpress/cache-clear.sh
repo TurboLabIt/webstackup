@@ -83,3 +83,8 @@ fi
 
 fxTitle "Final status..."
 ls -la "${PROJECT_DIR}"
+
+
+if [ -n "${CLOUDFLARE_API_KEY}" ] && [ -n "${CLOUDFLARE_ZONE_ID}" ]; then
+  fxCloudFlareCacheClear "${CLOUDFLARE_API_KEY}" "${CLOUDFLARE_ZONE_ID}"
+fi
