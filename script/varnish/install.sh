@@ -89,7 +89,7 @@ fxTitle "Linking the custom service file from ###${WSU_VARNISH_SERVICE_OVERRIDE_
 sudo mkdir -p $WSU_VARNISH_SERVICE_OVERRIDE_PATH
 sudo ln -s ${WEBSTACKUP_CONFIG_DIR}varnish/varnish.service ${WSU_VARNISH_SERVICE_OVERRIDE_PATH}30-webstackup.conf
 sudo systemctl daemon-reload
-sudo systemctl show -p FragmentPath -p DropInPaths varnish
+sudo systemctl show --no-pager -p FragmentPath -p DropInPaths varnish
 
 
 fxTitle "First Varnish restart..."

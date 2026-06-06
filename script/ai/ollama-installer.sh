@@ -42,7 +42,7 @@ fxWarning "The API is exposed on every interface, with no auth! On servers with 
 mkdir -p ${WSU_OLLAMA_SERVICE_OVERRIDE_PATH}
 fxLink "${WEBSTACKUP_CONFIG_DIR}ai/ollama.service" "${WSU_OLLAMA_SERVICE_OVERRIDE_PATH}30-webstackup.conf"
 systemctl daemon-reload
-systemctl show -p FragmentPath -p DropInPaths ollama
+systemctl show --no-pager -p FragmentPath -p DropInPaths ollama
 
 fxTitle "Restarting the service..."
 systemctl restart ollama
