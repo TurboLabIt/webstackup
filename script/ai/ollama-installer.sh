@@ -31,6 +31,11 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 
+fxTitle "Installing prerequisites..."
+apt update -qq
+apt install jq -y
+
+
 fxTitle "Running the official ollama installer..."
 curl -fsSL https://ollama.com/install.sh | sh
 
@@ -48,10 +53,11 @@ fxTitle "Restarting the service..."
 systemctl restart ollama
 
 
-fxTitle "Final check..."
+fxTitle "Final checks..."
 ollama --version
 ss -tlnp | grep 11434
 curl http://127.0.0.1:11434/
+echo ""
 
 
 fxTitle "Installing Gemma 4 12B QAT..."
@@ -61,17 +67,17 @@ ollama pull gemma4:12b-it-qat
 
 
 fxTitle "Testing the API..."
-fxInfo "Explain what webstackup is in max 50 words"
-apt update && apt install jq -y
+fxInfo "Q: Who are you?"
 curl -s http://127.0.0.1:11434/api/generate -d '{
   "model": "gemma4:12b-it-qat",
-  "prompt": "Explain what webstackup is in max 50 words",
+  "prompt": "Who are you? Answer in max 50 words",
   "stream": false
-}' | jq
+}' | jq -r '.response'
 
 
 fxTitle "Benchmarking..."
-ollama run gemma4:12b-it-qat --verbose "Write one sentence about webstackup"
+fxInfo "Q: What is a Terminator? Answer in max 50 words"
+ollama run gemma4:12b-it-qat --verbose "What is a Terminator? Answer in max 50 words"
 
 
 fxEndFooter
