@@ -12,6 +12,7 @@ OPTIONS=(
   6 "💿  Let's Encrypt"
   7 "💿  Varnish"
   8 "💿  OpenSearch"
+  9 "💿  Ollama"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -25,4 +26,5 @@ case $CHOICE in
   6)bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh";;
   7)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/install.sh";;
   8)bash "${WEBSTACKUP_SCRIPT_DIR}opensearch/install.sh";;
+  9)bash "${WEBSTACKUP_SCRIPT_DIR}ai/ollama-installer.sh";;
 esac
