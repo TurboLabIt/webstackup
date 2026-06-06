@@ -17,6 +17,6 @@ case $CHOICE in
   1) varnishadm 'ban req.url ~ .';;
   2) bash ${WEBSTACKUP_SCRIPT_DIR}varnish/monitor-cache.sh;;
   3) varnishncsa -F '%U%q %{Varnish:hitmiss}x';;
-  4) sudo systemctl show -p FragmentPath -p DropInPaths varnish;;
+  4) sudo systemctl show --no-pager -p FragmentPath -p DropInPaths varnish;;
   5) LOG="/var/log/varnish/5xx.log"; echo "📝 Logging to: $LOG"; sudo varnishlog -g request -q 'RespStatus >= 500 or BerespStatus >= 500 or FetchError' | sudo tee "$LOG";;
 esac
