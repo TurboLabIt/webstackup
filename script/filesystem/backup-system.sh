@@ -81,6 +81,15 @@ RCLONE_EXCLUDES=(
   ## "systemd/system/...", not "etc/systemd/system/...".
   "systemd/system/snap*"
   "systemd/system/snap*/**"
+  ## ...and the enable-symlinks snapd plants in *.target.wants/ subdirs
+  "systemd/system/**/snap*"
+  ## same story for the per-user units snapd generates
+  "systemd/user/snap*"
+  "systemd/user/snap*/**"
+  "systemd/user/**/snap*"
+  ## ...and the udev rules it generates (keep the rest of udev/rules.d:
+  ## that's where hand-written rules live)
+  "udev/rules.d/70-snap.*"
 
   ## Broader names that sometimes hold real data — enable only if yours don't:
   #"build/**"
