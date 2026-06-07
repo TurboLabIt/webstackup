@@ -44,13 +44,13 @@ fxTitle "Testing the API..."
 fxInfo "Q: Who are you?"
 curl -s http://127.0.0.1:11434/api/generate -d '{
   "model": "gemma4:12b-it-qat",
-  "prompt": "Who are you? Answer in max 50 words",
+  "prompt": "Who are you?",
   "stream": false
 }' | jq -r '.response'
 
 
 fxTitle "Benchmarking..."
-fxInfo "Q: What is a Terminator?"
+fxInfo "Q: What is a Terminator? Answer in max 50 words"
 ollama run gemma4:12b-it-qat --verbose "What is a Terminator? Answer in max 50 words"
 
 
