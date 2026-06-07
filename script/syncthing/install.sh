@@ -33,7 +33,7 @@ EOF
 
 
 # Increase preference of Syncthing's packages ("pinning")
-printf "Package: *\nPin: origin apt.syncthing.net\nPin-Priority: 990\n" | sudo tee /etc/apt/preferences.d/syncthing
+printf "Package: *\nPin: origin apt.syncthing.net\nPin-Priority: 990\n" | sudo tee /etc/apt/preferences.d/syncthing.pref
 
 
 # Update and install syncthing:
