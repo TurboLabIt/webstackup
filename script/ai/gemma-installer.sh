@@ -50,7 +50,7 @@ curl -s http://127.0.0.1:11434/api/generate -d '{
 
 
 fxTitle "Benchmarking..."
-fxInfo "Q: What is a Terminator? Answer in max 50 words"
+fxInfo "Q: What is a Terminator?"
 ollama run gemma4:12b-it-qat --verbose "What is a Terminator? Answer in max 50 words"
 
 
