@@ -31,11 +31,6 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 
-fxTitle "Installing prerequisites..."
-apt update -qq
-apt install jq -y
-
-
 fxTitle "Running the official ollama installer..."
 curl -fsSL https://ollama.com/install.sh | sh
 
@@ -58,26 +53,6 @@ ollama --version
 ss -tlnp | grep 11434
 curl http://127.0.0.1:11434/
 echo ""
-
-
-fxTitle "Installing Gemma 4 12B QAT..."
-fxInfo "12B parameters, instruction-tuned, quantization-aware-trained"
-fxInfo "Req.: 12 GB of RAM (CPU+GPU)"
-ollama pull gemma4:12b-it-qat
-
-
-fxTitle "Testing the API..."
-fxInfo "Q: Who are you?"
-curl -s http://127.0.0.1:11434/api/generate -d '{
-  "model": "gemma4:12b-it-qat",
-  "prompt": "Who are you? Answer in max 50 words",
-  "stream": false
-}' | jq -r '.response'
-
-
-fxTitle "Benchmarking..."
-fxInfo "Q: What is a Terminator? Answer in max 50 words"
-ollama run gemma4:12b-it-qat --verbose "What is a Terminator? Answer in max 50 words"
 
 
 fxEndFooter
