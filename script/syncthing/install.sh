@@ -41,6 +41,7 @@ sudo apt-get update
 sudo apt-get install apt-transport-https ca-certificates syncthing -y
 
 # https://docs.syncthing.net/users/autostart.html#how-to-set-up-a-system-service
+systemctl daemon-reload
 systemctl enable syncthing@$(logname).service
 systemctl start syncthing@$(logname).service
 
