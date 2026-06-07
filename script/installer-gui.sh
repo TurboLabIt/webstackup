@@ -13,6 +13,7 @@ OPTIONS=(
   7 "💿  Varnish"
   8 "💿  OpenSearch"
   9 "💿  Ollama"
+  10 "💎  Gemma (on Ollama)"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -27,4 +28,5 @@ case $CHOICE in
   7)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/install.sh";;
   8)bash "${WEBSTACKUP_SCRIPT_DIR}opensearch/install.sh";;
   9)bash "${WEBSTACKUP_SCRIPT_DIR}ai/ollama-installer.sh";;
+  10)bash "${WEBSTACKUP_SCRIPT_DIR}ai/gemma-installer.sh";;
 esac
