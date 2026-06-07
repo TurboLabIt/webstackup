@@ -36,7 +36,7 @@ apt install jq -y
 
 fxTitle "Installing Gemma 4 12B QAT..."
 fxInfo "12B parameters, instruction-tuned, quantization-aware-trained"
-fxInfo "Req.: 12 GB of RAM (CPU+GPU)"
+fxInfo "Req.: 16 GB of RAM (CPU+GPU)"
 ollama pull gemma4:12b-it-qat
 
 
