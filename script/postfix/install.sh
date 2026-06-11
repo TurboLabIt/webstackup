@@ -54,6 +54,10 @@ echo "myhostname = ${POSTFIX_MAIL_NAME}" >> /etc/postfix/main.cf
 echo "mydestination = localhost.localdomain, localhost" >>  /etc/postfix/main.cf
 
 
+fxTitle "Commenting out any inet_protocols lines..."
+sed -i '/^inet_protocols/ s/^/#/' /etc/postfix/main.cf
+
+
 fxTitle "Appending default config..."
 echo "" >>  /etc/postfix/main.cf
 echo "" >>  /etc/postfix/main.cf
