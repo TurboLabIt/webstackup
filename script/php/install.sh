@@ -43,7 +43,7 @@ PHP_VER_TO_INSTALL=${PHP_VER}
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
 fxTitle "Checking OS version..."
-apt update
+apt update -qq
 apt install lsb-release -y
 RELEASE_DESCR=$(lsb_release -d)
 echo ""
@@ -82,45 +82,38 @@ fxTitle "Removing any old previous instance of PHP ${PHP_VER} (if any)..."
 fxInfo "Note: this will display some errors if PHP is not installed yet."
 fxInfo "This is expected, don't freak out"
 apt purge --auto-remove php${PHP_VER}* -y
-rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}*
+rm -rf /etc/php/${PHP_VER} /var/log/php${PHP_VER}* \
+  /etc/apt/sources.list.d/*ondrej* /etc/apt/trusted.gpg.d/*sury*.gpg /etc/apt/trusted.gpg.d/*ondrej*.gpg
 
 
 fxTitle "Installing prerequisites..."
-apt install software-properties-common ca-certificates apt-transport-https  -y
+apt install software-properties-common ca-certificates apt-transport-https curl  -y
+
+
+fxTitle "Installing the key..."
+curl -sSLo /tmp/debsuryorg-archive-keyring.deb https://packages.sury.org/debsuryorg-archive-keyring.deb
+dpkg -i /tmp/debsuryorg-archive-keyring.deb
+rm -f /tmp/debsuryorg-archive-keyring.deb
 
 
 fxTitle "Setting up ondrej/php..."
-if [ "${PHP_OS_DETECTED}" == 'ubuntu' ]; then
-
-  LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php -y
-
-  ## packages for Ubuntu 26.04 are not available yet
-  WSU_PHP_LSB_RELEASE=$(lsb_release -sc)
-  if [ "$WSU_PHP_LSB_RELEASE" = "resolute" ]; then
-    WSU_PHP_LSB_RELEASE=noble
-    sed -i "s/^Suites:.*/Suites: ${WSU_PHP_LSB_RELEASE}/" /etc/apt/sources.list.d/ondrej-ubuntu-php-resolute.sources
-  fi
-
-elif [ "${PHP_OS_DETECTED}" == 'debian' ]; then
-
-  sh -c 'echo "deb https://packages.sury.org/php/ $(lsb_release -sc) main" > /etc/apt/sources.list.d/webstackup-php-debian.list' 
-  curl https://packages.sury.org/php/apt.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/webstackup-php-sury.gpg > /dev/null
-
-fi
-
-
-apt update -qq
+cat <<EOF | sudo tee /etc/apt/sources.list.d/webstackup-ondrej-php.sources
+Types: deb
+URIs: https://packages.sury.org/php/
+Suites: $(lsb_release -sc)
+Components: main
+Signed-By: /usr/share/keyrings/debsuryorg-archive-keyring.gpg
+EOF
 
 
 fxTitle "Installing..."
+apt update -qq
 apt install -y \
   php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-fpm \
   php${PHP_VER}-bcmath php${PHP_VER}-curl \
   php${PHP_VER}-gd php${PHP_VER}-imagick \
   php${PHP_VER}-intl php${PHP_VER}-mbstring \
-  php${PHP_VER}-mysql \
-  php${PHP_VER}-soap php${PHP_VER}-xml \
-  php${PHP_VER}-zip
+  php${PHP_VER}-mysql php${PHP_VER}-xml php${PHP_VER}-zip
 
 
 fxTitle "Config path"
@@ -165,7 +158,7 @@ fxTitle "Configuring Xdebug..."
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/xdebug.ini" ${FPM_CONF_FILE}xdebug.ini
 fxLink "${WEBSTACKUP_INSTALL_DIR}config/php/xdebug.ini" ${CLI_CONF_FILE}xdebug.ini
 echo ""
-fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install php${PHP_VER}-xdebug install -y"
+fxInfo "Xdebug is configured, but NOT installed. To install it: sudo apt install php${PHP_VER}-xdebug -y"
 
 
 fxTitle "Activating custom php-fpm pool settings..."
