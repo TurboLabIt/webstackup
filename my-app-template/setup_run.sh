@@ -7,7 +7,7 @@
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
-WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore")
+WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore" "react-router")
 # WSU_MAP_FRAMEWORK=one of these ☝☝☝☝
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.5
