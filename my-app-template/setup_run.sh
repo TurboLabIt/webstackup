@@ -338,6 +338,20 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 fi
 
 
+if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+
+  ## React Router is a Node.js app: drop the PHP/Varnish template files that don't apply
+  rm -f \
+    ${WSU_MAP_TMP_DIR}.php-version \
+    ${WSU_MAP_TMP_DIR}public/wsu.php \
+    ${WSU_MAP_TMP_DIR}config/custom/nginx-php-fpm.conf \
+    ${WSU_MAP_TMP_DIR}config/custom/php-custom.ini \
+    ${WSU_MAP_TMP_DIR}config/custom/php-custom-cli.ini \
+    ${WSU_MAP_TMP_DIR}config/custom/php-fpm.conf \
+    ${WSU_MAP_TMP_DIR}config/custom/varnish.vcl
+fi
+
+
 fxTitle "🚚 Moving the built directory to ##${WSU_MAP_DEPLOY_TO_PATH}##..."
 mkdir -p "${WSU_MAP_DEPLOY_TO_PATH}"
 rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
