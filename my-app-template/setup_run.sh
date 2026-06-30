@@ -290,6 +290,15 @@ else
   fxInfo "A .gitignore already exists, skipping 🦘"
 fi
 
+if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+  ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_react-router
+  curl -o "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_react-router
+  sed -i "s/my-app/${WSU_MAP_APP_NAME}/g" "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp"
+  echo "" >> "${WSU_MAP_TMP_DIR}.gitignore"
+  cat "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp" >> "${WSU_MAP_TMP_DIR}.gitignore"
+  rm -f "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp"
+fi
+
 
 fxTitle "🌳 Dealing with the env file"
 if [ ! -d "${WSU_MAP_TMP_DIR}.git" ] && [ ! -f "${WSU_MAP_TMP_DIR}env" ]; then
