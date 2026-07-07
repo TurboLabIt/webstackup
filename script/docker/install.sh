@@ -69,12 +69,13 @@ docker build --network host -t wsu-ssh -f /tmp/dockerfile-isolated-ssh .
 
 
 fxTitle "Run a Docker test image..."
-docker run --name 'webstackup-setup-test' docker/whalesay cowsay "Docker has been installed via Webstackup!"
+# cowsay is only packaged in Alpine's edge/testing repo
+docker run --network host --name 'webstackup-setup-test' alpine sh -c \
+  'apk add --no-cache --repository=https://dl-cdn.alpinelinux.org/alpine/edge/testing/ cowsay > /dev/null && cowsay "Docker has been installed via Webstackup!"'
 
 
 fxTitle "Remove the test..."
 docker container rm 'webstackup-setup-test'
-docker image rm docker/whalesay
 
 
 fxEndFooter
