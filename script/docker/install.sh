@@ -28,15 +28,25 @@ apt install ca-certificates curl gnupg lsb-release -y
 
 
 fxTitle "Add Docker official GPG key..."
-DOCKER_GPG_FILE=/etc/apt/trusted.gpg.d/webstackup.docker.gpg
-rm -f "${DOCKER_GPG_FILE}"
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o "${DOCKER_GPG_FILE}"
+DOCKER_GPG_FILE=/usr/share/keyrings/docker.asc
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o "${DOCKER_GPG_FILE}"
+chmod a+r "${DOCKER_GPG_FILE}"
+# globally-trusted location used by previous versions of this script
+rm -f /etc/apt/trusted.gpg.d/webstackup.docker.gpg
 
 
 fxTitle "Set up the repository..."
-echo \
-  "deb [arch=$(dpkg --print-architecture) signed-by=${DOCKER_GPG_FILE}] https://download.docker.com/linux/ubuntu \
-  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/webstackup.docker.list > /dev/null
+tee /etc/apt/sources.list.d/webstackup-docker.sources > /dev/null <<EOF
+Types: deb
+URIs: https://download.docker.com/linux/ubuntu
+Suites: $(lsb_release -cs)
+Components: stable
+Architectures: $(dpkg --print-architecture)
+Signed-By: ${DOCKER_GPG_FILE}
+EOF
+
+# legacy one-line format used by previous versions of this script
+rm -f /etc/apt/sources.list.d/webstackup.docker.list /etc/apt/sources.list.d/webstackup.docker.list.bak
 
 apt update -qq
 apt-cache policy docker-ce
