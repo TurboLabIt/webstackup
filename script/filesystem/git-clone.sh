@@ -164,8 +164,9 @@ fxTitle "🐑🐑 Cloning ${GIT_CLONE_REPO_URL} (branch ${GIT_CLONE_BRANCH}) int
 gitCloneGitCmd clone --branch ${GIT_CLONE_BRANCH} ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
 
 fxTitle "😡 Setting safe.directory..."
-gitCloneGitCmd config --global --add safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}"
-git config --global --add safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}"
+## --fixed-value --replace-all = idempotent: --add would append a duplicate .gitconfig line on every clone
+gitCloneGitCmd config --global --fixed-value --replace-all safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}" "${GIT_CLONE_TARGET_FOLDER%*/}"
+git config --global --fixed-value --replace-all safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}" "${GIT_CLONE_TARGET_FOLDER%*/}"
 
 fxTitle "🌿 Confirming branch & upstream..."
 gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} rev-parse --abbrev-ref --symbolic-full-name @{upstream}

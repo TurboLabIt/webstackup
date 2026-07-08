@@ -82,7 +82,8 @@ sudo -u webstackup -H git clone ${NEWSITE_REPO_URL} /home/webstackup/clone-temp-
 sudo -u webstackup -H git -C /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} switch ${NEWSITE_BRANCH}
 sudo -u webstackup -H git -C /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} config core.fileMode false
 mv /home/webstackup/clone-temp-${NEWSITE_FOLDER_NAME} ${LOCAL_CLONE_FULLPATH}
-git config --global --add safe.directory "${LOCAL_CLONE_FULLPATH}"
+## --fixed-value --replace-all = idempotent: --add would append a duplicate .gitconfig line on every clone
+git config --global --fixed-value --replace-all safe.directory "${LOCAL_CLONE_FULLPATH}" "${LOCAL_CLONE_FULLPATH}"
 git -C ${LOCAL_CLONE_FULLPATH} status
 git -C ${LOCAL_CLONE_FULLPATH} branch
 
