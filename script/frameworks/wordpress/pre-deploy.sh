@@ -50,6 +50,31 @@ else
 fi
 
 
+fxTitle "OPcache reset on WordPress self-updates..."
+## WordPress rewrites its own PHP files on core/plugin/theme auto-updates, without reloading
+## php-fpm: OPcache may keep serving stale code (see 35-webstackup-opcache-revalidate-timestamp.ini).
+## This mu-plugin resets OPcache right after every upgrade. Auto-updates run via WP-CLI
+## (DISABLE_WP_CRON + scripts/cron.sh), so the mu-plugin resets php-fpm's OPcache through
+## the FPM socket via cachetool.
+if [ "$WSU_WP_NO_OPCACHE_RESET_ON_UPGRADE" != 1 ]; then
+
+  if [ ! -f /usr/local/bin/cachetool ]; then
+    fxInfo "Installing cachetool..."
+    sudo curl -Lo /usr/local/bin/cachetool https://github.com/gordalina/cachetool/releases/latest/download/cachetool.phar
+    sudo chmod u=rwx,go=rx /usr/local/bin/cachetool
+  fi
+
+  sudo -u $EXPECTED_USER -H mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
+  sudo -u $EXPECTED_USER -H rm -f "${WEBROOT_DIR}wp-content/mu-plugins/opcache-reset-on-upgrade.php"
+  sudo -u $EXPECTED_USER -H ln -s "/usr/local/turbolab.it/webstackup/script/php-pages/wordpress/opcache-reset-on-upgrade.php" "${WEBROOT_DIR}wp-content/mu-plugins/opcache-reset-on-upgrade.php"
+  fxOK "OK, mu-plugin activated"
+
+else
+
+  fxInfo "Skipped (disabled in config) 🦘"
+fi
+
+
 fxTitle "Disable Installatron..."
 if [ "$WSU_WP_ALLOW_INSTALLATRON" == 1 ]; then
 
