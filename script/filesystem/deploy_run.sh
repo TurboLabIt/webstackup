@@ -83,6 +83,11 @@ if [ -f "${SCRIPT_DIR}deploy_moment_070.sh" ]; then
   source "${SCRIPT_DIR}deploy_moment_070.sh"
 fi
 
+WSU_FRAMEWORK_POSTDEPLOY=${WEBSTACKUP_SCRIPT_DIR}frameworks/${PROJECT_FRAMEWORK}/post-deploy.sh
+if [ -f "${WSU_FRAMEWORK_POSTDEPLOY}" ]; then
+  source "${WSU_FRAMEWORK_POSTDEPLOY}"
+fi
+
 if [ -f "${SCRIPT_DIR}notify.sh" ]; then
   bash ${SCRIPT_DIR}notify.sh "deploy-end" "$1"
 fi
