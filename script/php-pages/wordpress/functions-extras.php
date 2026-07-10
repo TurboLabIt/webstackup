@@ -16,7 +16,8 @@ if( is_readable(WSU_AUTOLOADER_FILE) ) {
 
 
 //<editor-fold defaultstate="collapsed" desc="*** 🪵 Timber (Twig) ***">
-if ( class_exists( 'Timber\Timber' ) ) {
+// is_callable() excludes Timber 1.x (plugin), where init() is protected and the plugin self-initializes
+if ( class_exists( 'Timber\Timber' ) && is_callable( [ 'Timber\Timber', 'init' ] ) ) {
     Timber\Timber::init();
 }
 //</editor-fold>
