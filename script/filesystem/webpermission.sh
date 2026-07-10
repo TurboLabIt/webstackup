@@ -42,5 +42,12 @@ if [[ -e "${WEBPERMISSION_PROJECT_DIR}website/www/script" ]]; then
     chmod u=rwx,go=rx "${WEBPERMISSION_PROJECT_DIR}website/www/script" -R
 fi
 
+## zzdeploy & co. are symlinks to scripts/*.sh: they must stay executable
+if [[ -d "${WEBPERMISSION_PROJECT_DIR%/}/scripts" ]]; then
+
+    printMessage "Restoring the executable bit on scripts/*.sh..."
+    chmod ug+x "${WEBPERMISSION_PROJECT_DIR%/}/scripts/"*.sh
+fi
+
 printMessage "Web permissions applied!"
 ls -la "$WEBPERMISSION_PROJECT_DIR"
