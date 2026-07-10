@@ -528,7 +528,7 @@ fi
 
 ## cache-clear
 if [ -f "${SCRIPT_DIR}cache-clear.sh" ]; then
-  bash "${SCRIPT_DIR}cache-clear.sh" "WSU_DEPLOY_COMMON_FAST"
+  bash "${SCRIPT_DIR}cache-clear.sh" "${WSU_DEPLOY_COMMON_FAST}"
 fi
 
 
