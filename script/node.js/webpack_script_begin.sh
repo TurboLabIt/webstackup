@@ -33,10 +33,14 @@ fxTitle "💿 yarn install..."
 $YARN_CMD install
 
 
+if [ -z "${NPM_CHECK_UPDATES_COOLDOWN}" ]; then
+  NPM_CHECK_UPDATES_COOLDOWN=7
+fi
+
 if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
 
-  fxTitle "(dev) npm-check-updates..."
-  $YARN_CMD npm-check-updates -u
+  fxTitle "(dev) npm-check-updates (cooldown: ${NPM_CHECK_UPDATES_COOLDOWN} days)..."
+  $YARN_CMD dlx npm-check-updates -u --cooldown "${NPM_CHECK_UPDATES_COOLDOWN}"
 
   fxTitle "(dev) 💿 yarn install (updated packages)..."
   $YARN_CMD install
