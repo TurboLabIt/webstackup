@@ -137,6 +137,32 @@ sub wsu_xmark_backend_response {
 }
 
 
+sub wsu_html_only {
+
+  # Cache text-ish responses only (HTML, JSON, XML, feeds, extensionless JS).
+  # Media doesn't normally reach Varnish (the TLS-terminating NGINX serves static
+  # assets directly, see config/nginx/varnish.conf), but extensionless binaries
+  # (e.g. /invoice/123/download) or direct :6081 hits must not land in - and
+  # evict pages from - the HTML cache.
+  # An unset Content-Type doesn't match either → uncacheable.
+  if (beresp.http.Content-Type !~ "^(text/|application/(json|ld\+json|xml|xhtml\+xml|rss\+xml|atom\+xml|javascript|x-javascript))") {
+
+    set beresp.http.X-Cacheable = "NO:NOT-HTML";
+    set beresp.uncacheable = true;
+    set beresp.ttl = 120s;
+
+  # Belt and braces: nothing over 5 MB in the cache. NGINX gzips dynamic
+  # responses as chunked (no Content-Length), so this only catches
+  # explicit-length responses, i.e. file downloads
+  } else if (std.integer(beresp.http.Content-Length, 0) > 5242880) {
+
+    set beresp.http.X-Cacheable = "NO:TOO-BIG";
+    set beresp.uncacheable = true;
+    set beresp.ttl = 120s;
+  }
+}
+
+
 sub wsu_ttl_long {
 
   ## Default cache life: 2hrs
@@ -149,5 +175,6 @@ sub wsu_ttl_long {
 sub wsu_base_backend_response {
 
   call wsu_xmark_backend_response;
+  call wsu_html_only;
   call wsu_ttl_long;
 }

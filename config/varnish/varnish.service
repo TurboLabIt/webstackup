@@ -15,7 +15,30 @@ Type=simple
 LimitNOFILE=131072
 LimitMEMLOCK=85983232
 
-## When overriding ExecStart in a drop-in, you need to 
+## HTML-only cache sizing.
+#
+# Media never reaches Varnish: the TLS-terminating NGINX serves static assets directly
+# (see config/nginx/varnish.conf). A stored (gzipped) page is ~65 KB, so 4g ≈ 65k pages
+# resident at once - the hot set of a 250k-page store. The cold tail is simply
+# LRU-evicted and regenerated on the next miss.
+#
+# Transient only buffers pass bodies (cart, checkout, admin, AJAX) and
+# hit-for-miss stubs: 512m is plenty. Don't go below ~256m: a full Transient
+# makes in-flight fetches fail with 503s.
+#
+# To resize a single server, override just these vars in a later drop-in
+# (no need to redefine ExecStart), either manually:
+#
+#  sudo mkdir -p /etc/systemd/system/varnish.service.d
+#  printf '[Service]\nEnvironment=WSU_VARNISH_MALLOC=8g\n' | sudo tee /etc/systemd/system/varnish.service.d/40-local.conf
+#  sudo systemctl daemon-reload && sudo service varnish restart
+#
+# or per-project: ship the same 2 lines as config/custom/varnish.service and
+# zzdeploy will install them as varnish.service.d/95_<app>.conf automatically
+Environment=WSU_VARNISH_MALLOC=4g
+Environment=WSU_VARNISH_TRANSIENT=512m
+
+## When overriding ExecStart in a drop-in, you need to
 ## clear it first with an empty ExecStart= line, then define your new one
 ExecStart=
 
@@ -26,13 +49,15 @@ ExecStart=/usr/sbin/varnishd \
   -T 127.0.0.1:6082 \
   -S /etc/varnish/secret \
   -f /etc/varnish/default.vcl \
-  -s malloc,14g \
-  -s Transient=malloc,4g \
+  -s malloc,${WSU_VARNISH_MALLOC} \
+  -s Transient=malloc,${WSU_VARNISH_TRANSIENT} \
   -p thread_pool_min=100 \
   -p thread_pool_max=500 \
   -p thread_pool_timeout=20 \
   -p thread_pool_add_delay=1 \
-  -p thread_pools=6 \
+  ## 2 pools is the upstream-recommended value. Also caps worst-case workspace
+  ## RAM: pools × thread_pool_max × ~1 MB (workspace_client + workspace_backend)
+  -p thread_pools=2 \
   -p ban_lurker_sleep=0.1 \
   -p ban_lurker_batch=500 \
   -p http_req_hdr_len=131072 \
