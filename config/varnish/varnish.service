@@ -34,7 +34,8 @@ LimitMEMLOCK=85983232
 #  sudo systemctl daemon-reload && sudo service varnish restart
 #
 # or per-project: ship the same 2 lines as config/custom/varnish.service and
-# zzdeploy will install them as varnish.service.d/95_<app>.conf automatically
+# zzdeploy will install them as varnish.service.d/95_<app>.conf automatically.
+# Ready-made template: my-app-template/config/custom/varnish.service
 Environment=WSU_VARNISH_MALLOC=4g
 Environment=WSU_VARNISH_TRANSIENT=512m
 

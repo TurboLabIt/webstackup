@@ -357,7 +357,8 @@ if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
     ${WSU_MAP_TMP_DIR}config/custom/php-custom.ini \
     ${WSU_MAP_TMP_DIR}config/custom/php-custom-cli.ini \
     ${WSU_MAP_TMP_DIR}config/custom/php-fpm.conf \
-    ${WSU_MAP_TMP_DIR}config/custom/varnish.vcl
+    ${WSU_MAP_TMP_DIR}config/custom/varnish.vcl \
+    ${WSU_MAP_TMP_DIR}config/custom/varnish.service
 fi
 
 
