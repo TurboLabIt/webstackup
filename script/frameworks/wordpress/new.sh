@@ -144,6 +144,8 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
   # https://wordpress.org/plugins/contact-form-7/
   # https://wordpress.org/plugins/ultimate-addons-for-contact-form-7/
   # https://wordpress.org/plugins/better-search-replace/
+  # https://wordpress.org/plugins/redis-cache/
+  # https://wordpress.org/plugins/query-monitor/
 
   wsuWordPress plugin install \
     wps-hide-login duracelltomi-google-tag-manager seo-by-rank-math \
@@ -152,7 +154,7 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
     radio-buttons-for-taxonomies regenerate-thumbnails wp-fastest-cache \
     redirection safe-svg folders \
     contact-form-7 ultimate-addons-for-contact-form-7 \
-    better-search-replace \
+    better-search-replace redis-cache query-monitor \
     $WPINST_WORDPRESS_PLUGIN_ACTIVATE_MODE
 
   fxTitle "Activating plugins auto-update..."

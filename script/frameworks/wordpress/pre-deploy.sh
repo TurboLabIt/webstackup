@@ -58,6 +58,17 @@ if [ ! -f /usr/local/bin/cachetool ]; then
 fi
 
 
+fxTitle "Installing php${PHP_VER}-redis..."
+if [ "$(dpkg-query -W -f='${db:Status-Status}' "php${PHP_VER}-redis" 2>/dev/null)" == "installed" ]; then
+
+  fxInfo "Skipped (already installed) 🦘"
+
+else
+
+  sudo apt update && sudo apt install php${PHP_VER}-redis -y
+fi
+
+
 fxTitle "Preparing wp-content/mu-plugins/..."
 sudo -u $EXPECTED_USER -H mkdir -p "${WEBROOT_DIR}wp-content/mu-plugins"
 
