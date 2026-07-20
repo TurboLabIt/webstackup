@@ -22,3 +22,13 @@ define( 'WP_DEBUG_LOG', __DIR__ . '/../var/log/wordpress-debug.log' );
 if( !defined( 'WP_WSU_WEBPACK_ENABLED' ) ) {
     define('WP_WSU_WEBPACK_ENABLED', true);
 }
+
+
+// Redis
+if( !defined( 'WP_REDIS_GRACEFUL' ) ) {
+    define('WP_REDIS_GRACEFUL', true);
+}
+
+if( !defined( 'WP_REDIS_MAXTTL' ) ) {
+    define('WP_REDIS_MAXTTL', 86400);
+}
