@@ -68,3 +68,7 @@ ExecStart=/usr/sbin/varnishd \
   -p http_max_hdr=256 \
   -p workspace_client=512k \
   -p workspace_backend=512k
+
+
+Restart=always
+RestartSec=15
