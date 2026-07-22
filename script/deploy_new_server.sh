@@ -84,13 +84,10 @@ else
 fi
 
 
-fxTitle "Changing hostname..."
+fxTitle "Changing the hostname..."
 if [ ! -z "$INSTALL_HOSTNAME" ]; then
 
-  hostnamectl set-hostname ${INSTALL_HOSTNAME}
-  hostnamectl set-hostname ${INSTALL_HOSTNAME} --static
-  echo "127.0.0.1   ${INSTALL_HOSTNAME}" >> /etc/hosts
-  fxOK "Hostname is now: $(hostname)"
+  fxHostnameRename "$INSTALL_HOSTNAME"
 
 else
 
