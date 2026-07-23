@@ -32,13 +32,22 @@ if [ -z "${MAGENTO_UPGRADE_TO_VERSION}" ]; then
   fxCatastrophicError "Provide the version to upgrade to: bash scripts/upgrade.sh 2.x.y-pZ"
 fi
 
+
 fxInfo "Upgrading to ##${MAGENTO_UPGRADE_TO_VERSION}##"
 
 
-## Entering maintenance mode (skipped in dev to match cache-clear.sh, which won't disable it there)
-if [ "${APP_ENV}" != "dev" ]; then
-  wsuMage maintenance:enable
+## The isolated security patches in m2-hotfixes/ are built against the version we're leaving behind and
+## are already included in the new one: cache-clear.sh would fail to apply them from now on.
+fxTitle "Deleting m2-hotfixes/* for the current version..."
+if [ -d "${MAGENTO_DIR}m2-hotfixes/" ]; then
+
+  find "${MAGENTO_DIR}m2-hotfixes/" -mindepth 1 -delete
+
+else
+
+  fxInfo " m2-hotfixes/ not found, skipping 🦘"
 fi
+
 
 ## Starting the upgrade process while asynchronous processes are running may cause data corruption.
 fxTitle "Deleting Magento own cron file (we provide our own)..."
@@ -46,6 +55,7 @@ wsuMage cron:remove
 
 fxTitle "Consuming Magento cron queue..."
 wsuMage cron:run --group=consumers
+
 
 ## upgrade composer.json via Magento own composer plugin
 wsuComposer require-commerce magento/product-community-edition "$MAGENTO_UPGRADE_TO_VERSION" --no-update --force-root-updates #[--interactive-root-conflicts]

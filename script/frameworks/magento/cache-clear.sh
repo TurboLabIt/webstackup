@@ -155,6 +155,10 @@ wsuComposer install
 #
 # ⚠️⚠️⚠️ When upgrading to a new version (-p<new-version> OR 2.<new-version>.<new-version>), you MUST DELETE the current
 # content of m2-hotfixes. Do both on the SAME COMMIT
+#
+# ⚠️ Don't put this behind a `FAST_CACHE_CLEAR` check: `wsuComposer install` above always runs, so a fast
+# deploy which happens to change composer.lock would reinstall the patched packages and silently leave
+# vendor/ unpatched. The dry-runs below cost milliseconds, there is nothing to save by skipping them.
 MAGENTO_HOTFIX_DIR="${MAGENTO_DIR}m2-hotfixes"
 fxTitle "🩹 Applying Adobe hotfixes from ##${MAGENTO_HOTFIX_DIR}##..."
 
@@ -205,19 +209,30 @@ if [ -d "${MAGENTO_HOTFIX_DIR}" ]; then
 
   done
 
-  ## Adobe's Commerce Version Tool: it's shipped by the patch itself, so it exists only after applying it
-  if [ -f "${MAGENTO_DIR}vendor/bin/patch-status" ]; then
-    sudo -u ${EXPECTED_USER} -H chmod u+x "${MAGENTO_DIR}vendor/bin/patch-status"
-  fi
+else
 
-  else
+  fxWarning "Hotfixes dir not found!"
+fi
 
-    fxWarning "Hotfixes dir not found!"
+
+## Adobe's Commerce Version Tool: it's shipped by the patch itself, so it exists only after applying it
+fxTitle "🩹 Magento patch status..."
+MAGENTO_PATCH_STATUS_EXE="${MAGENTO_DIR}vendor/bin/patch-status"
+
+if [ -f "${MAGENTO_PATCH_STATUS_EXE}" ]; then
+
+  sudo -u ${EXPECTED_USER} -H chmod u+x "${MAGENTO_PATCH_STATUS_EXE}"
+  sudo -u ${EXPECTED_USER} -H XDEBUG_MODE=off ${PHP_CLI} "${MAGENTO_PATCH_STATUS_EXE}"
+
+else
+
+  fxWarning "patch-status not found"
 fi
 
 
 wsuMage setup:db-schema:upgrade
 wsuMage setup:upgrade
+
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
   fxTitle "Disabling module(s)..."
