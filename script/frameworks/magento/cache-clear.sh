@@ -140,6 +140,82 @@ sudo rm -rf \
   "var/di/"
 
 wsuComposer install
+
+
+## Adobe monthly isolated security patches
+# https://experienceleague.adobe.com/en/docs/commerce-operations/release/planning/schedule
+#
+# Since mid-2026, Adobe ships monthly, non-cumulative "isolated security patch files" instead of
+# cumulative -pN releases. They are root-relative git patches (paths such as `vendor/magento/module-quote/...`),
+# built against the latest -p release of the line, so they must be re-applied after every
+# `composer install` - and *before* the build commands below, since they also modify `etc/di.xml`
+# files which `setup:di:compile` consumes.
+#
+# How to: download Adobe's patch (.zip archive) and ⚠️ copy the `*-CE.patch` file(s) ONLY into `<magento-root>/m2-hotfixes/`.
+#
+# ⚠️⚠️⚠️ When upgrading to a new version (-p<new-version> OR 2.<new-version>.<new-version>), you MUST DELETE the current
+# content of m2-hotfixes. Do both on the SAME COMMIT
+MAGENTO_HOTFIX_DIR="${MAGENTO_DIR}m2-hotfixes"
+fxTitle "🩹 Applying Adobe hotfixes from ##${MAGENTO_HOTFIX_DIR}##..."
+
+if [ -d "${MAGENTO_HOTFIX_DIR}" ]; then
+
+  cd "${MAGENTO_DIR}"
+
+  ## LC_ALL=C sort: Adobe's naming (`248p5-2026-07-001-CE.patch`) sorts chronologically
+  readarray -t MAGENTO_HOTFIX_ARRAY < <(find "${MAGENTO_HOTFIX_DIR}" -maxdepth 1 -type f -name '*-CE.patch' -printf '%f\n' | LC_ALL=C sort)
+
+  if [ ${#MAGENTO_HOTFIX_ARRAY[@]} = 0 ]; then
+    fxWarning "No *-CE.patch file found, nothing to apply"
+  fi
+
+  for MAGENTO_HOTFIX_FILE in "${MAGENTO_HOTFIX_ARRAY[@]}"; do
+
+    MAGENTO_HOTFIX_FULLPATH="${MAGENTO_HOTFIX_DIR}/${MAGENTO_HOTFIX_FILE}"
+    ## `--forward` is mandatory, don't drop it: without it `--batch` makes patch "Assume -R" on an
+    ## already applied patch and exit 0, so both the checks below would succeed in *any* state and the
+    ## patch would get silently REVERSED on an already patched installation. With `--forward` the two
+    ## dry-runs are true opposites: forward succeeds only if nothing is applied yet, reverse only if
+    ## everything is.
+    ## `-r -` discards the .rej files: the failing hunks are reported on screen anyway and we don't
+    ## want leftovers inside vendor/.
+    MAGENTO_HOTFIX_CMD="sudo -u ${EXPECTED_USER} -H patch -p1 --batch --forward --no-backup-if-mismatch -r -"
+
+    ## The content of the files on disk is the only reliable source of truth here: a marker file would
+    ## keep claiming "already applied" after composer reinstalls just some of the patched packages.
+
+    fxTitle "🩹 Applying: ${MAGENTO_HOTFIX_FILE}"
+    if ${MAGENTO_HOTFIX_CMD} --dry-run < "${MAGENTO_HOTFIX_FULLPATH}" > /dev/null 2>&1; then
+
+      ${MAGENTO_HOTFIX_CMD} < "${MAGENTO_HOTFIX_FULLPATH}"
+
+    elif ${MAGENTO_HOTFIX_CMD} --dry-run --reverse < "${MAGENTO_HOTFIX_FULLPATH}" > /dev/null 2>&1; then
+
+      fxInfo "${MAGENTO_HOTFIX_FILE}: already applied, skipping 🦘"
+
+    else
+
+      ## Neither fully applied nor cleanly applicable: usually composer reinstalled some (but not all)
+      ## of the patched packages. The very same command heals it, since `--forward` skips the hunks
+      ## already in place and applies the missing ones only. If it still fails, patch's own output is
+      ## left on screen and the deploy goes on.
+      fxWarning "${MAGENTO_HOTFIX_FILE}: partially applied or conflicting, trying to heal it..."
+      ${MAGENTO_HOTFIX_CMD} < "${MAGENTO_HOTFIX_FULLPATH}"
+    fi
+
+  done
+
+  ## Adobe's Commerce Version Tool: it's shipped by the patch itself, so it exists only after applying it
+  if [ -f "${MAGENTO_DIR}vendor/bin/patch-status" ]; then
+    sudo -u ${EXPECTED_USER} -H chmod u+x "${MAGENTO_DIR}vendor/bin/patch-status"
+  fi
+
+  else
+
+    fxWarning "Hotfixes dir not found!"
+fi
+
+
 wsuMage setup:db-schema:upgrade
 wsuMage setup:upgrade
 
