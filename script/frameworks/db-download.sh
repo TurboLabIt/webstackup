@@ -45,5 +45,6 @@ ssh -t ${USER_AT_HOST} "bash ${REMOTE_PROJECT_DIR}scripts/db-dump.sh"
 wsuMkDbDumpDir
 
 
-fxTitle "⬇️ Downloading..."
-rsync --archive --compress --partial --progress --verbose --delete ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dumps/ ${DB_DUMP_DIR}
+fxTitle "⬇️ Downloading latest dump..."
+LATEST_DUMP=$(ssh ${USER_AT_HOST} "ls -t ${REMOTE_PROJECT_DIR}backup/db-dumps/ | head -1")
+rsync --archive --compress --partial --progress --verbose ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dumps/"${LATEST_DUMP}" ${DB_DUMP_DIR}
