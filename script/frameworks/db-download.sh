@@ -45,6 +45,8 @@ ssh -t ${USER_AT_HOST} "bash ${REMOTE_PROJECT_DIR}scripts/db-dump.sh"
 wsuMkDbDumpDir
 
 
-fxTitle "⬇️ Downloading latest dump..."
-LATEST_DUMP=$(ssh ${USER_AT_HOST} "ls -t ${REMOTE_PROJECT_DIR}backup/db-dumps/ | head -1")
-rsync --archive --compress --partial --progress --verbose ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dumps/"${LATEST_DUMP}" ${DB_DUMP_DIR}
+fxTitle "⬇️ Downloading the latest dump set..."
+# db-dump may write several files per run; grab everything created in the last 15 minutes
+rsync --archive --compress --partial --progress --verbose \
+  --files-from=<(ssh ${USER_AT_HOST} "find ${REMOTE_PROJECT_DIR}backup/db-dumps/ -maxdepth 1 -type f -mmin -15 -printf '%P\n'") \
+  ${USER_AT_HOST}:${REMOTE_PROJECT_DIR}backup/db-dumps/ ${DB_DUMP_DIR}
