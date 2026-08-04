@@ -1,4 +1,4 @@
-# [SSH config](https://github.com/my-name/my-app/blob/main/docs/ssh.md)
+# [SSH config](https://github.com/my-name/my-app/blob/main/docs/SSH.md)
 
 `${HOME}/.ssh/config`:
 
