@@ -17,8 +17,19 @@ rootCheck
 
 
 fxTitle "Install locales package..."
-apt update -qq
-apt install locales -y
+if [ ! -z "$(command -v locale-gen)" ]; then
+
+  fxOK "locales is already installed"
+
+else
+
+  # no -qq + short timeouts: an unreachable mirror makes apt retry silently for minutes, which looks like a freeze
+  apt update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+
+  if ! apt install locales -y; then
+    fxCatastrophicError "Unable to install ##locales##: check network/mirror reachability"
+  fi
+fi
 
 
 fxTitle "Reading current locale..."
@@ -29,6 +40,12 @@ TARGET_LOCALE="${CURRENT_LOCALE%.UTF-8}.UTF-8"
 # Handle special case for C locale
 if [[ "$CURRENT_LOCALE" == "C" ]]; then
     TARGET_LOCALE="C.UTF-8"
+fi
+
+# No LANG= line at all: without this we'd locale-gen a bogus ".UTF-8"
+if [[ -z "$CURRENT_LOCALE" ]]; then
+    CURRENT_LOCALE="(not set)"
+    TARGET_LOCALE="en_US.UTF-8"
 fi
 
 fxInfo "Current locale: $CURRENT_LOCALE"
