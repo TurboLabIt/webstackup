@@ -3,7 +3,7 @@
 `${HOME}/.ssh/config`:
 
 ````
-## my-app
+## my-app https://github.com/my-name/my-app/blob/main/docs/SSH.md
 Host my-app.prd
 HostName my-app.com
 #Port 22
