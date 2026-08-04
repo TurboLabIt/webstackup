@@ -40,25 +40,23 @@ fxTitle "👨‍🏭 Generating webstackup (the user)..."
 if ! id "webstackup" &>/dev/null; then
 
   useradd webstackup -g www-data --shell=/usr/sbin/nologin --create-home --system
-  
-  fxTitle "🔐 Generating SSH key for webstackup..."
-  mkdir /home/webstackup/.ssh
-  chown webstackup:www-data /home/webstackup/.ssh
-  chmod u=rwx,go= /home/webstackup/.ssh
-  
-  sudo -u webstackup -H ssh-keygen -t rsa -N "" -C "webstackup on $(hostname) by generate-www-data.sh" -f /home/webstackup/.ssh/id_rsa
-  
-  fxSshSetKnownHosts "webstackup"
-  chmod u=rw,go= /home/webstackup/.ssh/known_hosts
-  chown webstackup:www-data /home/webstackup/.ssh/known_hosts
-  
+
   sudo -u webstackup -H git config --global user.name "webstackup"
   sudo -u webstackup -H git config --global user.email "info@webstackup"
-  
+
 else
 
   fxInfo "webstackup already exists, skipping 🦘"
 fi
+
+
+## an outdated, local bash-fx has no fxSshGenerateUserKey(): grab the fresh SSH helpers
+if ! declare -F fxSshGenerateUserKey > /dev/null; then
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/scripts/ssh.sh)
+fi
+
+## outside of the block on purpose: servers created before this ran are keyless
+fxSshGenerateUserKey "webstackup"
 
 groups webstackup
 id webstackup

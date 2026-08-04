@@ -51,7 +51,8 @@ case $CHOICE in
   5)bash "${WEBSTACKUP_SCRIPT_DIR}mysql/zzdb.sh";;
   6)bash "${WEBSTACKUP_SCRIPT_DIR}https/zzhttps.sh";;
   7)bash "${WEBSTACKUP_SCRIPT_DIR}filesystem/webpermission.sh";;
-  8)fxMessage "$(cat "/home/webstackup/.ssh/id_rsa.pub")";;
+  ## it generates the key too, if it's missing
+  8)fxSshGenerateUserKey webstackup;;
   9)bash "${WEBSTACKUP_SCRIPT_DIR}mail/zzmail.sh";;
   10)bash "${WEBSTACKUP_SCRIPT_DIR}meilisearch/zzmeili.sh";;
   11)bash "${WEBSTACKUP_SCRIPT_DIR}installer-gui.sh";;

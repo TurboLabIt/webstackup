@@ -48,24 +48,38 @@ done
 fxOK "OK, running as ##${GIT_CLONE_RUN_AS}##"
 
 
-fxTitle "🔑 SSH key check"
-if [ "${GIT_CLONE_RUN_AS}" = root ]; then
-  GIT_CLONE_SSH_KEY=/root/.ssh/id_rsa.pub
-else
-  GIT_CLONE_SSH_KEY=/home/${GIT_CLONE_RUN_AS}/.ssh/id_rsa.pub
+## an outdated, local bash-fx has no fxSshGenerateUserKey(): grab the fresh SSH helpers
+if ! declare -F fxSshGenerateUserKey > /dev/null; then
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/scripts/ssh.sh)
 fi
 
-fxInfo "Default SSH key found: ##${GIT_CLONE_SSH_KEY}##"
-echo ""
+GIT_CLONE_USER_HOME=$(fxGetUserHomePath "${GIT_CLONE_RUN_AS}")
+
+if [ -z "${GIT_CLONE_USER_HOME}" ]; then
+  fxCatastrophicError "##${GIT_CLONE_RUN_AS}## has no home directory! Unable to setup its SSH key"
+fi
+
+GIT_CLONE_SSH_KEY=${GIT_CLONE_USER_HOME}.ssh/id_rsa.pub
+GIT_CLONE_SSH_KEY_IS_NEW=
 
 if [ ! -f "${GIT_CLONE_SSH_KEY}" ]; then
+  GIT_CLONE_SSH_KEY_IS_NEW=1
+fi
 
-  fxWarning "##${GIT_CLONE_SSH_KEY}## not found! Repository access may be denied"
+## this generates the key (and the known_hosts) if it's missing
+fxSshGenerateUserKey "${GIT_CLONE_RUN_AS}"
+
+if [ ! -f "${GIT_CLONE_SSH_KEY}" ]; then
+  fxCatastrophicError "##${GIT_CLONE_SSH_KEY}## not found! Repository access would be denied"
+fi
+
+if [ ! -z "${GIT_CLONE_SSH_KEY_IS_NEW}" ]; then
+
+  fxAskConfirmation "☝️ This key is BRAND NEW: authorize it on GitHub/Bitbucket NOW, then confirm to go on [Y/N]"
 
 else
 
   fxInfo "Your key should be authorized to access the repo you want to clone"
-  fxMessage "$(cat ${GIT_CLONE_SSH_KEY})"
 fi
 
 
