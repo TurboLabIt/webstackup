@@ -13,6 +13,7 @@
 # USERS_TEMPLATE_PATH=/my-path/accounts
 # USERS_TEMPLATE_PATH_STAGING=/my-path/accounts-staging
 # ${PROJECT_DIR}config/custom/ssh-accounts
+# ${PROJECT_DIR}config/custom/${APP_ENV}/ssh-accounts
 
 # ${SCRIPT_DIR}zzcd_bookmarks.sh
 
@@ -352,8 +353,12 @@ if [ "$APP_ENV" == "staging" ] && [ ! -z "${USERS_TEMPLATE_PATH_STAGING}" ]; the
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "$USERS_TEMPLATE_PATH_STAGING"
 fi
 
-if [ -d "${PROJECT_DIR}config/custom/ssh-accounts" ] && [ ! -z "$(ls -l ${PROJECT_DIR}config/custom/ssh-accounts | grep '^d')" ]; then
+if [ -d "${PROJECT_DIR}config/custom/ssh-accounts" ] && [ ! -z "$(ls -l "${PROJECT_DIR}config/custom/ssh-accounts" | grep '^d')" ]; then
   bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "${PROJECT_DIR}config/custom/ssh-accounts"
+fi
+
+if [ -d "${PROJECT_DIR}config/custom/${APP_ENV}/ssh-accounts" ] && [ ! -z "$(ls -l "${PROJECT_DIR}config/custom/${APP_ENV}/ssh-accounts" | grep '^d')" ]; then
+  bash "${WEBSTACKUP_SCRIPT_DIR}account/create_and_copy_template.sh" "${PROJECT_DIR}config/custom/${APP_ENV}/ssh-accounts"
 fi
 
 
