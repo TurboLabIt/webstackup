@@ -11,4 +11,9 @@
 # 1. You should now git commit your copy
 
 fxHeader "🚚 Symfony database migration script"
-wsuSymfony console doctrine:migrations:migrate --no-interaction
+
+if [ ! -d "${PROJECT_DIR}vendor/doctrine/doctrine-migrations-bundle" ]; then
+  fxWarning "Doctrine Migrations not installed: nothing to migrate"
+else
+  wsuSymfony console doctrine:migrations:migrate --no-interaction
+fi

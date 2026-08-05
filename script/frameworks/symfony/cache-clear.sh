@@ -61,8 +61,18 @@ fi
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Stopping services..."
-  sudo nginx -t && sudo service nginx stop
-  sudo service ${PHP_FPM} restart
+
+  if [ -z "$(command -v nginx)" ]; then
+    fxWarning "Nginx not installed"
+  else
+    sudo nginx -t && sudo service nginx stop
+  fi
+
+  if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/${PHP_FPM}" ]; then
+    fxWarning "php-fpm not installed"
+  else
+    sudo service ${PHP_FPM} restart
+  fi
 fi
 
 
@@ -91,7 +101,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🚚 Migrating..."
-  wsuSymfony console doctrine:migrations:migrate --no-interaction
+
+  if [ ! -d "${PROJECT_DIR}vendor/doctrine/doctrine-migrations-bundle" ]; then
+    fxWarning "Doctrine Migrations not installed: nothing to migrate"
+  else
+    wsuSymfony console doctrine:migrations:migrate --no-interaction
+  fi
 fi
 
 
@@ -104,8 +119,18 @@ fi
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Restarting services..."
-  sudo service ${PHP_FPM} restart
-  sudo nginx -t && sudo service nginx start
+
+  if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/${PHP_FPM}" ]; then
+    fxWarning "php-fpm not installed"
+  else
+    sudo service ${PHP_FPM} restart
+  fi
+
+  if [ -z "$(command -v nginx)" ]; then
+    fxWarning "Nginx not installed"
+  else
+    sudo nginx -t && sudo service nginx start
+  fi
 fi
 
 
