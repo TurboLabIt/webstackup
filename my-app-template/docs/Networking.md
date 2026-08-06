@@ -9,7 +9,7 @@
 IP address(es):
 
 - main: `xxx.xxx.xxx.xxx`
-- additional: `xxx.xxx.xxx.xxx` (configured via [prod/netplan.yaml](/config/custom/prod/netplan.yaml)
+- additional: `xxx.xxx.xxx.xxx` (attached via [prod/netplan.yaml](/config/custom/prod/netplan.yaml)
 
 Test:
 
