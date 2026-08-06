@@ -16,4 +16,4 @@ Test:
 - 🧪 [Resolve my-app.com](https://mxtoolbox.com/SuperTool.aspx?action=a%3amy-app.com&run=toolpage)
 - 🧪 [Resolve www.my-app](https://mxtoolbox.com/SuperTool.aspx?action=a%3awww.my-app.com&run=toolpage)
 
-🧑‍💻 [SSH](SSH.md)
+💻 [SSH](SSH.md)
