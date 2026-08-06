@@ -15,14 +15,24 @@
 #
 # 🪄 Based on https://github.com/TurboLabIt/webstackup/blob/master/my-app-template/config/custom/staging/netplan.yaml
 
+### Complete, general version
 #network:
+  #version: 2
   #ethernets:
     #ens192:
       #addresses:
-      #- 10.10.100.11/24
+      #- xxx.xxx.xxx.xxx/32
       #gateway4: 10.10.100.1
       #nameservers:
         #addresses:
         #- 8.8.8.8
         #- 8.8.4.4
-  #version: 2
+
+### OVH "Additional IPs" version
+#network:
+    #version: 2
+    #ethernets:
+        #ens3:
+            #dhcp4: true
+            #addresses:
+                #- xxx.xxx.xxx.xxx/32
