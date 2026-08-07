@@ -277,6 +277,22 @@ wsuWordPress option update default_comment_status closed
 wsuWordPress option update default_ping_status closed
 
 
+fxTitle "Setting the max upload file size..."
+if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
+
+  ## "Network Admin >> Settings >> Upload Settings >> Max upload file size", in KB (default: 1500)
+  # https://developer.wordpress.org/cli/commands/site/option/update/
+  # value in sync with `upload_max_filesize` from `config/php/php-custom.ini`
+  wsuWordPress site option update fileupload_maxk 256000
+
+else
+
+  ## single site has no such option: WordPress reads the limit from PHP
+  # (`upload_max_filesize` and `post_max_size`, both set by `config/php/php-custom.ini`)
+  fxInfo "Skipped (single site: the limit comes from PHP) 🦘"
+fi
+
+
 fxTitle "Switching the URLs structure to \"post name\" (use slugs instead of IDs)"
 wsuWordPress rewrite structure '/%postname%/'
 
