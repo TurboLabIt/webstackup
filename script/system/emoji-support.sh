@@ -23,8 +23,7 @@ if [ ! -z "$(command -v locale-gen)" ]; then
 
 else
 
-  # no -qq + short timeouts: an unreachable mirror makes apt retry silently for minutes, which looks like a freeze
-  apt update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+  fxAptUpdate
 
   if ! apt install locales -y; then
     fxCatastrophicError "Unable to install ##locales##: check network/mirror reachability"

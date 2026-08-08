@@ -1,49 +1,81 @@
 #!/usr/bin/env bash
-### AUTOMATIC Chrome INSTALL BY WEBSTACKUP
-# sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh | sudo bash
-# 
+### AUTOMATIC CHROME INSTALLER BY WEBSTACKUP
+# https://github.com/TurboLabIt/webstackup/tree/master/script/chrome/install.sh
+#
+# sudo apt update && sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/chrome/install.sh | sudo bash
+#
+# Based on: https://turbolab.it/3267
 
-echo ""
-echo -e "\e[1;46m ================= \e[0m"
-echo -e "\e[1;46m INSTALLING CHROME \e[0m"
-echo -e "\e[1;46m ================= \e[0m"
+## bash-fx
+if [ -z $(command -v curl) ]; then sudo apt update && sudo apt install curl -y; fi
 
-if ! [ $(id -u) = 0 ]; then
-  echo -e "\e[1;41m This script must run as ROOT \e[0m"
-  exit
+if [ -f "/usr/local/turbolab.it/bash-fx/bash-fx.sh" ]; then
+  source "/usr/local/turbolab.it/bash-fx/bash-fx.sh"
+else
+  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/bash-fx.sh)
 fi
+## bash-fx is ready
 
-chromeTestRun()
+fxHeader "💿 Chrome installer"
+rootCheck
+
+CHROME_FULLPATH=/usr/bin/google-chrome
+CHROME_DEB_FULLPATH=/tmp/google-chrome-stable_current_amd64.deb
+
+
+function chromeTestRun()
 {
-  echo -e "\e[1;36m /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html' \e[0m"
+  fxTitle "🧪 Test run..."
+  fxMessage "${CHROME_FULLPATH} --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'"
   echo ""
-  
-  /usr/bin/google-chrome --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
+
+  "${CHROME_FULLPATH}" --headless --no-sandbox --dump-dom 'https://turbolabit.github.io/html-pages/fetchable.html'
   rm -rf "/tmp/Crashpad"
-  
-  echo -e "\e[1;32m ✔ Chrome is ready! \e[0m"
-  echo -e "\e[1;32m 📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless \e[0m"
-  echo -e "\e[1;32m 📣 To generate PDFs: https://github.com/TurboLabIt/webstackup/blob/master/script/print/install-pdf.sh \e[0m"
+
+  fxOK "Chrome is ready!"
+  fxInfo "📣 You can also use it headlessly with https://github.com/TurboLabIt/php-chrome-headless"
+  fxInfo "📣 To generate PDFs: https://github.com/TurboLabIt/webstackup/blob/master/script/print/install-pdf.sh"
 }
 
-if [ -f "/usr/bin/google-chrome" ]; then
-  echo -e "\e[1;33m Chrome is already installed \e[0m"
+
+if [ -f "${CHROME_FULLPATH}" ]; then
+
+  fxImportantMessage "Chrome is already installed"
   chromeTestRun
+  fxEndFooter
   exit
 fi
 
-echo -e "\e[1;33m Installing Chrome... \e[0m"
 
-## https://turbolab.it/3267
-wget -O chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-apt update
-apt install ./chrome.deb -y
-rm -f chrome.deb
+fxTitle "⬇️ Downloading Chrome..."
+curl -Lo "${CHROME_DEB_FULLPATH}" https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 
-if [ -d "/var/www" ]; then
-  mkdir -p "/var/www/.local"
-  chown www-data:www-data "/var/www/.local" -R
-  chmod ug=rwx,o=rx "/var/www/.local"  -R
+
+fxTitle "💿 Installing Chrome..."
+fxAptUpdate
+## the .deb pulls its own dependencies in, so it must be installed by apt, not by dpkg
+apt install "${CHROME_DEB_FULLPATH}" -y
+rm -f "${CHROME_DEB_FULLPATH}"
+
+if [ ! -f "${CHROME_FULLPATH}" ]; then
+  fxCatastrophicError "Chrome was not installed (apt failure?)"
 fi
 
+
+fxTitle "📂 Preparing the www-data home..."
+if [ ! -d "/var/www" ]; then
+
+  fxInfo "Skipped (/var/www not found) 🦘"
+
+else
+
+  mkdir -p "/var/www/.local"
+  chown www-data:www-data "/var/www/.local" -R
+  chmod ug=rwx,o=rx "/var/www/.local" -R
+  fxOK "/var/www/.local is ready"
+fi
+
+
 chromeTestRun
+
+fxEndFooter
