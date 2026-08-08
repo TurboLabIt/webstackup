@@ -38,7 +38,7 @@ rm -rf /etc/varnish /var/log/varnish $WSU_VARNISH_SERVICE_OVERRIDE_PATH
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 
 fxTitle "Installing additional utilities..."
@@ -69,7 +69,7 @@ fxTitle "Set up repository pinning to prefer our packages over distribution-prov
 echo -e "Package: varnish varnish-*\nPin: release o=packagecloud.io/varnishcache/*\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99varnish
 
 fxTitle "apt install varnish..."
-apt update -qq
+fxAptUpdate 0
 apt install varnish -y
 
 

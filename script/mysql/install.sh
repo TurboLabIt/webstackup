@@ -102,7 +102,7 @@ debconf-set-selections <<< "mysql-community-server mysql-community-server/re-roo
 debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-override select"
 
 fxTitle "Installing..."
-apt update -qq
+fxAptUpdate 0
 apt install mysql-server mysql-client -y -qq
   
 fxTitle "Enabling Webstackup custom config for MySQL..."

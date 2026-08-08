@@ -35,7 +35,7 @@ rm -rf /etc/nginx
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install curl gnupg2 ca-certificates lsb-release ubuntu-keyring -y
 
 fxTitle "Installing additional utilities..."
@@ -79,7 +79,7 @@ bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-http-basic-auth.sh
 
 
 fxTitle "apt install nginx..."
-apt update -qq
+fxAptUpdate 0
 apt install nginx -y
 
 fxTitle "Assigning the nginx user to the www-data group..."

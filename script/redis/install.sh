@@ -35,7 +35,7 @@ rm -rf /etc/redis
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install curl gnupg2 ca-certificates lsb-release -y
 
 
@@ -67,7 +67,7 @@ echo -e "Package: *\nPin: origin packages.redis.io\nPin: release o=packages.redi
 
 
 fxTitle "apt install redis..."
-apt update -qq
+fxAptUpdate 0
 apt install redis -y
 
 

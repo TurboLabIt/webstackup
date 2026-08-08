@@ -30,7 +30,7 @@ fi
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install jq -y
 
 

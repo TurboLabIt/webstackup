@@ -134,7 +134,7 @@ function wsuSymfony()
   if [ -z $(command -v unbuffer) ]; then
 
     fxTitle "unbuffer is not installed. Installing it now..."
-    sudo apt update
+    fxAptUpdate
     sudo apt install expect -y
   fi
 

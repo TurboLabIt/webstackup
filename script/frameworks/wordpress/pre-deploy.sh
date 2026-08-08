@@ -62,7 +62,7 @@ fxTitle "Installing php${PHP_VER}-redis..."
 if [ "$(dpkg-query -W -f='${db:Status-Status}' "php${PHP_VER}-redis" 2>/dev/null)" == "installed" ]; then
   fxInfo "Skipped (already installed) 🦘"
 else
-  sudo apt update && sudo apt install php${PHP_VER}-redis -y
+  fxAptUpdate && sudo apt install php${PHP_VER}-redis -y
 fi
 
 

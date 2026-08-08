@@ -19,7 +19,7 @@ rootCheck
 
 
 fxTitle "Repos update..."
-apt update -qq
+fxAptUpdate
 
 
 fxContainerDetection

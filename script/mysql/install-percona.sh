@@ -22,12 +22,12 @@ apt purge --auto-remove mysql* -y
 rm -rf /etc/mysql
 
 fxTitle "Installing..."
-apt update -qq
-sudo apt update && sudo apt install curl gnupg2 lsb-release -y && \
+fxAptUpdate
+sudo apt install curl gnupg2 lsb-release -y && \
   curl -Lo /tmp/percona-release_latest.generic_all.deb https://repo.percona.com/apt/percona-release_latest.generic_all.deb && \
   sudo apt install /tmp/percona-release_latest.generic_all.deb -y && \
-  sudo apt update && sudo percona-release setup ps-84-lts && sudo percona-release enable ps-84-lts release && \
-  sudo apt update && sudo apt install percona-server-server -y
+  fxAptUpdate 0 && sudo percona-release setup ps-84-lts && sudo percona-release enable ps-84-lts release && \
+  fxAptUpdate 0 && sudo apt install percona-server-server -y
 
 
 fxTitle "Restarting MySQL"

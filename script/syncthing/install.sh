@@ -37,7 +37,7 @@ printf "Package: *\nPin: origin apt.syncthing.net\nPin-Priority: 990\n" | sudo t
 
 
 # Update and install syncthing:
-sudo apt-get update
+fxAptUpdate 0
 sudo apt-get install apt-transport-https ca-certificates syncthing -y
 
 # https://docs.syncthing.net/users/autostart.html#how-to-set-up-a-system-service

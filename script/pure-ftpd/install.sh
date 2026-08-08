@@ -22,7 +22,7 @@ rm -rf /etc/pure-ftpd
 
 
 fxTitle "Installing Pure-FTPd..."
-apt update
+fxAptUpdate
 apt install pure-ftpd  -y
 
 fxTitle "Start Pure-FTPd at boot..."

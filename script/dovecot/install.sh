@@ -42,7 +42,7 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 fxTitle "Installing..."
-apt update
+fxAptUpdate
 apt install dovecot-lmtpd dovecot-imapd dovecot-pop3d -y
 
 fxTitle "Restoring the virtual user file..."

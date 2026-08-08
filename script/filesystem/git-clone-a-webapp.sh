@@ -18,7 +18,7 @@ source "/usr/local/turbolab.it/webstackup/script/base.sh"
 if [ -z "$(command -v git)" ]; then
 
   printTitle "📦 Installing prerequisites..."
-  apt update && apt install git -y
+  fxAptUpdate && apt install git -y
 fi
 
 

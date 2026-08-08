@@ -14,7 +14,7 @@ fxTitle "Checking HTTrack..."
 if [ -z $(command -v httrack) ]; then
 
   fxInfo "HTTrack is not installed. Installing it now..."
-  sudo apt update
+  fxAptUpdate
   sudo apt install httrack -y
 
 else

@@ -40,7 +40,7 @@ ls -la /etc/apt/sources.list.d/
 
 
 fxTitle "apt install meilisearch..."
-apt update -qq && apt install jq meilisearch -y
+fxAptUpdate 0 && apt install jq meilisearch -y
 
 
 fxTitle "Creating the meilisearch user..."

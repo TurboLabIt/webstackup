@@ -22,7 +22,7 @@ fxAskConfirmation
 
 
 fxTitle "Installing prerequisites..."
-if [ -z $(command -v nano) ]; then apt update && apt install nano -y; fi
+if [ -z $(command -v nano) ]; then fxAptUpdate && apt install nano -y; fi
 
 
 fxTitle "Opening files sequence..."

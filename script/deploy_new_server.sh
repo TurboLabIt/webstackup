@@ -34,7 +34,7 @@ else
   if [ ! -f "$CONFIGFILE_FULLPATH_ETC" ]; then
 
     cp "${WEBSTACKUP_INSTALL_DIR}webstackup.default.conf" "$CONFIGFILE_FULLPATH_ETC"
-    if [ -z "$(command -v nano)" ]; then apt update ; apt install nano -y; fi
+    if [ -z "$(command -v nano)" ]; then fxAptUpdate ; apt install nano -y; fi
     nano "$CONFIGFILE_FULLPATH_ETC"
   fi
 
@@ -53,7 +53,7 @@ fxTitle "Installing WEBSTACKUP..."
 if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
 
   fxMessage "Installing dependencies..."
-  apt update
+  fxAptUpdate
   apt install git software-properties-common gnupg2 dialog htop screen openssl zip unzip rsyslog ncdu -y
 
   wsuMkAutogenDir

@@ -55,7 +55,7 @@ fxTitle "Checking the mail command..."
 if [ -z $(command -v mail) ]; then
 
   fxWarning "Mail is not installed. Installing it now..."
-  sudo apt update -qq && sudo apt install mailutils -y
+  fxAptUpdate && sudo apt install mailutils -y
 fi
 
 

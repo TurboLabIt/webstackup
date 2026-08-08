@@ -15,7 +15,7 @@ fxHeader "⏲️ Benchmark"
 rootCheck
 
 fxTitle "💿 Installing...."
-apt update
+fxAptUpdate
 apt install sysbench sysstat fio -y
 
 fxTitle "CPU"

@@ -22,7 +22,7 @@ cat /sys/class/thermal/thermal_zone?/temp
 fxTitle "sensors setup..."
 ## https://forum.proxmox.com/threads/temperature.67755/#post-304046
 if [ -z $(command -v sensors) ]; then
-  apt update && apt install lm-sensors -y
+  fxAptUpdate && apt install lm-sensors -y
 fi
 
 

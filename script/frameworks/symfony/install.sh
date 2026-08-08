@@ -24,7 +24,7 @@ sudo rm -f /usr/local/bin/*symfony*
 
 
 fxTitle "Installing pre-requisites..."
-sudo apt update && sudo apt install ca-certificates apt-transport-https -y
+fxAptUpdate && sudo apt install ca-certificates apt-transport-https -y
 
 
 fxTitle "Installing Symfony from cloudsmith.io..."

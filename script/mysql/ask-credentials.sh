@@ -168,7 +168,7 @@ echo ""
 
 fxTitle "📦 Installing prerequisites..."
 if [ -z "$(command -v mysql)" ]; then
-  apt update && apt install mysql-client -y
+  fxAptUpdate && apt install mysql-client -y
 else
   fxInfo "prerequisite(s) already installed"
 fi

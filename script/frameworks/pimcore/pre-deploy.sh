@@ -1,7 +1,7 @@
 fxTitle "Installing required PHP extensions and support packages..."
 if [ ! -z "${PHP_VER}" ]; then
 
-  apt update
+  fxAptUpdate
   apt install \
     php${PHP_VER}-bcmath php${PHP_VER}-ctype php${PHP_VER}-curl \
     php${PHP_VER}-dom php${PHP_VER}-fileinfo php${PHP_VER}-gd \

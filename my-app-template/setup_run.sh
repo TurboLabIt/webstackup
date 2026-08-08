@@ -251,7 +251,7 @@ echo ""
 
 fxTitle "Installing rsync..."
 if [ -z $(command -v rsync) ]; then
-  apt update -qq && apt install rsync -y
+  fxAptUpdate && apt install rsync -y
 else
   fxOK
 fi

@@ -30,7 +30,7 @@ fi
 source "${WSU_DIR}script/base.sh"
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install curl gnupg2 ca-certificates lsb-release -y
 
 fxTitle "Installing additional utilities..."

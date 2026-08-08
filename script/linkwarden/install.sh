@@ -23,7 +23,7 @@ service linkwarden stop
 
 
 fxTitle "Installing pre-requisites..."
-apt update
+fxAptUpdate
 apt install git postgresql postgresql-contrib -y
 
 

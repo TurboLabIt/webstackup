@@ -43,7 +43,7 @@ PHP_VER_TO_INSTALL=${PHP_VER}
 ## checking compatibility
 # https://github.com/TurboLabIt/webstackup/issues/15
 fxTitle "Checking OS version..."
-apt update -qq
+fxAptUpdate
 apt install lsb-release -y
 RELEASE_DESCR=$(lsb_release -d)
 echo ""
@@ -107,7 +107,7 @@ EOF
 
 
 fxTitle "Installing..."
-apt update -qq
+fxAptUpdate 0
 apt install -y \
   php${PHP_VER}-cli php${PHP_VER}-common php${PHP_VER}-fpm \
   php${PHP_VER}-bcmath php${PHP_VER}-curl \

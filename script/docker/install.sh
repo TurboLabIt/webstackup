@@ -19,7 +19,7 @@ rootCheck
 
 
 fxTitle "Installing additional prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install apt-transport-https software-properties-common -y
 
 
@@ -48,7 +48,7 @@ EOF
 # legacy one-line format used by previous versions of this script
 rm -f /etc/apt/sources.list.d/webstackup.docker.list /etc/apt/sources.list.d/webstackup.docker.list.bak
 
-apt update -qq
+fxAptUpdate 0
 apt-cache policy docker-ce
 
 

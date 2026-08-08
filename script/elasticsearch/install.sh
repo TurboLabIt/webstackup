@@ -50,7 +50,7 @@ fxTitle "Set up repository pinning to prefer our packages over distribution-prov
 echo -e "Package: *\nPin: origin artifacts.elastic.co\nPin: release o=elasticsearch\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99elasticsearch
 
 fxTitle "apt install elasticsearch..."
-apt update -qq
+fxAptUpdate 0
 apt install elasticsearch -y
 
 fxTitle "Linking a base config..."

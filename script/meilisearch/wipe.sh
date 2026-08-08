@@ -34,7 +34,7 @@ fi
 
 
 fxTitle "Installing prerequisites..."
-if [ -z $(command -v jq) ]; then sudo apt update && sudo apt install jq -y; fi
+if [ -z $(command -v jq) ]; then fxAptUpdate && sudo apt install jq -y; fi
 
 
 fxTitle "🛑 Stopping the service..."

@@ -32,7 +32,7 @@ if [ ! -z "$(command -v n)" ]; then
 fi
 
 apt purge --auto-remove nodejs* npm* -y
-apt update
+fxAptUpdate
 rm -rf /usr/bin/node
 rm -rf /usr/local/bin/node
 rm -rf /usr/lib/node_modules
@@ -42,7 +42,7 @@ rm -rf "$(getent passwd $SUDO_USER | cut -d: -f6)/.nvm"
 
 
 fxTitle "🔑 Downloading the Nodesource GPG key..."
-apt update
+fxAptUpdate
 apt install ca-certificates curl gnupg -y
 mkdir -p /etc/apt/keyrings
 rm -rf /etc/apt/keyrings/*nodesource*
@@ -63,7 +63,7 @@ ls -la /etc/apt/sources.list.d/
 
 
 fxTitle "💿 Installing Node.js..."
-apt update
+fxAptUpdate 0
 ## the NodeSource package contains both the node binary and npm
 apt install nodejs -y
 

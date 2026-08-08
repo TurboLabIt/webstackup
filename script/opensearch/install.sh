@@ -38,7 +38,7 @@ source "${WSU_DIR}script/base.sh"
 
 
 fxTitle "Installing prerequisites..."
-apt update -qq
+fxAptUpdate
 apt install apt-transport-https software-properties-common lsb-release ca-certificates curl gnupg2 jq -y
 
 
@@ -76,7 +76,7 @@ fxMessage "Password stored in /etc/turbolab.it/opensearch.conf"
 
 
 fxTitle "apt install opensearch..."
-apt update -qq
+fxAptUpdate 0
 env OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD} apt-get install opensearch -y
 
 
