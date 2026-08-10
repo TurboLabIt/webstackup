@@ -4,3 +4,4 @@ db_path = "/var/lib/meilisearch/data"
 dump_dir = "/var/lib/meilisearch/dumps"
 snapshot_dir = "/var/lib/meilisearch/snapshots"
 max_indexing_memory = "6GB"
+upgrade_db = true
