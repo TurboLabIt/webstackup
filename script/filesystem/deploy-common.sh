@@ -81,14 +81,8 @@ DEPLOY_SCRIPT_PREPULL_HASH=`md5sum $0 | awk '{ print $1 }'`
 echo "Hash: $DEPLOY_SCRIPT_PREPULL_HASH"
 
 
-fxTitle "Fetching origin..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" fetch --depth 1
-
-fxTitle "Resetting to upstream..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" reset --hard @{upstream}
-
-fxTitle "🗜️ Pruning..."
-sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" gc --prune=all
+## the deploy must not carry on (composer, migrations, ...) against the old revision
+fxGitPullAndShallow "${PROJECT_DIR}" || fxCatastrophicError "Failed to update ##${PROJECT_DIR}## from origin"
 
 fxTitle "Setting git fileMode: false"
 sudo -u ${EXPECTED_USER} -H git -C "${PROJECT_DIR}" config core.fileMode false
