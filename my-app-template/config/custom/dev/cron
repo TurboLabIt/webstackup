@@ -1,13 +1,13 @@
 ## 🚨 WARNING 🚨
 #
 # This file is under version control!
-# DO NOT EDIT DIRECTLY - If you do, you'll loose your changes!
+# DO NOT EDIT DIRECTLY - If you do, you'll lose your changes!
 #
 # The original file is in `/var/www/dev0/my-app/config/custom/dev/`
 #
 # You MUST:
 #
-# 1. edit the original file on you PC
+# 1. edit the original file on your PC
 # 2. Git-commit+push the changes
 # 3. run `sudo cp /var/www/dev0/my-app/config/custom/dev/cron /etc/cron.d/my-app_dev`
 #

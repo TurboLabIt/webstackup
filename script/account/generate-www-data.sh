@@ -115,7 +115,7 @@ function wwwdataFileMover()
     
   else
   
-    fxInfo "File doesn't exists, skipping 🦘"
+    fxInfo "File doesn't exist, skipping 🦘"
   fi
 }
 
