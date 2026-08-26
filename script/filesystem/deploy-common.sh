@@ -230,18 +230,31 @@ else
 fi
 
 fxTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
-ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
+if [ -z "$(command -v php${PHP_VER})" ]; then
+  fxWarning "php-cli not installed"
+else
+  ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
+fi
 
 
 if [ -f "${PROJECT_DIR}config/custom/php-fpm.conf" ] && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zzz_${APP_NAME}.conf" ]; then
+
   fxTitle "🔨 Linking PHP FPM custom config..."
-  ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz_${APP_NAME}.conf"
+  if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/php${PHP_VER}-fpm" ]; then
+    fxWarning "php-fpm not installed"
+  else
+    ln -s "${PROJECT_DIR}config/custom/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz_${APP_NAME}.conf"
+  fi
 fi
 
 if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" ]  && [ ! -f "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf" ]; then
 
   fxTitle "🔨 Linking PHP FPM ${APP_ENV} php-fpm..."
-  ln -s  "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf"
+  if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/php${PHP_VER}-fpm" ]; then
+    fxWarning "php-fpm not installed"
+  else
+    ln -s  "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf"
+  fi
 fi
 
 
