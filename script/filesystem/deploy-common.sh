@@ -223,7 +223,11 @@ deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-fpm.ini" "/etc/php/${PHP
 deployPhpLinker "${PROJECT_DIR}config/custom/php-custom-cli.ini" "/etc/php/${PHP_VER}/cli/conf.d/95-${APP_NAME}-cli.ini"
 
 fxTitle "📂 Listing /etc/php/${PHP_VER}/fpm/conf.d/..."
-ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
+if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/php${PHP_VER}-fpm" ]; then
+  fxWarning "php-fpm not installed"
+else
+  ls -l "/etc/php/${PHP_VER}/fpm/conf.d/" | grep -v '10-\|15-\|20-'
+fi
 
 fxTitle "📂 Listing /etc/php/${PHP_VER}/cli/conf.d/..."
 ls -l "/etc/php/${PHP_VER}/cli/conf.d/" | grep -v '10-\|15-\|20-'
@@ -242,7 +246,11 @@ fi
 
 
 fxTitle "🔃️ Restarting PHP-FPM..."
-/usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
+if [ -z "$(command -v php-fpm${PHP_VER})" ] && [ ! -f "/etc/init.d/php${PHP_VER}-fpm" ]; then
+  fxWarning "php-fpm not installed"
+else
+  /usr/sbin/php-fpm${PHP_VER} -t && service php${PHP_VER}-fpm restart
+fi
 
 
 ## mysql-custom
