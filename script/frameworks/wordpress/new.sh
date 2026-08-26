@@ -121,6 +121,33 @@ wsuWordPress core $WPINST_WORDPRESS_INSTALL_MODE $WPINST_WORDPRESS_MULTISITE_MOD
   --skip-email
 
 
+fxTitle "Listing the site(s) to configure..."
+if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
+
+  ## https://developer.wordpress.org/cli/commands/site/list/
+  WSU_WORDPRESS_SITE_URL_LIST=$(WSU_WPCLI_DEBUG_MODE=0 wsuWordPress site list --field=url)
+
+else
+
+  WSU_WORDPRESS_SITE_URL_LIST="${SITE_URL}"
+fi
+
+for siteUrl in ${WSU_WORDPRESS_SITE_URL_LIST}; do
+  fxOK "🌐 ${siteUrl}"
+done
+
+
+## Every per-site setting and cleanup must go through this: on multisite, options and
+## posts live in per-site tables, so a bare wp-cli call would only ever touch the main site
+function wsuWordPressEachSite()
+{
+  local siteUrl
+  for siteUrl in ${WSU_WORDPRESS_SITE_URL_LIST}; do
+    wsuWordPress "$@" --url="${siteUrl}"
+  done
+}
+
+
 fxTitle "Remove the built-in plugins..."
 wsuWordPress plugin uninstall akismet hello --deactivate
 
@@ -162,14 +189,27 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
   wsuWordPress plugin auto-updates enable --all
 
   ## https://wordpress.org/support/topic/change-admin-url-through-wp-cli/
-  wsuWordPress option update \
+  wsuWordPressEachSite option update \
     whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
     --skip-plugins --skip-themes
 
   ## Enable "Folders" on "Media" only
-  wsuWordPress option update \
+  wsuWordPressEachSite option update \
     folders_settings '["attachment"]' --format=json \
     --skip-plugins --skip-themes
+
+  fxTitle "Deleting the default \"Contact form 1\" of Contact Form 7..."
+  ## no --skip-plugins here: the `wpcf7_contact_form` post type is registered by the plugin itself
+  for siteUrl in ${WSU_WORDPRESS_SITE_URL_LIST}; do
+
+    WSU_WPCLI_DEBUG_MODE=0 wsuWordPress post list \
+      --post_type=wpcf7_contact_form --field=ID --url="${siteUrl}" | \
+      while read -r cf7FormId; do
+        if [[ -n "$cf7FormId" ]]; then
+          wsuWordPress post delete "$cf7FormId" --force --url="${siteUrl}"
+        fi
+      done
+  done
 
 else
 
@@ -268,13 +308,13 @@ WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | 
 
 
 fxTitle "Deleting the sample content..."
-wsuWordPress comment delete 1 --force
-wsuWordPress post delete 1 --force
+wsuWordPressEachSite comment delete 1 --force
+wsuWordPressEachSite post delete 1 --force
 
 
 fxTitle "Disabling comments and pingbacks by default..."
-wsuWordPress option update default_comment_status closed
-wsuWordPress option update default_ping_status closed
+wsuWordPressEachSite option update default_comment_status closed
+wsuWordPressEachSite option update default_ping_status closed
 
 
 fxTitle "Setting the max upload file size..."
@@ -294,7 +334,7 @@ fi
 
 
 fxTitle "Switching the URLs structure to \"post name\" (use slugs instead of IDs)"
-wsuWordPress rewrite structure '/%postname%/'
+wsuWordPressEachSite rewrite structure '/%postname%/'
 
 
 fxTitle "Preparing ${APP_NAME} plugin directory..."
