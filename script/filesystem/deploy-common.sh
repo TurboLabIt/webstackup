@@ -314,7 +314,11 @@ fi
 
 
 fxTitle "📂 Listing /etc/nginx/conf.d/..."
-ls -l /etc/nginx/conf.d
+if [ -z "$(command -v nginx)" ]; then
+  fxWarning "Nginx not installed"
+else
+  ls -l /etc/nginx/conf.d
+fi
 
 
 ## ElasticSearch
@@ -482,7 +486,11 @@ fi
 systemctl daemon-reload
 
 fxTitle "🔃 Conditional nginx stop..."
-nginx -t && service nginx stop
+if [ -z "$(command -v nginx)" ]; then
+  fxWarning "Nginx not installed"
+else
+  nginx -t && service nginx stop
+fi
 
 ## MySQL
 systemctl --all --type service | grep -q "mysql"
@@ -502,7 +510,11 @@ fxTitle "🔃️ Restarting logrotate..."
 service logrotate restart
 
 fxTitle "🔃 Conditional nginx restart..."
-nginx -t && service nginx restart
+if [ -z "$(command -v nginx)" ]; then
+  fxWarning "Nginx not installed"
+else
+  nginx -t && service nginx restart
+fi
 
 fxTitle "🔃️ Restarting sshd..."
 service ssh restart
