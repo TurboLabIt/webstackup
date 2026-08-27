@@ -296,7 +296,15 @@ fxList "${WEBROOT_DIR}wp-content/themes/${APP_NAME}"
 
 
 fxTitle "Enabling my own ##${APP_NAME}## theme..."
-wsuWordPress theme activate "${APP_NAME}"
+if [ ! -z "$WORDPRESS_MULTISITE_MODE" ]; then
+
+  ## on multisite a theme must be network-enabled before any site is allowed to use it
+  # https://developer.wordpress.org/cli/commands/theme/enable/
+  wsuWordPress theme enable "${APP_NAME}" --network
+fi
+
+## https://developer.wordpress.org/cli/commands/theme/activate/
+wsuWordPressEachSite theme activate "${APP_NAME}"
 
 fxTitle "Deleting the other, bundled themes..."
 WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | \
