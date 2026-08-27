@@ -90,7 +90,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}migrate.sh" ]; then
 elif [ -z "${FAST_CACHE_CLEAR}" ]; then
 
   fxTitle "🚚 Migrating..."
-  sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console doctrine:migrations:migrate --no-interaction
+
+  if [ ! -d "${WEBROOT_DIR}vendor/doctrine/doctrine-migrations-bundle" ]; then
+    fxWarning "Doctrine Migrations not installed: nothing to migrate"
+  else
+    sudo -u www-data -H XDEBUG_MODE=off ${PHP_CLI} bin/console doctrine:migrations:migrate --no-interaction
+  fi
 fi
 
 

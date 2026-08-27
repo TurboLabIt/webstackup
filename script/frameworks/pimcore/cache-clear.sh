@@ -47,7 +47,12 @@ if [ -z "${FAST_CACHE_CLEAR}" ]; then
   if [ ! -f "${SCRIPT_DIR}migrate.sh" ]; then
   
     fxTitle "🚚 Migrating..."
-    wsuSymfony console doctrine:migrations:migrate --no-interaction
+
+    if [ ! -d "${PROJECT_DIR}vendor/doctrine/doctrine-migrations-bundle" ]; then
+      fxWarning "Doctrine Migrations not installed: nothing to migrate"
+    else
+      wsuSymfony console doctrine:migrations:migrate --no-interaction
+    fi
     
   else
     
