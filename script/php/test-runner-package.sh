@@ -118,7 +118,9 @@ if [ "${PROJECT_FRAMEWORK}" = "symfony" ]; then
 
   fxTitle "🚚 Database migration"
 
-  if [ "${WSU_TEST_SKIP_MIGRATION}" != "1" ]; then
+  if [ "${WSU_TEST_SKIP_MIGRATION}" != "1" ] && [ ! -d "${PROJECT_DIR}vendor/doctrine/doctrine-migrations-bundle" ]; then
+    fxWarning "Doctrine Migrations not installed: nothing to migrate"
+  elif [ "${WSU_TEST_SKIP_MIGRATION}" != "1" ]; then
     wsuSymfony console doctrine:migrations:migrate --no-interaction --env test
   else
     fxInfo "Skipping migration - WSU_TEST_SKIP_MIGRATION=1 🦘"
