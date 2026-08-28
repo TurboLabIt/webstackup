@@ -49,6 +49,18 @@ if [ "$INSTALL_PHP" = 1 ]; then
 fi
 
 
+fxTitle "Installing ZZUPDATE..."
+if [ "$INSTALL_ZZUPDATE" = 1 ]; then
+
+  curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | bash
+  zzupdate server
+
+else
+
+  fxInfo "Skipped (disabled in config) 🦘"
+fi
+
+
 fxTitle "Installing WEBSTACKUP..."
 if [ "$INSTALL_WEBSTACKUP" = 1 ]; then
 
@@ -218,14 +230,6 @@ else
 fi
 
 
-fxTitle "Installing ZZUPDATE..."
-if [ "$INSTALL_ZZUPDATE" = 1 ]; then
-  curl -s https://raw.githubusercontent.com/TurboLabIt/zzupdate/master/setup.sh | bash
-else
-  fxInfo "Skipped (disabled in config) 🦘"
-fi
-
-
 fxTitle "Installing ZZMYSQLDUMP"
 if [ "$INSTALL_ZZMYSQLDUMP" = 1 ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/zzmysqldump/master/setup.sh | bash
@@ -363,12 +367,7 @@ sshd -t && service ssh restart
 
 
 fxTitle "REBOOTING..."
-if [ "$REBOOT" = "1" ] && [ "$INSTALL_ZZUPDATE" = 1 ]; then
-
-  fxCountdown
-  zzupdate
-
-elif [ "$REBOOT" = "1" ]; then
+if [ "$REBOOT" = "1" ]; then
 
   fxCountdown
   shutdown -r -t 5
