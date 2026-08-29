@@ -50,11 +50,6 @@ else
 fi
 
 
-## an outdated, local bash-fx has no fxSshGenerateUserKey(): grab the fresh SSH helpers
-if ! declare -F fxSshGenerateUserKey > /dev/null; then
-  source <(curl -s https://raw.githubusercontent.com/TurboLabIt/bash-fx/main/scripts/ssh.sh)
-fi
-
 ## outside of the block on purpose: servers created before this ran are keyless
 fxSshGenerateUserKey "webstackup"
 

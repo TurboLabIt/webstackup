@@ -23,7 +23,9 @@ fi
 
 
 printTitle "🔑 Please authorize this key to access the target repository"
-cat /home/webstackup/.ssh/id_rsa.pub
+
+## this generates the key (and the known_hosts) if it's missing, then displays the .pub
+fxSshGenerateUserKey webstackup
 
 
 printTitle "🌎 Repository URL"
