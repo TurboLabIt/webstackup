@@ -30,18 +30,20 @@ function wsuComposer()
     COMPOSER_JSON_FULLPATH=$(pwd)/composer.json
   fi
 
+  local COMPOSER_COMMAND_START="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 COMPOSER_ALLOW_SUPERUSER=1"
+
 
   if [ -z "${COMPOSER_JSON_FULLPATH}" ] || [ ! -f "${COMPOSER_JSON_FULLPATH}" ]; then
 
     fxInfo "composer.json not found"
     fxInfo "$(pwd)"
-    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer"
+    local FULL_COMPOSER_CMD="$COMPOSER_COMMAND_START ${PHP_CLI} /usr/local/bin/composer"
 
   else
 
     fxInfo "Using ##${COMPOSER_JSON_FULLPATH}##"
     fxInfo "$(dirname ${COMPOSER_JSON_FULLPATH})"
-    local FULL_COMPOSER_CMD="sudo -u $EXPECTED_USER -H COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" XDEBUG_MODE=off COMPOSER_MEMORY_LIMIT=-1 ${PHP_CLI} /usr/local/bin/composer --working-dir="$(dirname ${COMPOSER_JSON_FULLPATH})""
+    local FULL_COMPOSER_CMD="$COMPOSER_COMMAND_START COMPOSER="$(basename -- $COMPOSER_JSON_FULLPATH)" ${PHP_CLI} /usr/local/bin/composer --working-dir="$(dirname ${COMPOSER_JSON_FULLPATH})""
   fi
 
 
