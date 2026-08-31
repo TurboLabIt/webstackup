@@ -40,39 +40,35 @@ wsuSymfony composer config prefer-stable true --no-interaction
 wsuSymfony composer config extra.symfony.allow-contrib true --no-interaction
 wsuSymfony composer config extra.symfony.docker false --no-interaction
 
-fxTitle "📦 composer req"
-wsuSymfony composer require --no-interaction \
-  symfony/twig-pack symfony/cache symfony/asset \
-  symfony/orm-pack symfony/mailer \
-  symfony/webpack-encore-bundle \
-  stof/doctrine-extensions-bundle \
-  symfony/expression-language \
-  form validator \
-  symfony/monolog-bundle \
-  turbolabit/php-foreachable:dev-main turbolabit/php-encryptor turbolabit/php-symfony-basecommand:dev-main \
-  turbolabit/php-symfony-messenger:dev-main turbolabit/paginatorbundle:dev-main turbolabit/service-entity-plus-bundle:dev-main
-  
- 
-fxTitle "Setting up doctrine-extensions..."
-echo "
-stof_doctrine_extensions:
-   orm:
-      default:
-          timestampable: true
-" > /dev/null
-#config/packages/stof_doctrine_extensions.yml
+
+fxTitle "🛟 Backing up the original composer.json..."
+if [ ! -f "${PROJECT_DIR}var/symfony_composer_original.json" ]; then
+  mkdir -p "${PROJECT_DIR}var"
+  cp "${PROJECT_DIR}composer.json" "${PROJECT_DIR}var/symfony_composer_original.json"
+  fxOK "Saved to ##var/symfony_composer_original.json##"
+else
+  fxInfo "##var/symfony_composer_original.json## already exists"
+fi
+
+
+fxTitle "⭐ Switching every version constraint to @stable..."
+## bump-after-update would rewrite @stable to ^x.y.z on every update: keep it off
+wsuSymfony composer config bump-after-update false --no-interaction
+## Flex resolution filter: if left to x.y.*, it overrides the @stable constraints below
+wsuSymfony composer config extra.symfony.require "@stable" --no-interaction
+
+wsuSymfony composer require --no-update --no-interaction \
+  'symfony/console:@stable' 'symfony/dotenv:@stable' 'symfony/flex:@stable' \
+  'symfony/framework-bundle:@stable' 'symfony/runtime:@stable' 'symfony/yaml:@stable'
 
 
 fxTitle "📦 composer req DEV-only"
-wsuSymfony composer require --no-interaction --dev \
-  symfony/maker-bundle symfony/debug-pack phpunit brianium/paratest
+wsuSymfony composer require --dev --no-update --no-interaction \
+  'symfony/debug-bundle:@stable' 'symfony/stopwatch:@stable' 'symfony/web-profiler-bundle:@stable'
 
 
-fxTitle "Adding webpack stuff..."
-YARN_CMD="sudo -u $EXPECTED_USER -H COREPACK_ENABLE_DOWNLOAD_PROMPT=0 yarn"
-$YARN_CMD add sass-loader sass file-loader
-$YARN_CMD install
-$YARN_CMD webpack
+fxTitle "📦 composer update"
+wsuSymfony composer update --no-interaction
 
 
 fxTitle "Restoring PROJECT_DIR"
