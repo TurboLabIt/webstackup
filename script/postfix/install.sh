@@ -37,7 +37,7 @@ fxTitle "Installing Postfix and OpenDKIM..."
 fxAptUpdate
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
-apt install postfix mailutils opendkim opendkim-tools -y
+apt install postfix mailutils libsasl2-modules opendkim opendkim-tools -y
 
 
 fxMailNameWarning
