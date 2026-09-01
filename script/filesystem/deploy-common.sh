@@ -503,6 +503,21 @@ elif [ -d "/etc/varnish" ] && [ -f "${PROJECT_DIR}config/custom/varnish.service"
 fi
 
 
+WSU_RUN_SERVICE_LINK_PATH=/etc/systemd/system/${APP_NAME}.service
+if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/run.service" ]; then
+
+  fxTitle "🚀 Linking the app service unit file for the ${APP_ENV} env..."
+  sudo rm -f "${WSU_RUN_SERVICE_LINK_PATH}"
+  fxLink "${PROJECT_DIR}config/custom/${APP_ENV}/run.service" "${WSU_RUN_SERVICE_LINK_PATH}"
+
+elif [ -f "${PROJECT_DIR}config/custom/run.service" ]; then
+
+  fxTitle "🚀 Linking the app service unit file..."
+  sudo rm -f "${WSU_RUN_SERVICE_LINK_PATH}"
+  fxLink "${PROJECT_DIR}config/custom/run.service" "${WSU_RUN_SERVICE_LINK_PATH}"
+fi
+
+
 ## services restart
 systemctl daemon-reload
 

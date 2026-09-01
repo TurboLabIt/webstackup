@@ -1,4 +1,4 @@
-fxHeader "👀 ${APP_NAME} build"
+fxHeader "🏗️ ${APP_NAME} build"
 
 source "${WEBSTACKUP_SCRIPT_DIR}node.js/node_script_begin.sh"
 
