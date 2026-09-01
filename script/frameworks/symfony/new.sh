@@ -29,6 +29,15 @@ if fxAskYesNo "📧 Do you need to send emails?"; then
   WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} symfony/mailer:@stable"
 fi
 
+if fxAskYesNo "⌨️ Do you need to build CLI commands?"; then
+  WSU_SYMFONY_BASECOMMAND=1
+  WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} turbolabit/php-symfony-basecommand:dev-main"
+fi
+
+if fxAskYesNo "🧪 You are going to add tests, right?"; then
+  WSU_SYMFONY_OPTIONAL_DEV_PACKAGES="phpunit:@stable brianium/paratest:@stable"
+fi
+
 
 fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
@@ -80,7 +89,9 @@ wsuSymfony composer require --no-update --no-interaction \
 
 fxTitle "📦 composer req DEV-only"
 wsuSymfony composer require --dev --no-update --no-interaction \
-  'symfony/debug-bundle:@stable' 'symfony/stopwatch:@stable' 'symfony/web-profiler-bundle:@stable'
+  'symfony/debug-bundle:@stable' 'symfony/stopwatch:@stable' 'symfony/web-profiler-bundle:@stable' \
+  'symfony/maker-bundle:@stable' 'symfony/debug-pack:@stable' \
+  ${WSU_SYMFONY_OPTIONAL_DEV_PACKAGES}
 
 
 fxTitle "📦 composer update"
@@ -137,6 +148,20 @@ if [ ! -z "${WSU_SYMFONY_DOCTRINE}" ]; then
   wsuSymfony console lint:yaml config/packages/stof_doctrine_extensions.yaml
   wsuSymfony console debug:config stof_doctrine_extensions > /dev/null
   fxOK "timestampable enabled"
+fi
+
+
+if [ ! -z "${WSU_SYMFONY_BASECOMMAND}" ]; then
+
+  fxTitle "⌨️ Adding the example command..."
+  mkdir -p "${PROJECT_DIR}src/Command"
+  ## https://github.com/TurboLabIt/php-symfony-basecommand/blob/main/docs/ExampleCommand.php
+  curl -L -o "${PROJECT_DIR}src/Command/ExampleCommand.php" \
+    https://raw.githubusercontent.com/TurboLabIt/php-symfony-basecommand/refs/heads/main/docs/ExampleCommand.php
+
+  if ! ${PHP_CLI} -l "${PROJECT_DIR}src/Command/ExampleCommand.php" > /dev/null; then
+    fxWarning "##src/Command/ExampleCommand.php## doesn't parse: fix it before running bin/console"
+  fi
 fi
 
 
