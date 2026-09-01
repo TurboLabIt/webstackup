@@ -38,6 +38,10 @@ if fxAskYesNo "⌨️ Do you need to build CLI commands?"; then
   WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} turbolabit/php-symfony-basecommand:dev-main"
 fi
 
+if fxAskYesNo "📄 Do you need a paginator?"; then
+  WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} turbolabit/paginatorbundle:dev-main"
+fi
+
 if fxAskYesNo "🧪 You are going to add tests, right?"; then
   WSU_SYMFONY_OPTIONAL_DEV_PACKAGES="phpunit:@stable brianium/paratest:@stable"
 fi
