@@ -12,6 +12,6 @@ REACT_ROUTER_TEMPLATE=
 #REACT_ROUTER_VERSION=8.3.1
 REACT_ROUTER_VERSION=
 
-source ${WEBSTACKUP_SCRIPT_DIR}frameworks/react-router/new.sh
+source ${WEBSTACKUP_SCRIPT_DIR}node.js/react-router_new.sh
 
 source "${SCRIPT_DIR}/script_end.sh"
