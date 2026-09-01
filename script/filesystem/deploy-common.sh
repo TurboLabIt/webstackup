@@ -521,6 +521,17 @@ fi
 ## services restart
 systemctl daemon-reload
 
+## the app's own service, linked right above (daemon-reload must come first, or `enable` won't see it)
+if [ -L "${WSU_RUN_SERVICE_LINK_PATH}" ]; then
+
+  fxTitle "🚀 Enabling ##${APP_NAME}.service##..."
+  systemctl enable "${APP_NAME}.service"
+
+  fxTitle "🔃 Restarting ##${APP_NAME}.service##..."
+  systemctl restart "${APP_NAME}.service"
+  systemctl --no-pager status "${APP_NAME}.service"
+fi
+
 fxTitle "🔃 Conditional nginx stop..."
 if [ -z "$(command -v nginx)" ]; then
   fxWarning "Nginx not installed"
