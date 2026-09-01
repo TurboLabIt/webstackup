@@ -123,7 +123,18 @@ fxOK "OK, origin set to ##$GIT_CLONE_REPO_URL##"
 
 
 fxTitle "🌿 Choose a branch"
-gitCloneGitCmd ls-remote $GIT_CLONE_REPO_URL
+GIT_CLONE_REMOTE_REFS=$(gitCloneGitCmd ls-remote $GIT_CLONE_REPO_URL)
+GIT_CLONE_EMPTY_REPO=
+
+if echo "${GIT_CLONE_REMOTE_REFS}" | grep -q refs/heads/; then
+
+  echo "${GIT_CLONE_REMOTE_REFS}"
+
+else
+
+  GIT_CLONE_EMPTY_REPO=1
+  fxWarning "The remote repo is EMPTY (no branches)! The branch will be created locally"
+fi
 
 while [ -z "$GIT_CLONE_BRANCH" ]; do
 
@@ -171,7 +182,15 @@ echo ""
 
 
 fxTitle "🐑🐑 Cloning ${GIT_CLONE_REPO_URL} (branch ${GIT_CLONE_BRANCH}) into ${GIT_CLONE_TARGET_FOLDER}..."
-gitCloneGitCmd clone --branch ${GIT_CLONE_BRANCH} ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
+if [ -z "${GIT_CLONE_EMPTY_REPO}" ]; then
+
+  gitCloneGitCmd clone --branch ${GIT_CLONE_BRANCH} ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
+
+else
+
+  ## an empty repo has no branches: cloning with --branch would fail
+  gitCloneGitCmd clone ${GIT_CLONE_REPO_URL} ${GIT_CLONE_TARGET_FOLDER}
+fi
 
 fxTitle "😡 Setting safe.directory..."
 ## --fixed-value --replace-all = idempotent: --add would append a duplicate .gitconfig line on every clone
@@ -179,7 +198,19 @@ gitCloneGitCmd config --global --fixed-value --replace-all safe.directory "${GIT
 git config --global --fixed-value --replace-all safe.directory "${GIT_CLONE_TARGET_FOLDER%*/}" "${GIT_CLONE_TARGET_FOLDER%*/}"
 
 fxTitle "🌿 Confirming branch & upstream..."
-gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} rev-parse --abbrev-ref --symbolic-full-name @{upstream}
+if [ -z "${GIT_CLONE_EMPTY_REPO}" ]; then
+
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} rev-parse --abbrev-ref --symbolic-full-name @{upstream}
+
+else
+
+  fxInfo "Creating the local branch ##${GIT_CLONE_BRANCH}## (the remote repo is empty)"
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} checkout -B ${GIT_CLONE_BRANCH}
+
+  ## the upstream branch doesn't exist yet: preconfigure it so the first `git push` just works
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.remote origin
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.merge refs/heads/${GIT_CLONE_BRANCH}
+fi
 
 fxTitle "👮 Setting Git filemode to false..."
 gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config core.fileMode false
