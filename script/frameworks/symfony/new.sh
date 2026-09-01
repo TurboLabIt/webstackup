@@ -29,6 +29,10 @@ if fxAskYesNo "📧 Do you need to send emails?"; then
   WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} symfony/mailer:@stable"
 fi
 
+if fxAskYesNo "📢 Do you need to send messages to Telegram, Slack or social networks?"; then
+  WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} turbolabit/php-symfony-messenger:dev-main"
+fi
+
 if fxAskYesNo "⌨️ Do you need to build CLI commands?"; then
   WSU_SYMFONY_BASECOMMAND=1
   WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} turbolabit/php-symfony-basecommand:dev-main"
