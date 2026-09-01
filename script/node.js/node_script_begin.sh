@@ -20,7 +20,9 @@ echo "$NODE_PORT"
 NODE_MODULES_BIN_DIR="node_modules/.bin"
 fxTitle "👮 Fixing permissions on ##${NODE_MODULES_BIN_DIR}##"
 if [ -d "${NODE_MODULES_BIN_DIR}" ]; then
-  sudo chmod ug+x "${NODE_MODULES_BIN_DIR}" -R
+  ## every entry in .bin is a symlink into a package and `chmod -R` SKIPS symlinks, so it
+  ## silently fixed nothing: naming each entry makes chmod dereference it and hit the real file
+  sudo find "${NODE_MODULES_BIN_DIR}" -maxdepth 1 -exec chmod ug+x {} +
 else
   fxInfo "Skipped (not found) 🦘"
 fi
