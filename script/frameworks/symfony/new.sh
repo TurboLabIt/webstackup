@@ -17,7 +17,16 @@ CURRENT_DIR_BACKUP=$(pwd)
 
 ## asked upfront, so the (long) build below runs unattended
 if fxAskYesNo "🌿 Do you want Twig?"; then
-  WSU_SYMFONY_TWIG_PACKAGES="symfony/twig-pack:@stable symfony/asset:@stable"
+  WSU_SYMFONY_OPTIONAL_PACKAGES="symfony/twig-pack:@stable symfony/asset:@stable"
+fi
+
+if fxAskYesNo "🗃️ Do you want Doctrine?"; then
+  WSU_SYMFONY_DOCTRINE=1
+  WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} symfony/orm-pack:@stable stof/doctrine-extensions-bundle:@stable turbolabit/service-entity-plus-bundle:dev-main"
+fi
+
+if fxAskYesNo "📧 Do you need to send emails?"; then
+  WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} symfony/mailer:@stable"
 fi
 
 
@@ -66,7 +75,7 @@ wsuSymfony composer config extra.symfony.require "@stable" --no-interaction
 wsuSymfony composer require --no-update --no-interaction \
   'symfony/console:@stable' 'symfony/dotenv:@stable' 'symfony/flex:@stable' \
   'symfony/framework-bundle:@stable' 'symfony/runtime:@stable' 'symfony/yaml:@stable' \
-  ${WSU_SYMFONY_TWIG_PACKAGES}
+  ${WSU_SYMFONY_OPTIONAL_PACKAGES}
 
 
 fxTitle "📦 composer req DEV-only"
@@ -76,6 +85,59 @@ wsuSymfony composer require --dev --no-update --no-interaction \
 
 fxTitle "📦 composer update"
 wsuSymfony composer update --no-interaction
+
+
+## Flex always unpacks the *-pack metapackages, writing THEIR constraints
+## (i.e. twig/twig "^2.12|^3.0") into composer.json: bring those back to @stable
+fxTitle "⭐ Re-applying @stable to the constraints unpacked by the packs..."
+WSU_STABLEIZE_PHP='
+$json = json_decode(file_get_contents($argv[2]), true);
+$packages = [];
+foreach (($json[$argv[1]] ?? []) as $package => $constraint) {
+
+  if ($constraint === "@stable" || $package === "php" ||
+      str_starts_with($package, "ext-") || str_starts_with($constraint, "dev-")) {
+    continue;
+  }
+
+  $packages[] = $package . ":@stable";
+}
+echo implode(" ", $packages);
+'
+
+WSU_UNPACKED=$(${PHP_CLI} -r "${WSU_STABLEIZE_PHP}" -- require "${PROJECT_DIR}composer.json")
+WSU_UNPACKED_DEV=$(${PHP_CLI} -r "${WSU_STABLEIZE_PHP}" -- require-dev "${PROJECT_DIR}composer.json")
+
+if [ ! -z "${WSU_UNPACKED}" ]; then
+  fxInfo "require: ##${WSU_UNPACKED}##"
+  wsuSymfony composer require --no-update --no-interaction ${WSU_UNPACKED}
+fi
+
+if [ ! -z "${WSU_UNPACKED_DEV}" ]; then
+  fxInfo "require-dev: ##${WSU_UNPACKED_DEV}##"
+  wsuSymfony composer require --dev --no-update --no-interaction ${WSU_UNPACKED_DEV}
+fi
+
+if [ ! -z "${WSU_UNPACKED}" ] || [ ! -z "${WSU_UNPACKED_DEV}" ]; then
+  wsuSymfony composer update --no-interaction
+else
+  fxOK "Nothing to do"
+fi
+
+
+if [ ! -z "${WSU_SYMFONY_DOCTRINE}" ]; then
+
+  fxTitle "Setting up doctrine-extensions..."
+  echo "stof_doctrine_extensions:
+  orm:
+    default:
+      timestampable: true
+" > "${PROJECT_DIR}config/packages/stof_doctrine_extensions.yaml"
+
+  wsuSymfony console lint:yaml config/packages/stof_doctrine_extensions.yaml
+  wsuSymfony console debug:config stof_doctrine_extensions > /dev/null
+  fxOK "timestampable enabled"
+fi
 
 
 fxTitle "Restoring PROJECT_DIR"
