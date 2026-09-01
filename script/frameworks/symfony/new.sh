@@ -15,6 +15,12 @@ fi
 CURRENT_DIR_BACKUP=$(pwd)
 
 
+## asked upfront, so the (long) build below runs unattended
+if fxAskYesNo "🌿 Do you want Twig?"; then
+  WSU_SYMFONY_TWIG_PACKAGES="symfony/twig-pack:@stable symfony/asset:@stable"
+fi
+
+
 fxTitle "Setting up temp directory..."
 WSU_TMP_DIR=/tmp/wsu-symfony-new/
 rm -rf "${WSU_TMP_DIR}"
@@ -59,7 +65,8 @@ wsuSymfony composer config extra.symfony.require "@stable" --no-interaction
 
 wsuSymfony composer require --no-update --no-interaction \
   'symfony/console:@stable' 'symfony/dotenv:@stable' 'symfony/flex:@stable' \
-  'symfony/framework-bundle:@stable' 'symfony/runtime:@stable' 'symfony/yaml:@stable'
+  'symfony/framework-bundle:@stable' 'symfony/runtime:@stable' 'symfony/yaml:@stable' \
+  ${WSU_SYMFONY_TWIG_PACKAGES}
 
 
 fxTitle "📦 composer req DEV-only"
