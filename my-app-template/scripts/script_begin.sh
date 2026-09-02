@@ -19,8 +19,10 @@ USERS_TEMPLATE_PATH="${PRIVGEN_DIR}operations/accounts/my-company/"
 if [ "$APP_ENV" = "prod" ]; then
 
   EMOJI=rocket
+  SITE_URL=https://my-app.com
 
 elif [ "$APP_ENV" = "staging" ]; then
 
   EMOJI=cat
+  SITE_URL=https://next.my-app.com
 fi
