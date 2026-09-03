@@ -146,7 +146,7 @@ if [ "${WSU_REACT_ROUTER_SHADCN}" = 1 ]; then
 
   fxTitle "🎨 shadcn init..."
   ## https://ui.shadcn.com/docs/installation/react-router
-  sudo -u $EXPECTED_USER -H npx --yes shadcn@latest init -t react-router
+  sudo -u $EXPECTED_USER -H npx --yes shadcn@latest init -t react-router -b base -p base-vega
 fi
 
 
