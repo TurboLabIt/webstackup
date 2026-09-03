@@ -24,6 +24,7 @@ fi
 CURRENT_DIR_BACKUP=$(pwd)
 WSU_REACT_ROUTER_TEMPLATE_ARG=
 WSU_REACT_ROUTER_VERSION_ARG=
+WSU_REACT_ROUTER_SHADCN=
 
 
 ## asked upfront, so the (long) build below runs unattended
@@ -41,6 +42,10 @@ if fxAskYesNo "🤖 Do you want the React Router agent skill (for AI coding assi
   WSU_REACT_ROUTER_SKILLS_ARG="--agent-skills"
 else
   WSU_REACT_ROUTER_SKILLS_ARG="--no-agent-skills"
+fi
+
+if fxAskYesNo "🎨 Do you want shadcn?"; then
+  WSU_REACT_ROUTER_SHADCN=1
 fi
 
 
@@ -135,6 +140,14 @@ fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 fxTitle "💿 npm install..."
 cd "${PROJECT_DIR}"
 echo "y" | sudo -u $EXPECTED_USER -H npm install
+
+
+if [ "${WSU_REACT_ROUTER_SHADCN}" = 1 ]; then
+
+  fxTitle "🎨 shadcn init..."
+  ## https://ui.shadcn.com/docs/installation/react-router
+  sudo -u $EXPECTED_USER -H npx --yes shadcn@latest init -t react-router
+fi
 
 
 if grep -q '"typecheck":' "${PROJECT_DIR}package.json"; then
