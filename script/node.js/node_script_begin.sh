@@ -1,3 +1,7 @@
+fxTitle "🌳 NODE_ENV"
+echo "$NODE_ENV"
+
+
 fxTitle "🤹 Setting node.js version..."
 if [ ! -z "${NODEJS_VER}" ]; then
   sudo n "${NODEJS_VER}"
@@ -13,7 +17,7 @@ if [ -z "$NODE_PORT" ]; then
   NODE_PORT=5173
 fi
 
-fxTitle "🤹 NODE_PORT"
+fxTitle "🚪 NODE_PORT"
 echo "$NODE_PORT"
 
 
