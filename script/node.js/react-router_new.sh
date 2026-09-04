@@ -44,8 +44,14 @@ else
   WSU_REACT_ROUTER_SKILLS_ARG="--no-agent-skills"
 fi
 
-if fxAskYesNo "🎨 Do you want shadcn?"; then
-  WSU_REACT_ROUTER_SHADCN=1
+if fxAskYesNo "🎨 Do you want shadcn with base-vega?"; then
+
+  WSU_REACT_ROUTER_SHADCN=base-vega
+
+elif fxAskYesNo "🎨 Do you want shadcn (start the setup wizard)?"; then
+
+  ## the wizard prompts on its own, in the middle of the build: it's the only question not asked upfront
+  WSU_REACT_ROUTER_SHADCN=wizard
 fi
 
 
@@ -142,11 +148,16 @@ cd "${PROJECT_DIR}"
 echo "y" | sudo -u $EXPECTED_USER -H npm install
 
 
-if [ "${WSU_REACT_ROUTER_SHADCN}" = 1 ]; then
+## https://ui.shadcn.com/docs/installation/react-router
+if [ "${WSU_REACT_ROUTER_SHADCN}" = base-vega ]; then
 
-  fxTitle "🎨 shadcn init..."
-  ## https://ui.shadcn.com/docs/installation/react-router
+  fxTitle "🎨 shadcn init (Base UI + vega: Lucide icons, Inter font)..."
   sudo -u $EXPECTED_USER -H npx --yes shadcn@latest init -t react-router -b base -p base-vega
+
+elif [ "${WSU_REACT_ROUTER_SHADCN}" = wizard ]; then
+
+  fxTitle "🎨 shadcn init (answer the wizard below)..."
+  sudo -u $EXPECTED_USER -H npx --yes shadcn@latest init -t react-router
 fi
 
 
