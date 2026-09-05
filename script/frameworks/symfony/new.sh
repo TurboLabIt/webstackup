@@ -26,6 +26,7 @@ if fxAskYesNo "🗃️ Do you want Doctrine?"; then
 fi
 
 if fxAskYesNo "📧 Do you need to send emails?"; then
+  WSU_SYMFONY_MAILER=1
   WSU_SYMFONY_OPTIONAL_PACKAGES="${WSU_SYMFONY_OPTIONAL_PACKAGES} symfony/mailer:@stable"
 fi
 
@@ -170,6 +171,15 @@ if [ ! -z "${WSU_SYMFONY_BASECOMMAND}" ]; then
   if ! ${PHP_CLI} -l "${PROJECT_DIR}src/Command/ExampleCommand.php" > /dev/null; then
     fxWarning "##src/Command/ExampleCommand.php## doesn't parse: fix it before running bin/console"
   fi
+fi
+
+
+if [ ! -z "${WSU_SYMFONY_MAILER}" ]; then
+
+  fxTitle "📧 Setting up the mailer..."
+  ## the Flex recipe ships MAILER_DSN=null://null: deliver through the local MTA instead (see script/postfix)
+  fxDotEnvSet "${PROJECT_DIR}.env" MAILER_DSN "smtp://localhost?verify_peer=false"
+  wsuSymfony console debug:dotenv | grep MAILER_DSN
 fi
 
 
