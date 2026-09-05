@@ -68,8 +68,8 @@ if [ ! -f "${LINKWARDEN_INSTALL_DIR}.env" ]; then
   sudo -u postgres psql -c "ALTER USER linkwarden CREATEDB;"
 
   cp .env.sample .env
-  sed -i "s/^NEXTAUTH_SECRET=.*/NEXTAUTH_SECRET=$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)/" .env
-  sed -i "s|^DATABASE_URL=.*|DATABASE_URL=postgresql://linkwarden:${LINKWARDEN_DB_PASSWORD}@localhost:5432/linkwarden/|" .env
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" NEXTAUTH_SECRET "$(LC_ALL=C tr -dc 'A-Za-z0-9' </dev/urandom | head -c32)"
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" DATABASE_URL "postgresql://linkwarden:${LINKWARDEN_DB_PASSWORD}@localhost:5432/linkwarden/"
 fi
 
 
@@ -111,13 +111,13 @@ fi
 ## 📚 https://docs.linkwarden.app/self-hosting/environment-variables
 if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 0 ]; then
 
-  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
-  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" NEXT_PUBLIC_DISABLE_REGISTRATION "true"
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" DISABLE_NEW_SSO_USERS "true"
 
 else
 
-  sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=/" .env
-  sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=/" .env
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" NEXT_PUBLIC_DISABLE_REGISTRATION ""
+  fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" DISABLE_NEW_SSO_USERS ""
 fi
 
 
@@ -144,8 +144,8 @@ if [ "${LINKWARDEN_ALLOW_REGISTRATIONS}" = 1 ]; then
   read -p ">> " -n 1 -r  < /dev/tty
   if [[ "$REPLY" =~ ^[Nn0]$ ]]; then
 
-    sed -i "s/^NEXT_PUBLIC_DISABLE_REGISTRATION=.*/NEXT_PUBLIC_DISABLE_REGISTRATION=true/" .env
-    sed -i "s/^DISABLE_NEW_SSO_USERS=.*/DISABLE_NEW_SSO_USERS=true/" .env
+    fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" NEXT_PUBLIC_DISABLE_REGISTRATION "true"
+    fxDotEnvSet "${LINKWARDEN_INSTALL_DIR}.env" DISABLE_NEW_SSO_USERS "true"
     linkwardenBuild
   fi
 fi
