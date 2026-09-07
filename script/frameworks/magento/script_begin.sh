@@ -19,6 +19,8 @@ MAGENTO_MODULE_DISABLE=" \
   Magento_CmsGraphQl Magento_CustomerGraphQl Magento_QuoteGraphQl Magento_CatalogGraphQl Magento_EavGraphQl \
   Magento_GraphQlCache Magento_GraphQl Magento_UrlRewriteGraphQl \
 "
+## Modules to keep even if they're in MAGENTO_MODULE_DISABLE. Set it in your project script_begin.sh
+## AFTER sourcing script_begin_start.sh (this file resets it), i.e. MAGENTO_MODULE_ENABLE="Magento_GraphQl Magento_GraphQlCache"
 MAGENTO_MODULE_ENABLE=""
 COMPOSER_JSON_FULLPATH=${MAGENTO_DIR}composer.json
 COMPOSER_SKIP_DUMP_AUTOLOAD=1

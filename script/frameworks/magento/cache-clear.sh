@@ -235,17 +235,20 @@ wsuMage setup:upgrade
 
 
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ ! -z "${MAGENTO_MODULE_DISABLE}" ]; then
+
   fxTitle "Disabling module(s)..."
-  ## explode string to array
-  readarray -d ' ' -t  MAGENTO_MODULE_DISABLE_ARRAY <<< "$MAGENTO_MODULE_DISABLE"
+  fxStringToArray MAGENTO_MODULE_DISABLE_ARRAY "${MAGENTO_MODULE_DISABLE}"
+  fxStringToArray MAGENTO_MODULE_ENABLE_ARRAY "${MAGENTO_MODULE_ENABLE}"
 
   for MOD_TO_DISABLE in "${MAGENTO_MODULE_DISABLE_ARRAY[@]}"; do
 
-    ## trim the last element (?!?)
-    MOD_TO_DISABLE=$(echo "${MOD_TO_DISABLE}")
-    if [ ! -z "${MOD_TO_DISABLE}" ]; then
-      wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
+    ## a project keeps a module of the default list by adding it to MAGENTO_MODULE_ENABLE (see script_begin.sh)
+    if fxInArray "${MOD_TO_DISABLE}" "${MAGENTO_MODULE_ENABLE_ARRAY[@]}"; then
+      fxInfo "##${MOD_TO_DISABLE}## is in MAGENTO_MODULE_ENABLE, skipping 🦘"
+      continue
     fi
+
+    wsuMage module:disable --clear-static-content "${MOD_TO_DISABLE}"
 
   done
 
