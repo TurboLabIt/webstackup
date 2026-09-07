@@ -19,6 +19,7 @@ MAGENTO_MODULE_DISABLE=" \
   Magento_CmsGraphQl Magento_CustomerGraphQl Magento_QuoteGraphQl Magento_CatalogGraphQl Magento_EavGraphQl \
   Magento_GraphQlCache Magento_GraphQl Magento_UrlRewriteGraphQl \
 "
+MAGENTO_MODULE_ENABLE=""
 COMPOSER_JSON_FULLPATH=${MAGENTO_DIR}composer.json
 COMPOSER_SKIP_DUMP_AUTOLOAD=1
 MAGENTO_STATIC_CONTENT_DEPLOY_ADMIN="it_IT en_US"
