@@ -1,9 +1,9 @@
-# [SSH config](https://github.com/my-name/my-app/blob/main/docs/SSH.md)
+# [SSH config](https://github.com/my-repository-vendor-name/my-repository-app-name/blob/master/docs/SSH.md)
 
 `${HOME}/.ssh/config`:
 
 ````
-## my-app https://github.com/my-name/my-app/blob/main/docs/SSH.md
+## my-app https://github.com/my-repository-vendor-name/my-repository-app-name/blob/master/docs/SSH.md
 Host my-app.prd
 HostName my-app.com
 #Port 22

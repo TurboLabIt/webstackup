@@ -1,4 +1,4 @@
-# [Networking.md](https://github.com/my-name/my-app/blob/main/docs/Networking.md)
+# [Networking.md](https://github.com/my-repository-vendor-name/my-repository-app-name/blob/master/docs/Networking.md)
 
 
 ## Prod
