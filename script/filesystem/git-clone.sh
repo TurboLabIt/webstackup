@@ -133,7 +133,7 @@ if echo "${GIT_CLONE_REMOTE_REFS}" | grep -q refs/heads/; then
 else
 
   GIT_CLONE_EMPTY_REPO=1
-  fxWarning "The remote repo is EMPTY (no branches)! The branch will be created locally"
+  fxWarning "The remote repo is EMPTY (no branches)! The branch will be created locally and pushed"
 fi
 
 while [ -z "$GIT_CLONE_BRANCH" ]; do
@@ -207,9 +207,37 @@ else
   fxInfo "Creating the local branch ##${GIT_CLONE_BRANCH}## (the remote repo is empty)"
   gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} checkout -B ${GIT_CLONE_BRANCH}
 
-  ## the upstream branch doesn't exist yet: preconfigure it so the first `git push` just works
-  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.remote origin
-  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.merge refs/heads/${GIT_CLONE_BRANCH}
+  ## on an empty clone, checkout -B only moves the HEAD symref: the branch is "unborn", so `git branch` doesn't
+  ## list it (app-env.sh finds no branch and every script dies with "Unhandled env"), @{upstream} fails and
+  ## `git push` has nothing to send. Only a commit makes the branch real
+  fxInfo "Creating the initial (empty) commit"
+
+  ## git refuses to commit as a user without an identity (webstackup gets one from generate-www-data.sh,
+  ## other users may have none): fall back to <user>@<host> for this commit only, no config is touched
+  GIT_CLONE_COMMIT_IDENTITY=
+  if [ -z "$(gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config --get user.email)" ]; then
+    GIT_CLONE_COMMIT_IDENTITY="-c user.name=${GIT_CLONE_RUN_AS} -c user.email=${GIT_CLONE_RUN_AS}@$(hostname)"
+  fi
+
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} ${GIT_CLONE_COMMIT_IDENTITY} commit --allow-empty -m "🌱 Initial commit"
+  if [ "$GIT_CMD_RESULT" != 0 ]; then
+    fxCatastrophicError "The initial commit FAILED: the branch ##${GIT_CLONE_BRANCH}## can't be created"
+  fi
+
+  fxInfo "Pushing ##${GIT_CLONE_BRANCH}## to origin"
+  gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} push -u origin ${GIT_CLONE_BRANCH}
+
+  if [ "$GIT_CMD_RESULT" = 0 ]; then
+
+    gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} rev-parse --abbrev-ref --symbolic-full-name @{upstream}
+
+  else
+
+    ## the upstream branch doesn't exist yet: preconfigure it so a later `git push` (with a read-write key) just works
+    gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.remote origin
+    gitCloneGitCmd -C ${GIT_CLONE_TARGET_FOLDER} config branch.${GIT_CLONE_BRANCH}.merge refs/heads/${GIT_CLONE_BRANCH}
+    fxWarning "The push FAILED (read-only key?): ##${GIT_CLONE_BRANCH}## exists locally only. Push it yourself with: git push"
+  fi
 fi
 
 fxTitle "👮 Setting Git filemode to false..."
