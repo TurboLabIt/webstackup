@@ -1,5 +1,10 @@
 fxHeader "🚀 ${APP_NAME} run"
 
+## the start command is framework-specific: frameworks/<framework>/run.sh defines wsuNodeRun() and then sources this file
+if ! declare -F wsuNodeRun > /dev/null; then
+  fxCatastrophicError "node.js/run.sh: wsuNodeRun() is undefined. Define it in frameworks/${PROJECT_FRAMEWORK}/run.sh before sourcing this script"
+fi
+
 source "${WEBSTACKUP_SCRIPT_DIR}node.js/build.sh"
 
 NODE_RUN_LOG="${PROJECT_DIR}var/log/node-run.log"
@@ -14,4 +19,4 @@ fxTitle "🏃 Starting the server..."
 ## tee -a appends, so logrotate's copytruncate works without leaving NUL gaps.
 ## tee -i ignores Ctrl+C: node must be the one to stop (the signal is relayed to it by sudo);
 ## tee then exits by itself when node closes the pipe, after flushing the last lines.
-sudo -u $EXPECTED_USER -H PORT=$NODE_PORT NODE_ENV=$NODE_ENV node server.js build/server/index.js 2>&1 | tee -ai "${NODE_RUN_LOG}"
+wsuNodeRun 2>&1 | tee -ai "${NODE_RUN_LOG}"
