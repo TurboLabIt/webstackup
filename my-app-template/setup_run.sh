@@ -381,6 +381,39 @@ rsync -a ${WSU_MAP_TMP_DIR} "${WSU_MAP_DEPLOY_TO_PATH}"
 rm -rf ${WSU_MAP_TMP_DIR}
 
 
+fxTitle "🏷️ Stamping the repository vendor and name..."
+## the project's own repo links (README.md, docs/, ...) use my-repository-vendor-name/my-repository-app-name:
+## taken from the origin URL (git@github.com:Vendor/name.git, https://host/Vendor/name, ...) before the
+## framework installer fills the directory with files that must not be touched
+if [ -d "${WSU_MAP_DEPLOY_TO_PATH}.git" ]; then
+
+  WSU_MAP_REPO_URL=$(fxGitAsOwner "${WSU_MAP_DEPLOY_TO_PATH}" remote get-url origin)
+  WSU_MAP_REPO_VENDOR_AND_NAME=$(fxGitRemoteUrlToVendorAndName "${WSU_MAP_REPO_URL}")
+  WSU_MAP_REPO_VENDOR=${WSU_MAP_REPO_VENDOR_AND_NAME%/*}
+  WSU_MAP_REPO_NAME=${WSU_MAP_REPO_VENDOR_AND_NAME##*/}
+
+  if [ -z "${WSU_MAP_REPO_URL}" ]; then
+
+    fxWarning "No origin remote in ##${WSU_MAP_DEPLOY_TO_PATH}##: replace my-repository-vendor-name and my-repository-app-name yourself"
+
+  elif [ -z "${WSU_MAP_REPO_VENDOR}" ] || [ -z "${WSU_MAP_REPO_NAME}" ]; then
+
+    fxWarning "No vendor/name in the origin URL ##${WSU_MAP_REPO_URL}##: replace my-repository-vendor-name and my-repository-app-name yourself"
+
+  else
+
+    fxInfo "origin ##${WSU_MAP_REPO_URL}## => vendor ##${WSU_MAP_REPO_VENDOR}##, repository ##${WSU_MAP_REPO_NAME}##"
+    fxReplaceContentInDirectory ${WSU_MAP_DEPLOY_TO_PATH} "my-repository-vendor-name" "${WSU_MAP_REPO_VENDOR}"
+    fxReplaceContentInDirectory ${WSU_MAP_DEPLOY_TO_PATH} "my-repository-app-name" "${WSU_MAP_REPO_NAME}"
+    fxOK "Done"
+  fi
+
+else
+
+  fxInfo "No .git in ##${WSU_MAP_DEPLOY_TO_PATH}##: replace my-repository-vendor-name and my-repository-app-name yourself"
+fi
+
+
 fxTitle "🗃 Do you need a database?"
 while [ -z "$WSU_MAP_NEW_DATABASE" ]; do
 
