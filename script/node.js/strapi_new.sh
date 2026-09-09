@@ -26,7 +26,6 @@ fi
 
 CURRENT_DIR_BACKUP=$(pwd)
 WSU_STRAPI_ARGS=()
-WSU_STRAPI_EXAMPLE=0
 
 
 ## asked upfront, so the (long) build below runs unattended
@@ -42,26 +41,13 @@ fi
 
 if [ ! -z "${STRAPI_TEMPLATE}" ]; then
 
-  ## create-strapi rejects --typescript|--javascript and --example together with --template: the template decides
+  ## create-strapi rejects --typescript and --no-example together with --template: the template decides
   WSU_STRAPI_ARGS+=(--template "${STRAPI_TEMPLATE}")
 
 else
 
-  if fxAskYesNo "🔷 Do you want TypeScript?"; then
-    WSU_STRAPI_ARGS+=(--typescript)
-  else
-    WSU_STRAPI_ARGS+=(--javascript)
-  fi
-
-  if fxAskYesNo "🧪 Do you want the example structure & data (articles, authors, categories, ...)?" N; then
-
-    WSU_STRAPI_EXAMPLE=1
-    WSU_STRAPI_ARGS+=(--example)
-
-  else
-
-    WSU_STRAPI_ARGS+=(--no-example)
-  fi
+  ## TypeScript, no example structure & data: no questions asked
+  WSU_STRAPI_ARGS+=(--typescript --no-example)
 fi
 
 
@@ -255,15 +241,6 @@ chmod u=rw,g=r,o= "${PROJECT_DIR}.env"
 fxTitle "💿 npm install..."
 cd "${PROJECT_DIR}"
 echo "y" | sudo -u $EXPECTED_USER -H npm install
-
-
-if [ "${WSU_STRAPI_EXAMPLE}" = 1 ]; then
-
-  fxTitle "🌱 npm run seed:example..."
-  if ! sudo -u $EXPECTED_USER -H npm run seed:example; then
-    fxWarning "Seeding failed! Run ##npm run seed:example## yourself"
-  fi
-fi
 
 
 fxTitle "🏗️ npm run build (admin panel)..."

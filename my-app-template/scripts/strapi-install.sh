@@ -3,7 +3,7 @@
 
 source $(dirname $(readlink -f $0))/script_begin.sh
 
-## Leave it empty for the official default project (TypeScript or JavaScript, with or without the example data: you'll be asked).
+## Leave it empty for the official default project (TypeScript, no example data).
 ## Anything accepted by `create-strapi --template` works: https://docs.strapi.io/cms/templates
 #STRAPI_TEMPLATE=website
 STRAPI_TEMPLATE=
