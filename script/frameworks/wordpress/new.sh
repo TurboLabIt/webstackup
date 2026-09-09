@@ -152,6 +152,9 @@ fxTitle "Remove the built-in plugins..."
 wsuWordPress plugin uninstall akismet hello --deactivate
 
 
+## the admin panel stays at /wp-admin until WPS Hide Login (below) moves it to /${WORDPRESS_ADMIN_NEW_SLUG}
+WSU_WORDPRESS_ADMIN_PATH=wp-admin
+
 fxTitle "Installing additional plugins..."
 if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
 
@@ -192,6 +195,8 @@ if [ "$WORDPRESS_SKIP_EXTRA_PLUGINS_INSTALL" != 1 ]; then
   wsuWordPressEachSite option update \
     whl_page "${WORDPRESS_ADMIN_NEW_SLUG}" \
     --skip-plugins --skip-themes
+
+  WSU_WORDPRESS_ADMIN_PATH=${WORDPRESS_ADMIN_NEW_SLUG}
 
   ## Enable "Folders" on "Media" only
   wsuWordPressEachSite option update \
@@ -385,6 +390,15 @@ else
 fi
 
 
+fxTitle "📝 Stamping the admin path into README.md..."
+## the my-app-template README links the admin panel at /secret-admin-slug
+if [ -f "${PROJECT_DIR}README.md" ]; then
+  fxReplaceContentInFile "${PROJECT_DIR}README.md" "secret-admin-slug" "${WSU_WORDPRESS_ADMIN_PATH}"
+else
+  fxInfo "No README.md, skipping 🦘"
+fi
+
+
 fxSetWebPermissions "${EXPECTED_USER}" "${PROJECT_DIR}"
 chmod g+w "${WEBROOT_DIR}" -R
 
@@ -396,7 +410,7 @@ fxTitle "The WordPress instance is ready"
 fxMessage "Your admin username is: ${WORDPRESS_ADMIN_USERNAME}"
 fxMessage "Your admin password is: ${WPINST_FIRST_ADMIN_PASSWORD}"
 echo ""
-echo "Please login at ${SITE_URL}${WORDPRESS_ADMIN_NEW_SLUG}"
+echo "Please login at ${SITE_URL}${WSU_WORDPRESS_ADMIN_PATH}"
 
 
 cd "${CURRENT_DIR_BACKUP}"
