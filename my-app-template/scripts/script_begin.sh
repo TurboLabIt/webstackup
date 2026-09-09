@@ -5,6 +5,9 @@ APP_NAME="my-app"
 PROJECT_FRAMEWORK=my-app-framework
 MAGENTO_STATIC_CONTENT_DEPLOY="MyCompany/my-app en_US it_IT fr_FR de_DE en_GB es_ES"
 PIMCORE_ECOMMERECE_BUNDLE_ENABLED=1
+## Node.js apps only (react-router, strapi): the port the app listens on behind Nginx, set by my-app-template
+## Keep it in sync with $proxy_pass_target in config/custom/nginx.conf (and with PORT in .env for Strapi)
+NODE_PORT=my-app-node-port
 ZZ_CMD_SUFFIX=0
 CLOUDFLARE_API_KEY=
 CLOUDFLARE_ZONE_ID=

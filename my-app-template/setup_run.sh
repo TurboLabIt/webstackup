@@ -7,8 +7,9 @@
 # WSU_MAP_DOMAIN=my-shop.com
 # WSU_MAP_APP_NAME=my-shop
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
-WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore" "react-router")
+WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore" "react-router" "strapi")
 # WSU_MAP_FRAMEWORK=one of these ☝☝☝☝
+# WSU_MAP_NODE_PORT=1337 (Node.js apps only; default: 1337 for strapi, 5173 for react-router)
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.5
 # WSU_MAP_PRE_EXEC_PAUSE_SEC=
@@ -223,6 +224,13 @@ else
   fxOK "Whatever suits you.. Working with ##$WSU_MAP_FRAMEWORK##"
 fi
 
+## Node.js apps: the port the app listens on behind Nginx, stamped into scripts/script_begin.sh (NODE_PORT) and config/custom/nginx.conf ($proxy_pass_target)
+if [ -z "${WSU_MAP_NODE_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "strapi" ]; then
+  WSU_MAP_NODE_PORT=1337
+elif [ -z "${WSU_MAP_NODE_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+  WSU_MAP_NODE_PORT=5173
+fi
+
 WSU_MAP_UNCHOSEN_FRAMEWORKS=("${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}")
 for i in "${!WSU_MAP_UNCHOSEN_FRAMEWORKS[@]}"; do
 
@@ -246,6 +254,9 @@ fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
 fxMessage "PHP:       ##$WSU_MAP_PHP_VERSION##"
 fxMessage "Apache:    ##$WSU_MAP_NEED_APACHE_HTTPD##"
 fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
+if [ ! -z "${WSU_MAP_NODE_PORT}" ]; then
+  fxMessage "Node port: ##$WSU_MAP_NODE_PORT##"
+fi
 fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
 echo ""
 
@@ -270,6 +281,7 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "/var/www/my-app" "${WSU_MAP_DEPL
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app.com" "${WSU_MAP_DOMAIN}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-php-version" "${WSU_MAP_PHP_VERSION}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-framework" "${WSU_MAP_FRAMEWORK}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-node-port" "${WSU_MAP_NODE_PORT}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app" "${WSU_MAP_APP_NAME}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 
@@ -290,13 +302,14 @@ else
   fxInfo "A .gitignore already exists, skipping 🦘"
 fi
 
-if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ] || [ "${WSU_MAP_FRAMEWORK}" = "strapi" ]; then
   ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_react-router
-  curl -o "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_react-router
-  sed -i "s/my-app/${WSU_MAP_APP_NAME}/g" "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp"
+  ## https://github.com/TurboLabIt/webdev-gitignore/blob/master/.gitignore_strapi
+  curl -o "${WSU_MAP_TMP_DIR}.gitignore_${WSU_MAP_FRAMEWORK}_temp" https://raw.githubusercontent.com/TurboLabIt/webdev-gitignore/master/.gitignore_${WSU_MAP_FRAMEWORK}
+  sed -i "s/my-app/${WSU_MAP_APP_NAME}/g" "${WSU_MAP_TMP_DIR}.gitignore_${WSU_MAP_FRAMEWORK}_temp"
   echo "" >> "${WSU_MAP_TMP_DIR}.gitignore"
-  cat "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp" >> "${WSU_MAP_TMP_DIR}.gitignore"
-  rm -f "${WSU_MAP_TMP_DIR}.gitignore_react-router_temp"
+  cat "${WSU_MAP_TMP_DIR}.gitignore_${WSU_MAP_FRAMEWORK}_temp" >> "${WSU_MAP_TMP_DIR}.gitignore"
+  rm -f "${WSU_MAP_TMP_DIR}.gitignore_${WSU_MAP_FRAMEWORK}_temp"
 fi
 
 
@@ -347,9 +360,9 @@ if [ "${WSU_MAP_FRAMEWORK}" = "magento" ]; then
 fi
 
 
-if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+if [ "${WSU_MAP_FRAMEWORK}" = "react-router" ] || [ "${WSU_MAP_FRAMEWORK}" = "strapi" ]; then
 
-  ## React Router is a Node.js app: drop the PHP/Varnish template files that don't apply
+  ## Node.js apps (React Router, Strapi): drop the PHP/Varnish template files that don't apply
   rm -f \
     ${WSU_MAP_TMP_DIR}.php-version \
     ${WSU_MAP_TMP_DIR}public/wsu.php \
