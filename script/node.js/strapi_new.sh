@@ -7,11 +7,10 @@
 # APP_NAME
 # PROJECT_DIR
 #
-# STRAPI_VERSION    (optional)
 # STRAPI_TEMPLATE   (optional)
 # STRAPI_PUBLIC_URL (optional)
 # STRAPI_ADMIN_NEW_SLUG (optional: the admin panel path, "admin" when empty)
-# STRAPI_ADMIN_FIRSTNAME, STRAPI_ADMIN_LASTNAME, STRAPI_ADMIN_EMAIL (optional: the first administrator, skipped when the email is empty)
+# STRAPI_ADMIN_EMAIL (optional: the first administrator, skipped when empty; the name is the part before @)
 # MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_DB_NAME (optional: SQLite when MYSQL_DB_NAME is empty)
 
 fxHeader "🆕 Strapi new"
@@ -26,7 +25,6 @@ if [ -z "${APP_NAME}" ] || [ -z "${PROJECT_DIR}" ]; then
 fi
 
 CURRENT_DIR_BACKUP=$(pwd)
-WSU_STRAPI_CREATE_PKG=create-strapi@latest
 WSU_STRAPI_ARGS=()
 WSU_STRAPI_EXAMPLE=0
 
@@ -113,15 +111,7 @@ chmod ugo=rwx "${WSU_TMP_DIR}" -R
 cd "${WSU_TMP_DIR}"
 
 
-if [ ! -z "${STRAPI_VERSION}" ]; then
-
-  WSU_STRAPI_CREATE_PKG=create-strapi@${STRAPI_VERSION}
-  fxInfo "Strapi: ##${STRAPI_VERSION}##"
-
-else
-
-  fxInfo "Strapi: ##latest##"
-fi
+fxInfo "Strapi: ##latest stable## (create-strapi@latest)"
 
 if [ ! -z "${STRAPI_TEMPLATE}" ]; then
 
@@ -138,7 +128,7 @@ fxTitle "🆕 create-strapi..."
 ## --non-interactive: every choice is passed as a flag, nothing may prompt (--skip-cloud: no Strapi Cloud login either)
 ## --no-install:      node_modules is installed further down, straight into PROJECT_DIR
 ## --no-git-init:     the project comes with its own repo
-sudo -u $EXPECTED_USER -H npx --yes "${WSU_STRAPI_CREATE_PKG}" "${APP_NAME}" \
+sudo -u $EXPECTED_USER -H npx --yes create-strapi@latest "${APP_NAME}" \
   --non-interactive --skip-cloud --no-run --use-npm --no-install --no-git-init \
   "${WSU_STRAPI_ARGS[@]}"
 
@@ -284,18 +274,15 @@ fi
 
 
 WSU_STRAPI_ADMIN_PASSWORD=
-if [ ! -z "${STRAPI_ADMIN_EMAIL}" ] && [ ! -z "${STRAPI_ADMIN_FIRSTNAME}" ]; then
+if [ ! -z "${STRAPI_ADMIN_EMAIL}" ]; then
 
   fxTitle "👤 Creating the first administrator ##${STRAPI_ADMIN_EMAIL}##..."
   ## https://docs.strapi.io/cms/cli#strapi-admincreate-user
+  ## --firstname is mandatory (--lastname is not): the part of the email before @ will do
   ## fxPasswordGenerator satisfies the Strapi policy (8+ chars with a number, an uppercase and a lowercase letter)
   WSU_STRAPI_ADMIN_PASSWORD=$(fxPasswordGenerator)
-  WSU_STRAPI_ADMIN_ARGS=(--firstname="${STRAPI_ADMIN_FIRSTNAME}" --email="${STRAPI_ADMIN_EMAIL}" --password="${WSU_STRAPI_ADMIN_PASSWORD}")
-  if [ ! -z "${STRAPI_ADMIN_LASTNAME}" ]; then
-    WSU_STRAPI_ADMIN_ARGS+=(--lastname="${STRAPI_ADMIN_LASTNAME}")
-  fi
 
-  if ! sudo -u $EXPECTED_USER -H NODE_ENV=$NODE_ENV npm run strapi -- admin:create-user "${WSU_STRAPI_ADMIN_ARGS[@]}"; then
+  if ! sudo -u $EXPECTED_USER -H NODE_ENV=$NODE_ENV npm run strapi -- admin:create-user --firstname="${STRAPI_ADMIN_EMAIL%%@*}" --email="${STRAPI_ADMIN_EMAIL}" --password="${WSU_STRAPI_ADMIN_PASSWORD}"; then
 
     fxWarning "Administrator creation failed! Register the first one at /${WSU_STRAPI_ADMIN_PATH} instead"
     WSU_STRAPI_ADMIN_PASSWORD=
