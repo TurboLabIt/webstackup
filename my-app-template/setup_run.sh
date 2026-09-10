@@ -9,7 +9,7 @@
 # WSU_MAP_DEPLOY_TO_PATH=/var/www/$WSU_MAP_APP_NAME
 WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore" "react-router" "strapi")
 # WSU_MAP_FRAMEWORK=one of these ☝☝☝☝
-# WSU_MAP_NODE_PORT=1337 (Node.js apps only; default: 1337 for strapi, 5173 for react-router)
+# WSU_MAP_NODEJS_PORT=1337 (Node.js apps only; default: 1337 for strapi, 5173 for react-router)
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
 # WSU_MAP_PHP_VERSION=8.5
 # WSU_MAP_PRE_EXEC_PAUSE_SEC=
@@ -224,11 +224,11 @@ else
   fxOK "Whatever suits you.. Working with ##$WSU_MAP_FRAMEWORK##"
 fi
 
-## Node.js apps: the port the app listens on behind Nginx, stamped into scripts/script_begin.sh (NODE_PORT) and config/custom/nginx.conf ($proxy_pass_target)
-if [ -z "${WSU_MAP_NODE_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "strapi" ]; then
-  WSU_MAP_NODE_PORT=1337
-elif [ -z "${WSU_MAP_NODE_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
-  WSU_MAP_NODE_PORT=5173
+## Node.js apps: the port the app listens on behind Nginx, stamped into scripts/script_begin.sh (NODEJS_PORT) and config/custom/nginx.conf ($proxy_pass_target)
+if [ -z "${WSU_MAP_NODEJS_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "strapi" ]; then
+  WSU_MAP_NODEJS_PORT=1337
+elif [ -z "${WSU_MAP_NODEJS_PORT}" ] && [ "${WSU_MAP_FRAMEWORK}" = "react-router" ]; then
+  WSU_MAP_NODEJS_PORT=5173
 fi
 
 WSU_MAP_UNCHOSEN_FRAMEWORKS=("${WSU_MAP_AVAILABLE_FRAMEWORKS[@]}")
@@ -254,8 +254,8 @@ fxMessage "Path:      ##$WSU_MAP_DEPLOY_TO_PATH##"
 fxMessage "PHP:       ##$WSU_MAP_PHP_VERSION##"
 fxMessage "Apache:    ##$WSU_MAP_NEED_APACHE_HTTPD##"
 fxMessage "Framework: ##$WSU_MAP_FRAMEWORK##"
-if [ ! -z "${WSU_MAP_NODE_PORT}" ]; then
-  fxMessage "Node port: ##$WSU_MAP_NODE_PORT##"
+if [ ! -z "${WSU_MAP_NODEJS_PORT}" ]; then
+  fxMessage "Node port: ##$WSU_MAP_NODEJS_PORT##"
 fi
 fxCountdown ${WSU_MAP_PRE_EXEC_PAUSE_SEC}
 echo ""
@@ -281,7 +281,7 @@ fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "/var/www/my-app" "${WSU_MAP_DEPL
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app.com" "${WSU_MAP_DOMAIN}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-php-version" "${WSU_MAP_PHP_VERSION}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-framework" "${WSU_MAP_FRAMEWORK}"
-fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-node-port" "${WSU_MAP_NODE_PORT}"
+fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app-node-port" "${WSU_MAP_NODEJS_PORT}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "my-app" "${WSU_MAP_APP_NAME}"
 fxReplaceContentInDirectory ${WSU_MAP_TMP_DIR} "My App Name" "${WSU_MAP_NAME}"
 

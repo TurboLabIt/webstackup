@@ -13,12 +13,12 @@ fxTitle "🤹 node.js version in use"
 sudo -u $EXPECTED_USER -H node --version
 
 
-if [ -z "$NODE_PORT" ]; then
-  NODE_PORT=5173
+if [ -z "$NODEJS_PORT" ]; then
+  NODEJS_PORT=5173
 fi
 
-fxTitle "🚪 NODE_PORT"
-echo "$NODE_PORT"
+fxTitle "🚪 NODEJS_PORT"
+echo "$NODEJS_PORT"
 
 
 NODE_MODULES_BIN_DIR="node_modules/.bin"

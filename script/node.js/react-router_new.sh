@@ -171,9 +171,9 @@ fi
 
 
 fxTitle "🎉 The React Router app is ready"
-fxMessage "dev:  cd ${PROJECT_DIR} && npm run dev -- --port ${NODE_PORT}"
-fxMessage "prod: cd ${PROJECT_DIR} && npm run build && PORT=${NODE_PORT} npm start"
+fxMessage "dev:  cd ${PROJECT_DIR} && npm run dev -- --port ${NODEJS_PORT}"
+fxMessage "prod: cd ${PROJECT_DIR} && npm run build && PORT=${NODEJS_PORT} npm start"
 echo ""
-fxInfo "☝ port ##${NODE_PORT}## must match \$proxy_pass_target in ##config/custom/nginx.conf##"
+fxInfo "☝ port ##${NODEJS_PORT}## must match \$proxy_pass_target in ##config/custom/nginx.conf##"
 
 cd "${CURRENT_DIR_BACKUP}"

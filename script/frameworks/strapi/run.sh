@@ -3,7 +3,7 @@
 ## PORT wins over the one in .env (dotenv doesn't override the env)
 function wsuNodeRun()
 {
-  sudo -u $EXPECTED_USER -H PORT=$NODE_PORT NODE_ENV=$NODE_ENV npm run start
+  sudo -u $EXPECTED_USER -H PORT=$NODEJS_PORT NODE_ENV=$NODE_ENV npm run start
 }
 
 source "${WEBSTACKUP_SCRIPT_DIR}node.js/run.sh"
