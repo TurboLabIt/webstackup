@@ -281,11 +281,7 @@ fi
 
 
 fxTitle "🎉 The Strapi app is ready"
-fxMessage "dev:  ${PROJECT_DIR}scripts/watch.sh    👉 npm run develop (auto-reload + admin panel hot reload)"
-fxMessage "prod: ${PROJECT_DIR}scripts/run.sh      👉 npm run build && npm run start"
-fxMessage "cli:  ${PROJECT_DIR}scripts/cli.sh ...  👉 npm run strapi -- ... (https://docs.strapi.io/cms/cli)"
-echo ""
-fxInfo "☝ port ##${NODEJS_PORT}## (PORT in .env) must match \$proxy_pass_target in ##config/custom/nginx.conf##"
+fxWarning "port ##${NODEJS_PORT}## (PORT in .env) must match \$proxy_pass_target in ##config/custom/nginx.conf##"
 if [ ! -z "${WSU_STRAPI_ADMIN_PASSWORD}" ]; then
 
   echo ""
