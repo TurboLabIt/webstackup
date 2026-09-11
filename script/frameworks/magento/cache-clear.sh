@@ -167,7 +167,7 @@ if [ -d "${MAGENTO_HOTFIX_DIR}" ]; then
   cd "${MAGENTO_DIR}"
 
   ## LC_ALL=C sort: Adobe's naming (`248p5-2026-07-001-CE.patch`) sorts chronologically
-  readarray -t MAGENTO_HOTFIX_ARRAY < <(find "${MAGENTO_HOTFIX_DIR}" -maxdepth 1 -type f -name '*-CE.patch' -printf '%f\n' | LC_ALL=C sort)
+  readarray -t MAGENTO_HOTFIX_ARRAY < <(find "${MAGENTO_HOTFIX_DIR}" -maxdepth 1 -type f -name '*.patch' -printf '%f\n' | LC_ALL=C sort)
 
   if [ ${#MAGENTO_HOTFIX_ARRAY[@]} = 0 ]; then
     fxWarning "No *-CE.patch file found, nothing to apply"
