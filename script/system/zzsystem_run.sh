@@ -6,6 +6,7 @@ TITLE="System management GUI"
 OPTIONS=(
   1 "⏲️  Benchmark (CPU + disk)"
   2 "🧬  Regenerate identity: SSH host keys + machine-id (reboot)"
+  3 "📛  Rename this system (hostname)"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -13,4 +14,5 @@ source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
 case $CHOICE in
   1) bash ${WEBSTACKUP_SCRIPT_DIR}system/benchmark.sh;;
   2) bash ${WEBSTACKUP_SCRIPT_DIR}system/regenerate-identity.sh;;
+  3) fxHostnameRename;;
 esac

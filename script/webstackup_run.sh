@@ -16,8 +16,7 @@ OPTIONS=(
   12 "🪣   Varnish GUI ☰"
   13 "🔬   URL checker"
   14 "🗺️   IP checker"
-  15 "📛   Rename this system (hostname)"
-  16 "🖥️   System ☰"
+  15 "🖥️   System ☰"
   88 "🐫   my-app-template"
   #99 "🧪   WSU Dev (MAP test)"
 )
@@ -60,8 +59,7 @@ case $CHOICE in
   12)bash "${WEBSTACKUP_SCRIPT_DIR}varnish/zzvarn.sh";;
   13)bash "${WEBSTACKUP_SCRIPT_DIR}https/url-checker.sh";;
   14)bash "${WEBSTACKUP_SCRIPT_DIR}network/ip-checker.sh";;
-  15)fxHostnameRename;;
-  16)bash "${WEBSTACKUP_SCRIPT_DIR}system/zzsystem.sh";;
+  15)bash "${WEBSTACKUP_SCRIPT_DIR}system/zzsystem.sh";;
   88)
     bash "${WEBSTACKUP_INSTALL_DIR}setup.sh"
     bash "${WEBSTACKUP_INSTALL_DIR}my-app-template/setup.sh"
