@@ -348,7 +348,7 @@ fi
 
 fxTitle "Installing and running benchmark..."
 if [ "$INSTALL_BENCHMARK" = 1 ]; then
-  bash ${WEBSTACKUP_SCRIPT_DIR}performance/benchmark.sh
+  bash ${WEBSTACKUP_SCRIPT_DIR}system/benchmark.sh
 else
   fxInfo "Skipped (disabled in config) 🦘"
 fi
