@@ -14,6 +14,10 @@ sudo touch "${NODE_RUN_LOG}"
 sudo chown www-data:www-data "${NODE_RUN_LOG}"
 sudo chmod 664 "${NODE_RUN_LOG}"
 
+## a previous instance (a run.sh left in a detached terminal, the systemd unit while run.sh is started by hand, ...)
+## would make this one fail with EADDRINUSE: kill it. After the build on purpose: it keeps serving in the meantime
+wsuNodeKillPortOwner
+
 fxTitle "🏃 Starting the server..."
 ## stdout+stderr go to both the console and the log file.
 ## tee -a appends, so logrotate's copytruncate works without leaving NUL gaps.

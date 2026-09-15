@@ -10,5 +10,8 @@ source "${WEBSTACKUP_SCRIPT_DIR}node.js/node_script_begin.sh"
 fxTitle "💿 npm install..."
 echo "y" | ${NPM_CMD} install
 
+## same as run.sh: a forgotten watch.sh or run.sh on the same port would make this one fail with EADDRINUSE
+wsuNodeKillPortOwner
+
 fxTitle "👀 watching..."
 wsuNodeWatch

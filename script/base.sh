@@ -49,6 +49,7 @@ source "${WEBSTACKUP_SCRIPT_DIR}php/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}mysql/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}frameworks/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}notify/commands.sh"
+source "${WEBSTACKUP_SCRIPT_DIR}node.js/commands.sh"
 source "${WEBSTACKUP_SCRIPT_DIR}deprecated-retrocompat.sh"
 
 HOSTNAME="$(hostname)"
