@@ -27,7 +27,8 @@ AUTOUPD_NEED_UPDATE=$?
 
 if [ "${AUTOUPD_NEED_UPDATE}" == "1" ] && [ -f "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh" ]; then
 
-  echo "1" | bash "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
+  ## setsid: no controlling terminal, so the PROD confirmation proceeds unattended even when run by hand (as it does from cron)
+  echo "1" | setsid -w bash "${AUTOUPD_PROJECT_DIR}scripts/deploy.sh"
 
 elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]; then
 
