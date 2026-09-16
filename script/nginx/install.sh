@@ -64,9 +64,6 @@ EOF
 ls -la /etc/apt/sources.list.d/
 
 
-fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
-echo -e "Package: *\nPin: origin nginx.org\nPin: release o=nginx\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99nginx
-
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/account/generate-www-data.sh
 bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-www-data.sh
 
@@ -80,6 +77,7 @@ bash ${WEBSTACKUP_SCRIPT_DIR}account/generate-http-basic-auth.sh
 
 fxTitle "apt install nginx..."
 fxAptUpdate 0
+wsuAptPin nginx
 apt install nginx -y
 
 fxTitle "Assigning the nginx user to the www-data group..."

@@ -17,6 +17,18 @@ fi
 fxHeader "💿 MySQL installer"
 rootCheck
 
+
+## installing/updating WSU
+WSU_DIR=/usr/local/turbolab.it/webstackup/
+if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
+  "${WSU_DIR}setup-if-stale.sh"
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
+fi
+
+source "${WSU_DIR}script/base.sh"
+
+
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove mysql* -y
 rm -rf /etc/mysql
@@ -92,9 +104,6 @@ EOF
 ls -la /etc/apt/sources.list.d/
 
 
-fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
-echo -e "Package: *\nPin: origin repo.mysql.com\nPin: release o=mysql\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99mysql
-  
 fxTitle "Generating a random MySQL root password..."
 MYSQL_ROOT_PASSWORD="$(head /dev/urandom | tr -dc 'A-Za-z0-9' | head -c 19)"
 debconf-set-selections <<< "mysql-community-server mysql-community-server/root-pass password ${MYSQL_ROOT_PASSWORD}"
@@ -103,6 +112,7 @@ debconf-set-selections <<< "mysql-community-server mysql-server/default-auth-ove
 
 fxTitle "Installing..."
 fxAptUpdate 0
+wsuAptPin mysql
 apt install mysql-server mysql-client -y -qq
   
 fxTitle "Enabling Webstackup custom config for MySQL..."
@@ -112,7 +122,7 @@ WSU_MYSQL_DEST_CONFIG=/etc/mysql/mysql.conf.d/00-webstackup.cnf
 if [ -f "$WSU_MYSQL_SOURCE_CONFIG" ]; then
 
   ## must cp: symlink is ignored (AppArmor), hardlink becomes stale after each pull (different inode)
-  cp "${WSU_MYSQL_DEST_CONFIG}" "$WSU_MYSQL_SOURCE_CONFIG"
+  cp "$WSU_MYSQL_SOURCE_CONFIG" "${WSU_MYSQL_DEST_CONFIG}"
 
 else
   

@@ -62,12 +62,9 @@ EOF
 ls -la /etc/apt/sources.list.d/
 
 
-fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
-echo -e "Package: *\nPin: origin packages.redis.io\nPin: release o=packages.redis.io\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99redis
-
-
 fxTitle "apt install redis..."
 fxAptUpdate 0
+wsuAptPin redis
 apt install redis -y
 
 

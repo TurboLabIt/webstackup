@@ -26,7 +26,7 @@ DEBIAN_FRONTEND=noninteractive apt purge --auto-remove elasticsearch* -y
 rm -rf /etc/elasticsearch
 rm -rf /usr/share/keyrings/elasticsearch.gpg
 rm -rf /etc/apt/sources.list.d/elasticsearch.list
-rm -rf /etc/apt/preferences.d/99elasticsearch
+fxAptUnpinRepo elasticsearch
 rm -rf /var/lib/elasticsearch
 
 
