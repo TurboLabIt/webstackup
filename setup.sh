@@ -20,10 +20,6 @@ if [ -f "/etc/mysql/mysql.conf.d/00-webstackup.cnf" ]; then
   fxOK "MySQL config /etc/mysql/mysql.conf.d/00-webstackup.cnf updated"
 fi
 
-## vendor APT repos (mysql, nginx, ...): pin every one configured here, with the current rules (script/apt/commands.sh)
-source ${INSTALL_DIR}script/apt/commands.sh
-wsuAptPinRefresh
-
 sudo bash /usr/local/turbolab.it/bash-fx/setup/the-end.sh ${SCRIPT_NAME}
 
 if [ -f /usr/local/turbolab.it/zzalias/setup.sh ]; then

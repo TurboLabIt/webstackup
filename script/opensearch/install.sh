@@ -30,10 +30,8 @@ rm -rf /etc/opensearch
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
-if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
-  "${WSU_DIR}setup-if-stale.sh"
-else
-  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
+if [ ! -f "${WSU_DIR}setup.sh" ]; then
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | bash
 fi
 
 source "${WSU_DIR}script/base.sh"
@@ -52,6 +50,11 @@ curl -fsSL https://artifacts.opensearch.org/publickeys/opensearch-release.pgp \
 fxTitle "Adding the repo to APT..."
 echo "deb [signed-by=/etc/apt/keyrings/opensearch.gpg] https://artifacts.opensearch.org/releases/bundle/opensearch/3.x/apt stable main" \
 | sudo tee /etc/apt/sources.list.d/opensearch-3.x.list
+
+
+fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
+## a single "Pin:" line: apt ignores all of them but the last one
+echo -e "Package: *\nPin: origin artifacts.opensearch.org\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99opensearch
 
 
 fxTitle "Dealing with the admin password..."
@@ -75,7 +78,6 @@ fxMessage "Password stored in /etc/turbolab.it/opensearch.conf"
 
 fxTitle "apt install opensearch..."
 fxAptUpdate 0
-wsuAptPin opensearch
 env OPENSEARCH_INITIAL_ADMIN_PASSWORD=${OPENSEARCH_ADMIN_PASSWORD} apt-get install opensearch -y
 
 

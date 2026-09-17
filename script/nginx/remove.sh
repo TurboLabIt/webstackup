@@ -35,7 +35,7 @@ rm -rf /var/log/nginx
 fxTitle "Removing repository-related files..."
 rm -rf /etc/apt/trusted.gpg.d/*nginx*
 rm -rf /etc/apt/sources.list.d/*nginx*
-fxAptUnpinRepo nginx
+rm -rf /etc/apt/preferences.d/99nginx
 
 
 fxTitle "Reloading service list..."

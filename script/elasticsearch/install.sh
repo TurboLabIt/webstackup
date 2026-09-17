@@ -33,9 +33,7 @@ rm -rf /etc/elasticsearch
 
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
-if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
-  "${WSU_DIR}setup-if-stale.sh"
-else
+if [ ! -f "${WSU_DIR}setup.sh" ]; then
   curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/setup.sh | sudo bash
 fi
 
@@ -48,9 +46,12 @@ fxTitle "Adding the repo to APT..."
 echo "deb [signed-by=/usr/share/keyrings/elasticsearch.gpg] https://artifacts.elastic.co/packages/${ELASTICSEARCH_VER}.x/apt stable main" \
   | sudo tee /etc/apt/sources.list.d/elasticsearch.list
 
+fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
+## a single "Pin:" line: apt ignores all of them but the last one
+echo -e "Package: *\nPin: origin artifacts.elastic.co\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99elasticsearch
+
 fxTitle "apt install elasticsearch..."
 fxAptUpdate 0
-wsuAptPin elasticsearch
 apt install elasticsearch -y
 
 fxTitle "Linking a base config..."

@@ -65,9 +65,12 @@ fxTitle "Creating the apt source file..."
 echo "deb [signed-by=/usr/share/keyrings/varnish-archive-keyring.gpg] \
 https://packagecloud.io/varnishcache/varnish${VARNISH_VER//./}/$ID/ $VERSION_CODENAME main" | sudo tee /etc/apt/sources.list.d/varnish.list
 
+fxTitle "Set up repository pinning to prefer our packages over distribution-provided ones..."
+## a single "Pin:" line: apt ignores all of them but the last one. Varnish's packages only: packagecloud.io hosts other vendors too
+echo -e "Package: varnish varnish-*\nPin: origin packagecloud.io\nPin-Priority: 900\n" | sudo tee /etc/apt/preferences.d/99varnish
+
 fxTitle "apt install varnish..."
 fxAptUpdate 0
-wsuAptPin varnish
 apt install varnish -y
 
 

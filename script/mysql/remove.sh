@@ -39,7 +39,7 @@ rm -rf /var/log/mysql
 fxTitle "Removing repository-related files..."
 rm -rf /etc/apt/trusted.gpg.d/*mysql*
 rm -rf /etc/apt/sources.list.d/*mysql*
-fxAptUnpinRepo mysql
+rm -rf /etc/apt/preferences.d/99mysql
 
 
 fxTitle "Removing cron files..."
