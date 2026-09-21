@@ -15,6 +15,7 @@ OPTIONS=(
   9 "💿  Ollama"
   10 "💎  Gemma (on Ollama)"
   11 "💿  Redis"
+  12 "💿  Postfix, OpenDKIM"
 )
 
 source "/usr/local/turbolab.it/webstackup/script/base-gui.sh"
@@ -31,4 +32,5 @@ case $CHOICE in
   9)bash "${WEBSTACKUP_SCRIPT_DIR}ai/ollama-installer.sh";;
   10)bash "${WEBSTACKUP_SCRIPT_DIR}ai/gemma-installer.sh";;
   11)bash "${WEBSTACKUP_SCRIPT_DIR}redis/install.sh";;
+  12)bash "${WEBSTACKUP_SCRIPT_DIR}postfix/install.sh";;
 esac

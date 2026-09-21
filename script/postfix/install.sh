@@ -19,6 +19,27 @@ fxHeader "💿 POSTFIX INSTALLER"
 rootCheck
 
 
+if [ -z "${POSTFIX_MAIL_NAME}" ]; then
+
+  fxTitle "📧 Enter the mail name (FQDN) of this mail server"
+  fxInfo "For example: \"mailserver.my-app.com\""
+
+  ## no terminal to read the answer from (e.g. via cron): don't spin on read
+  ## test /dev/tty, not stdin: "curl ... | sudo bash" has a pipe on stdin, yet a user at the keyboard
+  if ! { : < /dev/tty; } 2>/dev/null; then
+    fxCatastrophicError "POSTFIX_MAIL_NAME is not set and there is no terminal to ask for it"
+  fi
+
+  while [ -z "$POSTFIX_MAIL_NAME" ]; do
+
+    echo "🤖 Provide the mail name to use"
+    read -p ">> " POSTFIX_MAIL_NAME < /dev/tty
+  done
+
+  fxOK "OK, proceeding with mail name ##${POSTFIX_MAIL_NAME}##"
+fi
+
+
 fxTitle "Removing any old previous instance..."
 apt purge --auto-remove postfix* postfix mailutils opendkim opendkim-tools -y
 rm -rf /etc/postfix /etc/config/opendkim/ /etc/opendkim.conf
@@ -38,9 +59,6 @@ fxAptUpdate
 debconf-set-selections <<< "postfix postfix/main_mailer_type string 'Internet Site'"
 debconf-set-selections <<< "postfix postfix/mailname string ${POSTFIX_MAIL_NAME}"
 apt install postfix mailutils libsasl2-modules opendkim opendkim-tools -y
-
-
-fxMailNameWarning
 
 
 fxTitle "Removing references to ##${POSTFIX_MAIL_NAME}## from mydestination..."
