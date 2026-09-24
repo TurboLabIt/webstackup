@@ -7,7 +7,8 @@ if( !defined('ABSPATH') ) {
 
 
 //<editor-fold defaultstate="collapsed" desc="*** 📦 composer autoloader ***">
-const WSU_AUTOLOADER_FILE = __DIR__ . '/vendor/autoload.php';
+// get_stylesheet_directory(): the active (child) theme. __DIR__ would point to webstackup itself
+define('WSU_AUTOLOADER_FILE', get_stylesheet_directory() . '/vendor/autoload.php');
 
 if( is_readable(WSU_AUTOLOADER_FILE) ) {
     require_once WSU_AUTOLOADER_FILE;
