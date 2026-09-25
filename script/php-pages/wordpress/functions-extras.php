@@ -64,6 +64,46 @@ if ( get_option( 'default_comment_status' ) != 'open' ) {
 //</editor-fold>
 
 
+//<editor-fold defaultstate="collapsed" desc="*** 🙈 Hide the WordPress version ***">
+// Security audits flag it. It's cosmetic: the version can still be inferred (e.g. from the ETag of
+// wp-admin/load-styles.php, or by fingerprinting core files). The real defense is keeping WordPress updated
+
+// <meta name="generator"> in <head>, <generator> in feeds, OPML comment (+ WooCommerce's tag, appended to the same string)
+add_filter( 'the_generator', '__return_empty_string' );
+
+// WPML: <meta name="generator" content="WPML ver:...">
+add_action( 'init', function() {
+    global $sitepress;
+    if ( is_object( $sitepress ) ) {
+        remove_action( 'wp_head', [ $sitepress, 'meta_generator_tag' ] );
+    }
+} );
+
+/**
+ * Core CSS/JS: ?ver=<WordPress version> -> salted hash that still changes at every core update, so cache-busting keeps working.
+ * Never strip ?ver=: static files are cached for a long time by browsers and CDNs.
+ */
+function wsu_mask_wordpress_version_in_src( $src )
+{
+    $query = is_string( $src ) ? wp_parse_url( $src, PHP_URL_QUERY ) : null;
+    if ( empty( $query ) ) {
+        return $src;
+    }
+
+    parse_str( $query, $args );
+    $wp_version = get_bloginfo( 'version' );
+    if ( isset( $args['ver'] ) && $args['ver'] === $wp_version ) {
+        $src = add_query_arg( 'ver', substr( wp_hash( 'wsu-core-assets-' . $wp_version ), 0, 12 ), $src );
+    }
+
+    return $src;
+}
+
+add_filter( 'style_loader_src', 'wsu_mask_wordpress_version_in_src', 20 );
+add_filter( 'script_loader_src', 'wsu_mask_wordpress_version_in_src', 20 );
+//</editor-fold>
+
+
 //<editor-fold defaultstate="collapsed" desc="*** 📦 Webpack ***">
 if(WP_WSU_WEBPACK_ENABLED) {
 
