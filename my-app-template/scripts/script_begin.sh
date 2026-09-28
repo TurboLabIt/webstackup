@@ -9,8 +9,7 @@ PIMCORE_ECOMMERECE_BUNDLE_ENABLED=1
 ## Keep it in sync with $proxy_pass_target in config/custom/nginx.conf (and with PORT in .env for Strapi)
 NODEJS_PORT=my-app-node-port
 ZZ_CMD_SUFFIX=0
-CLOUDFLARE_API_KEY=
-CLOUDFLARE_ZONE_ID=
+## Cloudflare cache purge: CLOUDFLARE_API_KEY and CLOUDFLARE_ZONE_ID are secrets, set them in /etc/turbolab.it/cloudflare-my-app.conf
 
 
 ## https://github.com/TurboLabIt/webstackup/blob/master/script/filesystem/script_begin_start.sh
