@@ -23,7 +23,10 @@ cd "${MAGENTO_DIR}"
 
 DB_DUMP_FILE_PATH=${DB_DUMP_DIR}db_${APP_NAME}-${APP_ENV}_db-dump-sh.sql.gz
 
-wsuN98MageRun db:dump "${DB_DUMP_FILE_PATH}" --compression=gzip \
+## --set-gtid-purged-off: if gtid_mode != OFF (AWS RDS/Aurora: OFF_PERMISSIVE), mysqldump --single-transaction
+## runs FLUSH TABLES WITH READ LOCK (needs RELOAD) and writes SET @@GLOBAL.GTID_PURGED into the dump
+## --no-tablespaces: the (NDB-only) tablespace dump needs PROCESS
+wsuN98MageRun db:dump "${DB_DUMP_FILE_PATH}" --compression=gzip --set-gtid-purged-off --no-tablespaces \
   --strip="@aggregated @dotmailer @ee_changelog @oauth @replica @search @stripped @temp"
 
 fxMessage "##$DB_DUMP_FILE_PATH##"
