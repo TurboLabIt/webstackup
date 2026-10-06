@@ -74,7 +74,7 @@ fxOK "OK, ##$WSU_HTTPS_EMAIL_ADDRESS##"
 
 
 if [ -z $(command -v certbot) ]; then
-  sudo bash "${WEBSTACKUP_SCRIPT_DIR}https/letsencrypt-install.sh"
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/https/letsencrypt-install.sh | sudo bash
 fi
 
 
