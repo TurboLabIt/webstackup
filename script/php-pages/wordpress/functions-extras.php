@@ -104,6 +104,15 @@ add_filter( 'script_loader_src', 'wsu_mask_wordpress_version_in_src', 20 );
 //</editor-fold>
 
 
+//<editor-fold defaultstate="collapsed" desc="*** 📧 Envelope sender (Return-Path) = From ***">
+// WordPress doesn't set the envelope sender, so the MTA uses <system-user>@<hostname>
+// and SPF/DMARC alignment fails. The server IP must be in the SPF record of the "from" domain
+add_action( 'phpmailer_init', function( $phpmailer ) {
+    $phpmailer->Sender = $phpmailer->From;
+} );
+//</editor-fold>
+
+
 //<editor-fold defaultstate="collapsed" desc="*** 📦 Webpack ***">
 if(WP_WSU_WEBPACK_ENABLED) {
 
