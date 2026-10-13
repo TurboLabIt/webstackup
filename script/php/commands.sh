@@ -158,6 +158,7 @@ function wsuSymfony()
 
     export XDEBUG_CONFIG="remote_host=127.0.0.1 client_port=$XDEBUG_PORT"
     export XDEBUG_MODE="develop,debug"
+    export XDEBUG_TRIGGER=1
 
     if [ "${WSU_SYMFONY_DEBUG_MODE}" = 1 ]; then
 
