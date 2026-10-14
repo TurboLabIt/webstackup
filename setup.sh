@@ -12,6 +12,7 @@ sudo bash /usr/local/turbolab.it/bash-fx/setup/start.sh ${SCRIPT_NAME}
 fxLinkBin ${INSTALL_DIR}script/${SCRIPT_NAME}.sh
 fxLinkBin ${INSTALL_DIR}script/mail/zzmail.sh
 fxLinkBin ${INSTALL_DIR}script/mysql/zzdb.sh
+fxLinkBin ${INSTALL_DIR}script/pure-ftpd/zzftp.sh
 
 if [ -f "/etc/mysql/mysql.conf.d/00-webstackup.cnf" ]; then
 
