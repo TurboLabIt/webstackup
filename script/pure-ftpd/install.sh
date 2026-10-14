@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 ### AUTOMATIC Pure-FTPd INSTALL BY WEBSTACKUP
 # sudo apt install curl -y && curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/pure-ftpd/install.sh | sudo bash
-# sudo pure-pw useradd USERNAME_TO_ADD -u www-data -d /var/www && sudo pure-pw mkdb && sudo pure-pw list
+# FTP users: sudo bash /usr/local/turbolab.it/webstackup/script/pure-ftpd/user-manager.sh (or zzftp)
 
 
 ## bash-fx
@@ -37,6 +37,16 @@ if [ -f "/usr/local/turbolab.it/webstackup/script/account/generate-www-data.sh" 
 else
 
   curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-www-data.sh | sudo bash
+fi
+
+## https://github.com/TurboLabIt/webstackup/blob/master/script/account/generate-ftp-data.sh
+if [ -f "/usr/local/turbolab.it/webstackup/script/account/generate-ftp-data.sh" ]; then
+
+  bash "/usr/local/turbolab.it/webstackup/script/account/generate-ftp-data.sh"
+
+else
+
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-ftp-data.sh | sudo bash
 fi
 
 
