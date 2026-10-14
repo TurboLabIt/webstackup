@@ -29,34 +29,14 @@ fxTitle "Start Pure-FTPd at boot..."
 systemctl enable pure-ftpd
 
 
-fxTitle "www-data user setup..."
-if id "www-data" &>/dev/null; then
+## https://github.com/TurboLabIt/webstackup/blob/master/script/account/generate-www-data.sh
+if [ -f "/usr/local/turbolab.it/webstackup/script/account/generate-www-data.sh" ]; then
 
-  fxOK "www-data user found"
-  
+  bash "/usr/local/turbolab.it/webstackup/script/account/generate-www-data.sh"
+
 else
 
-  fxMessage "Creating www-data group..."
-  groupadd -f -r www-data
-  
-  fxMessage "Creating /var/www/..."
-  mkdir -p /var/www
-  
-  fxMessage "Creating www-data..."
-  useradd -g www-data -d /var/www -s /sbin/nologin -r www-data
-  chown www-data:www-data /var/www -R
-fi
-
-
-fxTitle "/var/www/ setup"
-if [ -d "/var/www" ]; then
-
-  fxOK "/var/www/ found, skipping 🦘"
-  
-else
-
-  mkdir -p /var/www
-  chown www-data:www-data /var/www -R
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/account/generate-www-data.sh | sudo bash
 fi
 
 
