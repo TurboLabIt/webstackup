@@ -142,6 +142,22 @@ else
 fi
 
 
+## files: 777-111 = 666 (rw-rw-rw-) | directories: 777-000 = 777 (rwxrwxrwx)
+fxTitle "Configuring Umask..."
+rm -f "/etc/pure-ftpd/conf/Umask"
+
+if [ -f "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Umask" ]; then
+
+  fxMessage "Linking Umask config from Webstackup..."
+  ln -s "/usr/local/turbolab.it/webstackup/config/pure-ftpd/Umask" "/etc/pure-ftpd/conf/Umask"
+
+else
+
+  fxMessage "Downloading Umask config..."
+  curl -Lo "/etc/pure-ftpd/conf/Umask" https://raw.githubusercontent.com/TurboLabIt/webstackup/master/config/pure-ftpd/Umask
+fi
+
+
 fxTitle "Generating TLS certificate..."
 mkdir -p "/etc/ssl/private/"
 
