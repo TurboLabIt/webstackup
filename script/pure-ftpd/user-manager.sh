@@ -87,16 +87,8 @@ while true; do
     continue
   fi
 
-  echo "🤖 Repeat the password"
-  read -s -p ">> " FTP_PASSWORD_CONFIRM  < /dev/tty
-  echo
-
-  if [ "$FTP_PASSWORD" = "$FTP_PASSWORD_CONFIRM" ]; then
-    fxOK "Password OK"
-    break
-  fi
-
-  fxWarning "The passwords don't match, try again"
+  fxOK "Password OK"
+  break
 done
 
 
