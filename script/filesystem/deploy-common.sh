@@ -27,6 +27,8 @@
 # ${PROJECT_DIR}config/custom/php-custom-cli.ini
 # ${PROJECT_DIR}config/custom/php-fpm.conf
 
+# ${PROJECT_DIR}config/custom/imagemagick-policy.xml
+
 # ${PROJECT_DIR}config/custom/mysql-custom.conf
 # ${PROJECT_DIR}config/custom/${APP_ENV}/mysql-custom.conf
 
@@ -254,6 +256,25 @@ if [ -f "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" ]  && [ ! -f "/etc
     fxWarning "php-fpm not installed"
   else
     ln -s  "${PROJECT_DIR}config/custom/${APP_ENV}/php-fpm.conf" "/etc/php/${PHP_VER}/fpm/pool.d/zzz-${APP_NAME}_${APP_ENV}.conf"
+  fi
+fi
+
+
+## ImageMagick policy: Imagick reads it only when PHP-FPM starts, so it must be deployed before the restart
+if [ -f "${PROJECT_DIR}config/custom/imagemagick-policy.xml" ]; then
+
+  fxTitle "🖼️ Deploying custom ImageMagick policy..."
+  if [ ! -d "/etc/ImageMagick-7" ]; then
+    fxWarning "ImageMagick 7 not installed"
+  else
+    rm -f "/etc/ImageMagick-7/policy.xml"
+    cp "${PROJECT_DIR}config/custom/imagemagick-policy.xml" "/etc/ImageMagick-7/policy.xml"
+    ## world-readable: a policy the running user can't read is silently skipped (= no policy at all)
+    chown root:root "/etc/ImageMagick-7/policy.xml"
+    chmod u=rw,go=r "/etc/ImageMagick-7/policy.xml"
+
+    fxTitle "📂 Listing /etc/ImageMagick-7/..."
+    ls -l "/etc/ImageMagick-7/"
   fi
 fi
 
