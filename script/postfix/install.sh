@@ -124,11 +124,20 @@ chown opendkim:opendkim /etc/opendkim/ -R
 chmod ug=rwX,o=rX /etc/opendkim/ -R
 chmod u=rwX,og=X /etc/opendkim/keys -R
 
+## Postfix 3.10.6-4+ (Ubuntu 26.04+) no longer chroots its daemons by default:
+## the chroot-relative socket path from main.cf_extras.conf only resolves inside the chroot
+POSTFIX_CHROOT=$(postconf -Fh cleanup/unix/chroot)
+if [ "${POSTFIX_CHROOT}" != "y" ]; then
+  postconf -e 'smtpd_milters = local:/var/spool/postfix/opendkim/opendkim.sock'
+fi
+
 
 fxTitle "Enabling SMTPS port for end-users..."
 echo "" >>  /etc/postfix/master.cf
 echo "" >>  /etc/postfix/master.cf
 cat "${WEBSTACKUP_CONFIG_DIR}postfix/smtps-port-465.conf" | sed "s|my-app.com|${POSTFIX_MAIL_NAME}|g" >> /etc/postfix/master.cf
+## match the other daemons, or the milter socket path is wrong for smtps
+postconf -F -e "smtps/inet/chroot=${POSTFIX_CHROOT}"
 
 
 fxTitle "Restarting services..."
