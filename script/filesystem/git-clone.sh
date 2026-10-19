@@ -80,7 +80,7 @@ fi
 
 
 fxTitle "🌎 Enter the repository URL"
-fxInfo "For example: git@github.com:TurboLabIt/html-pages.git or git@bitbucket.org:turbolabit/html-pages.git"
+fxInfo "For example: git@github.com:TurboLabIt/html-pages.git or git@ssh.bitbucket.org:turbolabit/html-pages.git"
 
 
 function gitCloneGitCmd()
