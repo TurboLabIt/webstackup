@@ -32,7 +32,7 @@ if [ "${AUTOUPD_NEED_UPDATE}" == "1" ] && [ -f "${AUTOUPD_PROJECT_DIR}scripts/de
 
 elif [ "${AUTOUPD_NEED_UPDATE}" == "1" ]; then
 
-  fxGit "${AUTOUPD_PROJECT_DIR}" pull
+  fxGitAsOwner "${AUTOUPD_PROJECT_DIR}" pull
 fi
 
 fxEndFooter
