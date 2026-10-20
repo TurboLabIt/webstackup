@@ -70,6 +70,22 @@ mkdir -p /etc/letsencrypt/renewal-hooks/deploy/
 fxLink ${WEBSTACKUP_SCRIPT_DIR}https/certificate-renewal-action.sh /etc/letsencrypt/renewal-hooks/deploy/webstackup-certificate-renewal-action.sh
 
 
+fxTitle "Linking the zzfirewall hooks..."
+## zzfirewall setup.sh links them only if certbot is already installed, and the rm -rf above
+## wipes them: linking them here too lets the two be installed in either order
+ZZFIREWALL_HOOKS_DIR=/usr/local/turbolab.it/zzfirewall/hooks/
+if [ -d "${ZZFIREWALL_HOOKS_DIR}" ]; then
+
+  mkdir -p /etc/letsencrypt/renewal-hooks/pre/ /etc/letsencrypt/renewal-hooks/post/
+  fxLink ${ZZFIREWALL_HOOKS_DIR}lets-encrypt-web-01-pre.sh /etc/letsencrypt/renewal-hooks/pre/zzfirewall-web-open.sh
+  fxLink ${ZZFIREWALL_HOOKS_DIR}lets-encrypt-web-90-post.sh /etc/letsencrypt/renewal-hooks/post/zzfirewall-web-close.sh
+
+else
+
+  fxInfo "##${ZZFIREWALL_HOOKS_DIR}## not found, skipping 🦘"
+fi
+
+
 fxTitle "Removing the cron file (unused with systemd)..."
 rm -f /etc/cron.d/certbot
 
