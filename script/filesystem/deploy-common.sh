@@ -549,6 +549,8 @@ if [ -L "${WSU_RUN_SERVICE_LINK_PATH}" ]; then
   systemctl enable "${APP_NAME}.service"
 
   fxTitle "🔃 Restarting ##${APP_NAME}.service##..."
+  ## a unit that hit its StartLimit refuses to start until the window expires, and a deploy is usually the fix for what crashed it
+  systemctl reset-failed "${APP_NAME}.service" 2>/dev/null
   systemctl restart "${APP_NAME}.service"
   systemctl --no-pager status "${APP_NAME}.service"
 fi

@@ -20,9 +20,10 @@ Description=my-app-framework (my-app)
 Wants=network-online.target
 After=network-online.target
 
-## Give up after 5 failed starts. The window must be wider than 5 x RestartSec,
-## otherwise the attempts never fall inside it and the cap never triggers
-StartLimitIntervalSec=300
+## Give up after 5 failed starts. The window must be wider than 5 x (RestartSec + the install
+## and build that run.sh does before every start), otherwise the attempts never fall inside it
+## and the cap never triggers
+StartLimitIntervalSec=1200
 StartLimitBurst=5
 
 [Service]
