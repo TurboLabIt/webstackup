@@ -24,3 +24,15 @@ fxTitle "🏃 Starting the server..."
 ## tee -i ignores Ctrl+C: node must be the one to stop (the signal is relayed to it by sudo);
 ## tee then exits by itself when node closes the pipe, after flushing the last lines.
 wsuNodeRun 2>&1 | tee -ai "${NODE_RUN_LOG}"
+WSU_NODE_EXIT_CODE=${PIPESTATUS[0]}
+
+## scripts/script_end.sh ends with a bare `exit`, which reports success whatever happened here: a crash must
+## reach systemd as a failure, or `Restart=on-failure` never fires. 143 (SIGTERM) is no crash: systemd doesn't
+## restart on it either, and wsuNodeKillPortOwner uses it to take over the port from a running instance
+if [ "${WSU_NODE_EXIT_CODE}" != 0 ] && [ "${WSU_NODE_EXIT_CODE}" != 143 ]; then
+
+  fxWarning "The server exited with code ##${WSU_NODE_EXIT_CODE}##"
+  removeLock "${LOCKFILE}"
+  fxEndFooter failure
+  exit "${WSU_NODE_EXIT_CODE}"
+fi
