@@ -34,7 +34,7 @@ $YARN_CMD install
 
 
 if [ -z "${NPM_CHECK_UPDATES_COOLDOWN}" ]; then
-  NPM_CHECK_UPDATES_COOLDOWN=7
+  NPM_CHECK_UPDATES_COOLDOWN=5
 fi
 
 if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
