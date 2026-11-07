@@ -29,8 +29,9 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
   $YARN_CMD set version stable
 fi
 
+## the build must not run on a failed install: it wipes the output folder first, leaving the site with nothing to serve
 fxTitle "💿 yarn install..."
-$YARN_CMD install
+$YARN_CMD install || fxCatastrophicError "yarn install failed: stopping here, so the previous build stays in place"
 
 
 if [ -z "${NPM_CHECK_UPDATES_COOLDOWN}" ]; then
@@ -43,7 +44,7 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
   $YARN_CMD dlx npm-check-updates -u --cooldown "${NPM_CHECK_UPDATES_COOLDOWN}"
 
   fxTitle "(dev) 💿 yarn install (updated packages)..."
-  $YARN_CMD install
+  $YARN_CMD install || fxCatastrophicError "yarn install failed after npm-check-updates: stopping here, so the previous build stays in place"
 fi
 
 
