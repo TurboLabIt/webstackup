@@ -33,6 +33,11 @@ fi
 
 lockCheck "${LOCKFILE}"
 
+## left behind by a build that failed outside of a deploy (zzcache): this deploy only answers for its own
+if [ -n "${WSU_BUILD_FAILED_FLAG}" ]; then
+  rm -f "${WSU_BUILD_FAILED_FLAG}"
+fi
+
 if [ -f "${SCRIPT_DIR}deploy_moment_010.sh" ]; then
   source "${SCRIPT_DIR}deploy_moment_010.sh"
 fi
@@ -94,4 +99,12 @@ fi
 
 if [ -f "${SCRIPT_DIR}crawl.sh" ]; then
   bash "${SCRIPT_DIR}crawl.sh"
+fi
+
+## last on purpose: a failed build can't stop the deploy, which has nginx stopped at that point and must bring it back,
+## but the deploy can't end green either. The lock goes first, or it would block the next deploy
+if [ -f "${WSU_BUILD_FAILED_FLAG}" ]; then
+
+  removeLock "${LOCKFILE}"
+  fxCatastrophicError "Deploy finished, but the BUILD FAILED: the site may be broken, or on old assets. Check it now, and scroll up for the error"
 fi

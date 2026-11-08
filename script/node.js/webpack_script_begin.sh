@@ -29,7 +29,7 @@ if [[ "$APP_ENV" == "dev" ]] && [[ "${NODEJS_SKIP_DEV_UPGRADE}" != "1" ]]; then
   $YARN_CMD set version stable
 fi
 
-## the build must not run on a failed install: it wipes the output folder first, leaving the site with nothing to serve
+## the build must not run on a failed install: if it fails too, it still rewrites manifest.json, pointing at files it never emitted, and that can break the site
 fxTitle "💿 yarn install..."
 $YARN_CMD install || fxCatastrophicError "yarn install failed: stopping here, so the previous build stays in place"
 

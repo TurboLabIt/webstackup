@@ -13,6 +13,9 @@ fi
 
 PRIVGEN_DIR="/var/www/private_generics/"
 
+## set by cache-clear when build.sh fails, read at the end of deploy_run.sh: the build runs two processes below the deploy, so its exit code can't get there
+WSU_BUILD_FAILED_FLAG=/tmp/deploy-${APP_NAME}.build-failed
+
 if [ -z "${ZZ_CMD_SUFFIX}" ]; then
   ZZ_CMD_SUFFIX=0
 fi

@@ -108,7 +108,7 @@ sudo chmod g+s "${WEBROOT_DIR}var/cache"
 
 ## build
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ -f "${SCRIPT_DIR}build.sh" ]; then
-  bash "${SCRIPT_DIR}build.sh"
+  bash "${SCRIPT_DIR}build.sh" || touch "${WSU_BUILD_FAILED_FLAG}"
 fi
 
 
