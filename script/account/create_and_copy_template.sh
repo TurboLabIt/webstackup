@@ -80,9 +80,7 @@ for DIR in "${USERS_ORIGIN}"/*/; do
   done
 
   if [ -d "/home/${USERNAME}/.ssh" ]; then
-
-    fxMessage "🔑 Fixing /home/${USERNAME}/.ssh permissions..."
-    chmod u=rwx,go= "/home/${USERNAME}/.ssh" -R
+    fxSshResetUserSshPermissions "${USERNAME}"
   fi
 
   fxMessage "🦸 Checking if ${USERNAME} is allowed to sudo without password..."
