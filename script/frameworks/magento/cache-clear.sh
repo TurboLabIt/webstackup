@@ -222,7 +222,8 @@ MAGENTO_PATCH_STATUS_EXE="${MAGENTO_DIR}vendor/bin/patch-status"
 if [ -f "${MAGENTO_PATCH_STATUS_EXE}" ]; then
 
   sudo -u ${EXPECTED_USER} -H chmod u+x "${MAGENTO_PATCH_STATUS_EXE}"
-  sudo -u ${EXPECTED_USER} -H XDEBUG_MODE=off ${PHP_CLI} "${MAGENTO_PATCH_STATUS_EXE}"
+  ## --no-cache: check against Adobe's current list (see magento/cli.sh)
+  sudo -u ${EXPECTED_USER} -H XDEBUG_MODE=off ${PHP_CLI} "${MAGENTO_PATCH_STATUS_EXE}" --no-cache
 
 else
 
