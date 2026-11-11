@@ -40,7 +40,9 @@ if [ "$1" = "patch" ]; then
   fi
 
   fxTitle "🩹 Magento patch status..."
-  MAGENTO_PATCH_STATUS_JSON=$(sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} "${MAGENTO_PATCH_STATUS_EXE}")
+  ## --no-cache: always check against Adobe's current list. The cached copy is reused for up to 1 hour, and at any
+  ## age when repo.magento.com doesn't answer (still exiting 0): with --no-cache that's an exit 1, so it ends red below
+  MAGENTO_PATCH_STATUS_JSON=$(sudo -u "${EXPECTED_USER}" -H XDEBUG_MODE=off ${PHP_CLI} "${MAGENTO_PATCH_STATUS_EXE}" --no-cache)
 
   ## on failure (e.g. unknown base version) it can still print a JSON with empty lists: "None" would be a lie.
   ## The output format "is not final and may change" (patch-status --help): a renamed node would read as "None" too
