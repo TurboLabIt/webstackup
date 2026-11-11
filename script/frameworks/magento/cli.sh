@@ -51,6 +51,27 @@ if [ "$1" = "patch" ]; then
     fxCatastrophicError "patch-status failed"
   fi
 
+  ## Adobe builds the monthly patches for the newest version of each line only (e.g. 2.4.7-p10). On any other version
+  ## (an older -p, a line Adobe doesn't list...) patch-status has nothing to check: its "None" would be a lie
+  MAGENTO_PATCH_BASE_VERSION=$(jq -r '.base_version' <<< "${MAGENTO_PATCH_STATUS_JSON}")
+
+  ## the list patch-status itself reads (its RegistryLoader::REMOTE_URL)
+  MAGENTO_PATCH_REGISTRY_JSON=$(curl -fsS --max-time 10 https://repo.magento.com/patch/patch-registry.json)
+  if [ "$?" != 0 ] || ! jq -e 'has("patches")' <<< "${MAGENTO_PATCH_REGISTRY_JSON}" > /dev/null 2>&1; then
+    fxCatastrophicError "Adobe's patch list download failed"
+  fi
+
+  ## the newest version Adobe lists for the same x.y.z line
+  MAGENTO_PATCH_LATEST_VERSION=$(jq -r --arg line "${MAGENTO_PATCH_BASE_VERSION%%-*}" '.patches[] | select((.area // "CE") == "CE") | .applies_to[]? | select(. == $line or startswith($line + "-"))' <<< "${MAGENTO_PATCH_REGISTRY_JSON}" | sort -V | tail -n 1)
+
+  if [ -z "${MAGENTO_PATCH_LATEST_VERSION}" ]; then
+    fxCatastrophicError "Magento ##${MAGENTO_PATCH_BASE_VERSION}## is not in Adobe's patch list"
+  fi
+
+  if [ "${MAGENTO_PATCH_BASE_VERSION}" != "${MAGENTO_PATCH_LATEST_VERSION}" ]; then
+    fxCatastrophicError "Magento ##${MAGENTO_PATCH_BASE_VERSION}## is not the version Adobe's patches are built for: ##${MAGENTO_PATCH_LATEST_VERSION}##"
+  fi
+
   ## jq -e exits non-zero when select() leaves nothing to print
   fxTitle "Missing patches"
   jq -e '.missing_patches | select(length > 0)' <<< "${MAGENTO_PATCH_STATUS_JSON}" || fxOK "None"
