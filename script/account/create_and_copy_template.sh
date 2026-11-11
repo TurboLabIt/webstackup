@@ -64,9 +64,18 @@ do
   echo -e "\e[1;45m Copying ${USERNAME} data from origin... \e[0m"
   \cp -r ${DIR}/. /home/$USERNAME
 
-  echo -e "\e[1;45m Fixing /home/${USERNAME} owning and permissions... \e[0m"
-  chown ${USERNAME}:${GROUPNAME} /home/$USERNAME/ -R
-  chmod u=rwx,g=rx,o=  /home/$USERNAME/ -R
+  ## only the home itself and what was just copied, never the whole home recursively: every deploy runs this,
+  ## and it re-owned everything the user keeps there (e.g. rootless Docker's data, in group devops: no container starts)
+  echo -e "\e[1;45m Fixing owning and permissions of /home/${USERNAME} and the copied files... \e[0m"
+  chown ${USERNAME}:${GROUPNAME} /home/$USERNAME/
+  chmod u=rwx,g=rx,o=  /home/$USERNAME/
+  find "${DIR}" -mindepth 1 -printf '%P\0' | while IFS= read -r -d '' ITEM; do
+
+    chown -h ${USERNAME}:${GROUPNAME} "/home/${USERNAME}/${ITEM}"
+    if [ ! -L "/home/${USERNAME}/${ITEM}" ]; then
+      chmod u=rwx,g=rx,o= "/home/${USERNAME}/${ITEM}"
+    fi
+  done
 
   echo -e "\e[1;45m Fixing /home/${USERNAME}/.ssh permissions... \e[0m"
   chmod u=rwx,go=  /home/$USERNAME/.ssh -R
