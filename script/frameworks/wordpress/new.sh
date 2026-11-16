@@ -332,6 +332,8 @@ wsuWordPressEachSite option update default_comment_status closed
 wsuWordPressEachSite option update default_ping_status closed
 ## outgoing: "Attempt to notify any blogs linked to from the post"
 wsuWordPressEachSite option update default_pingback_flag 0
+## "Privacy Policy" draft: created with pings open, like the Sample Page, but kept (Settings >> Privacy points at it)
+wsuWordPressEachSite post update 3 --ping_status=closed
 
 
 fxTitle "Setting the max upload file size..."
