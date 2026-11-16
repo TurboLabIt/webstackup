@@ -323,11 +323,15 @@ WSU_WPCLI_DEBUG_MODE=0 wsuWordPress theme list --status=inactive --field=name | 
 fxTitle "Deleting the sample content..."
 wsuWordPressEachSite comment delete 1 --force
 wsuWordPressEachSite post delete 1 --force
+## "Sample Page": WordPress creates it with comments closed but pings open
+wsuWordPressEachSite post delete 2 --force
 
 
 fxTitle "Disabling comments and pingbacks by default..."
 wsuWordPressEachSite option update default_comment_status closed
 wsuWordPressEachSite option update default_ping_status closed
+## outgoing: "Attempt to notify any blogs linked to from the post"
+wsuWordPressEachSite option update default_pingback_flag 0
 
 
 fxTitle "Setting the max upload file size..."
