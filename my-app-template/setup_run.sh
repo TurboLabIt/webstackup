@@ -11,7 +11,7 @@ WSU_MAP_AVAILABLE_FRAMEWORKS=("none" "symfony" "wordpress" "magento" "pimcore" "
 # WSU_MAP_FRAMEWORK=one of these ☝☝☝☝
 # WSU_MAP_NODEJS_PORT=1337 (Node.js apps only; default: 1337 for strapi, 5173 for react-router)
 # WSU_MAP_NEED_APACHE_HTTPD=yes|no
-# WSU_MAP_PHP_VERSION=8.5
+# WSU_MAP_PHP_VERSION=8.6
 # WSU_MAP_PRE_EXEC_PAUSE_SEC=
 # WSU_MAP_NEW_DATABASE=yes
 # WSU_MAP_NEW_DATABASE_USER=usr_${WSU_MAP_APP_NAME}
@@ -168,10 +168,10 @@ fxOK "Aye, aye! The app root path is ##$WSU_MAP_DEPLOY_TO_PATH##"
 
 
 fxTitle "🔢 Enter the PHP version"
-fxInfo "For example: \"7.1\" or \"8.5\""
+fxInfo "For example: \"7.1\" or \"8.6\""
 while [ -z "$WSU_MAP_PHP_VERSION" ]; do
 
-  WSU_MAP_DEFAULT_PHP_VERSION=8.5
+  WSU_MAP_DEFAULT_PHP_VERSION=8.6
   echo "🤖 Provide the PHP version to use or hit Enter for ##${WSU_MAP_DEFAULT_PHP_VERSION}##"
   read -p ">> " WSU_MAP_PHP_VERSION  < /dev/tty
 
