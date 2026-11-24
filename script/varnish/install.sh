@@ -18,6 +18,54 @@ fxHeader "💿 VARNISH installer"
 rootCheck
 
 
+## Varnish Software's repo: a single repo with every series. packagecloud.io/varnishcache, the old project's one,
+## has been frozen since the Varnish Cache / Vinyl Cache split (Sep 2025): nothing after Ubuntu 24.04 or Debian 12
+WSU_VARNISH_REPO=https://packages.varnish-software.com/varnish/
+. /etc/os-release
+
+## the versions available for this distro, e.g. 9.1.0-2~resolute
+WSU_VARNISH_AVAILABLE=$(curl -fsSL "${WSU_VARNISH_REPO}${ID}/dists/${VERSION_CODENAME}/main/binary-$(dpkg --print-architecture)/Packages.gz" | gunzip -c 2>/dev/null | awk '/^Package: /{ PKG=$2 } PKG == "varnish" && /^Version: /{ print $2 }' | sort -uV)
+
+if [ -z "${WSU_VARNISH_AVAILABLE}" ]; then
+  fxCatastrophicError "${WSU_VARNISH_REPO} has no Varnish for ${ID} ${VERSION_CODENAME}"
+fi
+
+WSU_VARNISH_SERIES=$(cut -d. -f1,2 <<< "${WSU_VARNISH_AVAILABLE}" | sort -uV | tr '\n' ' ')
+
+
+if [ -z "${VARNISH_VER}" ]; then
+
+  fxTitle "🔢 Enter the Varnish version to install"
+  fxInfo "Available for ${ID} ${VERSION_CODENAME}: ${WSU_VARNISH_SERIES}"
+  while [ -z "$VARNISH_VER" ]; do
+
+    VARNISH_VER_DEFAULT=9.1
+    echo "🤖 Provide the Varnish version to install or hit Enter for ##${VARNISH_VER_DEFAULT}##"
+    read -p ">> " VARNISH_VER < /dev/tty
+
+    if [ -z "$VARNISH_VER" ]; then
+      VARNISH_VER=${VARNISH_VER_DEFAULT}
+    fi
+
+  done
+
+  fxOK "OK, proceeding with Varnish ##$VARNISH_VER##"
+
+else
+
+  fxInfo "Selecting the configured VARNISH_VER version, Varnish ${VARNISH_VER}"
+fi
+
+
+fxTitle "Checking that Varnish ${VARNISH_VER} is available for ${ID} ${VERSION_CODENAME}..."
+## before removing anything: asking for a version that isn't there would leave the server without Varnish
+if ! grep -q "^${VARNISH_VER//./\\.}\." <<< "${WSU_VARNISH_AVAILABLE}"; then
+  fxCatastrophicError "Varnish ${VARNISH_VER} is not available for ${ID} ${VERSION_CODENAME}. Available: ${WSU_VARNISH_SERIES}"
+fi
+
+fxOK "Varnish $(grep "^${VARNISH_VER//./\\.}\." <<< "${WSU_VARNISH_AVAILABLE}" | tail -n 1)"
+
+
 ## installing/updating WSU
 WSU_DIR=/usr/local/turbolab.it/webstackup/
 if [ -f "${WSU_DIR}setup-if-stale.sh" ]; then
@@ -27,38 +75,6 @@ else
 fi
 
 source "${WSU_DIR}script/base.sh"
-
-
-fxTitle "Selecting the version..."
-if [ -z "${VARNISH_VER}" ]; then
-
-  VARNISH_VER=9.1
-  fxImportantMessage "VARNISH_VER is not set - defaulting to Varnish ${VARNISH_VER}"
-
-else
-
-  fxInfo "Selecting the configured VARNISH_VER version, Varnish ${VARNISH_VER}"
-fi
-
-
-## Varnish Software's repo: a single repo with every series. packagecloud.io/varnishcache, the old project's one,
-## has been frozen since the Varnish Cache / Vinyl Cache split (Sep 2025): nothing after Ubuntu 24.04 or Debian 12
-WSU_VARNISH_REPO=https://packages.varnish-software.com/varnish/
-. /etc/os-release
-
-fxTitle "Checking that Varnish ${VARNISH_VER} is available for ${ID} ${VERSION_CODENAME}..."
-## before removing anything: asking for a version that isn't there would leave the server without Varnish
-WSU_VARNISH_AVAILABLE=$(curl -fsSL "${WSU_VARNISH_REPO}${ID}/dists/${VERSION_CODENAME}/main/binary-$(dpkg --print-architecture)/Packages.gz" | gunzip -c 2>/dev/null | awk '/^Package: /{ PKG=$2 } PKG == "varnish" && /^Version: /{ print $2 }' | sort -uV)
-
-if [ -z "${WSU_VARNISH_AVAILABLE}" ]; then
-  fxCatastrophicError "${WSU_VARNISH_REPO} has no Varnish for ${ID} ${VERSION_CODENAME}"
-fi
-
-if ! grep -q "^${VARNISH_VER//./\\.}\." <<< "${WSU_VARNISH_AVAILABLE}"; then
-  fxCatastrophicError "Varnish ${VARNISH_VER} is not available for ${ID} ${VERSION_CODENAME}. Available: $(cut -d. -f1,2 <<< "${WSU_VARNISH_AVAILABLE}" | sort -uV | tr '\n' ' ')"
-fi
-
-fxOK "Varnish $(grep "^${VARNISH_VER//./\\.}\." <<< "${WSU_VARNISH_AVAILABLE}" | tail -n 1)"
 
 
 fxTitle "Removing any old previous instance..."
