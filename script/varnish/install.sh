@@ -32,9 +32,16 @@ source "${WSU_DIR}script/base.sh"
 fxTitle "Removing any old previous instance..."
 fxInfo "Note: this will display some errors if Varnish is not installed yet."
 fxInfo "This is expected, don't freak out"
-apt purge --auto-remove 'varnish*' -y
-WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/
-rm -rf /etc/varnish /var/log/varnish $WSU_VARNISH_SERVICE_OVERRIDE_PATH
+if [ -f "${WEBSTACKUP_SCRIPT_DIR}varnish/remove.sh" ]; then
+  bash "${WEBSTACKUP_SCRIPT_DIR}varnish/remove.sh"
+else
+  curl -s https://raw.githubusercontent.com/TurboLabIt/webstackup/master/script/varnish/remove.sh | sudo bash
+fi
+
+## a failed removal leaves dpkg broken: every apt command below would fail too
+if [ $? -ne 0 ]; then
+  fxCatastrophicError "Removing the previous Varnish instance failed"
+fi
 
 
 fxTitle "Installing prerequisites..."
@@ -86,6 +93,7 @@ chown vcache /etc/varnish/secret
 chmod 0600 /etc/varnish/secret
 
 
+WSU_VARNISH_SERVICE_OVERRIDE_PATH=/etc/systemd/system/varnish.service.d/
 fxTitle "Linking the custom service file from ###${WSU_VARNISH_SERVICE_OVERRIDE_PATH}###..."
 sudo mkdir -p $WSU_VARNISH_SERVICE_OVERRIDE_PATH
 sudo ln -s ${WEBSTACKUP_CONFIG_DIR}varnish/varnish.service ${WSU_VARNISH_SERVICE_OVERRIDE_PATH}30-webstackup.conf
