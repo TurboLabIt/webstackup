@@ -71,6 +71,32 @@ add_action( 'rest_api_init', 'wsu_folders_wpml_skip_for_non_editors', 9 );
 //</editor-fold>
 
 
+//<editor-fold defaultstate="collapsed" desc="*** 🚧 HTTP auth: the htpasswd credentials are not for WordPress ***">
+// Behind the HTTP auth (config/nginx/30_httpauth.conf: staging, test, ...) the browser sends the htpasswd credentials
+// (Authorization: Basic) with every request, and PHP receives them. WordPress tries them as an application password and,
+// since that user doesn't exist, answers every REST call of a logged-out visitor with 401 invalid_username
+// (e.g. the Independent Analytics tracking, POST /wp-json/iawp/search, on every page).
+// When a request that carried the credentials gets a 401 without WWW-Authenticate, Chrome drops them:
+// the next page asks for the password again.
+// A Basic auth user that WordPress doesn't know => the credentials are not for WordPress: the request goes on as
+// anonymous, like without the HTTP auth. Unchanged:
+// - WooCommerce REST API keys: a valid key authenticates first (determine_current_user, priority 15),
+//   a wrong secret still gets WooCommerce's own error
+// - an existing WordPress user with a wrong application password (401 incorrect_password)
+function wsu_rest_ignore_unknown_basic_auth_user( $result )
+{
+    if ( is_wp_error( $result ) && in_array( $result->get_error_code(), [ 'invalid_username', 'invalid_email' ], true ) ) {
+        return null;
+    }
+
+    return $result;
+}
+
+// right after core's rest_application_password_check_errors() (priority 90)
+add_filter( 'rest_authentication_errors', 'wsu_rest_ignore_unknown_basic_auth_user', 91 );
+//</editor-fold>
+
+
 //<editor-fold defaultstate="collapsed" desc="*** Remove Comments links ***">
 if ( get_option( 'default_comment_status' ) != 'open' ) {
 
