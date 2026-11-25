@@ -24,13 +24,50 @@ if ( class_exists( 'Timber\Timber' ) && is_callable( [ 'Timber\Timber', 'init' ]
 //</editor-fold>
 
 
-//<editor-fold defaultstate="collapsed" desc="*** 📣 Remove WordPress Events and News ***">
-// This prevents the UI from rendering AND stops the external HTTP requests to WordPress.org.
+//<editor-fold defaultstate="collapsed" desc="*** 📣 Remove the news widgets from the Dashboard ***">
+// This prevents the UI from rendering AND stops the external HTTP requests, made while the Dashboard renders.
+// Hiding a widget via "Screen Options" doesn't stop them.
+// - WordPress Events and News: WordPress.org
+// - YITH Latest Updates + Latest news from YITH Blog (YITH plugin framework, in every YITH plugin): two yithemes.com
+//   feeds, ~0.3 s. On a WooCommerce shop their feed cache was never reused: both were downloaded at every Dashboard load
 if ( is_admin() ) {
     add_action( 'wp_dashboard_setup', function() {
         remove_meta_box( 'dashboard_primary', 'dashboard', 'side' );
+        remove_meta_box( 'yith_dashboard_products_news', 'dashboard', 'normal' );
+        remove_meta_box( 'yith_dashboard_blog_news', 'dashboard', 'normal' );
     }, 999 );
 }
+//</editor-fold>
+
+
+//<editor-fold defaultstate="collapsed" desc="*** 📁 Folders + WPML: stop wiping the folder counts cache ***">
+// Folders by Premio, with WPML: Folders\Folders\Translations\Wpml::init() runs on admin_init and rest_api_init.
+// It deletes the whole folder counts cache (transient premio_folders_without_trash) when the user's "last admin language"
+// (user meta _icl_admin_language_last) differs from the current language. Without a user, that meta can't be saved,
+// so the cache was deleted at every:
+// - wp-cli command, cron included (every minute): WooCommerce fires rest_api_init to register its CLI commands
+// - REST or admin-ajax request of a visitor (Independent Analytics tracking, YITH Wishlist, ...)
+// The next Dashboard load then recounted every folder in the current language: ~1.1 s on a WooCommerce shop.
+// Folders is for those who edit content => skip that code for everybody else
+function wsu_folders_wpml_skip_for_non_editors()
+{
+    if ( current_user_can( 'edit_posts' ) ) {
+        return;
+    }
+
+    $hook = current_filter();
+    foreach ( $GLOBALS['wp_filter'][ $hook ]->callbacks ?? [] as $priority => $callbacks ) {
+        foreach ( $callbacks as $callback ) {
+            if ( is_array( $callback['function'] ) && $callback['function'][0] instanceof \Folders\Folders\Translations\Wpml ) {
+                remove_action( $hook, $callback['function'], $priority );
+            }
+        }
+    }
+}
+
+// Folders hooks in at the default priority (10)
+add_action( 'admin_init', 'wsu_folders_wpml_skip_for_non_editors', 9 );
+add_action( 'rest_api_init', 'wsu_folders_wpml_skip_for_non_editors', 9 );
 //</editor-fold>
 
 
