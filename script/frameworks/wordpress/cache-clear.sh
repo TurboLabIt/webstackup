@@ -73,6 +73,15 @@ fxTitle "Clearing wp-fastest-cache (plugin)..."
 wsuWordPress fastest-cache clear all and minified
 
 
+## Independent Analytics: its Dashboard widget runs three 30-day reports at every Dashboard load, the first page after login:
+## ~17 s on a busy shop. The plugin's own switch. '1' as a string: the plugin checks get_option('iawp_disable_widget') !== '1'
+if [ -d "${WEBROOT_DIR}wp-content/plugins/independent-analytics" ] || [ -d "${WEBROOT_DIR}wp-content/plugins/independent-analytics-pro" ]; then
+
+  fxTitle "Turning off the Independent Analytics Dashboard widget..."
+  wsuWordPress option update iawp_disable_widget 1
+fi
+
+
 if [ -z "${FAST_CACHE_CLEAR}" ] && [ "${APP_ENV}" != "dev" ]; then
 
   fxTitle "⚙️ Restarting services..."
