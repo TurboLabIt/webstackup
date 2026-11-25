@@ -41,7 +41,7 @@ fi
 
 
 fxTitle "👮 Setting permissions on WordPress dir..."
-sudo chown -R webstackup:www-data "${WEBROOT_DIR}" -R
+sudo chown webstackup:www-data "${WEBROOT_DIR}" -R
 sudo chmod ugo= "${WEBROOT_DIR}" -R
 sudo chmod ug=rwX,o= "${WEBROOT_DIR}" -R
 sudo chmod g+s "${WEBROOT_DIR}"
